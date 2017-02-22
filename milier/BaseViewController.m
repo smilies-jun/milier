@@ -1,26 +1,19 @@
 //
-//  FirstViewController.m
+//  BaseViewController.m
 //  milier
 //
-//  Created by amin on 17/2/21.
+//  Created by amin on 17/2/22.
 //  Copyright © 2017年 yj. All rights reserved.
 //
 
-#import "FirstViewController.h"
+#import "BaseViewController.h"
 
-@interface FirstViewController ()
+@interface BaseViewController ()
 
 @end
 
-@implementation FirstViewController
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        self.title = @"first理财";
-    }
-    return self;
-}
+@implementation BaseViewController
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.

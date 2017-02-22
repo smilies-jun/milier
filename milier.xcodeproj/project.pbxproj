@@ -9,12 +9,37 @@
 /* Begin PBXBuildFile section */
 		271288D71E5A9FBC00DCB546 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 271288D61E5A9FBC00DCB546 /* main.m */; };
 		271288DA1E5A9FBC00DCB546 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 271288D91E5A9FBC00DCB546 /* AppDelegate.m */; };
-		271288DD1E5A9FBC00DCB546 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271288DC1E5A9FBC00DCB546 /* ViewController.m */; };
 		271288E01E5A9FBC00DCB546 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 271288DE1E5A9FBC00DCB546 /* Main.storyboard */; };
 		271288E21E5A9FBC00DCB546 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 271288E11E5A9FBC00DCB546 /* Assets.xcassets */; };
 		271288E51E5A9FBC00DCB546 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 271288E31E5A9FBC00DCB546 /* LaunchScreen.storyboard */; };
 		271288F01E5A9FBC00DCB546 /* milierTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 271288EF1E5A9FBC00DCB546 /* milierTests.m */; };
 		271288FB1E5A9FBC00DCB546 /* milierUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 271288FA1E5A9FBC00DCB546 /* milierUITests.m */; };
+		2755DA5A1E5BCFEF00C75656 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA591E5BCFEF00C75656 /* FirstViewController.m */; };
+		2755DA5D1E5BD00600C75656 /* SecondViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA5C1E5BD00600C75656 /* SecondViewController.m */; };
+		2755DA601E5BD01800C75656 /* ThirdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA5F1E5BD01800C75656 /* ThirdViewController.m */; };
+		2755DA631E5BD02700C75656 /* FourViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA621E5BD02700C75656 /* FourViewController.m */; };
+		2755DA791E5BD45500C75656 /* first_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA651E5BD45500C75656 /* first_normal.png */; };
+		2755DA7A1E5BD45500C75656 /* first_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA661E5BD45500C75656 /* first_normal@2x.png */; };
+		2755DA7B1E5BD45500C75656 /* first_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA671E5BD45500C75656 /* first_selected.png */; };
+		2755DA7C1E5BD45500C75656 /* first_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA681E5BD45500C75656 /* first_selected@2x.png */; };
+		2755DA7D1E5BD45500C75656 /* navigationbar_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA691E5BD45500C75656 /* navigationbar_background.png */; };
+		2755DA7E1E5BD45500C75656 /* navigationbar_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA6A1E5BD45500C75656 /* navigationbar_background@2x.png */; };
+		2755DA7F1E5BD45500C75656 /* navigationbar_background_tall.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA6B1E5BD45500C75656 /* navigationbar_background_tall.png */; };
+		2755DA801E5BD45500C75656 /* navigationbar_background_tall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA6C1E5BD45500C75656 /* navigationbar_background_tall@2x.png */; };
+		2755DA811E5BD45500C75656 /* second_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA6D1E5BD45500C75656 /* second_normal.png */; };
+		2755DA821E5BD45500C75656 /* second_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA6E1E5BD45500C75656 /* second_normal@2x.png */; };
+		2755DA831E5BD45500C75656 /* second_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA6F1E5BD45500C75656 /* second_selected.png */; };
+		2755DA841E5BD45500C75656 /* second_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA701E5BD45500C75656 /* second_selected@2x.png */; };
+		2755DA851E5BD45500C75656 /* tabbar_normal_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA711E5BD45500C75656 /* tabbar_normal_background.png */; };
+		2755DA861E5BD45500C75656 /* tabbar_normal_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA721E5BD45500C75656 /* tabbar_normal_background@2x.png */; };
+		2755DA871E5BD45500C75656 /* tabbar_selected_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA731E5BD45500C75656 /* tabbar_selected_background.png */; };
+		2755DA881E5BD45500C75656 /* tabbar_selected_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA741E5BD45500C75656 /* tabbar_selected_background@2x.png */; };
+		2755DA891E5BD45500C75656 /* third_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA751E5BD45500C75656 /* third_normal.png */; };
+		2755DA8A1E5BD45500C75656 /* third_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA761E5BD45500C75656 /* third_normal@2x.png */; };
+		2755DA8B1E5BD45500C75656 /* third_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA771E5BD45500C75656 /* third_selected.png */; };
+		2755DA8C1E5BD45500C75656 /* third_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA781E5BD45500C75656 /* third_selected@2x.png */; };
+		2755DA901E5C144700C75656 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA8F1E5C144700C75656 /* loginViewController.m */; };
+		4ABB668C076DC3E8F9BC022E /* libPods-milier.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A9AE1AE207D4E6A4096484 /* libPods-milier.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,12 +60,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		11FB59BCACF319A9D7ADE77E /* Pods-milier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-milier.debug.xcconfig"; path = "Pods/Target Support Files/Pods-milier/Pods-milier.debug.xcconfig"; sourceTree = "<group>"; };
 		271288D21E5A9FBC00DCB546 /* milier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = milier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		271288D61E5A9FBC00DCB546 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		271288D81E5A9FBC00DCB546 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		271288D91E5A9FBC00DCB546 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		271288DB1E5A9FBC00DCB546 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		271288DC1E5A9FBC00DCB546 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		271288DF1E5A9FBC00DCB546 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		271288E11E5A9FBC00DCB546 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		271288E41E5A9FBC00DCB546 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -51,6 +75,38 @@
 		271288F61E5A9FBC00DCB546 /* milierUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = milierUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		271288FA1E5A9FBC00DCB546 /* milierUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = milierUITests.m; sourceTree = "<group>"; };
 		271288FC1E5A9FBC00DCB546 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2755DA581E5BCFEF00C75656 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		2755DA591E5BCFEF00C75656 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		2755DA5B1E5BD00600C75656 /* SecondViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SecondViewController.h; sourceTree = "<group>"; };
+		2755DA5C1E5BD00600C75656 /* SecondViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SecondViewController.m; sourceTree = "<group>"; };
+		2755DA5E1E5BD01800C75656 /* ThirdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThirdViewController.h; sourceTree = "<group>"; };
+		2755DA5F1E5BD01800C75656 /* ThirdViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThirdViewController.m; sourceTree = "<group>"; };
+		2755DA611E5BD02700C75656 /* FourViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FourViewController.h; sourceTree = "<group>"; };
+		2755DA621E5BD02700C75656 /* FourViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FourViewController.m; sourceTree = "<group>"; };
+		2755DA651E5BD45500C75656 /* first_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first_normal.png; sourceTree = "<group>"; };
+		2755DA661E5BD45500C75656 /* first_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first_normal@2x.png"; sourceTree = "<group>"; };
+		2755DA671E5BD45500C75656 /* first_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = first_selected.png; sourceTree = "<group>"; };
+		2755DA681E5BD45500C75656 /* first_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "first_selected@2x.png"; sourceTree = "<group>"; };
+		2755DA691E5BD45500C75656 /* navigationbar_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_background.png; sourceTree = "<group>"; };
+		2755DA6A1E5BD45500C75656 /* navigationbar_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationbar_background@2x.png"; sourceTree = "<group>"; };
+		2755DA6B1E5BD45500C75656 /* navigationbar_background_tall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = navigationbar_background_tall.png; sourceTree = "<group>"; };
+		2755DA6C1E5BD45500C75656 /* navigationbar_background_tall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "navigationbar_background_tall@2x.png"; sourceTree = "<group>"; };
+		2755DA6D1E5BD45500C75656 /* second_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second_normal.png; sourceTree = "<group>"; };
+		2755DA6E1E5BD45500C75656 /* second_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second_normal@2x.png"; sourceTree = "<group>"; };
+		2755DA6F1E5BD45500C75656 /* second_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = second_selected.png; sourceTree = "<group>"; };
+		2755DA701E5BD45500C75656 /* second_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "second_selected@2x.png"; sourceTree = "<group>"; };
+		2755DA711E5BD45500C75656 /* tabbar_normal_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_normal_background.png; sourceTree = "<group>"; };
+		2755DA721E5BD45500C75656 /* tabbar_normal_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_normal_background@2x.png"; sourceTree = "<group>"; };
+		2755DA731E5BD45500C75656 /* tabbar_selected_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabbar_selected_background.png; sourceTree = "<group>"; };
+		2755DA741E5BD45500C75656 /* tabbar_selected_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "tabbar_selected_background@2x.png"; sourceTree = "<group>"; };
+		2755DA751E5BD45500C75656 /* third_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third_normal.png; sourceTree = "<group>"; };
+		2755DA761E5BD45500C75656 /* third_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third_normal@2x.png"; sourceTree = "<group>"; };
+		2755DA771E5BD45500C75656 /* third_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = third_selected.png; sourceTree = "<group>"; };
+		2755DA781E5BD45500C75656 /* third_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third_selected@2x.png"; sourceTree = "<group>"; };
+		2755DA8E1E5C144700C75656 /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
+		2755DA8F1E5C144700C75656 /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
+		38A9AE1AE207D4E6A4096484 /* libPods-milier.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-milier.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5BC7B53BC558D2F9E2E072C7 /* Pods-milier.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-milier.release.xcconfig"; path = "Pods/Target Support Files/Pods-milier/Pods-milier.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +114,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4ABB668C076DC3E8F9BC022E /* libPods-milier.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,6 +142,8 @@
 				271288EE1E5A9FBC00DCB546 /* milierTests */,
 				271288F91E5A9FBC00DCB546 /* milierUITests */,
 				271288D31E5A9FBC00DCB546 /* Products */,
+				D8332EA308DC35AE2B97DA66 /* Pods */,
+				DB70E0B8035B481E7D1FD22D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,10 +160,9 @@
 		271288D41E5A9FBC00DCB546 /* milier */ = {
 			isa = PBXGroup;
 			children = (
+				2755DA531E5BCEF200C75656 /* center */,
 				271288D81E5A9FBC00DCB546 /* AppDelegate.h */,
 				271288D91E5A9FBC00DCB546 /* AppDelegate.m */,
-				271288DB1E5A9FBC00DCB546 /* ViewController.h */,
-				271288DC1E5A9FBC00DCB546 /* ViewController.m */,
 				271288DE1E5A9FBC00DCB546 /* Main.storyboard */,
 				271288E11E5A9FBC00DCB546 /* Assets.xcassets */,
 				271288E31E5A9FBC00DCB546 /* LaunchScreen.storyboard */,
@@ -140,6 +198,108 @@
 			path = milierUITests;
 			sourceTree = "<group>";
 		};
+		2755DA531E5BCEF200C75656 /* center */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA8D1E5C143500C75656 /* root */,
+				2755DA641E5BD45500C75656 /* Images */,
+				2755DA541E5BCF0F00C75656 /* second */,
+				2755DA571E5BCF5700C75656 /* four */,
+				2755DA561E5BCF4F00C75656 /* third */,
+				2755DA551E5BCF2F00C75656 /* first */,
+			);
+			name = center;
+			sourceTree = "<group>";
+		};
+		2755DA541E5BCF0F00C75656 /* second */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA5B1E5BD00600C75656 /* SecondViewController.h */,
+				2755DA5C1E5BD00600C75656 /* SecondViewController.m */,
+			);
+			name = second;
+			sourceTree = "<group>";
+		};
+		2755DA551E5BCF2F00C75656 /* first */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA581E5BCFEF00C75656 /* FirstViewController.h */,
+				2755DA591E5BCFEF00C75656 /* FirstViewController.m */,
+			);
+			name = first;
+			sourceTree = "<group>";
+		};
+		2755DA561E5BCF4F00C75656 /* third */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA5E1E5BD01800C75656 /* ThirdViewController.h */,
+				2755DA5F1E5BD01800C75656 /* ThirdViewController.m */,
+			);
+			name = third;
+			sourceTree = "<group>";
+		};
+		2755DA571E5BCF5700C75656 /* four */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA611E5BD02700C75656 /* FourViewController.h */,
+				2755DA621E5BD02700C75656 /* FourViewController.m */,
+			);
+			name = four;
+			sourceTree = "<group>";
+		};
+		2755DA641E5BD45500C75656 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA651E5BD45500C75656 /* first_normal.png */,
+				2755DA661E5BD45500C75656 /* first_normal@2x.png */,
+				2755DA671E5BD45500C75656 /* first_selected.png */,
+				2755DA681E5BD45500C75656 /* first_selected@2x.png */,
+				2755DA691E5BD45500C75656 /* navigationbar_background.png */,
+				2755DA6A1E5BD45500C75656 /* navigationbar_background@2x.png */,
+				2755DA6B1E5BD45500C75656 /* navigationbar_background_tall.png */,
+				2755DA6C1E5BD45500C75656 /* navigationbar_background_tall@2x.png */,
+				2755DA6D1E5BD45500C75656 /* second_normal.png */,
+				2755DA6E1E5BD45500C75656 /* second_normal@2x.png */,
+				2755DA6F1E5BD45500C75656 /* second_selected.png */,
+				2755DA701E5BD45500C75656 /* second_selected@2x.png */,
+				2755DA711E5BD45500C75656 /* tabbar_normal_background.png */,
+				2755DA721E5BD45500C75656 /* tabbar_normal_background@2x.png */,
+				2755DA731E5BD45500C75656 /* tabbar_selected_background.png */,
+				2755DA741E5BD45500C75656 /* tabbar_selected_background@2x.png */,
+				2755DA751E5BD45500C75656 /* third_normal.png */,
+				2755DA761E5BD45500C75656 /* third_normal@2x.png */,
+				2755DA771E5BD45500C75656 /* third_selected.png */,
+				2755DA781E5BD45500C75656 /* third_selected@2x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		2755DA8D1E5C143500C75656 /* root */ = {
+			isa = PBXGroup;
+			children = (
+				2755DA8E1E5C144700C75656 /* loginViewController.h */,
+				2755DA8F1E5C144700C75656 /* loginViewController.m */,
+			);
+			name = root;
+			sourceTree = "<group>";
+		};
+		D8332EA308DC35AE2B97DA66 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				11FB59BCACF319A9D7ADE77E /* Pods-milier.debug.xcconfig */,
+				5BC7B53BC558D2F9E2E072C7 /* Pods-milier.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		DB70E0B8035B481E7D1FD22D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				38A9AE1AE207D4E6A4096484 /* libPods-milier.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -147,9 +307,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 271288FF1E5A9FBC00DCB546 /* Build configuration list for PBXNativeTarget "milier" */;
 			buildPhases = (
+				88317105010854F28C357173 /* [CP] Check Pods Manifest.lock */,
 				271288CE1E5A9FBC00DCB546 /* Sources */,
 				271288CF1E5A9FBC00DCB546 /* Frameworks */,
 				271288D01E5A9FBC00DCB546 /* Resources */,
+				319A77C19331A83C80120945 /* [CP] Embed Pods Frameworks */,
+				A97FF5521D72BE189D67BEC7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -246,9 +409,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2755DA831E5BD45500C75656 /* second_selected.png in Resources */,
+				2755DA841E5BD45500C75656 /* second_selected@2x.png in Resources */,
+				2755DA891E5BD45500C75656 /* third_normal.png in Resources */,
+				2755DA881E5BD45500C75656 /* tabbar_selected_background@2x.png in Resources */,
+				2755DA871E5BD45500C75656 /* tabbar_selected_background.png in Resources */,
+				2755DA851E5BD45500C75656 /* tabbar_normal_background.png in Resources */,
+				2755DA8B1E5BD45500C75656 /* third_selected.png in Resources */,
 				271288E51E5A9FBC00DCB546 /* LaunchScreen.storyboard in Resources */,
 				271288E21E5A9FBC00DCB546 /* Assets.xcassets in Resources */,
+				2755DA8A1E5BD45500C75656 /* third_normal@2x.png in Resources */,
+				2755DA7F1E5BD45500C75656 /* navigationbar_background_tall.png in Resources */,
+				2755DA801E5BD45500C75656 /* navigationbar_background_tall@2x.png in Resources */,
+				2755DA7A1E5BD45500C75656 /* first_normal@2x.png in Resources */,
+				2755DA7D1E5BD45500C75656 /* navigationbar_background.png in Resources */,
+				2755DA7B1E5BD45500C75656 /* first_selected.png in Resources */,
+				2755DA7E1E5BD45500C75656 /* navigationbar_background@2x.png in Resources */,
+				2755DA811E5BD45500C75656 /* second_normal.png in Resources */,
+				2755DA861E5BD45500C75656 /* tabbar_normal_background@2x.png in Resources */,
+				2755DA821E5BD45500C75656 /* second_normal@2x.png in Resources */,
+				2755DA7C1E5BD45500C75656 /* first_selected@2x.png in Resources */,
+				2755DA8C1E5BD45500C75656 /* third_selected@2x.png in Resources */,
 				271288E01E5A9FBC00DCB546 /* Main.storyboard in Resources */,
+				2755DA791E5BD45500C75656 /* first_normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,14 +451,66 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		319A77C19331A83C80120945 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-milier/Pods-milier-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		88317105010854F28C357173 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		A97FF5521D72BE189D67BEC7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-milier/Pods-milier-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		271288CE1E5A9FBC00DCB546 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				271288DD1E5A9FBC00DCB546 /* ViewController.m in Sources */,
+				2755DA631E5BD02700C75656 /* FourViewController.m in Sources */,
+				2755DA5D1E5BD00600C75656 /* SecondViewController.m in Sources */,
+				2755DA601E5BD01800C75656 /* ThirdViewController.m in Sources */,
+				2755DA901E5C144700C75656 /* loginViewController.m in Sources */,
 				271288DA1E5A9FBC00DCB546 /* AppDelegate.m in Sources */,
 				271288D71E5A9FBC00DCB546 /* main.m in Sources */,
+				2755DA5A1E5BCFEF00C75656 /* FirstViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,6 +655,7 @@
 		};
 		271289001E5A9FBC00DCB546 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 11FB59BCACF319A9D7ADE77E /* Pods-milier.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = milier/Info.plist;
@@ -431,6 +667,7 @@
 		};
 		271289011E5A9FBC00DCB546 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5BC7B53BC558D2F9E2E072C7 /* Pods-milier.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = milier/Info.plist;
@@ -505,6 +742,7 @@
 				271289011E5A9FBC00DCB546 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		271289021E5A9FBC00DCB546 /* Build configuration list for PBXNativeTarget "milierTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +751,7 @@
 				271289041E5A9FBC00DCB546 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		271289051E5A9FBC00DCB546 /* Build configuration list for PBXNativeTarget "milierUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +760,7 @@
 				271289071E5A9FBC00DCB546 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
