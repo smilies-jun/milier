@@ -67,6 +67,9 @@ scrollViewHeaderScaleContentOffset:(CGFloat)contentOffset;
 /** 悬浮样式 作为UITableFooterView*/
 @property (nonatomic, strong) UIView *placeHoderView;
 
+
+
+
 /** 头部是否能伸缩效果   要伸缩效果就不能有下拉刷新控件 NO*/
 @property (nonatomic, assign) BOOL HeaderViewCouldScale;
 /** 头部伸缩背景View*/
@@ -81,6 +84,7 @@ scrollViewHeaderScaleContentOffset:(CGFloat)contentOffset;
 @property (nonatomic, strong) YNPageScrollViewMenuConfigration *configration;
 /** 添加按钮*/
 @property (nonatomic, copy) AddButtonAtion addButtonAtion;
+
 /** 数据源*/
 @property (nonatomic, weak) id<YNPageScrollViewControllerDataSource> dataSource;
 /** 数据代理*/

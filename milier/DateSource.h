@@ -10,7 +10,7 @@
 #import "MD5Encrpt.h"
 #import "DictionarySort.h"
 @interface DateSource : NSObject{
-    AFHTTPRequestOperationManager *manager;
+    AFHTTPSessionManager *manager;
 }
 @property (nonatomic,strong) NSString *sign;
 

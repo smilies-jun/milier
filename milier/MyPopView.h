@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SnailCurtainView.h"
+#import "SecondViewController.h"
 
 @interface MyPopView : UIView
+- (SnailCurtainView *)curtainView;
 
 @end

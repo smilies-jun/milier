@@ -7,24 +7,80 @@
 //
 
 #import "YNTestOneViewController.h"
+#import "SecondTableViewCell.h"
+
+@interface YNTestOneViewController ()
+
+@end
 
 @implementation YNTestOneViewController
 
 - (void)viewDidLoad{
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor yellowColor];
-    
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"返回" style:UIBarButtonItemStyleDone target:self action:@selector(test)];
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     
 }
-- (void)test {
-    
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+
+#pragma mark - UITableViewDelegate  UITableViewDataSource
+
+//header-height
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 5;
     
 }
+//header-secion
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    return [UIView new];
+}
+
+//footer-hegiht
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.00001;
+}
+
+//footer-section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+    return [UIView new];
+}
+
+
+//sections-tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    return 4;
+}
+//rows-section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 50;
+}
+//cell-height
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 154;
+}
+
+//cell-tableview
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *identifier = @"identifier";
+    
+    SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        [cell configUI:indexPath];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    //cell.textLabel.text = @"11111111";
+    return cell;
+    
+}
+
+
 
 
 

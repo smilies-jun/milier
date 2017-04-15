@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol ModalViewControllerDelegate <NSObject>
 
-@interface SecondViewController : UIViewController
+- (void)changLabelText:(NSString *)text;
+
+@end
+
+@interface SecondViewController : UIViewController  
 
 @end

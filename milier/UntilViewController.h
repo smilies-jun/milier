@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UntilViewController : UIViewController
+@interface UntilViewController : BaseViewController
 
 @end

@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface BaseViewController : UIViewController
-
+@property (nonatomic,strong)UIView *TopView;
+@property (nonatomic,strong)UIButton *BackButton;
+@property (nonatomic,strong)UILabel  *TopTitleLabel;
 @end

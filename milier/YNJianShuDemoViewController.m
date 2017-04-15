@@ -20,8 +20,7 @@
     
     [super viewDidLoad];
     
-//    self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"简书Demo";
+   self.view.backgroundColor = [UIColor greenColor];
     
     
 }
@@ -30,7 +29,7 @@
     
     [super viewWillLayoutSubviews];
     
-    [self.scrollViewMenu addSubview:self.lineView];
+    //[self.scrollViewMenu addSubview:self.lineView];
     
 }
 
@@ -39,7 +38,7 @@
     if (!_lineView) {
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, self.scrollViewMenu.frame.size.height - 3, self.scrollViewMenu.frame.size.width - 20, 3)];
         _lineView = lineView;
-        _lineView.backgroundColor = [UIColor blueColor];
+        _lineView.backgroundColor = [UIColor redColor];
     }
     return _lineView;
     

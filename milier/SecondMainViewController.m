@@ -23,15 +23,14 @@
     [super viewDidLoad];
     
     self.delegate = self;
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor greenColor];
+    self.addButtonAtion = ^(UIButton *btn, YNPageScrollViewController *vc) {
+        NSLog(@"%@",btn);
+        
+    };
     
     [self.view addSubview:self.navView];
     
-    UIButton *btn = [[UIButton alloc]initWithFrame:CGRectMake(20, 20, 44, 44)];
-    [btn setTitle:@"返回" forState:UIControlStateNormal];
-    btn.backgroundColor = [UIColor orangeColor];
-    [btn addTarget:self action:@selector(btnAction) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:btn];
     
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -41,11 +40,7 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     
 }
-- (void)btnAction{
-    
-    [self.navigationController popViewControllerAnimated:YES];
-    
-}
+
 
 #pragma mark - YNPageScrollViewControllerDelegate
 

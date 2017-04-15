@@ -8,6 +8,6 @@
 
 #import "YNTestBaseViewController.h"
 
-@interface YNTestThreeViewController : YNTestBaseViewController
+@interface YNTestThreeViewController : YNTestBaseViewController<UITableViewDataSource , UITableViewDelegate>
 
 @end

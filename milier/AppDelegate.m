@@ -12,8 +12,8 @@
 #import "ThirdViewController.h"
 #import "FourViewController.h"
 #import "loginViewController.h"
-#import "RDVTabBarController.h"
-#import "RDVTabBarItem.h"
+#import "SecondViewController.h"
+
 
 @interface AppDelegate ()
 
@@ -27,14 +27,18 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self setupViewControllers];
+    //启动动画延迟时间
+    [NSThread sleepForTimeInterval:0.1];
+
     int i = 4;
+    //判断是否登陆，服务器获取
     if ( i >= 5) {
        // [self.window setRootViewController:self.viewController];
         loginViewController *loginVC = [[loginViewController alloc]init];
         self.window.rootViewController = loginVC;
-        NSLog(@"1");
+        NSLog(@"木有登陆");
     }else{
-        NSLog(@"2");
+        NSLog(@"已经登陆");
         [self.window setRootViewController:self.viewController];
         [self.window makeKeyAndVisible];
         
@@ -61,8 +65,10 @@
     UIViewController *thirdNavigationController = [[UINavigationController alloc]
                                                    initWithRootViewController:thirdViewController];
     
+    
+    
     RDVTabBarController *tabBarController = [[RDVTabBarController alloc] init];
-    [tabBarController setViewControllers:@[firstNavigationController, secondNavigationController,
+    [tabBarController setViewControllers:@[secondNavigationController,firstNavigationController ,
                                            thirdNavigationController]];
     self.viewController = tabBarController;
     
@@ -72,17 +78,26 @@
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
     UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    NSArray *tabBarItemImages = @[@"first", @"second", @"third"];
-    
+    NSArray *tabBarItemImages = @[@"licai", @"huodong", @"more"];
+    NSArray *tabBarItemNames = @[@"理财", @"活动", @"更多"];
     NSInteger index = 0;
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
         [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
-        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_selected",
+        UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_hover",
                                                       [tabBarItemImages objectAtIndex:index]]];
-        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_normal",
+        UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_empty",
                                                         [tabBarItemImages objectAtIndex:index]]];
         [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
-        
+        [item setTitle:[tabBarItemNames objectAtIndex:index]];
+        NSDictionary *tabBarTitleUnselectedDic = @{NSForegroundColorAttributeName:[UIColor blackColor],NSFontAttributeName:[UIFont systemFontOfSize:10]};
+        NSDictionary *tabBarTitleSelectedDic = @{NSForegroundColorAttributeName:[UIColor redColor],NSFontAttributeName:[UIFont systemFontOfSize:10]};
+
+
+        //修改tabberItem的title颜色
+        item.selectedTitleAttributes = tabBarTitleSelectedDic;
+        item.unselectedTitleAttributes = tabBarTitleUnselectedDic;
+        [item setFinishedSelectedImage:selectedimage withFinishedUnselectedImage:unselectedimage];
+        item.backgroundColor = [UIColor whiteColor];
         index++;
     }
 }
@@ -94,25 +109,30 @@
     NSDictionary *textAttributes = nil;
     
     if (NSFoundationVersionNumber > NSFoundationVersionNumber_iOS_6_1) {
+        NSLog(@"6.9");
         backgroundImage = [UIImage imageNamed:@"navigationbar_background_tall"];
         
         textAttributes = @{
-                           NSFontAttributeName: [UIFont boldSystemFontOfSize:18],
-                           NSForegroundColorAttributeName: [UIColor blackColor],
+                           NSFontAttributeName: [UIFont boldSystemFontOfSize:15],
+                           NSForegroundColorAttributeName: [UIColor redColor],
                            };
     } else {
+        NSLog(@"7.9");
+
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < __IPHONE_7_0
+        
         backgroundImage = [UIImage imageNamed:@"navigationbar_background"];
         
         textAttributes = @{
-                           UITextAttributeFont: [UIFont boldSystemFontOfSize:18],
-                           UITextAttributeTextColor: [UIColor blackColor],
+                           UITextAttributeFont: [UIFont boldSystemFontOfSize:15],
+                           UITextAttributeTextColor: colorWithRGB(0.76, 0.65, 0.36),
                            UITextAttributeTextShadowColor: [UIColor clearColor],
                            UITextAttributeTextShadowOffset: [NSValue valueWithUIOffset:UIOffsetZero],
                            };
 #endif
     }
-    
+    NSLog(@"8.9");
+
     [navigationBarAppearance setBackgroundImage:backgroundImage
                                   forBarMetrics:UIBarMetricsDefault];
     [navigationBarAppearance setTitleTextAttributes:textAttributes];

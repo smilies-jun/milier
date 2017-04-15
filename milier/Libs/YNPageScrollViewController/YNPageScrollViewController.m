@@ -6,7 +6,7 @@
 //  Copyright © 2016年 Yongneng Zheng. All rights reserved.
 //
 
-#define kYNPageNavHeight 64
+#define kYNPageNavHeight 0
 #define kYNPageTabbarHeight 0
 #import "YNPageScrollViewController.h"
 #import "UIView+YNCategory.h"
@@ -95,6 +95,7 @@
                 CGFloat deltaHeight =  self.configration.showNavigation ? kYNPageNavHeight : 0;
                 CGFloat dHeight  =  (self.configration.showTabbar ? kYNPageTabbarHeight : 0);
                 self.view.yn_height =self.view.yn_height -  deltaHeight - dHeight;
+
             }
         }
         self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, ([self isTopStyle] ? self.view.yn_height - self.configration.menuHeight: self.view.yn_height));
@@ -126,7 +127,6 @@
             tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.bigHeaderView.yn_height, 0, 0, 0);
             
             ((YNPageScrollView *)self.parentScrollView).headerViewHeight = self.bigHeaderView.yn_height;
-            
             
             
             

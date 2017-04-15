@@ -14,44 +14,64 @@
     
     [super viewDidLoad];
 
-    self.tableView.backgroundColor = [UIColor greenColor];
-    
-    
+    self.tableView.backgroundColor = [UIColor whiteColor];
     NSLog(@"two - viewDidLoad");
     
 }
 
 
 
-#pragma mark - life cycle
-#pragma mark - life cycle
+#pragma mark - UITableViewDelegate  UITableViewDataSource
 
-
-- (void)viewWillDisappear:(BOOL)animated{
-    
-    [super viewWillDisappear:animated];
-    NSLog(@"two - viewWillDisappear");
-}
-
-- (void)viewDidDisappear:(BOOL)animated{
-    
-    [super viewDidDisappear:animated];
-    NSLog(@"two - viewDidDisappear");
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    
-    [super viewWillAppear:animated];
-    
-    NSLog(@"two - viewWillAppear");
+//header-height
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 5;
     
 }
+//header-secion
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    return [UIView new];
+}
 
-- (void)viewDidAppear:(BOOL)animated{
+//footer-hegiht
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.00001;
+}
+
+//footer-section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return [UIView new];
+}
+
+
+//sections-tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     
-    [super viewDidAppear:animated];
+    return 2;
+}
+//rows-section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return 50;
+}
+//cell-height
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 44;
+}
+
+//cell-tableview
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSLog(@"two - viewDidAppear ");
+    static NSString *identifier = @"twoidentifier";
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        
+    }
+    cell.textLabel.text = @"22222222";
+    return cell;
+    
 }
 
 

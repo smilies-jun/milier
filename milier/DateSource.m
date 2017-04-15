@@ -34,24 +34,23 @@
     [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
         parameter = result;
     }];
-    manager = [AFHTTPRequestOperationManager manager];
+    manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];    //发送POST请求
-    [manager POST:url parameters:parameter success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+        NSLog(@"目前请求进度");
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (block) {
             block(responseObject,nil);
         }
-        //请求成功（当解析器为AFJSONResponseSerializer时）
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSLog(@"Error: ======================%@", error);
         if (block) {
             block(nil,error);
         }
-        //请求失败
-          NSLog(@"Error: ======================%@", error);
     }];
+
     
     
 }
