@@ -67,7 +67,6 @@
     __weak typeof (YNTestBaseViewController *)weakself = self;
     
 
-
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             NSInteger count = weakself.datasArrayM.count;
@@ -94,7 +93,7 @@
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             NSInteger count = weakself.datasArrayM.count;
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 90; i++) {
                 [weakself.datasArrayM addObject:[NSString stringWithFormat:@" 加载数据 %zd",count + i]];
             }
             NSLog(@"下拉加载完成");

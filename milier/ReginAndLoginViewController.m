@@ -178,27 +178,27 @@
 
 
 - (void)ReginClicked{
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_codeStr ,@"phone",PassView.NameTextField.text,@"newPwd",PhoneView.NameTextField.text,@"newSms", nil];
-    if (callView.NameTextField.text) {
-        [YWDDic   setObject:callView.NameTextField.text forKey:@"parentId"];
-    }
-    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/register",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"result= %@",result);
-        NSString *code = [result objectForKey:@"retcode"];
-        NSLog(@"code = %@",code );
-        if ([code intValue] == 1000) {
-            NSuserSave([result objectForKey:@"token"], @"token");
-            NSuserSave(_codeStr, @"phone");
-            NSuserSave(PassView.NameTextField.text, @"password");
-            NSuserSave(@"1", @"state");
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            [self showAlert];
-            
-        }else{
-            NSString *AlertStr = [result objectForKey:@"retdesc"];
-            normal_alert(@"提示", AlertStr , @"确定");
-        }
-    }];
+//    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_codeStr ,@"phone",PassView.NameTextField.text,@"newPwd",PhoneView.NameTextField.text,@"newSms", nil];
+//    if (callView.NameTextField.text) {
+//        [YWDDic   setObject:callView.NameTextField.text forKey:@"parentId"];
+//    }
+//    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/register",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSLog(@"result= %@",result);
+//        NSString *code = [result objectForKey:@"retcode"];
+//        NSLog(@"code = %@",code );
+//        if ([code intValue] == 1000) {
+//            NSuserSave([result objectForKey:@"token"], @"token");
+//            NSuserSave(_codeStr, @"phone");
+//            NSuserSave(PassView.NameTextField.text, @"password");
+//            NSuserSave(@"1", @"state");
+//            [[NSUserDefaults standardUserDefaults]synchronize];
+//            [self showAlert];
+//            
+//        }else{
+//            NSString *AlertStr = [result objectForKey:@"retdesc"];
+//            normal_alert(@"提示", AlertStr , @"确定");
+//        }
+//    }];
 }
 - (void)showAlert{
     alphaBagView.hidden = NO;
@@ -209,27 +209,27 @@
 - (void)senderInputSecurityCodeBtnClicked
 
 {
-    _second = 90;
-    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
-    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-    BOOL isMatch  = [phoneTest evaluateWithObject:_codeStr];
-    if (!isMatch) {
-        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
-        
-    }else{
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_codeStr ,@"phone", nil];
-        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/getSms",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-            NSString *code = [result objectForKey:@"retcode"];
-            if ([code intValue] == 1000) {
-                normal_alert(@"提示", @"验证码已发送您的手机注意查收", @"确定");
-
-            }else{
-                NSString *AlertStr = [result objectForKey:@"retdesc"];
-                normal_alert(@"提示", AlertStr , @"确定");
-            }
-        }];
-    }
+//    _second = 90;
+//    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+//    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
+//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+//    BOOL isMatch  = [phoneTest evaluateWithObject:_codeStr];
+//    if (!isMatch) {
+//        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
+//        
+//    }else{
+//        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_codeStr ,@"phone", nil];
+//        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/getSms",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
+//            NSString *code = [result objectForKey:@"retcode"];
+//            if ([code intValue] == 1000) {
+//                normal_alert(@"提示", @"验证码已发送您的手机注意查收", @"确定");
+//
+//            }else{
+//                NSString *AlertStr = [result objectForKey:@"retdesc"];
+//                normal_alert(@"提示", AlertStr , @"确定");
+//            }
+//        }];
+//    }
 }
 
 #pragma mark  - - 验证码倒计时 - -

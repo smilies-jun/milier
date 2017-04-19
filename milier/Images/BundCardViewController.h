@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BundCardViewController : UIViewController
+@interface BundCardViewController : UIViewController<UITextFieldDelegate>
 
 @end

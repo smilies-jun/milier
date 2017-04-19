@@ -21,6 +21,8 @@
 #import "SnailCurtainView.h"
 #import "SnailPopupController.h"
 #import "MyPopView.h"
+#import "FourViewController.h"
+#import "YWDLoginViewController.h"
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
 
@@ -46,14 +48,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self.navigationController.navigationBar setTranslucent:NO];
-    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.000 green:0.800 blue:0.800 alpha:1.000]];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     // 导航栏标题字体颜色
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],NSForegroundColorAttributeName:[UIColor orangeColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],NSForegroundColorAttributeName:[UIColor blackColor]}];
     // 导航栏左右按钮字体颜色
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
     self.navigationItem.title = @"米粒儿金融";
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"four_selected"] style:UIBarButtonItemStylePlain target:self action:@selector(LeftBtnClick)];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"消息" style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
+    self.navigationItem.rightBarButtonItem = rightItem;
     
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];
@@ -63,7 +70,7 @@
     //遮罩
     self.ContentView = [[UIView alloc]init];
     self.ContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    self.ContentView.backgroundColor = [UIColor clearColor];
+    //self.ContentView.backgroundColor = [UIColor orangeColor];
     
     
    // [self.view addSubview:self.ContentView];
@@ -74,7 +81,15 @@
 
   //  [self.ContentView addSubview:self.PopView];
 }
+- (void)LeftBtnClick{
+    YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
+    [self.navigationController pushViewController:LoginVC animated:NO];
+}
+- (void)RightClick{
+    FourViewController *fourVC = [[FourViewController alloc]init];
+    [self.navigationController pushViewController:fourVC animated:YES];
 
+}
 - (void)changLabelText:(NSString *)text{
     //根据tag查找label
     //    UILabel *label = (UILabel *)[self.view viewWithTag:102];
@@ -188,22 +203,16 @@
     
     [headerView2 addSubview:autoScrollView];
     vc.headerView = headerView2;
- 
+    vc.IsTab = YES;
     return vc;
 }
 
-- (void)dealloc{
-    
-    NSLog(@"释放 父类 UIHomeViewController");
+
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+//    FourViewController *fourVC = [[FourViewController alloc]init];
+//    [self.navigationController pushViewController:fourVC animated:YES];
+    NSLog(@"轮播图 点击 Index : %zd",index);
 }
-
-- (void)imageViewTap{
-    
-    NSLog(@"----- imageViewTap -----");
-    
-}
-
-
 - (void)pageScrollViewMenuItemOnClick:(UILabel *)label index:(NSInteger)index{
     
     NSLog(@"label = %@",label);
@@ -267,19 +276,19 @@
 }
 
 
-- (void)createTabbarItems
-{
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 49 + 5)];
-    [imageView setImage:[self createImageWithColor:[UIColor clearColor]]];
-    [imageView setContentMode:UIViewContentModeScaleToFill];
-    [self.tabBarController.tabBar insertSubview:imageView atIndex:0];
-    //覆盖原生Tabbar的上横线
-    [[UITabBar appearance] setShadowImage:[self createImageWithColor:[UIColor whiteColor]]];
-    // 背景图片为透明色
-    [[UITabBar appearance] setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]]];
-    self.tabBarController.tabBar.translucent = YES;
-}
+//- (void)createTabbarItems
+//{
+//    
+//    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 49 + 5)];
+//    [imageView setImage:[self createImageWithColor:[UIColor clearColor]]];
+//    [imageView setContentMode:UIViewContentModeScaleToFill];
+//    [self.tabBarController.tabBar insertSubview:imageView atIndex:0];
+//    //覆盖原生Tabbar的上横线
+//    [[UITabBar appearance] setShadowImage:[self createImageWithColor:[UIColor whiteColor]]];
+//    // 背景图片为透明色
+//    [[UITabBar appearance] setBackgroundImage:[self createImageWithColor:[UIColor whiteColor]]];
+//    self.tabBarController.tabBar.translucent = YES;
+//}
 
 
 

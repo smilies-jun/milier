@@ -30,7 +30,7 @@
     //创建出CAShapeLayer
     self->shapeLayer = [CAShapeLayer layer];
     self->shapeLayer.frame = CGRectMake(0, 0, 200, 200);//设置shapeLayer的尺寸和位置
-    self->shapeLayer.position = self.view.center;
+    //self->shapeLayer.position = self.view.center;
     self->shapeLayer.fillColor = [UIColor clearColor].CGColor;//填充颜色为ClearColor
     self->shapeLayer.strokeStart = 0;
     

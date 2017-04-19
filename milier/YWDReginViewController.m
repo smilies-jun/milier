@@ -10,6 +10,8 @@
 #import "CustomView.h"
 #import "ReginAndLoginViewController.h"
 #import "ProtocalViewController.h"
+#import "YWDLoginViewController.h"
+
 
 @interface YWDReginViewController (){
    
@@ -122,7 +124,12 @@
     
 }
 - (void)ReginBackClick{
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    //  返回指定页面
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[YWDLoginViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 }
 
 - (void)tapClick{
@@ -156,6 +163,18 @@
         }
     }
     return NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

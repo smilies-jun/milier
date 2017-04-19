@@ -17,6 +17,9 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    
+    
     [self initView];
     [self initUIView];
 }
@@ -242,29 +245,41 @@
     [self.navigationController pushViewController:ForgetVC animated:NO];
 
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
+}
 - (void)LoginNextBtn{
     if (_PhoneTextField.text.length) {
         
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",_PhoneTextField.text] ,@"phone", [NSString stringWithFormat:@"%@",_PassWordTextField.text],@"userPwd",@"2",@"userFlag",nil];
-        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-            NSString *code = [result objectForKey:@"retcode"];
-            if ([code intValue] == 1000) {
-                NSuserSave([result objectForKey:@"token"], @"token");
-                NSuserSave(_PhoneTextField.text, @"phone");
-                NSuserSave(_PassWordTextField.text, @"password");
-                NSuserSave(@"1", @"state");
-                [[NSUserDefaults standardUserDefaults]synchronize];
-                [self.navigationController dismissViewControllerAnimated:NO completion:^{
-                    
-                }];
-//                YWDLoginNextViewController *LoginNextVC = [[YWDLoginNextViewController alloc]init];
-//                LoginNextVC.phoneStr = _PhoneTextField.text;
-//                [self.navigationController pushViewController:LoginNextVC animated:NO];
-            }else{
-                NSString *AlertStr = [result objectForKey:@"retdesc"];
-                normal_alert(@"提示", AlertStr , @"确定");
-            }
-        }];
+//        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",_PhoneTextField.text] ,@"phone", [NSString stringWithFormat:@"%@",_PassWordTextField.text],@"userPwd",@"2",@"userFlag",nil];
+//        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
+//            NSString *code = [result objectForKey:@"retcode"];
+//            if ([code intValue] == 1000) {
+//                NSuserSave([result objectForKey:@"token"], @"token");
+//                NSuserSave(_PhoneTextField.text, @"phone");
+//                NSuserSave(_PassWordTextField.text, @"password");
+//                NSuserSave(@"1", @"state");
+//                [[NSUserDefaults standardUserDefaults]synchronize];
+//                [self.navigationController dismissViewControllerAnimated:NO completion:^{
+//                    
+//                }];
+////                YWDLoginNextViewController *LoginNextVC = [[YWDLoginNextViewController alloc]init];
+////                LoginNextVC.phoneStr = _PhoneTextField.text;
+////                [self.navigationController pushViewController:LoginNextVC animated:NO];
+//            }else{
+//                NSString *AlertStr = [result objectForKey:@"retdesc"];
+//                normal_alert(@"提示", AlertStr , @"确定");
+//            }
+//        }];
         
         
     }else{

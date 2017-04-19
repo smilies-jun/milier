@@ -8,6 +8,7 @@
 
 #import "YWDForgetPassWordViewController.h"
 #import "CustomView.h"
+#import "YWDLoginViewController.h"
 
 @interface YWDForgetPassWordViewController (){
     CustomView *phoneNumView;
@@ -165,23 +166,23 @@
 }
 
 - (void)postCode{
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phone",CodeNumView.NameTextField.text,@"newSms",NewPassWordView.NameTextField.text,@"newPwd1",SurePassWordView.NameTextField.text,@"newPwd2", nil];
-
-    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/backPwd",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-        NSString *code = [result objectForKey:@"retcode"];
-        if ([code intValue] == 1000) {
-           //登陆
-            NSuserSave([result objectForKey:@"token"], @"token");
-            NSuserSave(@"1", @"state");
-            [[NSUserDefaults standardUserDefaults]synchronize];
-            [self.navigationController dismissViewControllerAnimated:NO completion:^{
-                
-            }];
-        }else{
-            NSString *AlertStr = [result objectForKey:@"retdesc"];
-            normal_alert(@"提示", AlertStr , @"确定");
-        }
-    }];
+//    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phone",CodeNumView.NameTextField.text,@"newSms",NewPassWordView.NameTextField.text,@"newPwd1",SurePassWordView.NameTextField.text,@"newPwd2", nil];
+//
+//    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/backPwd",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSString *code = [result objectForKey:@"retcode"];
+//        if ([code intValue] == 1000) {
+//           //登陆
+//            NSuserSave([result objectForKey:@"token"], @"token");
+//            NSuserSave(@"1", @"state");
+//            [[NSUserDefaults standardUserDefaults]synchronize];
+//            [self.navigationController dismissViewControllerAnimated:NO completion:^{
+//                
+//            }];
+//        }else{
+//            NSString *AlertStr = [result objectForKey:@"retdesc"];
+//            normal_alert(@"提示", AlertStr , @"确定");
+//        }
+//    }];
 }
 
 
@@ -196,27 +197,27 @@
 
 
 - (void)codeGet{
-    _second = 90;
-    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
-    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
-    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-    BOOL isMatch  = [phoneTest evaluateWithObject:phoneNumView.NameTextField.text];
-    if (!isMatch) {
-        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
-        
-    }else{
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phone", nil];
-        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/getSms",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-            NSString *code = [result objectForKey:@"retcode"];
-            if ([code intValue] == 1000) {
-                normal_alert(@"提示", @"验证码已发送您的手机注意查收", @"确定");
-                
-            }else{
-                NSString *AlertStr = [result objectForKey:@"retdesc"];
-                normal_alert(@"提示", AlertStr , @"确定");
-            }
-        }];
-    }
+//    _second = 90;
+//    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+//    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
+//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+//    BOOL isMatch  = [phoneTest evaluateWithObject:phoneNumView.NameTextField.text];
+//    if (!isMatch) {
+//        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
+//        
+//    }else{
+//        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phone", nil];
+//        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/getSms",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
+//            NSString *code = [result objectForKey:@"retcode"];
+//            if ([code intValue] == 1000) {
+//                normal_alert(@"提示", @"验证码已发送您的手机注意查收", @"确定");
+//                
+//            }else{
+//                NSString *AlertStr = [result objectForKey:@"retdesc"];
+//                normal_alert(@"提示", AlertStr , @"确定");
+//            }
+//        }];
+//    }
 
 }
 #pragma mark  - - 验证码倒计时 - -
@@ -275,9 +276,26 @@
 }
 
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
+}
 
 - (void)CallBackClick{
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    //  返回指定页面
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[YWDLoginViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

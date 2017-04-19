@@ -30,11 +30,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
+//    [self.navigationController.navigationBar setTranslucent:NO];
+//    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.000 green:0.800 blue:0.800 alpha:1.000]];
+//    // 导航栏标题字体颜色
+//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],NSForegroundColorAttributeName:[UIColor orangeColor]}];
+//    // 导航栏左右按钮字体颜色
+//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+//    
+//    self.navigationItem.title = @"米粒儿金融";
+//    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(HistoryOnTap) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
     [self makeData];
     _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
+}
+
+- (void)HistoryOnTap{
+    [self.navigationController   popToRootViewControllerAnimated:NO];
 }
 /**
  *  处理数据  _sectionArray里面存储数组
@@ -81,11 +104,15 @@
     sectionLabel.textAlignment = NSTextAlignmentCenter;
     sectionLabel.tag = 100 + section;
     sectionLabel.userInteractionEnabled = YES;
-    sectionLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"itembg.png"]];
+    sectionLabel.backgroundColor = [UIColor whiteColor];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(sectionClick:)];
     [sectionLabel addGestureRecognizer:tap];
-    
+    UIView *lineView = [[UIView alloc]init];
+    lineView.backgroundColor = [UIColor redColor];
+    lineView.frame = CGRectMake(0, 44, 320, 2);
+    [sectionLabel addSubview:lineView];
+ 
     return sectionLabel;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -123,6 +150,17 @@
     //	NSRange range = NSMakeRange(index, 1);
     //	NSIndexSet *sectionToReload = [NSIndexSet indexSetWithIndexesInRange:range];
     //	[_tableView reloadSections:sectionToReload withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {

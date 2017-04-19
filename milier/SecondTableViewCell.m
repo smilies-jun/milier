@@ -7,8 +7,10 @@
 //
 
 #import "SecondTableViewCell.h"
+#import "YJCircleProgressView.h"
 
 @implementation SecondTableViewCell
+
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -63,7 +65,55 @@
         make.width.mas_equalTo(93);
         make.height.mas_equalTo(20);
     }];
+    
+    _MoneyLabel = [[UILabel alloc]init];
+    _MoneyLabel.text = @"10.32%";
+    _MoneyLabel.textColor  = [UIColor blackColor];
+    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"12.34%"];
+    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:18] range:NSMakeRange(0,_MoneyLabel.text.length
+)];
+    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(_MoneyLabel.text.length - 1
+,1)];
+    _MoneyLabel.attributedText = newAttrStr;
+    [self.contentView addSubview:_MoneyLabel];
+    [_MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_ProfitLabel.mas_bottom);
+        make.left.mas_equalTo(self.contentView.mas_left).offset(20);
+        make.width.mas_equalTo(140);
+        make.height.mas_equalTo(30);
+    }];
+    
+    
+    _shapeLayer = [CAShapeLayer layer];
+   _shapeLayer.position = self.contentView.center;
+    _shapeLayer.frame = CGRectMake(250, 40, 80, 80);//设置shapeLayer的尺寸和位置
 
+    _shapeLayer.fillColor = [UIColor clearColor].CGColor;//填充颜色为ClearColor
+    _shapeLayer.strokeStart = 0;
+    
+    _shapeLayer.strokeEnd = 1.0f;
+    //设置线条的宽度和颜色
+    _shapeLayer.lineWidth = 1.0f;
+    _shapeLayer.strokeColor = [UIColor redColor].CGColor;
+    
+    //创建出圆形贝塞尔曲线
+    UIBezierPath *circlePath = [UIBezierPath bezierPathWithOvalInRect:CGRectMake(0, 0, 80, 80)];
+    
+    //让贝塞尔曲线与CAShapeLayer产生联系
+    _shapeLayer.path = circlePath.CGPath;
+    
+    //添加并显示
+    [self.contentView.layer addSublayer:_shapeLayer];
+  
+    _PercentLabel = [[UILabel alloc]init];
+    _PercentLabel.text = @"12.34%";
+    _PercentLabel.font = [UIFont systemFontOfSize:16];
+    _PercentLabel.textAlignment = NSTextAlignmentCenter;
+    _PercentLabel.textColor = [UIColor greenColor];
+    _PercentLabel.frame =   CGRectMake(250, 40, 80, 80);
+    [self.contentView addSubview:_PercentLabel];
+  
+    
 }
 
 - (void)setProductMoel:(ProuctModel *)productMoel{

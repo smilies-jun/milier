@@ -81,28 +81,28 @@
     [self.navigationController pushViewController:ForgetVC animated:NO];
 }
 - (void)LoginClicked{
-    if (PassView.NameTextField.text.length) {
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",PassView.NameTextField.text] ,@"userPwd", [NSString stringWithFormat:@"%@",_phoneStr],@"phone",@"2",@"userFlag",nil];
-        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-            NSString *code = [result objectForKey:@"retcode"];
-            if ([code intValue] == 1000) {
-                NSuserSave([result objectForKey:@"token"], @"token");
-                NSuserSave(_phoneStr, @"phone");
-                NSuserSave(PassView.NameTextField.text, @"password");
-                NSuserSave(@"1", @"state");
-                [[NSUserDefaults standardUserDefaults]synchronize];
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                }];
-            }else{
-                NSString *AlertStr = [result objectForKey:@"retdesc"];
-                normal_alert(@"提示", AlertStr , @"确定");
-            }
-        }];
-    }else{
-        normal_alert(@"提示", @"密码不可为空  ", @"确定");
-//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-//        [alert show];
-    }
+//    if (PassView.NameTextField.text.length) {
+//        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",PassView.NameTextField.text] ,@"userPwd", [NSString stringWithFormat:@"%@",_phoneStr],@"phone",@"2",@"userFlag",nil];
+//        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
+//            NSString *code = [result objectForKey:@"retcode"];
+//            if ([code intValue] == 1000) {
+//                NSuserSave([result objectForKey:@"token"], @"token");
+//                NSuserSave(_phoneStr, @"phone");
+//                NSuserSave(PassView.NameTextField.text, @"password");
+//                NSuserSave(@"1", @"state");
+//                [[NSUserDefaults standardUserDefaults]synchronize];
+//                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+//                }];
+//            }else{
+//                NSString *AlertStr = [result objectForKey:@"retdesc"];
+//                normal_alert(@"提示", AlertStr , @"确定");
+//            }
+//        }];
+//    }else{
+//        normal_alert(@"提示", @"密码不可为空  ", @"确定");
+////        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+////        [alert show];
+//    }
 }
 
 - (void)LoginNextBackClick{

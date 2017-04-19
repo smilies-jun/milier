@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FourViewController : BaseViewController
+@interface FourViewController : UIViewController
 
 @end

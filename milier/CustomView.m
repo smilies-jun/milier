@@ -30,12 +30,12 @@
 - (void)initView{
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"手机号码:";
-    _NameLabel.font = [UIFont systemFontOfSize:15];
+    _NameLabel.font = [UIFont systemFontOfSize:13];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(65);
+        make.width.mas_equalTo(90);
         make.height.mas_equalTo(20);
     }];
     

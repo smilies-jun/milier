@@ -7,6 +7,7 @@
 //
 
 #import "ProtocalViewController.h"
+#import "YWDReginViewController.h"
 
 @interface ProtocalViewController ()
 
@@ -72,7 +73,12 @@
 
 
 - (void)protocalBackClick{
-    [self.navigationController  popToRootViewControllerAnimated:NO];
+    //  返回指定页面
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[YWDReginViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

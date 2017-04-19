@@ -28,6 +28,11 @@
 
 
 
+@property (nonatomic , retain)  CAShapeLayer *shapeLayer;
+
+@property (nonatomic ,retain) UILabel *PercentLabel;
+
+
 - (void)configUI:(NSIndexPath *)indexPath;
 
 

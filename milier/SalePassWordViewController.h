@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SalePassWordViewController : UIViewController
+@interface SalePassWordViewController :  UIViewController<UITextFieldDelegate>
 
 @end

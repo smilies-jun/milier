@@ -41,19 +41,19 @@
     
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"短信验证码:";
-    _NameLabel.font = [UIFont systemFontOfSize:15];
+    _NameLabel.font = [UIFont systemFontOfSize:13];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(85);
         make.height.mas_equalTo(20);
     }];
     
     
     _NameTextField = [[UITextField alloc]init];
     _NameTextField.backgroundColor = [UIColor whiteColor];
-    _NameTextField.font = [UIFont systemFontOfSize:15];
+    _NameTextField.font = [UIFont systemFontOfSize:13];
     _NameTextField.textAlignment = NSTextAlignmentRight;
     _NameTextField.placeholder = @"请输入验证码";
     [self addSubview:_NameTextField];

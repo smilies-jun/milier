@@ -11,7 +11,7 @@
 #import "SecondViewController.h"
 #import "ThirdViewController.h"
 #import "FourViewController.h"
-#import "loginViewController.h"
+#import "YWDLoginViewController.h"
 #import "SecondViewController.h"
 
 
@@ -34,7 +34,7 @@
     //判断是否登陆，服务器获取
     if ( i >= 5) {
        // [self.window setRootViewController:self.viewController];
-        loginViewController *loginVC = [[loginViewController alloc]init];
+        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc]init];
         self.window.rootViewController = loginVC;
         NSLog(@"木有登陆");
     }else{

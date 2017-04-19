@@ -67,7 +67,7 @@ scrollViewHeaderScaleContentOffset:(CGFloat)contentOffset;
 /** 悬浮样式 作为UITableFooterView*/
 @property (nonatomic, strong) UIView *placeHoderView;
 
-
+@property(nonatomic,assign)BOOL IsTab;
 
 
 /** 头部是否能伸缩效果   要伸缩效果就不能有下拉刷新控件 NO*/

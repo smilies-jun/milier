@@ -8,6 +8,8 @@
 
 #define kYNPageNavHeight 0
 #define kYNPageTabbarHeight 0
+#define KYNpageTabbar 0
+
 #import "YNPageScrollViewController.h"
 #import "UIView+YNCategory.h"
 #import "YNPageScrollHeaderView.h"
@@ -55,7 +57,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     //检查参数
     [self checkParams];
     
@@ -98,9 +99,9 @@
 
             }
         }
-        self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, ([self isTopStyle] ? self.view.yn_height - self.configration.menuHeight: self.view.yn_height));
+        self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, ([self isTopStyle] ? self.view.yn_height - self.configration.menuHeight: self.view.yn_height -  ([self IsTab] ? 0:40)));
         
-        self.parentScrollView.contentSize = CGSizeMake(self.view.yn_width * self.viewControllers.count, self.view.yn_height   - ([self isTopStyle] ? self.configration.menuHeight : 0));
+        self.parentScrollView.contentSize = CGSizeMake(self.view.yn_width * self.viewControllers.count, self.view.yn_height   - ([self isTopStyle] ? self.configration.menuHeight : 0)- ([self IsTab] ? 0:40));
         
         
         if ([self isSuspensionStyle]) {

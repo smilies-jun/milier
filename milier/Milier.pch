@@ -29,6 +29,7 @@
 #import "UIView+Layout.h"
 #import "CALayer+Layout.h"
 #import "UIAlertController+Extend.h"
+#import "UINavigationBar+Awesome.h"
 
 #define APP_SECRET @"6bdaa4031d3013e5a21200163e002615"
 
