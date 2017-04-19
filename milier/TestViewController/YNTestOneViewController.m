@@ -8,6 +8,7 @@
 
 #import "YNTestOneViewController.h"
 #import "SecondTableViewCell.h"
+#import "ProuctDetailViewController.h"
 
 @interface YNTestOneViewController ()
 
@@ -27,7 +28,7 @@
 
 //header-height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 5;
+    return 0;
     
 }
 //header-secion
@@ -60,7 +61,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 154;
+    return 120;
 }
 
 //cell-tableview
@@ -81,7 +82,10 @@
 }
 
 
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ProuctDetailViewController *vc = [[ProuctDetailViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:NO];
+}
 
 
 @end
