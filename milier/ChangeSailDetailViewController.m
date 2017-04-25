@@ -7,7 +7,7 @@
 //
 
 #import "ChangeSailDetailViewController.h"
-#import "DinQiDeatilViewController.m"
+#import "DinQiDeatilViewController.h"
 #import "ProfilView.h"
 
 
@@ -64,6 +64,17 @@
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

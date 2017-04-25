@@ -13,7 +13,7 @@
 #import "OldProfitViewController.h"
 #import "AddProfitViewController.h"
 #import "DinQiDetailTableViewCell.h"
-#import "ChangeSailDetailViewController.m"
+#import "ChangeSailDetailViewController.h"
 
 
 @interface DinQiDeatilViewController ()<UITableViewDataSource,UITableViewDelegate,ZFPieChartDelegate,ZFPieChartDataSource>{
@@ -475,12 +475,11 @@
     cell.clipsToBounds = YES;//这句话很重要 不信你就试试
     return cell;
 }
-//债务转让
+//债券转让
 - (void)LimitClick{
-    ChangeSailDetailViewController *DetailVC = [[ChangeSailDetailViewController alloc]init];
-    [self.navigationController  pushViewController:DetailVC animated:NO];
+    ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
+    [self.navigationController pushViewController:ChangeVC animated:NO];
 }
-//查看协议
 - (void)LookClick{
     NSLog(@"1212");
 }
