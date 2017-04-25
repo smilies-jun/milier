@@ -49,7 +49,7 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     
     [self makeData];
-    _tableView = [[UITableView alloc] initWithFrame:self.view.frame style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.backgroundColor = [UIColor whiteColor];
@@ -65,7 +65,7 @@
 - (void)makeData{
     _sectionArray = [NSMutableArray array];
     _flagArray  = [NSMutableArray array];
-    NSInteger num = 6;
+    NSInteger num = 10;
     for (int i = 0; i < num; i ++) {
         NSMutableArray *rowArray = [NSMutableArray array];
         for (int j = 0; j < arc4random()%20 + 1; j ++) {
@@ -97,20 +97,27 @@
 }
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UILabel *sectionLabel = [[UILabel alloc] init];
-    sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 444);
-    sectionLabel.textColor = [UIColor orangeColor];
-    sectionLabel.text = [NSString stringWithFormat:@"组%ld",(long)section];
-    sectionLabel.textAlignment = NSTextAlignmentCenter;
+    UIView *sectionLabel = [[UIView alloc] init];
+    sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 42);
+    //sectionLabel.textColor = [UIColor orangeColor];
+    //sectionLabel.text = [NSString stringWithFormat:@"组%ld",(long)section];
+    //sectionLabel.textAlignment = NSTextAlignmentCenter;
     sectionLabel.tag = 100 + section;
     sectionLabel.userInteractionEnabled = YES;
     sectionLabel.backgroundColor = [UIColor whiteColor];
     
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(sectionClick:)];
     [sectionLabel addGestureRecognizer:tap];
+    
+    UIView *leftView = [[UIView alloc]init];
+    leftView.backgroundColor = [UIColor orangeColor];
+    leftView.frame = CGRectMake(0, 5, 2, 30);
+    [sectionLabel addSubview:leftView];
+    
+    
     UIView *lineView = [[UIView alloc]init];
     lineView.backgroundColor = [UIColor redColor];
-    lineView.frame = CGRectMake(0, 44, 320, 2);
+    lineView.frame = CGRectMake(0, 43, 320, 1);
     [sectionLabel addSubview:lineView];
  
     return sectionLabel;

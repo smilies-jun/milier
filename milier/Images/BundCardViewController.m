@@ -9,22 +9,28 @@
 #import "BundCardViewController.h"
 #import "SaleViewController.h"
 #import "CustomView.h"
+#import "CustomChooseView.h"
+#import "ZHPickView.h"
 
 @interface BundCardViewController (){
     UIView *BackView;
+    
+    UILabel *MoneyLabel;
+    
     CustomView *CardNameView;
     
     CustomView *CardNumberView;
 
     CustomView *CardIphoneView;
 
-    CustomView *CardBankView;
+    CustomChooseView *CardBankView;
 
     CustomView *CardWhichBankView;
 
     CustomView *CardBankCodeView;
 
-    
+    UILabel *ExlainLabel;
+    NSArray *proTimeList;
 }
 
 @end
@@ -45,7 +51,7 @@
     
     [self ConfigUI];
     
-    
+   
 }
 - (void)ConfigUI{
     BackView = [[UIView alloc]init];
@@ -53,9 +59,22 @@
     BackView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:BackView];
     
+    MoneyLabel = [[UILabel alloc]init];
+    MoneyLabel.text = @"持卡金额：0.02元（绑卡后自动进入余额）";
+    MoneyLabel.textColor = [UIColor blackColor];
+    MoneyLabel.font = [UIFont systemFontOfSize:12];
+    [BackView addSubview:MoneyLabel];
+    [MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
+        make.top.mas_equalTo(BackView.mas_top).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.height.mas_equalTo(15);
+    }];
+    
+    
     CardNameView = [[CustomView alloc]init];
-    CardNameView.NameLabel.text = @"手机号码:";
-    CardNameView.NameTextField.placeholder = @"请输入手机号";
+    CardNameView.NameLabel.text = @"持卡人姓名:";
+    CardNameView.NameTextField.placeholder = @"请输入持卡人姓名";
     CardNameView.NameTextField.delegate = self;
     CardNameView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardNameView];
@@ -67,8 +86,8 @@
     }];
     
     CardNumberView = [[CustomView alloc]init];
-    CardNumberView.NameLabel.text = @"手机号码:";
-    CardNumberView.NameTextField.placeholder = @"请输入手机号";
+    CardNumberView.NameLabel.text = @"身份证号:";
+    CardNumberView.NameTextField.placeholder = @"身份证号";
     CardNumberView.NameTextField.delegate = self;
     CardNumberView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardNumberView];
@@ -92,11 +111,14 @@
         make.height.mas_equalTo(40);
     }];
     
-    CardBankView = [[CustomView alloc]init];
-    CardBankView.NameLabel.text = @"手机号码:";
-    CardBankView.NameTextField.placeholder = @"请输入手机号";
-    CardBankView.NameTextField.delegate = self;
-    CardBankView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
+    CardBankView = [[CustomChooseView alloc]init];
+    CardBankView.NameLabel.text = @"选择银行:";
+    CardBankView.ChooseLabel.text = @"中国银行";
+    CardBankView.ChooseLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *ChooseTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(chooseTapClick)];
+    [CardBankView.ChooseLabel addGestureRecognizer:ChooseTap];
+    
+    
     [BackView addSubview:CardBankView];
     [CardBankView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -107,8 +129,8 @@
     
     
     CardWhichBankView = [[CustomView alloc]init];
-    CardWhichBankView.NameLabel.text = @"手机号码:";
-    CardWhichBankView.NameTextField.placeholder = @"请输入手机号";
+    CardWhichBankView.NameLabel.text = @"开户银行:";
+    CardWhichBankView.NameTextField.placeholder = @"请输入银行支行名称";
     CardWhichBankView.NameTextField.delegate = self;
     CardWhichBankView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardWhichBankView];
@@ -119,8 +141,8 @@
         make.height.mas_equalTo(40);
     }];
     CardBankCodeView = [[CustomView alloc]init];
-    CardBankCodeView.NameLabel.text = @"手机号码:";
-    CardBankCodeView.NameTextField.placeholder = @"请输入手机号";
+    CardBankCodeView.NameLabel.text = @"银行卡号:";
+    CardBankCodeView.NameTextField.placeholder = @"请输入银行卡号";
     CardBankCodeView.NameTextField.delegate = self;
     CardBankCodeView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardBankCodeView];
@@ -130,7 +152,72 @@
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
+    ExlainLabel = [[UILabel alloc]init];
+    ExlainLabel.text = @"绑定银行卡用于体现以及。绑定后不可更改";
+    ExlainLabel.textAlignment = NSTextAlignmentLeft;
+    ExlainLabel.textColor = [UIColor orangeColor];
+    ExlainLabel.font = [UIFont systemFontOfSize:12];
+    [BackView addSubview:ExlainLabel];
+    [ExlainLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(BackView.mas_left).offset(30);
+        make.top.mas_equalTo(CardBankCodeView.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 60);
+        make.height.mas_equalTo(20);
+    }];
+    UILabel *nameLabel =[[UILabel alloc]init];
+    nameLabel.font = [UIFont systemFontOfSize:14];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
+    NSRange conectRange = {4,4};
+    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
+    nameLabel.attributedText = ConnectStr;
+    nameLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AgreeClick)];
+    [nameLabel addGestureRecognizer:gesTap];
+    [BackView addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
+        make.top.mas_equalTo(ExlainLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(20);
+    }];
+
     
+    UILabel *SaleLbel =  [[UILabel alloc]init];
+    SaleLbel.text = @"确定";
+    SaleLbel.userInteractionEnabled = YES;
+    SaleLbel.backgroundColor = [UIColor greenColor];
+    SaleLbel.textAlignment = NSTextAlignmentCenter;
+    SaleLbel.textColor = [UIColor whiteColor];
+    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.masksToBounds = YES;
+    [BackView addSubview:SaleLbel];
+    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
+        make.top.mas_equalTo(nameLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.height.mas_equalTo(30);
+    }];
+    
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BundBtnClick
+                                                                                                          )];
+    [SaleLbel addGestureRecognizer:SaleTap];
+    
+}
+
+- (void)chooseTapClick{
+    ZHPickView *pickView = [[ZHPickView alloc] init];
+    [pickView setDataViewWithItem:@[@"中国工商银行",@"中国银行",@"杭州银行"] title:@"选择银行"];
+    [pickView showPickView:self];
+    pickView.block = ^(NSString *selectedStr)
+    {
+        CardBankView.ChooseLabel.text = selectedStr;
+
+    };
+}
+- (void)AgreeClick{
+    
+}
+- (void)BundBtnClick{
     
 }
 - (void)BundBackClick{

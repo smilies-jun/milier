@@ -23,8 +23,27 @@
 #import "MyPopView.h"
 #import "FourViewController.h"
 #import "YWDLoginViewController.h"
+#import <AwAlertViewlib/AwAlertViewlib.h>
+#import "UserViewController.h"
+
+
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
+    
+    UIImageView *CancelImageView;
+    
+    UIImageView *NetImageView;//网贷基金
+    UILabel *NetLabel;
+    UIImageView *ProuctImageView;//特色产品
+    UILabel *ProuctLabel;
+    UIImageView *BussinessImageView;//企业贷款
+    UILabel *BussinessLabel;
+    UIImageView *PersonImageView;//个人贷款
+    UILabel *PersonLabel;
+    UIImageView *BuyCarImageView;//购车贷款
+    UILabel *BuyCarLabel;
+    UIImageView *ChangeImageView;//债券转让
+    UILabel *ChangeLabel;
 
 }
 
@@ -36,6 +55,7 @@
 @end
 
 @implementation SecondViewController
+
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 //{
 //    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -44,6 +64,7 @@
 //    }
 //    return self;
 //}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -57,9 +78,9 @@
     self.navigationItem.title = @"米粒儿金融";
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"four_selected"] style:UIBarButtonItemStylePlain target:self action:@selector(LeftBtnClick)];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(LeftBtnClick)];
     self.navigationItem.leftBarButtonItem = leftItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"消息" style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     self.navigationItem.rightBarButtonItem = rightItem;
     
     [self.loadingView startAnimating];
@@ -82,8 +103,11 @@
   //  [self.ContentView addSubview:self.PopView];
 }
 - (void)LeftBtnClick{
-    YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
-    [self.navigationController pushViewController:LoginVC animated:NO];
+    UserViewController *NserVC = [[UserViewController alloc]init];
+    [self.navigationController  pushViewController:NserVC animated:NO];
+    
+//    YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
+//    [self.navigationController pushViewController:LoginVC animated:NO];
 }
 - (void)RightClick{
     FourViewController *fourVC = [[FourViewController alloc]init];
@@ -157,39 +181,146 @@
     
     //按钮点击
     vc.addButtonAtion = ^(UIButton *btn, YNPageScrollViewController *vc) {
-        NSLog(@"%f",btn.frame.size.height);
+       // NSLog(@"%f",btn.frame.size.height);
         
         
-    //        MyPopView *cuView = [[MyPopView alloc]init];
-//        
-////        cuView.closeClicked = ^(UIButton *closeButton) {
-////            [self.sl_popupController dismissWithDuration:0.25 elasticAnimated:NO];
-////        };
-////        cuView.didClickItems = ^(SnailCurtainView *curtainView, NSInteger index) {
-////            [UIAlertController showAlert:curtainView.items[index].textLabel.text];
-////        };
-//        
-//        self.sl_popupController = [SnailPopupController new];
-//        self.sl_popupController.layoutType = PopupLayoutTypeBottom                ;
-//        self.sl_popupController.allowPan = NO;
-//        @weakify(self);
-//        self.sl_popupController.maskTouched = ^(SnailPopupController * _Nonnull popupController) {
-//            [weak_self.sl_popupController dismissWithDuration:0.25 elasticAnimated:NO];
-//        };
-//        [self.sl_popupController presentContentView:cuView duration:0.75 elasticAnimated:YES];
+        UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
+        view.backgroundColor=[UIColor whiteColor];
+        view.layer.masksToBounds = YES;
+        view.layer.cornerRadius = 5.0f;
+        view.alpha = 0.9;
         
-//        SecondPushViewController  *controller = [SecondPushViewController new];
-//        controller.delegate = self;
-//        controller.modalTransitionStyle = UIModalTransitionStyleCoverVertical;
-//        controller.providesPresentationContextTransitionStyle = YES;
-//        controller.definesPresentationContext = YES;
-//        controller.modalPresentationStyle = UIModalPresentationOverCurrentContext;
-//
-//        controller.bubbleColor = [UIColor whiteColor];
-//        [self presentViewController:controller animated:YES completion:^{
-//            controller.view.alpha = 0.5;
-//        }];
- };
+        CancelImageView = [[UIImageView alloc]init];
+        CancelImageView.image = [UIImage imageNamed:@"close"];
+        CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
+        [view addSubview:CancelImageView];
+    
+        NetImageView = [[UIImageView alloc]init];
+        NetImageView.image = [UIImage imageNamed:@"fund"];
+        [view addSubview:NetImageView];
+        [NetImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(view.mas_left).offset(20);
+            make.top.mas_equalTo(view.mas_top).offset(50);
+            make.width.mas_equalTo(68);
+            make.height.mas_equalTo(68);
+        }];
+        NetLabel = [[UILabel alloc]init];
+        NetLabel.text = @"网贷基金";
+        NetLabel.font = [UIFont systemFontOfSize:13];
+        [view addSubview:NetLabel];
+        [NetLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(NetImageView.mas_centerX);
+            make.top.mas_equalTo(NetImageView.mas_bottom).offset(10);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        ProuctImageView = [[UIImageView alloc]init];
+        ProuctImageView.image = [UIImage imageNamed:@"featured"];
+        [view addSubview:ProuctImageView];
+        [ProuctImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(NetImageView.mas_right).offset(60);
+            make.top.mas_equalTo(view.mas_top).offset(50);
+            make.width.mas_equalTo(68);
+            make.height.mas_equalTo(68);
+        }];
+        ProuctLabel = [[UILabel alloc]init];
+        ProuctLabel.text = @"特色产品";
+        ProuctLabel.font = [UIFont systemFontOfSize:13];
+        [view addSubview:ProuctLabel];
+        [ProuctLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(ProuctImageView.mas_centerX);
+            make.top.mas_equalTo(ProuctImageView.mas_bottom).offset(10);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        BussinessImageView = [[UIImageView alloc]init];
+        BussinessImageView.image = [UIImage imageNamed:@"businessloans"];
+        [view addSubview:BussinessImageView];
+        [BussinessImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(ProuctImageView.mas_right).offset(60);
+            make.top.mas_equalTo(view.mas_top).offset(50);
+            make.width.mas_equalTo(68);
+            make.height.mas_equalTo(68);
+        }];
+        BussinessLabel = [[UILabel alloc]init];
+        BussinessLabel.text = @"企业贷款";
+        BussinessLabel.font = [UIFont systemFontOfSize:13];
+        [view addSubview:BussinessLabel];
+        [BussinessLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(BussinessImageView.mas_centerX);
+            make.top.mas_equalTo(BussinessImageView.mas_bottom).offset(10);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        
+        PersonImageView = [[UIImageView alloc]init];
+        PersonImageView.image = [UIImage imageNamed:@"personalloan"];
+        [view addSubview:PersonImageView];
+        [PersonImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(view.mas_left).offset(20);
+            make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
+            make.width.mas_equalTo(68);
+            make.height.mas_equalTo(68);
+        }];
+        PersonLabel = [[UILabel alloc]init];
+        PersonLabel.text = @"个人贷款";
+        PersonLabel.font = [UIFont systemFontOfSize:13];
+        [view addSubview:PersonLabel];
+        [PersonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(PersonImageView.mas_centerX);
+            make.top.mas_equalTo(PersonImageView.mas_bottom).offset(10);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        BuyCarImageView = [[UIImageView alloc]init];
+        BuyCarImageView.image = [UIImage imageNamed:@"carloan"];
+        [view addSubview:BuyCarImageView];
+        [BuyCarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(PersonImageView.mas_right).offset(60);
+            make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
+            make.width.mas_equalTo(68);
+            make.height.mas_equalTo(68);
+        }];
+        BuyCarLabel = [[UILabel alloc]init];
+        BuyCarLabel.text = @"购车贷款";
+        BuyCarLabel.font = [UIFont systemFontOfSize:13];
+        [view addSubview:BuyCarLabel];
+        [BuyCarLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(BuyCarImageView.mas_centerX);
+            make.top.mas_equalTo(BuyCarImageView.mas_bottom).offset(10);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        ChangeImageView = [[UIImageView alloc]init];
+        ChangeImageView.image = [UIImage imageNamed:@"creditor"];
+        [view addSubview:ChangeImageView];
+        [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(BuyCarImageView.mas_right).offset(60);
+            make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
+            make.width.mas_equalTo(68);
+            make.height.mas_equalTo(68);
+        }];
+        ChangeLabel = [[UILabel alloc]init];
+        ChangeLabel.text = @"债券转让";
+        ChangeLabel.font = [UIFont systemFontOfSize:13];
+        [view addSubview:ChangeLabel];
+        [ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(ChangeImageView.mas_centerX);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(10);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        
+        AwAlertView *alertView=[[AwAlertView alloc]initWithContentView:view];
+        alertView.isUseHidden=YES;
+        [alertView showAnimated:YES];
+       // alertView.closeImage=[UIImage imageNamed:@"AwAlertViewlib.bundle/btn_navigation_close"];
+        //alertView.closeImage_hl=[UIImage imageNamed:@"AwAlertViewlib.bundle/btn_navigation_close_hl"];
+        
+    
+    };
+    
+    
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     vc.placeHoderView = footerView;
@@ -244,9 +375,9 @@
 //    NSLog(@"====%f",contentOffset);
 //}
 - (void)pageScrollViewController:(YNPageScrollViewController *)pageScrollViewController tableViewScrollViewContentOffset:(CGFloat)contentOffset progress:(CGFloat)progress{
-    NSLog(@"位置====%f",contentOffset);
+   // NSLog(@"位置====%f",contentOffset);
     if (contentOffset >= 0 && contentOffset <= 150) {
-        NSLog(@" 调整弹出视图的位置");
+       // NSLog(@" 调整弹出视图的位置");
     }
 }
 #pragma mark - lazy

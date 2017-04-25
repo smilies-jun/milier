@@ -53,14 +53,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-//    [self.navigationController.navigationBar setTranslucent:NO];
-//    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.000 green:0.800 blue:0.800 alpha:1.000]];
-//    // 导航栏标题字体颜色
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor orangeColor]}];
-//    // 导航栏左右按钮字体颜色
-//    self.navigationItem.leftBarButtonItem = nil;
-//    self.navigationController.navigationBar.tintColor = [UIColor orangeColor];
+
     self.navigationItem.title = @"产品详情";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     
@@ -70,11 +63,6 @@
     [leftBtn addTarget:self action:@selector(onTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-//    UIView *bottomView = [[UIView alloc]init];
-//    bottomView.backgroundColor = [UIColor orangeColor];
-//    bottomView.frame =  CGRectMake(0, SCREEN_HEIGHT - 44, SCREEN_WIDTH, 44);
-//    
-//    [self.view.window addSubview:bottomView];
     
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];

@@ -30,7 +30,7 @@
 //    [self.BackButton addTarget:self action:@selector(SaleBackClick) forControlEvents:UIControlEventTouchUpInside];
 //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SalePassClickBack)];
 //    [self.view addGestureRecognizer:tap]
-    self.navigationItem.title = @"找回登录密码";
+    self.navigationItem.title = @"找回交易密码";
     self.view.backgroundColor = [UIColor grayColor];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);

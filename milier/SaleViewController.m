@@ -10,6 +10,8 @@
 #import "ProuctDetailViewController.h"
 #import "YWDLoginViewController.h"
 #import "SalePassWordViewController.h"
+#import "PayViewController.h"
+#import "TouUpViewController.h"
 
 
 @interface SaleViewController (){
@@ -245,6 +247,12 @@
     //未设置交易密码
     SalePassWordViewController *SaleVC = [[SalePassWordViewController alloc]init];
     [self.navigationController   pushViewController:SaleVC animated:NO];
+//余额充足
+//    PayViewController *PayVC = [[PayViewController alloc]init];
+//    [self.navigationController   pushViewController:PayVC animated:NO];
+
+    //余额不足
+    
 }
 - (void)SaleOnTap{
     //  返回指定页面
