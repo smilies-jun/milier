@@ -13,6 +13,7 @@
 #import "YNJianShuDemoViewController.h"
 #import "MJRefresh.h"
 #import "UserViewController.h"
+#import "ConvertViewController.h"
 
 @interface MyJiFenViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>
 
@@ -49,7 +50,7 @@
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"兑换礼品";
     SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = [UIColor greenColor];
+    SaleLbel.backgroundColor = [UIColor orangeColor];
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
     SaleLbel.layer.cornerRadius = 10;
@@ -78,7 +79,7 @@
     configration.itemMaxScale = 1.2;
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
     configration.scrollViewBackgroundColor = [UIColor whiteColor];
-    configration.selectedItemColor = [UIColor redColor];
+    configration.selectedItemColor = [UIColor orangeColor];
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
     configration.scrollMenu = YES;
@@ -93,7 +94,7 @@
     
     UILabel *jifenNumberLabel = [[UILabel alloc]init];
     jifenNumberLabel.text = @"121212121";
-    jifenNumberLabel.textColor = [UIColor whiteColor];
+    jifenNumberLabel.textColor = [UIColor orangeColor];
     jifenNumberLabel.textAlignment = NSTextAlignmentCenter;
     jifenNumberLabel.font = [UIFont systemFontOfSize:50];
     [imageView addSubview:jifenNumberLabel];
@@ -116,7 +117,8 @@
 }
 //兑换礼品
 - (void)JiFenBtnClick{
-    
+    ConvertViewController    *ConvertVC = [[ConvertViewController alloc]init];
+    [self.navigationController pushViewController:ConvertVC animated:NO];
 }
 - (void)JifenTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {

@@ -16,6 +16,7 @@
 
 
 @interface ReginAndLoginViewController (){
+    customWithStatic  *UsertPhoneView;
     customWithStatic  *PhoneView;
     customWithStatic  *PassView;
     CustomView *callView;
@@ -41,17 +42,6 @@
     [self.view addGestureRecognizer:tap];
     
     [self.BackButton addTarget:self action:@selector(ReginAndLoginBackClick) forControlEvents:UIControlEventTouchUpInside];
-    UILabel *Label = [[UILabel alloc]init];
-    Label.textColor = [UIColor redColor];
-    Label.font = [UIFont systemFontOfSize:12];
-    Label.text = [NSString stringWithFormat:@"请输入手机号为%@的短信验证码",_codeStr];
-    [self.view addSubview:Label];
-    [Label mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(self.TopView.mas_bottom).offset(10);
-        make.width.mas_equalTo(300);
-        make.height.mas_equalTo(20);
-    }];
     
     if (_codeStr.length) {
         [self senderInputSecurityCodeBtnClicked];
@@ -60,6 +50,25 @@
     [self initAlertView];
 }
 - (void)initUI{
+    
+    UsertPhoneView = [[customWithStatic alloc]init];
+    UsertPhoneView.NameLabel.text = @"手机号码:";
+//    [UsertPhoneView.NameTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.right.mas_equalTo(UsertPhoneView.mas_right).offset(-10);
+//    }];
+    UsertPhoneView.NameTextField.delegate = self;
+    UsertPhoneView.NameTextField.secureTextEntry = YES;
+    UsertPhoneView.NameTextField.placeholder = @"请输入手机号码";
+    [self.view addSubview:UsertPhoneView];
+    [UsertPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.right.mas_equalTo(self.view.mas_right);
+        make.top.mas_equalTo(self.TopView.mas_bottom).offset(20);
+        make.height.mas_equalTo(40);
+    }];
+
+    
+    
     PhoneView = [[customWithStatic alloc]init];
     PhoneView.NameLabel.text = @"短信验证码:";
     PhoneView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
@@ -68,7 +77,7 @@
     [PhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.right.mas_equalTo(self.view.mas_right);
-        make.top.mas_equalTo(self.TopView.mas_bottom).offset(40);
+        make.top.mas_equalTo(UsertPhoneView.mas_bottom).offset(10);
         make.height.mas_equalTo(40);
     }];
     
@@ -100,7 +109,7 @@
     [PassView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.right.mas_equalTo(self.view.mas_right);
-        make.top.mas_equalTo(PhoneView.mas_bottom).offset(20);
+        make.top.mas_equalTo(PhoneView.mas_bottom).offset(10);
         make.height.mas_equalTo(40);
     }];
     callView = [[CustomView alloc]init];
@@ -110,7 +119,7 @@
     [self.view addSubview:callView];
     [callView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(PassView.mas_bottom).offset(20);
+        make.top.mas_equalTo(PassView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
@@ -119,12 +128,12 @@
     [reginBtn setBackgroundColor:colorWithRGB(0.96, 0.21, 0.29)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 5.0f;
-    [reginBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [reginBtn setTitle:@"注册并登录" forState:UIControlStateNormal];
     [reginBtn addTarget:self action:@selector(ReginAndLoginClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(callView.mas_bottom).offset(20);
+        make.top.mas_equalTo(callView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
@@ -159,6 +168,7 @@
 }
 
 - (void)ReginAndLoginClicked{
+    [self dismissViewControllerAnimated:NO completion:nil];
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
             [self ReginClicked];
@@ -284,7 +294,17 @@
     return NO;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

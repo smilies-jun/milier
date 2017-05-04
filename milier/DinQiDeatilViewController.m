@@ -33,6 +33,7 @@
 
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
+@property (nonatomic,strong)NSMutableArray *MutableArray;
 @property (nonatomic, strong) ZFPieChart * pieChart;
 
 @end
@@ -75,9 +76,11 @@
  *  处理数据  _sectionArray里面存储数组
  */
 - (void)makeData{
+    //有利息＋1  利息计算＋1
+    _MutableArray = [[NSMutableArray alloc]initWithObjects:@"2",@"1",@"5",@"2", nil];
     _sectionArray = [NSMutableArray array];
     _flagArray  = [NSMutableArray array];
-    NSInteger num = 10;
+    NSInteger num = 4;
     for (int i = 0; i < num; i ++) {
         NSMutableArray *rowArray = [NSMutableArray array];
         for (int j = 0; j < 1; j ++) {
@@ -110,7 +113,12 @@
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-        return 44;
+      
+        NSLog(@"self = %@",[_MutableArray objectAtIndex:indexPath.section] );
+
+        CGFloat statuesFloat = [DinQiDetailTableViewCell tableView:tableView rowHeightForObject:[_MutableArray objectAtIndex:indexPath.section]];
+    
+        return statuesFloat;
 }
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -140,6 +148,7 @@
         }];
         
         self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(40, 90, 120, 120)];
+        self.pieChart.userInteractionEnabled = NO;
         self.pieChart.dataSource= self;
         self.pieChart.delegate = self;
         //    self.pieChart.piePatternType = kPieChartPatternTypeForCircle;
@@ -150,7 +159,9 @@
         [self.pieChart strokePath];
         [topView  addSubview:self.pieChart];
         UIImageView *FirstImageView = [[UIImageView alloc]init];
-        FirstImageView.backgroundColor = [UIColor orangeColor];
+        FirstImageView.layer.cornerRadius = 5;
+        FirstImageView.clipsToBounds = YES;
+        FirstImageView.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
         [topView addSubview:FirstImageView];
         [FirstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -171,7 +182,10 @@
         }];
         
         UIImageView *SecondImageView = [[UIImageView alloc]init];
-        SecondImageView.backgroundColor = [UIColor orangeColor];
+        SecondImageView.layer.cornerRadius = 5;
+        SecondImageView.clipsToBounds = YES;
+
+        SecondImageView.backgroundColor = colorWithRGB(0.99, 0.78, 0.09);
         [topView addSubview:SecondImageView];
         [SecondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(FirstImageView.mas_centerX);
@@ -192,7 +206,10 @@
         }];
         
         UIImageView *ThirdImageView = [[UIImageView alloc]init];
-        ThirdImageView.backgroundColor = [UIColor orangeColor];
+        ThirdImageView.layer.cornerRadius = 5;
+        ThirdImageView.clipsToBounds = YES;
+
+        ThirdImageView.backgroundColor = colorWithRGB(0.99, 0.51, 0.18);
         [topView addSubview:ThirdImageView];
         [ThirdImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -214,7 +231,10 @@
         
         
         UIImageView *FourImageView = [[UIImageView alloc]init];
-        FourImageView.backgroundColor = [UIColor orangeColor];
+        FourImageView.layer.cornerRadius = 5;
+        FourImageView.clipsToBounds = YES;
+
+        FourImageView.backgroundColor = colorWithRGB(0.27, 0.79, 0.56);
         [topView addSubview:FourImageView];
         [FourImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -235,7 +255,10 @@
         }];
         
         UIImageView *FiveImageView = [[UIImageView alloc]init];
-        FiveImageView.backgroundColor = [UIColor orangeColor];
+        FiveImageView.layer.cornerRadius = 5;
+        FiveImageView.clipsToBounds = YES;
+
+        FiveImageView.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
         [topView addSubview:FiveImageView];
         [FiveImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -257,7 +280,10 @@
         
         
         UIImageView *SixImageView = [[UIImageView alloc]init];
-        SixImageView.backgroundColor = [UIColor orangeColor];
+        SixImageView.layer.cornerRadius = 5;
+        SixImageView.clipsToBounds = YES;
+
+        SixImageView.backgroundColor = colorWithRGB(0.19, 0.39, 0.89);
         [topView addSubview:SixImageView];
         [SixImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -433,9 +459,9 @@
         
         UIProgressView *processView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
         processView.frame = CGRectMake(0, 58,SCREEN_WIDTH, 2);
-        processView.progressTintColor = [UIColor greenColor];
+        processView.progressTintColor = colorWithRGB(0.96, 0.6, 0.12);
         [processView setProgress:0.5 animated:YES];
-        processView.trackTintColor = [UIColor grayColor];
+        processView.trackTintColor = colorWithRGB(0.93, 0.93, 0.93);
         [HeaderView addSubview:processView];
 
         
@@ -456,7 +482,7 @@
 
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"Cell";
+    static NSString *identify = @"DinQiCell";
     DinQiDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
         cell = [[DinQiDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
@@ -516,7 +542,7 @@
 }
 
 - (NSArray *)colorArrayInPieChart:(ZFPieChart *)chart{
-    return @[ZFColor(71, 204, 255, 1), ZFColor(253, 203, 76, 1), ZFColor(214, 205, 153, 1), ZFColor(78, 250, 188, 1), ZFColor(16, 140, 39, 1), ZFColor(45, 92, 34, 1)];
+    return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.78, 0.09), colorWithRGB(0.99, 0.51, 0.18), colorWithRGB(0.27, 0.79, 0.56), colorWithRGB(0.31, 0.69, 0.10), colorWithRGB(0.19, 0.39, 0.89)];
 }
 
 #pragma mark - ZFPieChartDelegate

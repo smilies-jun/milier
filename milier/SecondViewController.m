@@ -14,6 +14,8 @@
 #import "YNTestFourViewController.h"
 #import "YNTestTwoViewController.h"
 #import "YNTestThreeViewController.h"
+#import "YNTestFiveTableViewController.h"
+#import "YNTestSixTableViewController.h"
 #import "SecondMainViewController.h"
 #import "YNTestBaseViewController.h"
 #import "YNJianShuDemoViewController.h"
@@ -44,7 +46,8 @@
     UILabel *BuyCarLabel;
     UIImageView *ChangeImageView;//债券转让
     UILabel *ChangeLabel;
-
+    YNJianShuDemoViewController *vc;
+    AwAlertView *alertView;
 }
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
@@ -73,12 +76,16 @@
     // 导航栏标题字体颜色
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],NSForegroundColorAttributeName:[UIColor blackColor]}];
     // 导航栏左右按钮字体颜色
-    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
     self.navigationItem.title = @"米粒儿金融";
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(LeftBtnClick)];
+    UIButton *LeftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    LeftBtn.frame = CGRectMake(0, 0, 29, 29);
+    [LeftBtn setImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
+    [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     self.navigationItem.rightBarButtonItem = rightItem;
@@ -106,8 +113,10 @@
     UserViewController *NserVC = [[UserViewController alloc]init];
     [self.navigationController  pushViewController:NserVC animated:NO];
     
-//    YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
-//    [self.navigationController pushViewController:LoginVC animated:NO];
+//    YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+//    UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+//    loginNagition.navigationBarHidden = YES;
+//    [self presentViewController:loginNagition animated:NO completion:nil];
 }
 - (void)RightClick{
     FourViewController *fourVC = [[FourViewController alloc]init];
@@ -145,7 +154,9 @@
     
     YNTestFourViewController *four = [[YNTestFourViewController alloc]init];
     
+    YNTestFiveTableViewController  *five = [[YNTestFiveTableViewController alloc]init];
     
+    YNTestSixTableViewController  *six = [[YNTestSixTableViewController alloc]init];
     //配置信息
     YNPageScrollViewMenuConfigration *configration = [[YNPageScrollViewMenuConfigration alloc]init];
     configration.scrollViewBackgroundColor = [UIColor whiteColor];
@@ -175,7 +186,7 @@
     
     
     
-    YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款"] Configration:configration];
+    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款",@"购车贷款",@"债权转让"] Configration:configration];
     vc.dataSource = self;
     vc.delegate = self;
     
@@ -192,11 +203,18 @@
         
         CancelImageView = [[UIImageView alloc]init];
         CancelImageView.image = [UIImage imageNamed:@"close"];
+        CancelImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(CancelClick)];
+        [CancelImageView addGestureRecognizer:CancelTap];
         CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
         [view addSubview:CancelImageView];
     
         NetImageView = [[UIImageView alloc]init];
+        NetImageView.tag = 1;
         NetImageView.image = [UIImage imageNamed:@"fund"];
+        NetImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *NetTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(NetClick)];
+        [NetImageView addGestureRecognizer:NetTap];
         [view addSubview:NetImageView];
         [NetImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(view.mas_left).offset(20);
@@ -215,7 +233,11 @@
             make.height.mas_equalTo(20);
         }];
         ProuctImageView = [[UIImageView alloc]init];
+        ProuctImageView.tag = 2;
+        ProuctImageView.userInteractionEnabled = YES;
         ProuctImageView.image = [UIImage imageNamed:@"featured"];
+        UITapGestureRecognizer *ProTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ProClick)];
+        [ProuctImageView addGestureRecognizer:ProTap];
         [view addSubview:ProuctImageView];
         [ProuctImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(NetImageView.mas_right).offset(60);
@@ -234,6 +256,10 @@
             make.height.mas_equalTo(20);
         }];
         BussinessImageView = [[UIImageView alloc]init];
+        BussinessImageView.tag = 3;
+        BussinessImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *BusTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BusClick)];
+        [BussinessImageView addGestureRecognizer:BusTap];
         BussinessImageView.image = [UIImage imageNamed:@"businessloans"];
         [view addSubview:BussinessImageView];
         [BussinessImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -254,6 +280,10 @@
         }];
         
         PersonImageView = [[UIImageView alloc]init];
+        PersonImageView.tag = 4;
+        PersonImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *PerTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PersonClick)];
+        [PersonImageView addGestureRecognizer:PerTap];
         PersonImageView.image = [UIImage imageNamed:@"personalloan"];
         [view addSubview:PersonImageView];
         [PersonImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -273,6 +303,10 @@
             make.height.mas_equalTo(20);
         }];
         BuyCarImageView = [[UIImageView alloc]init];
+        BuyCarImageView.tag = 5;
+        BuyCarImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *BuyTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BuyClick)];
+        [BuyCarImageView addGestureRecognizer:BuyTap];
         BuyCarImageView.image = [UIImage imageNamed:@"carloan"];
         [view addSubview:BuyCarImageView];
         [BuyCarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -292,6 +326,10 @@
             make.height.mas_equalTo(20);
         }];
         ChangeImageView = [[UIImageView alloc]init];
+        ChangeImageView.tag = 6;
+        ChangeImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *ChangeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ChangeClick)];
+        [ChangeImageView addGestureRecognizer:ChangeTap];
         ChangeImageView.image = [UIImage imageNamed:@"creditor"];
         [view addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -301,7 +339,7 @@
             make.height.mas_equalTo(68);
         }];
         ChangeLabel = [[UILabel alloc]init];
-        ChangeLabel.text = @"债券转让";
+        ChangeLabel.text = @"债权转让";
         ChangeLabel.font = [UIFont systemFontOfSize:13];
         [view addSubview:ChangeLabel];
         [ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -311,7 +349,7 @@
             make.height.mas_equalTo(20);
         }];
         
-        AwAlertView *alertView=[[AwAlertView alloc]initWithContentView:view];
+        alertView=[[AwAlertView alloc]initWithContentView:view];
         alertView.isUseHidden=YES;
         [alertView showAnimated:YES];
        // alertView.closeImage=[UIImage imageNamed:@"AwAlertViewlib.bundle/btn_navigation_close"];
@@ -337,8 +375,33 @@
     vc.IsTab = YES;
     return vc;
 }
-
-
+- (void)NetClick{
+    [vc setPageScrollViewMenuSelectPageIndex:0 animated:NO];
+    [alertView dismissAnimated:NO];
+}
+-(void)ProClick{
+    [vc setPageScrollViewMenuSelectPageIndex:1 animated:NO];
+    [alertView dismissAnimated:NO];
+}
+- (void)BusClick{
+    [vc setPageScrollViewMenuSelectPageIndex:2 animated:NO];
+    [alertView dismissAnimated:NO];
+}
+- (void)PersonClick{
+    [vc setPageScrollViewMenuSelectPageIndex:3 animated:NO];
+    [alertView dismissAnimated:NO];
+}
+- (void)BuyClick{
+    [vc setPageScrollViewMenuSelectPageIndex:4 animated:NO];
+    [alertView dismissAnimated:NO];
+}
+- (void)ChangeClick{
+    [vc setPageScrollViewMenuSelectPageIndex:5 animated:NO];
+    [alertView dismissAnimated:NO];    
+}
+- (void)CancelClick{
+    [alertView dismissAnimated:NO];
+}
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
 //    FourViewController *fourVC = [[FourViewController alloc]init];
 //    [self.navigationController pushViewController:fourVC animated:YES];

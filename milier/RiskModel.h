@@ -10,4 +10,18 @@
 
 @interface RiskModel : NSObject
 
+@property(nonatomic,assign)NSUInteger FirstName;
+
+
+@property(nonatomic,assign)NSUInteger SecondName;
+
+
+@property(nonatomic,assign)NSUInteger ThreeName;
+
+
+@property(nonatomic,assign)NSUInteger FourName;
+
+
+@property(nonatomic,assign)NSUInteger FiveName;
+
 @end

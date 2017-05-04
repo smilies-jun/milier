@@ -14,7 +14,9 @@
     [super awakeFromNib];
     // Initialization code
 }
-
+- (void)configUI:(NSIndexPath *)indexPath{
+    
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

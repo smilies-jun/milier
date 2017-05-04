@@ -10,4 +10,13 @@
 
 @interface JiFenRecordTableViewCell : UITableViewCell
 
+@property (nonatomic , retain) UILabel *NameLabel;
+
+@property (nonatomic , retain) UILabel *NameDetailLabel;
+
+@property (nonatomic , retain) UILabel *MyJiFenLabel;
+
+- (void)configUI:(NSIndexPath *)indexPath;
+
+
 @end

@@ -10,4 +10,16 @@
 
 @interface ConvertTableViewCell : UITableViewCell
 
+@property (nonatomic , retain) UIImageView *NameImageView;
+
+@property (nonatomic , retain) UILabel *NameLabel;
+
+@property (nonatomic , retain) UILabel *NameDetailLabel;
+
+@property (nonatomic , retain) UILabel *MyJiFenLabel;
+
+@property (nonatomic , retain) UILabel *ProductLabel;
+
+
+- (void)configUI:(NSIndexPath *)indexPath;
 @end

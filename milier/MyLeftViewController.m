@@ -71,7 +71,7 @@
         make.height.mas_equalTo(30);
     }];
     UILabel *CashLabel =[[UILabel alloc]init];
-    CashLabel.text = @"体现";
+    CashLabel.text = @"提现";
     CashLabel.textColor = [UIColor whiteColor];
     CashLabel.textAlignment = NSTextAlignmentCenter;
     CashLabel.backgroundColor = [UIColor orangeColor];

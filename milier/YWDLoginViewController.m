@@ -7,6 +7,9 @@
 //
 
 #import "YWDLoginViewController.h"
+#import "ReginAndLoginViewController.h"
+
+
 
 @interface YWDLoginViewController ()<UITextFieldDelegate>
 @end
@@ -237,7 +240,7 @@
 #pragma Mark - menthod-
 - (void)ReginClick{
     [self HideKeyBoardClick];
-    YWDReginViewController *reVC= [[YWDReginViewController alloc]init];
+    ReginAndLoginViewController *reVC= [[ReginAndLoginViewController alloc]init];
     [self.navigationController pushViewController:reVC animated:NO];
 }
 - (void)ForgetPassClick{

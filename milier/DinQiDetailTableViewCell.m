@@ -77,8 +77,38 @@
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(15);
     }];
-
+    
+    _BageView = [[UIView alloc]init];
+    _BageView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    [self addSubview:_BageView];
+    [_BageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left).offset(10);
+        make.top.mas_equalTo(_LookLimitLabel.mas_bottom).offset(6);
+        make.width.mas_equalTo(SCREEN_WIDTH - 20);
+        make.height.mas_equalTo(20);
+    }];
+    _StaticImageView = [[UIImageView alloc]init];
+    _StaticImageView.image = [UIImage imageNamed:@"smallarrow"];
+    [self addSubview:_StaticImageView];
+    [_StaticImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_BageView.mas_left).offset(20);
+        make.bottom.mas_equalTo(_BageView.mas_top);
+        make.width.mas_equalTo(11);
+        make.height.mas_equalTo(6);
+    }];
+    
 }
+
+- (void)setCellDataWithStatusName:(NSString *)status{
+    
+}
++ (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object{
+    NSLog(@"object = %@",object);
+    CGFloat statuesHeight =  20 *[object integerValue];
+    return statuesHeight;
+}
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

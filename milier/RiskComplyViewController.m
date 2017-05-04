@@ -7,6 +7,7 @@
 //
 
 #import "RiskComplyViewController.h"
+#import "UserViewController.h"
 
 @interface RiskComplyViewController ()
 
@@ -17,8 +18,24 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-}
+    self.navigationItem.title = @"风险评估";
+    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
+    
+    UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(RiskComplyTap) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
 
+}
+- (void)RiskComplyTap{
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[UserViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

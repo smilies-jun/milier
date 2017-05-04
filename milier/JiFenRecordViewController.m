@@ -7,6 +7,9 @@
 //
 
 #import "JiFenRecordViewController.h"
+#import "JiFenRecordTableViewCell.h"
+
+
 
 @interface JiFenRecordViewController ()
 
@@ -18,7 +21,7 @@
     
     [super viewDidLoad];
     
-    self.tableView.backgroundColor = [UIColor orangeColor];
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     
 }
@@ -63,7 +66,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 44;
+    return 60;
 }
 
 //cell-tableview
@@ -71,12 +74,11 @@
     
     static NSString *identifier = @"productidentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    JiFenRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        
+        cell = [[JiFenRecordTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        [cell configUI:indexPath];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"++++%ld",(long)indexPath.row];
     return cell;
     
 }

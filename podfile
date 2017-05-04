@@ -7,5 +7,6 @@ pod 'Masonry'
 pod 'SDCycleScrollView', '~> 1.65'
 pod 'MJRefresh', '~> 3.1.12'
 pod 'MBProgressHUD', '~> 1.0.0'
-
+pod 'EAIntroView', :path => '../'
+pod 'SMPageControl', '~> 1.2'
 end

@@ -10,4 +10,10 @@
 
 @interface CustomMoreView : UIView
 
+@property (nonatomic,strong)UIImageView *StaticImageView;
+
+@property (nonatomic,strong)UILabel *NameLabel;
+
+@property (nonatomic,strong)UIImageView *ArrowImageView;
+
 @end

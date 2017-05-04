@@ -147,6 +147,7 @@
     }];
     
     OldProfdilView = [[ProfilView alloc]init];
+    OldProfdilView.NameLabel.text = @"昨日收益";
     [self.view addSubview:OldProfdilView];
     [OldProfdilView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -155,6 +156,7 @@
         make.height.mas_equalTo(40);
     }];
     AddProfileView = [[ProfilView alloc]init];
+    AddProfileView.NameLabel.text = @"累计收益";
     [self.view addSubview:AddProfileView];
     [AddProfileView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -163,6 +165,7 @@
         make.height.mas_equalTo(40);
     }];
     PercentProfileView = [[ProfilView alloc]init];
+    PercentProfileView.NameLabel.text = @"万份收益";
     [self.view addSubview:PercentProfileView];
     [PercentProfileView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);

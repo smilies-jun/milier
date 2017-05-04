@@ -8,7 +8,7 @@
 
 #import "YNTestOneViewController.h"
 #import "SecondTableViewCell.h"
-#import "ProuctDetailViewController.h"
+#import "ProductDetailNewViewController.h"
 
 @interface YNTestOneViewController ()
 
@@ -83,7 +83,7 @@
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProuctDetailViewController *vc = [[ProuctDetailViewController alloc]init];
+    ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     [self.navigationController pushViewController:vc animated:NO];
 }
 

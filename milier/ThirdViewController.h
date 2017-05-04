@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ThirdViewController : BaseViewController
+@interface ThirdViewController : UIViewController
 
 @end

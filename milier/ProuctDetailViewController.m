@@ -8,13 +8,14 @@
 
 #import "ProuctDetailViewController.h"
 #import "SDCycleScrollView.h"
+#import "YNJianShuDemoViewController.h"
+#import "MJRefresh.h"
+
 #import "YNTestOneViewController.h"
 #import "ProductViewController.h"
 #import "DetailViewController.h"
 #import "ProductHistoryViewController.h"
 #import "YNTestFourViewController.h"
-#import "YNJianShuDemoViewController.h"
-#import "MJRefresh.h"
 #import "SaleViewController.h"
 
 @interface ProuctDetailViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
@@ -41,8 +42,6 @@
     UILabel *DetailStyleLabel;
     UILabel *DetailInterestLabel;
     UILabel *DetailAddPercentLabel;
-    
-    
     
 }
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;

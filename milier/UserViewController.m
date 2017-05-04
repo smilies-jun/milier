@@ -15,6 +15,9 @@
 #import "MyLeftViewController.h"
 #import "MyJiFenViewController.h"
 #import "ChangeSailViewController.h"
+#import "MyStageViewController.h"
+#import "ShareViewController.h"
+#import "RiskViewController.h"
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
     UIScrollView *MyScrollView;
@@ -104,6 +107,36 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(64);
     }];
+    UserImageView = [[UIImageView alloc]init];
+    UserImageView.image = [UIImage imageNamed:@"head"];
+    [TopView addSubview:UserImageView];
+    [UserImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(TopView.mas_left).offset(10);
+        make.centerY.mas_equalTo(TopView.mas_centerY);
+        make.width.mas_equalTo(28);
+        make.height.mas_equalTo(28);
+    }];
+    
+    UserLabel = [[UILabel alloc]init];
+    UserLabel.text = @"阿萨德wew";
+    UserLabel.font = [UIFont systemFontOfSize:12];
+    [TopView addSubview:UserLabel];
+    [UserLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(UserImageView.mas_right).offset(10);
+        make.top.mas_equalTo(TopView.mas_top).offset(20);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(10);
+    }];
+    PhoneLabel = [[UILabel alloc]init];
+    PhoneLabel.text= @"1511123213123";
+    PhoneLabel.font = [UIFont systemFontOfSize:13];
+    [TopView addSubview:PhoneLabel];
+    [PhoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(UserImageView.mas_right).offset(10);
+        make.top.mas_equalTo(UserLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(10);
+    }];
     
     self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(65, 64, 100, 100)];
     self.cirqueChart.dataSource = self;
@@ -169,14 +202,14 @@
     }];
     
     JinMiNumber = [[UILabel alloc]init];
-    JinMiNumber.text = @"200000";
+    JinMiNumber.text = @"¥200000";
     JinMiNumber.font = [UIFont systemFontOfSize:16];
     JinMiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:JinMiNumber];
     [JinMiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(50);
         make.top.mas_equalTo(JinMiImageView.mas_bottom).offset(5);
-        make.width.mas_equalTo(60);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
     JinMiOldNumber = [[UILabel alloc]init];
@@ -234,14 +267,14 @@
     }];
     
     DinQiNumber = [[UILabel alloc]init];
-    DinQiNumber.text = @"200000";
+    DinQiNumber.text = @"¥200000";
     DinQiNumber.font = [UIFont systemFontOfSize:16];
     DinQiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:DinQiNumber];
     [DinQiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_right).offset(-150);
         make.top.mas_equalTo(DinQiImageView.mas_bottom).offset(5);
-        make.width.mas_equalTo(60);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(30);
     }];
     DinQidOldNumber = [[UILabel alloc]init];
@@ -288,7 +321,7 @@
     MyLeftMoneyImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *YueTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftClick)];
     [MyLeftMoneyImageView addGestureRecognizer:YueTap];
-    MyLeftMoneyImageView.image = [UIImage imageNamed:@"businessloans"];
+    MyLeftMoneyImageView.image = [UIImage imageNamed:@"portfolio"];
     [MyScrollView addSubview:MyLeftMoneyImageView];
     [MyLeftMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
@@ -323,7 +356,7 @@
     
     
     MyJiFenImageView = [[UIImageView alloc]init];
-    MyJiFenImageView.image = [UIImage imageNamed:@"businessloans"];
+    MyJiFenImageView.image = [UIImage imageNamed:@"star"];
     MyJiFenImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *JiFenTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenClick)];
     [MyJiFenImageView addGestureRecognizer:JiFenTap];
@@ -365,7 +398,7 @@
     ChangeImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *ChangeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeClick)];
     [ChangeImageView addGestureRecognizer:ChangeTap];
-    ChangeImageView.image = [UIImage imageNamed:@"businessloans"];
+    ChangeImageView.image = [UIImage imageNamed:@"attorn"];
     [MyScrollView addSubview:ChangeImageView];
     [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(60);
@@ -374,7 +407,7 @@
         make.height.mas_equalTo(60);
     }];
     ChangeLabel = [[UILabel alloc]init];
-    ChangeLabel.text =  @"债券转让";
+    ChangeLabel.text =  @"债权转让";
     ChangeLabel.textAlignment = NSTextAlignmentCenter;
     ChangeLabel.textColor = [UIColor grayColor];
     ChangeLabel.font = [UIFont systemFontOfSize:12];
@@ -387,7 +420,10 @@
     }];
     
     MyStageImageView = [[UIImageView alloc]init];
-    MyStageImageView.image = [UIImage imageNamed:@"businessloans"];
+    MyStageImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *StageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(StageClick)];
+    [MyStageImageView addGestureRecognizer:StageTap];
+    MyStageImageView.image = [UIImage imageNamed:@"diamond"];
     [MyScrollView addSubview:MyStageImageView];
     [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
@@ -408,7 +444,10 @@
         make.height.mas_equalTo(20);
     }];
     ShareImageView = [[UIImageView alloc]init];
-    ShareImageView.image = [UIImage imageNamed:@"businessloans"];
+    ShareImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *ShareTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShareClick)];
+    [ShareImageView addGestureRecognizer:ShareTap];
+    ShareImageView.image = [UIImage imageNamed:@"share"];
     [MyScrollView addSubview:ShareImageView];
     [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyStageImageView.mas_right).offset(60);
@@ -429,7 +468,11 @@
         make.height.mas_equalTo(20);
     }];
     DangerTestImageView = [[UIImageView alloc]init];
-    DangerTestImageView.image = [UIImage imageNamed:@"businessloans"];
+    DangerTestImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *DangerTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DangerClick)];
+    [DangerTestImageView addGestureRecognizer:DangerTap];
+
+    DangerTestImageView.image = [UIImage imageNamed:@"security"];
     [MyScrollView addSubview:DangerTestImageView];
     [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(ShareImageView.mas_right).offset(60);
@@ -438,7 +481,7 @@
         make.height.mas_equalTo(60);
     }];
     DangerTestLabel = [[UILabel alloc]init];
-    DangerTestLabel.text =  @"风险测试";
+    DangerTestLabel.text =  @"风险评估";
     DangerTestLabel.textAlignment = NSTextAlignmentCenter;
     DangerTestLabel.textColor = [UIColor grayColor];
     DangerTestLabel.font = [UIFont systemFontOfSize:12];
@@ -475,6 +518,23 @@
     ChangeSailViewController *changeVC = [[ChangeSailViewController alloc]init];
     [self.navigationController   pushViewController:changeVC animated:NO];
 
+}
+//我的道具
+- (void)StageClick{
+    MyStageViewController *StageVC = [[MyStageViewController alloc]init];
+    [self.navigationController   pushViewController:StageVC animated:NO];
+}
+//分享邀请
+- (void)ShareClick{
+    ShareViewController *ShareVC = [[ShareViewController alloc]init];
+    [self.navigationController   pushViewController:ShareVC animated:NO];
+
+}
+
+//风险评估
+- (void)DangerClick{
+    RiskViewController *RiskVC = [[RiskViewController alloc]init];
+    [self.navigationController   pushViewController:RiskVC animated:NO];
 }
 //帐号设置
 - (void)TopClick{

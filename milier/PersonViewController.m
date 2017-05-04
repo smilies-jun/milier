@@ -7,6 +7,8 @@
 //
 
 #import "PersonViewController.h"
+#import "StageTableViewCell.h"
+
 
 @interface PersonViewController ()
 
@@ -14,15 +16,73 @@
 
 @implementation PersonViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad{
+    
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
+    self.tableView.backgroundColor = [UIColor orangeColor];
+    
+    
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+#pragma mark - UITableViewDelegate  UITableViewDataSource
+
+//header-height
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    
+    
+    return 0;
+    
 }
+//header-secion
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    return [UIView new];
+}
+
+//footer-hegiht
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0;
+}
+
+//footer-section
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    
+    return [UIView new];
+}
+
+
+//sections-tableView
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+    
+    return 1;
+}
+//rows-section
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    
+    return 20;
+}
+//cell-height
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 130;
+}
+
+//cell-tableview
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *identifier = @"Stageidentifier";
+    
+    StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        [cell configUI:indexPath];
+    }
+    return cell;
+
+    
+}
+
 
 /*
 #pragma mark - Navigation

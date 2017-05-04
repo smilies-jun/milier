@@ -7,6 +7,8 @@
 //
 
 #import "YNTestThreeViewController.h"
+#import "SecondTableViewCell.h"
+#import "ProductDetailNewViewController.h"
 
 @implementation YNTestThreeViewController
 
@@ -47,8 +49,7 @@
 
 //sections-tableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    
-    return 2;
+    return 4;
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -58,21 +59,29 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 44;
+    return 120;
 }
+
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *identifier = @"threeidentifier";
+    static NSString *identifier = @"identifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        
+        cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+        [cell configUI:indexPath];
     }
-    cell.textLabel.text = @"3333";
-    return cell;
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
+    //cell.textLabel.text = @"11111111";
+    return cell;
 }
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:NO];
+}
+
+
 @end

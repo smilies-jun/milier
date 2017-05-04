@@ -8,6 +8,8 @@
 
 #import "YWDLoginNextViewController.h"
 #import "CustomView.h"
+#import "YWDLoginViewController.h"
+
 
 @interface YWDLoginNextViewController (){
     CustomView  *PassView;
@@ -81,7 +83,7 @@
     [self.navigationController pushViewController:ForgetVC animated:NO];
 }
 - (void)LoginClicked{
-//    if (PassView.NameTextField.text.length) {
+    if (PassView.NameTextField.text.length) {
 //        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",PassView.NameTextField.text] ,@"userPwd", [NSString stringWithFormat:@"%@",_phoneStr],@"phone",@"2",@"userFlag",nil];
 //        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
 //            NSString *code = [result objectForKey:@"retcode"];
@@ -100,13 +102,17 @@
 //        }];
 //    }else{
 //        normal_alert(@"提示", @"密码不可为空  ", @"确定");
-////        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-////        [alert show];
-//    }
+//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//        [alert show];
+    }
 }
 
 - (void)LoginNextBackClick{
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[YWDLoginViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 }
 #pragma mark -UITextFieldDelegate -
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
@@ -119,6 +125,18 @@
 - (void)nextHideKey{
     [self HideKeyBoardClick];
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
+}
+
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{
     for (UIView *KeyView in self.view.subviews) {

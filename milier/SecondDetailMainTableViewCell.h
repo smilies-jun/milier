@@ -10,4 +10,7 @@
 
 @interface SecondDetailMainTableViewCell : UITableViewCell
 
+- (void)configUI:(NSIndexPath *)indexPath;
+
+
 @end
