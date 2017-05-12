@@ -27,10 +27,12 @@
 #import "YWDLoginViewController.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "UserViewController.h"
+#import <EAIntroView/EAIntroView.h>
 
 
 
-@interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
+
+@interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
     
     UIImageView *CancelImageView;
     
@@ -48,6 +50,12 @@
     UILabel *ChangeLabel;
     YNJianShuDemoViewController *vc;
     AwAlertView *alertView;
+    
+     UIView *rootView;
+    
+    NSMutableArray *ImageArray;
+    NSMutableArray *ActivityArray;
+    
 }
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
@@ -71,6 +79,33 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    rootView = self.rdv_tabBarController.view;
+    ImageArray = [[NSMutableArray alloc]init];
+    ActivityArray = [[NSMutableArray alloc]init];
+    
+    EAIntroPage *page1 = [EAIntroPage page];
+    page1.bgImage = [UIImage imageNamed:@"welcome1"];
+    
+    EAIntroPage *page2 = [EAIntroPage page];
+    page2.bgImage = [UIImage imageNamed:@"welcome2"];
+    
+    EAIntroPage *page3 = [EAIntroPage page];
+    page3.bgImage = [UIImage imageNamed:@"welcome3"];
+    
+    
+    EAIntroView *intro = [[EAIntroView alloc] initWithFrame:rootView.bounds andPages:@[page1,page2,page3]];
+    intro.pageControlY = 42.f;
+//    [intro.skipButton setTitle:@"跳过" forState:UIControlStateNormal];
+    [intro setDelegate:self];
+    intro.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
+    intro.pageControl.pageIndicatorTintColor = [UIColor orangeColor];
+    intro.skipButton.hidden = YES;
+   // intro.skipButtonY = 80;
+//    [intro.skipButton setTitle:@"Skip now" forState:UIControlStateNormal];
+//    [intro.skipButton setImage:[UIImage imageNamed:@"explain"] forState:UIControlStateNormal];
+    [intro setDelegate:self];
+    
+    [intro showInView:rootView animateDuration:0.3];
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     // 导航栏标题字体颜色
@@ -89,25 +124,33 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     self.navigationItem.rightBarButtonItem = rightItem;
+    [self RequestData];
     
+    
+    
+   
+    
+
+}
+
+- (void)RequestData{
+    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@",CAROUSSELS_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl usingBlock:^(NSDictionary *result, NSError *error) {
+        NSArray *array = [result objectForKey:@"items"];
+        for (NSDictionary *dic in array) {
+            [ImageArray addObject:[dic objectForKey:@"image"]];
+            [ActivityArray addObject:[dic objectForKey:@"href"]];
+        }
+        [self CreateUI];
+    }];
+
+}
+
+- (void)CreateUI{
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];
     YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
-    
-    //遮罩
-    self.ContentView = [[UIView alloc]init];
-    self.ContentView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    //self.ContentView.backgroundColor = [UIColor orangeColor];
-    
-    
-   // [self.view addSubview:self.ContentView];
-    
-    self.PopView = [[UIView alloc]init];
-    self.PopView.backgroundColor = [UIColor redColor];
-    self.PopView.frame = CGRectMake(0, 64+150, SCREEN_WIDTH, 700);
-
-  //  [self.ContentView addSubview:self.PopView];
 }
 - (void)LeftBtnClick{
     UserViewController *NserVC = [[UserViewController alloc]init];
@@ -161,10 +204,11 @@
     YNPageScrollViewMenuConfigration *configration = [[YNPageScrollViewMenuConfigration alloc]init];
     configration.scrollViewBackgroundColor = [UIColor whiteColor];
     configration.itemLeftAndRightMargin = 20;
-    configration.lineColor = [UIColor orangeColor];
+    configration.lineColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineHeight = 2;
+    configration.itemFont = [UIFont systemFontOfSize:13];
     configration.itemFont = [UIFont systemFontOfSize:12];
-    configration.selectedItemColor = [UIColor orangeColor];
+    configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineBottomMargin = 0;
     configration.aligmentModeCenter = NO;
     configration.showConver = NO;
@@ -176,17 +220,9 @@
     configration.itemMaxScale = 1.2;
     
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
-
-    NSArray *imagesURLStrings = @[
-                                  @"https://ss2.baidu.com/-vo3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a4b3d7085dee3d6d2293d48b252b5910/0e2442a7d933c89524cd5cd4d51373f0830200ea.jpg",
-                                  @"https://ss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/super/whfpf%3D425%2C260%2C50/sign=a41eb338dd33c895a62bcb3bb72e47c2/5fdf8db1cb134954a2192ccb524e9258d1094a1e.jpg",
-                                  @"http://c.hiphotos.baidu.com/image/w%3D400/sign=c2318ff84334970a4773112fa5c8d1c0/b7fd5266d0160924c1fae5ccd60735fae7cd340d.jpg"];
-    
-    
-    
-    
     
     vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款",@"购车贷款",@"债权转让"] Configration:configration];
+    vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
     vc.dataSource = self;
     vc.delegate = self;
     
@@ -202,6 +238,7 @@
         view.alpha = 0.9;
         
         CancelImageView = [[UIImageView alloc]init];
+        
         CancelImageView.image = [UIImage imageNamed:@"close"];
         CancelImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(CancelClick)];
@@ -365,9 +402,9 @@
     
     
     //头部headerView
-    UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 150)];
+    UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170)];
     //轮播器
-    SDCycleScrollView *autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 150) imageURLStringsGroup:imagesURLStrings];
+    SDCycleScrollView *autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170) imageURLStringsGroup:ImageArray];
     autoScrollView.delegate = self;
     
     [headerView2 addSubview:autoScrollView];

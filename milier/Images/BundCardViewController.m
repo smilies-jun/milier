@@ -41,21 +41,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"绑定银行卡";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(BundBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
+    self.view.userInteractionEnabled = YES;
+    UITapGestureRecognizer *BagTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BagClcik)];
+    [self.view addGestureRecognizer:BagTap];
     [self ConfigUI];
     
    
 }
+- (void)BagClcik{
+    [self HideKeyBoardClick];
+}
 - (void)ConfigUI{
     BackView = [[UIView alloc]init];
-    BackView.backgroundColor = [UIColor grayColor];
+    BackView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     BackView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:BackView];
     
@@ -185,7 +190,7 @@
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"确定";
     SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = [UIColor greenColor];
+    SaleLbel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
     SaleLbel.layer.cornerRadius = 10;

@@ -10,4 +10,33 @@
 
 @interface ProductDetailModel : NSObject
 
+@property(nonatomic,strong)NSString *interestRate;//
+
+@property(nonatomic,strong)NSString *tenThousandIncome;//
+
+@property(nonatomic,strong)NSString *productCategoryId;//
+
+@property(nonatomic,strong)NSString *aggregateAmount;//
+
+@property(nonatomic,strong)NSString *riskLevel;//
+
+@property(nonatomic,strong)NSString *createTime;//
+
+@property(nonatomic,strong)NSString *sellTotal;//
+
+@property(nonatomic,strong)NSString *name;//
+
+@property(nonatomic,strong)NSString *minimumInvestmentAmount;//
+
+
+@property(nonatomic,strong)NSString *state;//
+
+@property(nonatomic,strong)NSString *investmentHorizon;//
+
+@property(nonatomic,strong)NSString *modeOfRepayment;//返款
+
+@property(nonatomic,strong)NSString *productNo;//
+
+@property(nonatomic,strong)NSString *oid;//
+
 @end

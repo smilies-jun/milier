@@ -20,6 +20,10 @@
 #import "RiskViewController.h"
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
+    
+    NSDictionary *UserDic;
+    NSDictionary *StaticUserDic;
+    NSArray *cirleArray;
     UIScrollView *MyScrollView;
     
     UIView *TopView;
@@ -77,16 +81,41 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"我的";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(UserBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+    UserDic = [[NSDictionary alloc]init];
+    StaticUserDic = [[NSDictionary alloc]init];
+    cirleArray = [[NSArray alloc]init];
+    [self getNetworkData:YES];
 
     [self ConfigUI];
 }
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    NSString *url;
+    
+    url = [NSString stringWithFormat:@"%@/23",USER_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+        UserDic = result;
+        [self reloadData];
+    }];
+    
+    NSString *Statisurl;
+    
+    Statisurl = [NSString stringWithFormat:@"%@/23/statistics",USER_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl usingBlock:^(NSDictionary *result, NSError *error) {
+        StaticUserDic = result;
+        [self reloadData];
+    }];
+    
+}
+
 - (void)ConfigUI{
     MyScrollView = [[UIScrollView alloc]init];
     MyScrollView.backgroundColor = [UIColor whiteColor];
@@ -99,7 +128,7 @@
     TopView.userInteractionEnabled = YES;
     UITapGestureRecognizer *TopUserTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(TopClick)];
     [TopView addGestureRecognizer:TopUserTap];
-    TopView.backgroundColor = [UIColor greenColor];
+    TopView.backgroundColor = [UIColor whiteColor];
     [MyScrollView addSubview:TopView];
     [TopView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyScrollView.mas_left);
@@ -108,6 +137,8 @@
         make.height.mas_equalTo(64);
     }];
     UserImageView = [[UIImageView alloc]init];
+    UserImageView.layer.cornerRadius = 15;
+    UserImageView.layer.masksToBounds = YES;
     UserImageView.image = [UIImage imageNamed:@"head"];
     [TopView addSubview:UserImageView];
     [UserImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -118,18 +149,20 @@
     }];
     
     UserLabel = [[UILabel alloc]init];
-    UserLabel.text = @"阿萨德wew";
-    UserLabel.font = [UIFont systemFontOfSize:12];
+    UserLabel.textColor = colorWithRGB(0.22, 0.22, 0.22);
+    UserLabel.text = @"0";
+    UserLabel.font = [UIFont systemFontOfSize:15];
     [TopView addSubview:UserLabel];
     [UserLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(UserImageView.mas_right).offset(10);
-        make.top.mas_equalTo(TopView.mas_top).offset(20);
+        make.top.mas_equalTo(TopView.mas_top).offset(10);
         make.width.mas_equalTo(100);
-        make.height.mas_equalTo(10);
+        make.height.mas_equalTo(20);
     }];
     PhoneLabel = [[UILabel alloc]init];
-    PhoneLabel.text= @"1511123213123";
-    PhoneLabel.font = [UIFont systemFontOfSize:13];
+    PhoneLabel.text= @"0";
+    PhoneLabel.font = [UIFont systemFontOfSize:12];
+    PhoneLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [TopView addSubview:PhoneLabel];
     [PhoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(UserImageView.mas_right).offset(10);
@@ -155,21 +188,21 @@
     
     MoneyLabel = [[UILabel alloc]init];
     MoneyLabel.text = @"在投资产";
-    MoneyLabel.textColor = ZFGray;
-    MoneyLabel.font =  [UIFont systemFontOfSize:14];
+    MoneyLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+    MoneyLabel.font =  [UIFont systemFontOfSize:15];
     [MyScrollView addSubview:MoneyLabel];
     [MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(MyScrollView.mas_centerX);
         make.top.mas_equalTo(TopView.mas_bottom).offset(60);
-        make.width.mas_equalTo(60);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(20);
     }];
     
     MoneyNumberLabel = [[UILabel alloc]init];
-    MoneyNumberLabel.text = @"2762633.99";
-    MoneyNumberLabel.font = [UIFont systemFontOfSize:30];
+    MoneyNumberLabel.text = @"2762.00";
+    MoneyNumberLabel.font = [UIFont systemFontOfSize:26];
     MoneyNumberLabel.textAlignment = NSTextAlignmentCenter;
-    MoneyNumberLabel.textColor = [UIColor blackColor];
+    MoneyNumberLabel.textColor = colorWithRGB(0.22, 0.22, 0.22);
     [MyScrollView addSubview:MoneyNumberLabel];
     [MoneyNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(MyScrollView.mas_centerX);
@@ -180,18 +213,18 @@
     }];
     
     JinMiImageView = [[UIImageView alloc]init];
-    JinMiImageView.backgroundColor = [UIColor orangeColor];
+    JinMiImageView.backgroundColor = colorWithRGB(0.99, 0.78, 0.03);
     [MyScrollView addSubview:JinMiImageView];
     [JinMiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(50);
         make.top.mas_equalTo(TopView.mas_bottom).offset(250);
-        make.width.mas_equalTo(10);
+        make.width.mas_equalTo(5);
         make.height.mas_equalTo(20);
     }];
     
     JinMiLabel = [[UILabel alloc]init];
     JinMiLabel.text = @"金米宝";
-    JinMiLabel.textColor = [UIColor orangeColor];
+    JinMiLabel.textColor = colorWithRGB(0.99, 0.78, 0.03);
     JinMiLabel.font = [UIFont systemFontOfSize:15];
     [MyScrollView addSubview:JinMiLabel];
     [JinMiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -203,26 +236,26 @@
     
     JinMiNumber = [[UILabel alloc]init];
     JinMiNumber.text = @"¥200000";
-    JinMiNumber.font = [UIFont systemFontOfSize:16];
+    JinMiNumber.font = [UIFont systemFontOfSize:15];
     JinMiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:JinMiNumber];
     [JinMiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(50);
-        make.top.mas_equalTo(JinMiImageView.mas_bottom).offset(5);
+        make.top.mas_equalTo(JinMiImageView.mas_bottom).offset(12);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(15);
     }];
     JinMiOldNumber = [[UILabel alloc]init];
     JinMiOldNumber.text = @"昨日收益：1.23";
     JinMiOldNumber.textAlignment = NSTextAlignmentLeft;
-    JinMiOldNumber.font = [UIFont systemFontOfSize:14];
-    JinMiOldNumber.textColor = [UIColor blackColor];
+    JinMiOldNumber.font = [UIFont systemFontOfSize:13];
+    JinMiOldNumber.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [MyScrollView addSubview:JinMiOldNumber];
     [JinMiOldNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(50);
-        make.top.mas_equalTo(JinMiNumber.mas_bottom).offset(5);
+        make.top.mas_equalTo(JinMiNumber.mas_bottom).offset(10);
         make.width.mas_equalTo(100);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(15);
     }];
     JinMiDetailLabel = [[UILabel alloc]init];
     JinMiDetailLabel.text = @"详情";
@@ -239,24 +272,24 @@
     [MyScrollView addSubview:JinMiDetailLabel];
     [JinMiDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(JinMiLabel.mas_centerX);
-        make.top.mas_equalTo(JinMiOldNumber.mas_bottom).offset(5);
-        make.width.mas_equalTo(40);
+        make.top.mas_equalTo(JinMiOldNumber.mas_bottom).offset(10);
+        make.width.mas_equalTo(50);
         make.height.mas_equalTo(20);
     }];
     
     DinQiImageView = [[UIImageView alloc]init];
-    DinQiImageView.backgroundColor = [UIColor orangeColor];
+    DinQiImageView.backgroundColor = colorWithRGB(0.96, 0.59, 0);
     [MyScrollView addSubview:DinQiImageView];
     [DinQiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_right).offset(-150);
         make.top.mas_equalTo(TopView.mas_bottom).offset(250);
-        make.width.mas_equalTo(10);
+        make.width.mas_equalTo(5);
         make.height.mas_equalTo(20);
     }];
     
     DinQiLabel = [[UILabel alloc]init];
     DinQiLabel.text = @"定期投资";
-    DinQiLabel.textColor = [UIColor orangeColor];
+    DinQiLabel.textColor = colorWithRGB(0.96, 0.59, 0);
     DinQiLabel.font = [UIFont systemFontOfSize:15];
     [MyScrollView addSubview:DinQiLabel];
     [DinQiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -267,27 +300,27 @@
     }];
     
     DinQiNumber = [[UILabel alloc]init];
-    DinQiNumber.text = @"¥200000";
-    DinQiNumber.font = [UIFont systemFontOfSize:16];
+    DinQiNumber.text = @"¥333330";
+    DinQiNumber.font = [UIFont systemFontOfSize:15];
     DinQiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:DinQiNumber];
     [DinQiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_right).offset(-150);
-        make.top.mas_equalTo(DinQiImageView.mas_bottom).offset(5);
+        make.top.mas_equalTo(DinQiImageView.mas_bottom).offset(10);
         make.width.mas_equalTo(80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(15);
     }];
     DinQidOldNumber = [[UILabel alloc]init];
     DinQidOldNumber.text = @"昨日收益：1.23";
     DinQidOldNumber.textAlignment = NSTextAlignmentLeft;
-    DinQidOldNumber.font = [UIFont systemFontOfSize:14];
-    DinQidOldNumber.textColor = [UIColor blackColor];
+    DinQidOldNumber.font = [UIFont systemFontOfSize:13];
+    DinQidOldNumber.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [MyScrollView addSubview:DinQidOldNumber];
     [DinQidOldNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_right).offset(-150);
-        make.top.mas_equalTo(DinQiNumber.mas_bottom).offset(5);
+        make.top.mas_equalTo(DinQiNumber.mas_bottom).offset(10);
         make.width.mas_equalTo(100);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(15);
     }];
     DinQiDetailLabel = [[UILabel alloc]init];
     DinQiDetailLabel.text = @"详情";
@@ -304,12 +337,12 @@
     [MyScrollView addSubview:DinQiDetailLabel];
     [DinQiDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(DinQiLabel.mas_centerX);
-        make.top.mas_equalTo(DinQidOldNumber.mas_bottom).offset(5);
-        make.width.mas_equalTo(40);
+        make.top.mas_equalTo(DinQidOldNumber.mas_bottom).offset(10);
+        make.width.mas_equalTo(50);
         make.height.mas_equalTo(20);
     }];
     UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor =[UIColor grayColor];
+    lineView.backgroundColor =colorWithRGB(0.97, 0.97, 0.97);
     [MyScrollView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyScrollView.mas_left);
@@ -447,7 +480,7 @@
     ShareImageView.userInteractionEnabled = YES;
     UITapGestureRecognizer *ShareTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShareClick)];
     [ShareImageView addGestureRecognizer:ShareTap];
-    ShareImageView.image = [UIImage imageNamed:@"share"];
+    ShareImageView.image = [UIImage imageNamed:@"shareUse"];
     [MyScrollView addSubview:ShareImageView];
     [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MyStageImageView.mas_right).offset(60);
@@ -492,6 +525,25 @@
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(20);
     }];
+}
+//刷新数据
+- (void)reloadData{
+    [UserImageView sd_setImageWithURL:[NSURL URLWithString:[UserDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"head"]];;
+    UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"username"]];
+    PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
+    MoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"investmentAmount"]];
+    JinMiNumber.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"currentInvestmentAmount"]];
+    JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：%@",[StaticUserDic objectForKey:@"currentYesterdayEarnings"]];
+    DinQiNumber.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
+    DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: %@",[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]];
+    MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"assets"]];
+    MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
+    float   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]floatValue];
+    float DinQiCircle = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue];
+    float CircleSet = DinQiCircle/circleTotal *10000;
+    NSString *CircleStr = [NSString stringWithFormat:@"%f",CircleSet];
+    cirleArray  = [[NSArray alloc]initWithObjects:CircleStr, nil];
+    [self.cirqueChart strokePath];
 }
 //金米宝详情
 - (void)jinmiClick{
@@ -548,11 +600,11 @@
 #pragma mark - ZFCirqueChartDataSource
 
 - (NSArray *)valueArrayInCirqueChart:(ZFCirqueChart *)cirqueChart{
-    return @[@"6500"];
+    return cirleArray;
 }
 
 - (id)colorArrayInCirqueChart:(ZFCirqueChart *)cirqueChart{
-    return ZFGold;
+    return colorWithRGB(0.96, 0.6, 0.11);
     //    return @[ZFRed, ZFOrange, ZFMagenta, ZFBlue, ZFPurple];
 }
 

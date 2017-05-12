@@ -8,6 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface SecondDetailTableViewCell : UITableViewCell
+
+@property (nonatomic , retain) UILabel *TitleLabel;
+
+@property (nonatomic, retain) UIImageView *ArrowImageView;
+
+- (void)configUI:(NSIndexPath *)indexPath;
+
 
 @end

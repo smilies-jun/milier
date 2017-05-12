@@ -9,6 +9,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>EAIntroView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>EARestrictedScrollView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>MBProgressHUD.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -44,6 +54,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>SMPageControl.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
@@ -52,22 +67,22 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>14707C2686CE968161A6126835093E54</key>
+		<key>15771CDB60DFAA769E27961D321E12C2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>2D61CF7A5FF7ACB8A275D332ECD10A64</key>
+		<key>1DB52CA790B17EA87C6D6A9E2F6EC0A2</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>505A6167E1E7E61B7E22AD0EFCB94F41</key>
+		<key>20FAB90A1F20AF97BA660FB79F2AABC5</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>5474D96F3B3A79B9CDDDE45BDA1FBF7E</key>
+		<key>3B88971AB56E545765CD41F0E4EE83EE</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -83,6 +98,21 @@
 			<true/>
 		</dict>
 		<key>9E033EDB5EC0819481B0546434FA577B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>B6CE92C2189909651F7D9D072D24A4FE</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>DD7657AD3BDF88CEC8CAA817F621B810</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>E079843C9C79118289CFD9619070B0B8</key>
 		<dict>
 			<key>primary</key>
 			<true/>

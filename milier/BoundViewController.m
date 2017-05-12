@@ -18,7 +18,7 @@
     
     [super viewDidLoad];
     
-    self.tableView.backgroundColor = [UIColor orangeColor];
+    self.tableView.backgroundColor = colorWithRGB(1, 0.89, 0.53);
     
     
 }
@@ -74,7 +74,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        
+        cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+
     }
     cell.textLabel.text = [NSString stringWithFormat:@"++++%ld",(long)indexPath.row];
     return cell;

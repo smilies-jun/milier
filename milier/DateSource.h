@@ -19,4 +19,8 @@
 
 - (void)md5WithParameters:(NSMutableDictionary *)parameters usingBlock:(void (^)(NSMutableDictionary *result, NSError *error))block;
 - (void)requestHomeWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
+- (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
+- (void)requestPutWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
+
+
 @end

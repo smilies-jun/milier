@@ -14,33 +14,67 @@ PODS:
   - AFNetworking/Serialization (3.1.0)
   - AFNetworking/UIKit (3.1.0):
     - AFNetworking/NSURLSession
+  - EAIntroView (2.10.0):
+    - EARestrictedScrollView (~> 1.1.0)
+  - EARestrictedScrollView (1.1.0)
   - Masonry (1.0.2)
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
+  - MOBFoundation (2.2.15)
   - RDVTabBarController (1.1.9)
   - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
   - SDWebImage (3.8.2):
     - SDWebImage/Core (= 3.8.2)
   - SDWebImage/Core (3.8.2)
+  - ShareSDK3 (3.6.1):
+    - MOBFoundation
+    - ShareSDK3/ShareSDK (= 3.6.1)
+  - ShareSDK3/ShareSDK (3.6.1):
+    - MOBFoundation
+  - ShareSDK3/ShareSDKExtension (3.6.1):
+    - MOBFoundation
+  - ShareSDK3/ShareSDKPlatforms/QQ (3.6.1):
+    - MOBFoundation
+  - ShareSDK3/ShareSDKPlatforms/SinaWeibo (3.6.1):
+    - MOBFoundation
+  - ShareSDK3/ShareSDKPlatforms/WeChat (3.6.1):
+    - MOBFoundation
+  - ShareSDK3/ShareSDKUI (3.6.1):
+    - MOBFoundation
+  - SMPageControl (1.2)
 
 DEPENDENCIES:
   - AFNetworking (~> 3.0)
+  - EAIntroView (~> 2.10.0)
   - Masonry
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh (~> 3.1.12)
+  - MOBFoundation
   - RDVTabBarController
   - SDCycleScrollView (~> 1.65)
+  - ShareSDK3
+  - ShareSDK3/ShareSDKExtension
+  - ShareSDK3/ShareSDKPlatforms/QQ
+  - ShareSDK3/ShareSDKPlatforms/SinaWeibo
+  - ShareSDK3/ShareSDKPlatforms/WeChat
+  - ShareSDK3/ShareSDKUI
+  - SMPageControl (~> 1.2)
 
 SPEC CHECKSUMS:
   AFNetworking: 5e0e199f73d8626b11e79750991f5d173d1f8b67
+  EAIntroView: 3494b7bbd1212e3a4f7e8d16194a1b00e7b9abb2
+  EARestrictedScrollView: b0c2a3f92fb2610bb44d71c5e4893777c89e45ef
   Masonry: 7c429b56da9d4ee0bbb3ed77a5ea710d6a5df39e
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
+  MOBFoundation: 4975874f74c991f562151f6a4549e9a6ad743fd8
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
+  ShareSDK3: dea6a14cc4385fa6493e10895ba11d07ef34d149
+  SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
 
-PODFILE CHECKSUM: 32e5f1998c923660ca50504a08a6f606c6295c6e
+PODFILE CHECKSUM: 63ff38545e1c74ab111e433be64edd9b14ad0114
 
 COCOAPODS: 1.2.0

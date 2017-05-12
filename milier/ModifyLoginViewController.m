@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];           // Do any additional setup after loading the view.
     self.navigationItem.title = @"修改登录密码";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];

@@ -10,4 +10,11 @@
 
 @interface StageTotalTableViewCell : UITableViewCell
 
+@property (nonatomic,strong)UIImageView *TotalImageView;
+
+@property (nonatomic,strong)UILabel *TitleLable;
+
+- (void)configUI:(NSIndexPath *)indexPath;
+
+
 @end

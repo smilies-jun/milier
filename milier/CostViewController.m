@@ -7,8 +7,15 @@
 //
 
 #import "CostViewController.h"
+#import "CustomChooseView.h"
+#import "CustomView.h"
+#import "MyJiFenViewController.h"
 
-@interface CostViewController ()
+@interface CostViewController (){
+    CustomChooseView *NameChooseView;
+    CustomChooseView *CodeChooseView;
+    CustomView *PhoneView;
+}
 
 @end
 
@@ -17,6 +24,110 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.navigationItem.title = @"兑换礼品";
+    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
+    
+    UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(PhoneTap) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
+    
+    [self ConfigUI];
+}
+- (void)ConfigUI{
+    NameChooseView = [[CustomChooseView alloc]init];
+    [self.view addSubview:NameChooseView];
+    [NameChooseView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(self.view.mas_top).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(44);
+    }];
+    CodeChooseView = [[CustomChooseView alloc]init];
+    [self.view addSubview:CodeChooseView];
+    [CodeChooseView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(NameChooseView.mas_bottom);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(44);
+    }];
+    PhoneView = [[CustomView alloc]init];
+    [self.view addSubview:PhoneView];
+    [PhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(CodeChooseView.mas_bottom).offset(5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(44);    }];
+    
+
+    UILabel *SaleLbel =  [[UILabel alloc]init];
+    SaleLbel.text = @"兑换";
+    SaleLbel.userInteractionEnabled = YES;
+    SaleLbel.backgroundColor = [UIColor orangeColor];
+    SaleLbel.textAlignment = NSTextAlignmentCenter;
+    SaleLbel.textColor = [UIColor whiteColor];
+    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.masksToBounds = YES;
+    [self.view addSubview:SaleLbel];
+    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(PhoneView.mas_bottom).offset(15);
+        make.width.mas_equalTo(SCREEN_WIDTH-40);
+        make.height.mas_equalTo(44);
+    }];
+    
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QuerenBtnClick
+                                                                                                          )];
+    [SaleLbel addGestureRecognizer:SaleTap];
+    
+}
+- (void)QuerenBtnClick{
+    NSLog(@"确认");
+}
+- (void)PhoneTap{
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[MyJiFenViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+}
+#pragma mark - 隐藏当前页面所有键盘-
+- (void)HideKeyBoardClick{
+    for (UIView *KeyView in self.view.subviews) {
+        [self dismissAllKeyBoard:KeyView];
+        
+    }
+    
+}
+
+- (BOOL)dismissAllKeyBoard:(UIView *)view{
+    
+    if([view isFirstResponder])
+    {
+        [view resignFirstResponder];
+        return YES;
+    }
+    for(UIView *subView in view.subviews)
+    {
+        if([self dismissAllKeyBoard:subView])
+        {
+            return YES;
+        }
+    }
+    return NO;
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    // 马上进入刷新状态
+    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    
+    [super viewWillDisappear:animated];
 }
 
 - (void)didReceiveMemoryWarning {

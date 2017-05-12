@@ -25,12 +25,14 @@
     UILabel *FiveCircleLabel;
     UILabel *SixCircleLabel;
     
-    
+    NSMutableArray *MusArray;
     UILabel *OldLabel;
     UILabel *AddLabel;
+    NSMutableArray *DinQiArray;
+    
 }
 @property (nonatomic,strong)UITableView *tableView;
-
+@property (nonatomic,strong)NSArray *mysectionArray;
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
 @property (nonatomic,strong)NSMutableArray *MutableArray;
@@ -51,8 +53,51 @@
     [leftBtn addTarget:self action:@selector(DinQiClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    DinQiArray = [[NSMutableArray alloc]init];
+    MusArray = [[NSMutableArray alloc]init];
+    _MutableArray = [[NSMutableArray alloc]initWithObjects:@"0", nil];
+    _mysectionArray = [[NSMutableArray alloc]init];
+    [self getNetworkData:YES];
+    
     [self ConfigUI];
 }
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    NSString *url;
+    
+    url = [NSString stringWithFormat:@"%@?page=1&rows=1&userId=1&productCategoryId=12",PRODUCTO_RDERS_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+        NSArray *myArray = [result objectForKey:@"items"];
+        _mysectionArray = myArray;
+        for (NSDictionary *JinMidic in myArray) {
+            
+            NSLog(@"result =- %@",result);
+//            NSTimeInterval interval=[[JinMidic objectForKey:@"createTime"] doubleValue] / 1000.0;
+//            NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+//            NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+//            [objDateformat setDateFormat:@"yyyy-MM-dd"];
+//            NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+          //  NSString *str  =  [self getDateAccordingTime:[JinMidic objectForKey:@"createTime"] formatStyle:@"YYYY-MM-HH HH：MM：SS"];
+         //   NSLog(@"ssssssssss === %@",timeStr);
+            NSString *changeOrNo = [JinMidic objectForKey:@"transferable"];
+            int  rows = 2;
+            NSArray *ChangeArray = [JinMidic objectForKey:@"InstallmentInterestList"];
+            if (ChangeArray.count) {
+                rows = rows+ChangeArray.count;
+            }
+            [_MutableArray addObject:[NSString stringWithFormat:@"%d",rows]];
+
+        }
+        [self reloadData];
+    }];
+    
+    
+}
+
+- (void)reloadData{
+    [self ConfigUI];
+}
+//:@"yyyy-MM-dd HH:mm:ss.SSS"
 - (void)ConfigUI{
     [self makeData];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
@@ -77,11 +122,11 @@
  */
 - (void)makeData{
     //有利息＋1  利息计算＋1
-    _MutableArray = [[NSMutableArray alloc]initWithObjects:@"2",@"1",@"5",@"2", nil];
+    //_MutableArray = [[NSMutableArray alloc]initWithObjects:@"2",@"1",@"5",@"2", nil];
     _sectionArray = [NSMutableArray array];
     _flagArray  = [NSMutableArray array];
-    NSInteger num = 4;
-    for (int i = 0; i < num; i ++) {
+    NSInteger num = [_mysectionArray count];
+    for (int i = 0; i < num+1; i ++) {
         NSMutableArray *rowArray = [NSMutableArray array];
         for (int j = 0; j < 1; j ++) {
             [rowArray addObject:[NSString stringWithFormat:@"%d",j]];
@@ -102,9 +147,9 @@
 //组头高度
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     if (section == 0) {
-        return 305;
+        return 280;
     }else{
-        return 65;
+        return 88;
   
     }
 }
@@ -113,7 +158,7 @@
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-      
+        
         NSLog(@"self = %@",[_MutableArray objectAtIndex:indexPath.section] );
 
         CGFloat statuesFloat = [DinQiDetailTableViewCell tableView:tableView rowHeightForObject:[_MutableArray objectAtIndex:indexPath.section]];
@@ -127,37 +172,43 @@
         topView.backgroundColor = [UIColor whiteColor];
         topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 250);
         
-        MoneyView = [[ProfilView alloc]init];
-        MoneyView.GorrowView.hidden = YES;
-        [topView addSubview:MoneyView];
-        [MoneyView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(topView.mas_left);
-            make.top.mas_equalTo(topView.mas_top).offset(10);
-            make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(40);
-        }];
-        
-        UIView *LineView  = [[UIView alloc]init];
-        LineView.backgroundColor = [UIColor grayColor];
-        [topView addSubview:LineView];
-        [LineView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(topView.mas_left);
-            make.top.mas_equalTo(MoneyView.mas_bottom).offset(1);
-            make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(1);
-        }];
-        
-        self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(40, 90, 120, 120)];
+        self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(40, 20, 120, 120)];
         self.pieChart.userInteractionEnabled = NO;
         self.pieChart.dataSource= self;
         self.pieChart.delegate = self;
-        //    self.pieChart.piePatternType = kPieChartPatternTypeForCircle;
+        
+        self.pieChart.piePatternType = kPieChartPatternTypeForCirque;
         //    self.pieChart.percentType = kPercentTypeInteger;
           self.pieChart.isShadow = NO;
         //    self.pieChart.isAnimated = NO;
         self.pieChart.isShowPercent = NO;
         [self.pieChart strokePath];
         [topView  addSubview:self.pieChart];
+        UILabel *TitleLabel = [[UILabel alloc]init];
+        TitleLabel.textAlignment = NSTextAlignmentCenter;
+        TitleLabel.text = @"在投资产";
+        TitleLabel.font = [UIFont systemFontOfSize:15];
+        TitleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        [self.pieChart addSubview:TitleLabel];
+        [TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(self.pieChart.mas_centerX);
+            make.top.mas_equalTo(topView.mas_top).offset(60);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(15);
+        }];
+        
+        UILabel *MoneyLabel = [[UILabel alloc]init];
+        MoneyLabel.text = @"232323232";
+        MoneyLabel.textAlignment = NSTextAlignmentCenter;
+        MoneyLabel.font = [UIFont systemFontOfSize:16];
+        [self.pieChart addSubview:MoneyLabel];
+        [MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(TitleLabel.mas_centerX);
+            make.top.mas_equalTo(TitleLabel.mas_bottom).offset(5);
+            make.width.mas_equalTo(100);
+            make.height.mas_equalTo(20);
+        }];
+        
         UIImageView *FirstImageView = [[UIImageView alloc]init];
         FirstImageView.layer.cornerRadius = 5;
         FirstImageView.clipsToBounds = YES;
@@ -165,11 +216,12 @@
         [topView addSubview:FirstImageView];
         [FirstImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
-            make.top.mas_equalTo(MoneyView.mas_bottom).offset(60);
+            make.top.mas_equalTo(topView.mas_top).offset(40);
             make.width.mas_equalTo(10);
             make.height.mas_equalTo(10);
         }];
         FirstCircleLabel = [[UILabel alloc]init];
+        FirstCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         FirstCircleLabel.text = @"网贷基金：23232322";
         FirstCircleLabel.textAlignment = NSTextAlignmentLeft;
         FirstCircleLabel.font = [UIFont systemFontOfSize:12];
@@ -194,6 +246,8 @@
             make.height.mas_equalTo(10);
         }];
         SecondCircleLabel = [[UILabel alloc]init];
+        SecondCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+
         SecondCircleLabel.text = @"网贷基金：2222222";
         SecondCircleLabel.textAlignment = NSTextAlignmentLeft;
         SecondCircleLabel.font = [UIFont systemFontOfSize:12];
@@ -218,6 +272,8 @@
             make.height.mas_equalTo(10);
         }];
         ThirdCircleLabel = [[UILabel alloc]init];
+        ThirdCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+
         ThirdCircleLabel.text = @"网贷基金：23333333";
         ThirdCircleLabel.textAlignment = NSTextAlignmentLeft;
         ThirdCircleLabel.font = [UIFont systemFontOfSize:12];
@@ -243,6 +299,8 @@
             make.height.mas_equalTo(10);
         }];
         FourCircleLabel = [[UILabel alloc]init];
+        FourCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+
         FourCircleLabel.text = @"网贷基金：4444444";
         FourCircleLabel.textAlignment = NSTextAlignmentLeft;
         FourCircleLabel.font = [UIFont systemFontOfSize:12];
@@ -267,6 +325,8 @@
             make.height.mas_equalTo(10);
         }];
         FiveCircleLabel = [[UILabel alloc]init];
+        FiveCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+
         FiveCircleLabel.text = @"网贷基金：555555";
         FiveCircleLabel.textAlignment = NSTextAlignmentLeft;
         FiveCircleLabel.font = [UIFont systemFontOfSize:12];
@@ -292,6 +352,8 @@
             make.height.mas_equalTo(10);
         }];
         SixCircleLabel = [[UILabel alloc]init];
+        SixCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+
         SixCircleLabel.text = @"网贷基金：66666";
         SixCircleLabel.textAlignment = NSTextAlignmentLeft;
         SixCircleLabel.font = [UIFont systemFontOfSize:12];
@@ -303,7 +365,7 @@
             make.height.mas_equalTo(20);
         }];
         UIView *ImageLineView  = [[UIView alloc]init];
-        ImageLineView.backgroundColor = [UIColor grayColor];
+        ImageLineView.backgroundColor = [UIColor whiteColor];
         [topView addSubview:ImageLineView];
         [ImageLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(topView.mas_left);
@@ -311,7 +373,7 @@
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.height.mas_equalTo(1);
         }];
-        
+        //昨日收益
         UIView *OldView = [[UIView alloc]init];
         OldView.userInteractionEnabled = YES;
         UITapGestureRecognizer *OldTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(OldTap)];
@@ -321,11 +383,11 @@
         [OldView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(topView.mas_left);
             make.top.mas_equalTo(ImageLineView.mas_bottom).offset(0.5);
-            make.width.mas_equalTo(SCREEN_WIDTH/2-1);
-            make.height.mas_equalTo(58);
+            make.width.mas_equalTo(SCREEN_WIDTH/2);
+            make.height.mas_equalTo(60);
         }];
         UIView *segeLineView = [[UIView alloc]init];
-        segeLineView.backgroundColor = [UIColor grayColor];
+        segeLineView.backgroundColor = [UIColor whiteColor];
         [topView addSubview:segeLineView];
         [segeLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(OldView.mas_right);
@@ -335,27 +397,46 @@
         }];
         UILabel *OldNamelabel = [[UILabel alloc]init];
         OldNamelabel.text = @"昨日收益";
+        OldNamelabel.textAlignment = NSTextAlignmentCenter;
         OldNamelabel.font = [UIFont systemFontOfSize:12];
-        OldNamelabel.textColor = [UIColor blackColor];
+        OldNamelabel.textColor = colorWithRGB(0.61, 0.61, 0.61);
         [OldView addSubview:OldNamelabel];
         [OldNamelabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(OldView.mas_left).offset(20);
+            make.left.mas_equalTo(OldView.mas_left);
             make.top.mas_equalTo(ImageLineView.mas_bottom).offset(5);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(SCREEN_WIDTH/2);
             make.height.mas_equalTo(20);
         }];
         OldLabel = [[UILabel alloc]init];
         OldLabel.text = @"20000";
+        OldLabel.textAlignment = NSTextAlignmentCenter;
         OldLabel.textColor = [UIColor orangeColor];
         OldLabel.font = [UIFont systemFontOfSize:14];
         [OldView addSubview:OldLabel];
         [OldLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(OldNamelabel.mas_left);
             make.top.mas_equalTo(OldNamelabel.mas_bottom);
-            make.width.mas_equalTo(80);
+            make.width.mas_equalTo(SCREEN_WIDTH/2);
             make.height.mas_equalTo(30);
         }];
-        
+        UILabel *OldDetailLabel = [[UILabel alloc]init];
+        OldDetailLabel.text = @"详情";
+        OldDetailLabel.userInteractionEnabled = YES;
+        OldDetailLabel.layer.borderColor = ZFOrange.CGColor;
+        OldDetailLabel.layer.borderWidth = 0.5f;
+        OldDetailLabel.layer.masksToBounds = YES;
+        OldDetailLabel.layer.cornerRadius = 5;
+        OldDetailLabel.textAlignment = NSTextAlignmentCenter;
+        OldDetailLabel.textColor = [UIColor orangeColor];
+        OldDetailLabel.font = [UIFont systemFontOfSize:14];
+        [OldView addSubview:OldDetailLabel];
+        [OldDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(OldLabel.mas_centerX);
+            make.top.mas_equalTo(OldLabel.mas_bottom);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(20);
+        }];
+
         UIView *AddView = [[UIView alloc]init];
         AddView.userInteractionEnabled = YES;
         UITapGestureRecognizer *AddTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AddTap)];
@@ -365,41 +446,60 @@
         [AddView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right);
             make.top.mas_equalTo(ImageLineView.mas_bottom).offset(0.5);
-            make.width.mas_equalTo(SCREEN_WIDTH/2-1);
-            make.height.mas_equalTo(58);
+            make.width.mas_equalTo(SCREEN_WIDTH/2);
+            make.height.mas_equalTo(60);
         }];
         UILabel *AddNamelabel = [[UILabel alloc]init];
+        AddNamelabel.textAlignment = NSTextAlignmentCenter;
         AddNamelabel.text = @"累计收益";
         AddNamelabel.font = [UIFont systemFontOfSize:12];
-        AddNamelabel.textColor = [UIColor blackColor];
+        AddNamelabel.textColor = colorWithRGB(0.61, 0.61, 0.61);
         [AddView addSubview:AddNamelabel];
         [AddNamelabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(AddView.mas_left).offset(20);
+            make.left.mas_equalTo(AddView.mas_left);
             make.top.mas_equalTo(ImageLineView.mas_bottom).offset(5);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(SCREEN_WIDTH/2);
             make.height.mas_equalTo(20);
         }];
         AddLabel = [[UILabel alloc]init];
+        AddLabel.textAlignment = NSTextAlignmentCenter;
+
         AddLabel.text = @"20000";
         AddLabel.textColor = [UIColor orangeColor];
         AddLabel.font = [UIFont systemFontOfSize:14];
         [AddView addSubview:AddLabel];
         [AddLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(AddView.mas_left).offset(20);
+            make.left.mas_equalTo(AddView.mas_left);
             make.top.mas_equalTo(AddNamelabel.mas_bottom);
-            make.width.mas_equalTo(80);
+            make.width.mas_equalTo(SCREEN_WIDTH/2);
             make.height.mas_equalTo(30);
+        }];
+       UILabel *AddDetailLabel = [[UILabel alloc]init];
+        AddDetailLabel.text = @"详情";
+        AddDetailLabel.layer.borderColor = ZFOrange.CGColor;
+        AddDetailLabel.layer.borderWidth = 0.5f;
+        AddDetailLabel.layer.masksToBounds = YES;
+        AddDetailLabel.layer.cornerRadius = 5;
+        AddDetailLabel.textAlignment = NSTextAlignmentCenter;
+        AddDetailLabel.textColor = [UIColor orangeColor];
+        AddDetailLabel.font = [UIFont systemFontOfSize:14];
+        [AddView  addSubview:AddDetailLabel];
+        [AddDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(AddLabel.mas_centerX);
+            make.top.mas_equalTo(AddLabel.mas_bottom);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(20);
         }];
 
         
         UIView *SegeteLineView  = [[UIView alloc]init];
-        SegeteLineView.backgroundColor = [UIColor grayColor];
+        SegeteLineView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
         [topView addSubview:SegeteLineView];
         [SegeteLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(topView.mas_left);
-            make.top.mas_equalTo(ImageLineView.mas_bottom).offset(60);
+            make.top.mas_equalTo(ImageLineView.mas_bottom).offset(100);
             make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(1);
+            make.height.mas_equalTo(10);
         }];
         
         
@@ -417,38 +517,48 @@
         
         UIView *ImageView = [[UIView alloc]init];
         ImageView.backgroundColor = [UIColor orangeColor];
-        ImageView.frame = CGRectMake(0, 5, 2, 50);
+        ImageView.frame = CGRectMake(0, 5, 2, 60);
         [HeaderView addSubview:ImageView];
 
         UILabel *DinQiLabel = [[UILabel alloc]init];
         DinQiLabel.text = @"投米宝－优选中期（100000元＋100元小米卷）";
-        DinQiLabel.font = [UIFont systemFontOfSize:13];
-        DinQiLabel.frame = CGRectMake(20, 5, 300, 20);
+        DinQiLabel.font = [UIFont systemFontOfSize:14];
+        DinQiLabel.frame = CGRectMake(10, 5, SCREEN_WIDTH-20, 20);
         [HeaderView addSubview:DinQiLabel];
         
         UILabel *DinQiDetailLabel = [[UILabel alloc]init];
         DinQiDetailLabel.text = @"预计年化收益";
+        DinQiDetailLabel.textColor = colorWithRGB(0.83, 0.83, 0.83);
         DinQiDetailLabel.font = [UIFont systemFontOfSize:11];
-        DinQiDetailLabel.frame = CGRectMake(20, 25, 300, 20);
+        DinQiDetailLabel.frame = CGRectMake(10, 25, SCREEN_WIDTH-20, 20);
         [HeaderView addSubview:DinQiDetailLabel];
         
         UILabel *DinQiNameLabel = [[UILabel alloc]init];
-        DinQiNameLabel.text = @"当前收益";
+        DinQiNameLabel.text = @"当前资产";
         DinQiNameLabel.font = [UIFont systemFontOfSize:10];
-        DinQiNameLabel.frame = CGRectMake(20, 45, 200, 15);
+        DinQiNameLabel.frame = CGRectMake(10, 45, 200, 15);
         [HeaderView addSubview:DinQiNameLabel];
         
         UILabel *DinQiNnumberLabel = [[UILabel alloc]init];
-        DinQiNnumberLabel.text = @"200000/222222";
-        DinQiNnumberLabel.textAlignment = NSTextAlignmentLeft;
+        DinQiNnumberLabel.text = @"200000000";
+        DinQiNnumberLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
+        DinQiNnumberLabel.textAlignment = NSTextAlignmentRight;
         DinQiNnumberLabel.font = [UIFont systemFontOfSize:10];
-        DinQiNnumberLabel.frame = CGRectMake(260, 45, 280, 15);
+        DinQiNnumberLabel.frame = CGRectMake(200, 45, 100, 15);
         [HeaderView addSubview:DinQiNnumberLabel];
+        
+        UILabel *DinQiTotalNnumberLabel = [[UILabel alloc]init];
+        DinQiTotalNnumberLabel.text = @"/2000000000";
+        DinQiTotalNnumberLabel.textColor = [UIColor blackColor];
+        DinQiTotalNnumberLabel.textAlignment = NSTextAlignmentLeft;
+        DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:10];
+        DinQiTotalNnumberLabel.frame = CGRectMake(300, 45, 100, 15);
+        [HeaderView addSubview:DinQiTotalNnumberLabel];
         
         
         UIImageView *StateImageView = [[UIImageView alloc]init];
         StateImageView.image = [UIImage imageNamed:@"assignment"];
-        StateImageView.frame = CGRectMake(SCREEN_WIDTH - 40, -4, 40, 40);
+        StateImageView.frame = CGRectMake(SCREEN_WIDTH - 40, 0, 40, 40);
         [HeaderView addSubview:StateImageView];
         
         UIImageView *RowImageView = [[UIImageView alloc]init];
@@ -458,13 +568,22 @@
         
         
         UIProgressView *processView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-        processView.frame = CGRectMake(0, 58,SCREEN_WIDTH, 2);
+        processView.frame = CGRectMake(10, 65,SCREEN_WIDTH-20, 2);
+        processView.transform = CGAffineTransformMakeScale(1.0f, 2.0f);
         processView.progressTintColor = colorWithRGB(0.96, 0.6, 0.12);
         [processView setProgress:0.5 animated:YES];
         processView.trackTintColor = colorWithRGB(0.93, 0.93, 0.93);
         [HeaderView addSubview:processView];
 
-        
+        UIView *SpaceView = [[UIView alloc]init];
+        SpaceView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+        [HeaderView addSubview:SpaceView];
+        [SpaceView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(HeaderView.mas_left);
+            make.top.mas_equalTo(processView.mas_bottom).offset(10);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            make.height.mas_equalTo(10);
+        }];
         return HeaderView;
     }
     
@@ -556,7 +675,7 @@
 }
 
 - (CGFloat)radiusForPieChart:(ZFPieChart *)pieChart{
-    return 60.f;
+    return 80.f;
 }
 
 /** 此方法只对圆环类型(kPieChartPatternTypeForCirque)有效 */

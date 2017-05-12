@@ -13,10 +13,12 @@
 
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
+@property(strong, nonatomic)UITableView *tableView;
 
 @end
 
 @implementation JiFenConvertViewController
+static NSString * const cellId = @"CovertcellID";
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -44,7 +46,30 @@
     [self makeData];
 }
 
-
+- (void)zj_viewDidLoadForIndex:(NSInteger)index {
+    
+    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellId];
+    [self.view addSubview:self.tableView];
+}
+- (void)zj_viewDidAppearForIndex:(NSInteger)index {
+    //    self.index = index;
+    //    NSLog(@"已经出现   标题: --- %@  index: -- %ld", self.title, index);
+    //
+    //    if (index%2==0) {
+    //        self.view.backgroundColor = [UIColor blueColor];
+    //    } else {
+    //        self.view.backgroundColor = [UIColor greenColor];
+    //
+    //    }
+    //    // 加载数据
+    //    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    //    self.data = @[@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa"];
+    [self.tableView reloadData];
+    //    });
+}
 /**
  *  处理数据  _sectionArray里面存储数组
  */
@@ -202,17 +227,17 @@
     //	NSIndexSet *sectionToReload = [NSIndexSet indexSetWithIndexesInRange:range];
     //	[_tableView reloadSections:sectionToReload withRowAnimation:UITableViewRowAnimationAutomatic];
 }
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    
-    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-    
-    [super viewWillDisappear:animated];
-}
+//- (void)viewWillAppear:(BOOL)animated {
+//    [super viewWillAppear:animated];
+//    
+//    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+//}
+//
+//- (void)viewWillDisappear:(BOOL)animated {
+//    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+//    
+//    [super viewWillDisappear:animated];
+//}
 
 /*
 #pragma mark - Navigation

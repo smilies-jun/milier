@@ -12,6 +12,8 @@
 
 @property (nonatomic,strong)UIImageView *LeftImageView;
 
+@property (nonatomic,strong)UIImageView *TypeImageView;
+
 @property (nonatomic,strong)UIImageView *RightImageView;
 
 @property (nonatomic,strong)UILabel *TitleLable;

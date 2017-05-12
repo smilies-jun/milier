@@ -108,7 +108,7 @@
     CAShapeLayer * shapeLayer = [CAShapeLayer layer];
     shapeLayer.lineWidth = _lineWidth;
     shapeLayer.fillColor = ZFClear.CGColor;
-    shapeLayer.strokeColor = ZFOrange.CGColor;
+    shapeLayer.strokeColor = colorWithRGB(0.99, 0.78, 0.09).CGColor;
     shapeLayer.path = [self drawCirqueBackgroundView].CGPath;
     
     if (_cirquePatternType == kCirquePatternTypeForDefaultWithShadow) {

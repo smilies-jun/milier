@@ -28,17 +28,17 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
     }];
     _BackButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_BackButton setImage:[UIImage imageNamed:@"icon_back"] forState:UIControlStateNormal];
+    [_BackButton setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
     [_TopView addSubview:_BackButton];
     [_BackButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TopView.mas_left).offset(20);
-        make.top.mas_equalTo(_TopView.mas_top).offset(25);
-        make.height.mas_equalTo(30);
-        make.width.mas_equalTo(30);
+        make.top.mas_equalTo(_TopView.mas_top).offset(35);
+        make.height.mas_equalTo(18);
+        make.width.mas_equalTo(18);
     }];
     _TopTitleLabel = [[UILabel alloc]init];
     _TopTitleLabel.textAlignment = NSTextAlignmentCenter;
-    _TopTitleLabel.font = [UIFont systemFontOfSize:19];
+    _TopTitleLabel.font = [UIFont systemFontOfSize:15];
     _TopTitleLabel.textColor = [UIColor blackColor];
     [_TopView addSubview:_TopTitleLabel];
     [_TopTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {

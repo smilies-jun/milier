@@ -33,7 +33,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"帐号设置";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -44,6 +44,17 @@
 }
 - (void)ConfigUI{
     ImageSetView = [[UserSetView alloc]init];
+    ImageSetView.StaticImageView.image = [UIImage imageNamed:@"changehead"];
+    ImageSetView.NameLabel.text  = @"更换头像";
+    ImageSetView.DetailLabel.text = @"帐号  161111111";
+    ImageSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:@"帐号  161111111"];
+    NSRange redRange = NSMakeRange([[noteStr string] rangeOfString:@"帐号"].location, [[noteStr string] rangeOfString:@"帐号"].length);
+    //需要设置的位置
+    [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.56, 0.56, 0.56) range:redRange];
+    //设置颜色
+    [ImageSetView.DetailLabel setAttributedText:noteStr];
+    
     ImageSetView.userInteractionEnabled = YES;
     UITapGestureRecognizer *ImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ImageSetClick)];
     [ImageSetView addGestureRecognizer:ImageTap];
@@ -54,7 +65,13 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
+    
+    
     PassSetView = [[UserSetView alloc]init];
+    PassSetView.StaticImageView.image = [UIImage imageNamed:@"loginpassword"];
+    PassSetView.NameLabel.text  = @"修改登录密码";
+    PassSetView.DetailLabel.text = @"登录米粒儿账户时需要密码";
+    PassSetView.DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     UITapGestureRecognizer *LoginTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LoginSetClick)];
     [PassSetView addGestureRecognizer:LoginTap];
     PassSetView.userInteractionEnabled = YES;
@@ -66,6 +83,11 @@
         make.height.mas_equalTo(40);
     }];
     SailSetView = [[UserSetView alloc]init];
+    SailSetView.StaticImageView.image = [UIImage imageNamed:@"cardpassword"];
+    SailSetView.NameLabel.text  = @"修改交易密码";
+    SailSetView.DetailLabel.text = @"保证您在米粒儿平台的交易安全，请妥善保管";
+    SailSetView.DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
+
     SailSetView.userInteractionEnabled = YES;
     UITapGestureRecognizer *SailTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SailSetClick)];
     [SailSetView addGestureRecognizer:SailTap];
@@ -77,8 +99,20 @@
         make.height.mas_equalTo(40);
     }];
     BundSetView = [[UserSetView alloc]init];
+    BundSetView.StaticImageView.image = [UIImage imageNamed:@"creditcard"];
+    BundSetView.NameLabel.text  = @"绑定银行卡";
+    BundSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+    NSMutableAttributedString *bundStr = [[NSMutableAttributedString alloc] initWithString:@"已认证绑定  dsfsdf"];
+    NSRange BunddRange = NSMakeRange([[bundStr string] rangeOfString:@"已认证绑定"].location, [[bundStr string] rangeOfString:@"已认证绑定"].length);
+    //需要设置的位置
+    [bundStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.56, 0.56, 0.56) range:BunddRange];
+    //设置颜色
+    [BundSetView.DetailLabel setAttributedText:bundStr];
+    
     BundSetView.userInteractionEnabled = YES;
     UITapGestureRecognizer *BundTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BundClick)];
+
     [BundSetView addGestureRecognizer:BundTap];
     [self.view addSubview:BundSetView];
     [BundSetView mas_makeConstraints:^(MASConstraintMaker *make) {

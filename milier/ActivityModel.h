@@ -10,4 +10,15 @@
 
 @interface ActivityModel : NSObject
 
+@property(nonatomic,strong)NSString *desc;
+
+@property(nonatomic,strong)NSString *name;
+
+@property(nonatomic,strong)NSString *poster;
+
+@property(nonatomic,strong)NSString *state;
+
+@property(nonatomic,strong)NSString *subname;
+
+
 @end

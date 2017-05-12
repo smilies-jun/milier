@@ -58,7 +58,7 @@
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right).offset(10);
         make.top.mas_equalTo(_NameLabel.mas_bottom).offset(5);
-        make.width.mas_equalTo(200);
+        make.width.mas_equalTo(300);
         make.height.mas_equalTo(10);
     }];
     

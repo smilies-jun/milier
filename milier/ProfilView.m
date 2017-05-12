@@ -30,25 +30,27 @@
 - (void)initView{
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"短信验证码:";
-    _NameLabel.font = [UIFont systemFontOfSize:13];
+    _NameLabel.textAlignment = NSTextAlignmentLeft;
+    _NameLabel.font = [UIFont systemFontOfSize:15];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
         make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(10);
+        make.height.mas_equalTo(20);
     }];
     
     _DetailLabel = [[UILabel alloc]init];
     _DetailLabel.text = @"0.22";
     _DetailLabel.font = [UIFont systemFontOfSize:13];
-    _DetailLabel.textColor = [UIColor orangeColor];
+    _DetailLabel.textAlignment = NSTextAlignmentRight;
+    _DetailLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
     [self addSubview:_DetailLabel];
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(-40);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(10);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(20);
     }];
     
     _GorrowView = [[UIImageView alloc]init];

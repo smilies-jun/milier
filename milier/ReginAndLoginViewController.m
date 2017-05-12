@@ -125,7 +125,7 @@
     }];
     
     UIButton *reginBtn = [[UIButton alloc]init];
-    [reginBtn setBackgroundColor:colorWithRGB(0.96, 0.21, 0.29)];
+    [reginBtn setBackgroundColor:colorWithRGB(0.99, 0.79, 0.09)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 5.0f;
     [reginBtn setTitle:@"注册并登录" forState:UIControlStateNormal];

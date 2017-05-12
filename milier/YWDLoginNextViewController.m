@@ -85,6 +85,14 @@
 - (void)LoginClicked{
     if (PassView.NameTextField.text.length) {
 //        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",PassView.NameTextField.text] ,@"userPwd", [NSString stringWithFormat:@"%@",_phoneStr],@"phone",@"2",@"userFlag",nil];
+//        [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:@"https://192.168.1.34:8443/products/1" usingBlock:^(NSDictionary *result, NSError *error) {
+//            NSLog(@"result = %@",result);
+//        }];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2323",@"user_id",@"2323",@"accessToken", nil];
+        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
+            
+        }];
+        
 //        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
 //            NSString *code = [result objectForKey:@"retcode"];
 //            if ([code intValue] == 1000) {
@@ -104,9 +112,9 @@
 //        normal_alert(@"提示", @"密码不可为空  ", @"确定");
 //        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"密码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
 //        [alert show];
-    }
+//    }
 }
-
+}
 - (void)LoginNextBackClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[YWDLoginViewController class]]) {

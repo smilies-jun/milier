@@ -22,8 +22,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"债券转让";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.navigationItem.title = @"债权转让";
+    self.view.backgroundColor = colorWithRGB(0.56, 0.56, 0.56);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -43,7 +43,7 @@
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
-
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
     
@@ -152,19 +152,19 @@
         ChangeTableViewCell    *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[ChangeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+//            UIImageView *imageViewSepE = [[UIImageView alloc]initWithFrame:CGRectMake(0, 120, SCREEN_WIDTH, 5)];
+//            imageViewSepE.backgroundColor = [UIColor blackColor];
+//            [cell.contentView addSubview:imageViewSepE];
             [cell configUI:indexPath];
-            UIImageView *imageViewSepE = [[UIImageView alloc]initWithFrame:CGRectMake(0, 120, SCREEN_WIDTH, 5)];
-            imageViewSepE.backgroundColor = [UIColor blackColor];
-            [cell.contentView addSubview:imageViewSepE];
+             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
-        
+    　
         return cell;
 
     
     
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];

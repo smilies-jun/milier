@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProductDetailModel.h"
 
 @interface SecondDetailTopTableViewCell : UITableViewCell{
     UILabel *TitleLabel;
@@ -33,6 +34,7 @@
     UILabel *DetailInterestLabel;
     UILabel *DetailAddPercentLabel;
 }
+@property (nonatomic, strong)ProductDetailModel *detailModel;
 
 - (void)configUI:(NSIndexPath *)indexPath;
 

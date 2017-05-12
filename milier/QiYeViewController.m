@@ -8,6 +8,8 @@
 
 #import "QiYeViewController.h"
 #import "StageTableViewCell.h"
+#import "StageTotalTableViewCell.h"
+
 
 @interface QiYeViewController ()
 
@@ -19,7 +21,8 @@
     
     [super viewDidLoad];
     
-    self.tableView.backgroundColor = [UIColor orangeColor];
+    self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     
 }
@@ -63,21 +66,37 @@
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 130;
+    if (indexPath.row == 0) {
+        return 25;
+    }
+    return 150;
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *identifier = @"Stageidentifier";
-    
-    StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
+    if (indexPath.row == 0) {
+        static NSString *identifier = @"StageTotalidentifier";
+        
+        StageTotalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        return cell;
+ 
+    }else{
+        static NSString *identifier = @"Stageidentifier";
+        
+        StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        return cell;
+
     }
-    return cell;
+    
     
 }
 

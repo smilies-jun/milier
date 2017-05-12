@@ -33,10 +33,10 @@
     _StaticImageView.image = [UIImage imageNamed:@"icon_required"];
     [self addSubview:_StaticImageView];
     [_StaticImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).offset(5);
+        make.left.mas_equalTo(self.mas_left).offset(10);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(20);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(22);
+        make.height.mas_equalTo(22);
     }];
     
     _NameLabel = [[UILabel alloc]init];
@@ -44,20 +44,20 @@
     _NameLabel.font = [UIFont systemFontOfSize:13];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_StaticImageView.mas_right);
+        make.left.mas_equalTo(_StaticImageView.mas_right).offset(10);
         make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(85);
         make.height.mas_equalTo(20);
     }];
     
     _ArrowImageView = [[UIImageView alloc]init];
-    _ArrowImageView.image = [UIImage imageNamed:@"icon_required"];
+    _ArrowImageView.image = [UIImage imageNamed:@"goarrow"];
     [self addSubview:_ArrowImageView];
     [_ArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_right).offset(-20);
+        make.right.mas_equalTo(self.mas_right).offset(-20);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(20);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
     
     

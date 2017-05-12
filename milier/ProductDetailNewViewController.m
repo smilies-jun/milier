@@ -11,11 +11,15 @@
 #import "SecondDetailTopTableViewCell.h"
 #import "SecondDetailMainTableViewCell.h"
 #import "MJRefresh.h"
-
+#import "SecondTypeTableViewCell.h"
+#import "SecondDetailTableViewCell.h"
+#import "ProductDetailModel.h"
+#import "SaleViewController.h"
+#import "ProductDetailNewViewController.m"
 
 @interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
-
+@property (nonatomic,strong)NSMutableArray *DataArray;
 @end
 
 @implementation ProductDetailNewViewController
@@ -32,101 +36,80 @@
     [leftBtn addTarget:self action:@selector(newDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    _DataArray = [[NSMutableArray alloc]init];
+    
+    [self getNetworkData:YES];
     [self ConfigUI];
 }
+
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    NSString *url;
+
+    url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+     
+            ProductDetailModel *model = [[ProductDetailModel alloc]init];
+            model.dataDictionary = result;
+            [_DataArray addObject:model];
+
+        [_tableView reloadData];
+    }];
+    
+}
+
+
 -(void)ConfigUI{
     
     page = 0;
     isFirstCome = YES;
     isJuhua = NO;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
-}
+    
+    UIView *saleView = [[UIView alloc]init];
+    saleView.backgroundColor = [UIColor whiteColor];
+    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
+    [self.view addSubview:saleView];
+    
+    UILabel *SaleLbel =  [[UILabel alloc]init];
+    SaleLbel.text = @"立即购买";
+    SaleLbel.userInteractionEnabled = YES;
+    SaleLbel.backgroundColor = colorWithRGB(0.62, 0.8, 0.09);
+    SaleLbel.textAlignment = NSTextAlignmentCenter;
+    SaleLbel.textColor = [UIColor whiteColor];
+    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.masksToBounds = YES;
+    [saleView addSubview:SaleLbel];
+    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(saleView.mas_centerX);
+        make.centerY.mas_equalTo(saleView.mas_centerY);
+        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.height.mas_equalTo(40);
+    }];
+    
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleBtnClick
+                                                                                                          )];
+    [SaleLbel addGestureRecognizer:SaleTap];
 
+}
+- (void)SaleBtnClick{
+    SaleViewController *SaleVC = [[SaleViewController alloc]init];
+    [self.navigationController pushViewController:SaleVC animated:NO];
+}
 - (void)newDetailTap{
     [self.navigationController popToRootViewControllerAnimated:NO];
 
 }
-/**
- *  停止刷新
- */
--(void)endRefresh{
-    
-    if (page == 0) {
-        [self.tableView.mj_header endRefreshing];
-    }
-    [self.tableView.mj_footer endRefreshing];
-}
-
--(void)getNetworkData:(BOOL)isRefresh
-{
-    if (isRefresh) {
-        page = 0;
-        isFirstCome = YES;
-    }else{
-        page++;
-    }
-    
-    NSString *url;
-    if (isFirstCome) {
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,@"",page];
-    }else{
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,self.maxtime,page];
-    }
-    //    [HYBNetworking cacheGetRequest:YES shoulCachePost:YES];
-    //    [HYBNetworking getWithUrl:url refreshCache:NO params:nil progress:^(int64_t bytesRead, int64_t totalBytesRead) {
-    //
-    //    } success:^(id response) {
-    //        PPLog(@"请求成功---%@",response);
-    //        [self endRefresh];
-    //        isJuhua = NO; //数据获取成功后，设置为NO
-    //
-    //        NSDictionary *dict = (NSDictionary *)response;
-    //        NSDictionary *infoDict = [dict objectForKey:@"info"];
-    //        totalPage = (int)[infoDict objectForKey:@"page"];
-    //        self.maxtime = [infoDict objectForKey:@"maxtime"];
-    //
-    //        if (page == 0) {
-    //            [_pictures removeAllObjects];
-    //        }
-    //        //判断是否有菊花正在加载，如果有，判断当前页数是不是大于最大页数，是的话就不让加载，直接return；（因为下拉的当前页永远是最小的，所以直接return）
-    //        if (isJuhua) {
-    //            if (page >= totalPage) {
-    //                [self endRefresh];
-    //            }
-    //            return ;
-    //        }
-    //        //没有菊花正在加载，所以设置yes
-    //        isJuhua = YES;
-    //        //显然下面的方法适用于上拉加载更多
-    //        if (page >= totalPage) {
-    //            [self endRefresh];
-    //            return;
-    //        }
-    //        //获取模型数组
-    //        NSArray *pictureArr = [dict objectForKey:@"list"];
-    //        for (NSDictionary *dic in pictureArr) {
-    //            MJPicture *picture = [[MJPicture alloc]init];
-    //            [picture setValuesForKeysWithDictionary:dic];
-    //            [self.pictures addObject:picture];
-    //        }
-    //        [self.tableView reloadData];
-    //        //获取成功一次就判断
-    //        isFirstCome = NO;
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //        PPLog(@"请求失败---%@",error);
-    //    }];
-}
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  30;
+    return  5;
 }
 
 
@@ -137,9 +120,12 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        return 370;
-    }else{
-        return 60;
+        return 320;
+    }else if (indexPath.row == 1){
+        return 150;
+    }
+    else{
+        return 44;
     }
 
 }
@@ -154,17 +140,52 @@
             cell = [[SecondDetailTopTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        if (_DataArray.count) {
+            ProductDetailModel *model  = [_DataArray objectAtIndex:0];
+            cell.detailModel = model;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }else if (indexPath.row == 1){
+        static NSString *identifier = @"mainidentifier";
+        
+        SecondTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[SecondTypeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        if (_DataArray.count) {
+            ProductDetailModel *model  = [_DataArray objectAtIndex:0];
+            cell.detailModel = model;
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         
         return cell;
-    }else{
-        static NSString *identifier = @"mainidentifier";
+    }
+    
+    
+    else{
+        static NSString *identifier = @"Detailidentifier";
         
-        SecondDetailMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        SecondDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
-            cell = [[SecondDetailMainTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            cell = [[SecondDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
+        }
+        switch (indexPath.row) {
+            case 2:
+                cell.TitleLabel.text = @"产品介绍";
+                break;
+            case 3:
+                cell.TitleLabel.text = @"产品详细";
+                break;
+            case 4:
+                cell.TitleLabel.text = @"投资纪录";
+                break;
+            default:
+                break;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         

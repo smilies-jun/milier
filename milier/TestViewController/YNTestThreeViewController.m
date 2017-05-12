@@ -9,14 +9,73 @@
 #import "YNTestThreeViewController.h"
 #import "SecondTableViewCell.h"
 #import "ProductDetailNewViewController.h"
+#import "ProuctModel.h"
 
-@implementation YNTestThreeViewController
+@implementation YNTestThreeViewController{
+    NSMutableArray *dataArray;
+}
+
 
 - (void)viewDidLoad{
 
     [super viewDidLoad];
     
     self.tableView.backgroundColor = [UIColor whiteColor];
+    dataArray = [[NSMutableArray alloc]init];
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+    [self getNetworkData:YES];
+}
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    NSLog(@"more");
+    [self getNetworkData:NO];
+    
+}
+
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    if (isRefresh) {
+        page = 0;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+    
+    NSString *url;
+    if (isFirstCome) {
+        url = [NSString stringWithFormat:@"%@?page=1&rows=20&productCategoryId=3",PRODUCTS_URL];
+    }else{
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=3",PRODUCTS_URL,page];
+        
+    }
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+        isJuhua = NO;
+        [self endRefresh];
+        if (page == 0) {
+            [dataArray removeAllObjects];
+        }
+        //        if (isJuhua) {
+        //            [self endRefresh];
+        //        }
+        NSArray *myArray = [result objectForKey:@"items"];
+        for (NSDictionary *NewDic in myArray) {
+            ProuctModel *model = [[ProuctModel alloc]init];
+            model.dataDictionary = NewDic;
+            [dataArray addObject:model];
+        }
+        [self.tableView reloadData];
+        isFirstCome = NO;
+    }];
+    
+}
+- (void)endRefresh{
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
     
 }
 
@@ -54,7 +113,7 @@
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 50;
+    return [dataArray count];
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -74,7 +133,10 @@
         [cell configUI:indexPath];
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
+    if (dataArray.count) {
+        ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
+        cell.productMoel = model;
+    }
     //cell.textLabel.text = @"11111111";
     return cell;
 }

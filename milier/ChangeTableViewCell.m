@@ -30,6 +30,8 @@
     }];
     _ChangeValueLabel = [[UILabel alloc]init];
     _ChangeValueLabel.text = @"债券包价值";
+    _ChangeValueLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
+
     _ChangeValueLabel.textAlignment = NSTextAlignmentCenter;
     _ChangeValueLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_ChangeValueLabel];
@@ -41,6 +43,8 @@
     }];
     _ChangeValueNumberLabel = [[UILabel alloc]init];
     _ChangeValueNumberLabel.text = @"121212121";
+    _ChangeValueNumberLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
+
     _ChangeValueNumberLabel.textAlignment = NSTextAlignmentCenter;
     _ChangeValueNumberLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_ChangeValueNumberLabel];
@@ -53,6 +57,8 @@
     
     _OneDayChangeLabel = [[UILabel alloc]init];
     _OneDayChangeLabel.text = @"当日转让率";
+    _OneDayChangeLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
+
     _OneDayChangeLabel.textAlignment = NSTextAlignmentCenter;
     _OneDayChangeLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_OneDayChangeLabel];
@@ -64,6 +70,8 @@
     }];
     _OneDayChangeNumberLabel = [[UILabel alloc]init];
     _OneDayChangeNumberLabel.text = @"121212121";
+    _OneDayChangeNumberLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
+
     _OneDayChangeNumberLabel.textAlignment = NSTextAlignmentCenter;
     _OneDayChangeNumberLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_OneDayChangeNumberLabel];
@@ -76,6 +84,7 @@
 
     _ReguarLabel = [[UILabel alloc]init];
     _ReguarLabel.text = @"汇款金额（元）";
+    _ReguarLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     _ReguarLabel.textAlignment = NSTextAlignmentCenter;
     _ReguarLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_ReguarLabel];
@@ -86,6 +95,8 @@
         make.height.mas_equalTo(30);
     }];
     _RegularNumberLabel = [[UILabel alloc]init];
+    _RegularNumberLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
+
     _RegularNumberLabel.text = @"121212121";
     _RegularNumberLabel.textAlignment = NSTextAlignmentCenter;
     _RegularNumberLabel.font = [UIFont systemFontOfSize:12];
@@ -97,7 +108,7 @@
         make.height.mas_equalTo(10);
     }];
     UIView *LineView = [[UIView alloc]init];
-    LineView.backgroundColor = [UIColor blackColor];
+    LineView.backgroundColor = colorWithRGB(0.86, 0.86, 0.86);
     [self addSubview:LineView];
     [LineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left);
@@ -129,6 +140,7 @@
     }];
     _IsOrNoLabel = [[UILabel alloc]init];
     _IsOrNoLabel.text = @"取消转让";
+    _IsOrNoLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
     _IsOrNoLabel.font = [UIFont systemFontOfSize:10];
     _IsOrNoLabel.textAlignment = NSTextAlignmentRight;
     [self addSubview:_IsOrNoLabel];
@@ -147,6 +159,16 @@
         make.top.mas_equalTo(self.mas_top);
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(40);
+    }];
+    
+    UIView *BottomLineView = [[UIView alloc]init];
+    BottomLineView.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
+    [self addSubview:BottomLineView];
+    [BottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left);
+        make.top.mas_equalTo(LineView.mas_bottom).offset(40);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(5);
     }];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

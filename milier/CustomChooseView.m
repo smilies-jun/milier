@@ -41,7 +41,7 @@
     _ChooseLabel.backgroundColor = [UIColor whiteColor];
     _ChooseLabel.font = [UIFont systemFontOfSize:15];
     _ChooseLabel.textAlignment = NSTextAlignmentRight;
-    _ChooseLabel.text = @"请输入对应信息";
+    _ChooseLabel.text = @"对应信息";
     [self addSubview:_ChooseLabel];
     [_ChooseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameLabel.mas_right).offset(10);

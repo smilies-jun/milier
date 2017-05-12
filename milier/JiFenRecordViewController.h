@@ -5,10 +5,10 @@
 //  Created by amin on 17/4/24.
 //  Copyright © 2017年 yj. All rights reserved.
 //
+#import <UIKit/UIKit.h>
 
-#import "YNTestBaseViewController.h"
+#import "ZJPageViewController.h"
+#import "ZJScrollPageViewDelegate.h"
 
-
-@interface JiFenRecordViewController : YNTestBaseViewController<UITableViewDataSource , UITableViewDelegate>
-
+@interface JiFenRecordViewController : ZJPageViewController<ZJScrollPageViewChildVcDelegate>
 @end

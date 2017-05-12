@@ -69,7 +69,7 @@
     _isShadow = YES;
     _isShowPercent = YES;
     _isAnimated = YES;
-    _extendLength = 20.f;
+    _extendLength = 10.f;
     _totalDuration = 0.75f;
     _percentOnChartFont = [UIFont boldSystemFontOfSize:10.f];
     _radiusSegments = 2.f;
@@ -104,7 +104,7 @@
     ZFPie * pie = [ZFPie pieWithCenter:center radius:_radius startAngle:startAngle endAngle:endAngle color:color duration:duration piePatternType:piePatternType isAnimated:_isAnimated];
     pie.isShadow = _isShadow;
     pie.opacity = _opacity;
-    pie.lineWidth = _lineWidth;
+    pie.lineWidth = 10;
     
     return pie;
 }

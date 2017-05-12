@@ -14,16 +14,35 @@
 #import "MJRefresh.h"
 #import "UserViewController.h"
 #import "ConvertViewController.h"
+#import "ZJScrollPageView.h"
+#import "ZJPageTableViewController.h"
 
-@interface MyJiFenViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>
+
+static CGFloat const segmentViewHeight = 44.0;
+static CGFloat const naviBarHeight = 64.0;
+static CGFloat const headViewHeight = 200.0;
+
+
+@interface MyJiFenViewController ()<ZJScrollPageViewDelegate, ZJPageViewControllerDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>
 
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
-
+@property (strong, nonatomic) NSArray<NSString *> *titles;
+@property (strong, nonatomic) UIView *containerView;
+@property (strong, nonatomic) ZJScrollSegmentView *segmentView;
+@property (strong, nonatomic) ZJContentView *contentView;
+@property (strong, nonatomic) UIView *headView;
+@property (strong, nonatomic) UIScrollView *childScrollView;
+@property (strong, nonatomic) UITableView *tableView;
 @end
+static NSString * const cellID = @"cellID";
 
+NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableViewDidLeaveFromTopNotification";
 @implementation MyJiFenViewController
-
+/// 返回YES同时识别多个手势
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    return [gestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]] && [otherGestureRecognizer isKindOfClass:[UIPanGestureRecognizer class]];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -36,12 +55,14 @@
     [leftBtn addTarget:self action:@selector(JifenTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
-    [self.loadingView startAnimating];
-    [self.loadingView stopAnimating];
-    YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];
-    [viewController addSelfToParentViewController:self isAfterLoadData:YES];
-    
+    [self.view addSubview:self.tableView];
+//    __weak typeof(self) weakself = self;
+
+//    [self.loadingView startAnimating];
+//    [self.loadingView stopAnimating];
+//    YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];
+//    [viewController addSelfToParentViewController:self isAfterLoadData:YES];
+//    
     UIView *saleView = [[UIView alloc]init];
     saleView.backgroundColor = [UIColor whiteColor];
     saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
@@ -67,55 +88,7 @@
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
 }
-//简书Demo
-- (YNJianShuDemoViewController *)getJianShuDemoViewController{
-    //配置信息
-    YNPageScrollViewMenuConfigration *configration = [[YNPageScrollViewMenuConfigration alloc]init];
-    configration.scrollViewBackgroundColor = [UIColor redColor];
-    configration.itemLeftAndRightMargin = 30;
-    configration.itemMargin = 60;
-    configration.lineColor = [UIColor orangeColor];
-    configration.lineHeight = 2;
-    configration.itemMaxScale = 1.2;
-    configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
-    configration.scrollViewBackgroundColor = [UIColor whiteColor];
-    configration.selectedItemColor = [UIColor orangeColor];
-    //设置平分不滚动   默认会居中
-    // configration.aligmentModeCenter = YES;
-    configration.scrollMenu = YES;
-    configration.showGradientColor = NO;//取消渐变
-    configration.showNavigation = YES;
-    configration.showTabbar = NO;//设置显示tabbar
-    
-    //创建控制器
-    YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"积分纪录",@"兑换纪录"] Configration:configration];
-    //头部视图
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
-    
-    UILabel *jifenNumberLabel = [[UILabel alloc]init];
-    jifenNumberLabel.text = @"121212121";
-    jifenNumberLabel.textColor = [UIColor orangeColor];
-    jifenNumberLabel.textAlignment = NSTextAlignmentCenter;
-    jifenNumberLabel.font = [UIFont systemFontOfSize:50];
-    [imageView addSubview:jifenNumberLabel];
-    [jifenNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(imageView.mas_centerX);
-        make.centerY.mas_equalTo(imageView.mas_centerY);
-        make.width.mas_equalTo(280);
-        make.height.mas_equalTo(80);
-    }];
-    
-    //footer用来当做内容高度
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
-    footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-    vc.placeHoderView = footerView;
-    vc.dataSource = self;
-    vc.headerView = imageView;
-    vc.IsTab = NO;
-    return vc;
-    
-}
-//兑换礼品
+
 - (void)JiFenBtnClick{
     ConvertViewController    *ConvertVC = [[ConvertViewController alloc]init];
     [self.navigationController pushViewController:ConvertVC animated:NO];
@@ -127,88 +100,176 @@
         }
     }
 }
-- (void)dealloc{
-    
-    NSLog(@"释放 父类 UIHomeViewController");
+
+
+#pragma ZJScrollPageViewDelegate 代理方法
+- (NSInteger)numberOfChildViewControllers {
+    return self.titles.count;
 }
 
-- (void)imageViewTap{
+- (UIViewController<ZJScrollPageViewChildVcDelegate> *)childViewController:(UIViewController<ZJScrollPageViewChildVcDelegate> *)reuseViewController forIndex:(NSInteger)index {
+    UIViewController<ZJScrollPageViewChildVcDelegate> *childVc = reuseViewController;
     
-    NSLog(@"----- imageViewTap -----");
-    
-}
-
-#pragma mark - YNPageScrollViewControllerDataSource
-- (UITableView *)pageScrollViewController:(YNPageScrollViewController *)pageScrollViewController scrollViewForIndex:(NSInteger)index{
-    
-    YNTestBaseViewController *VC= pageScrollViewController.viewControllers[index];
-    return [VC tableView];
-    
-};
-
-- (BOOL)pageScrollViewController:(YNPageScrollViewController *)pageScrollViewController headerViewIsRefreshingForIndex:(NSInteger)index{
-    
-    YNTestBaseViewController *VC= pageScrollViewController.viewControllers[index];
-    return [[[VC tableView] mj_header] isRefreshing];
-}
-
-- (void)pageScrollViewController:(YNPageScrollViewController *)pageScrollViewController scrollViewHeaderAndFooterEndRefreshForIndex:(NSInteger)index{
-    
-    YNTestBaseViewController *VC= pageScrollViewController.viewControllers[index];
-    [[[VC tableView] mj_header] endRefreshing];
-    [[[VC tableView] mj_footer] endRefreshing];
-}
-
-
-- (NSArray *)getViewController{
-    
-    JiFenRecordViewController *one = [[JiFenRecordViewController alloc]init];
-    
-    JiFenConvertViewController *two = [[JiFenConvertViewController alloc]init];
-    
-    
-    
-    return @[one,two];
-}
-
-
-#pragma mark - lazy
-
-- (UIActivityIndicatorView *)loadingView{
-    
-    if (!_loadingView) {
+    if (!childVc) {
+        if (index%2==0) {
+            childVc = [[JiFenRecordViewController alloc] init];
+            JiFenRecordViewController *vc = (JiFenRecordViewController *)childVc;
+            vc.delegate = self;
+        } else {
+            childVc = [[JiFenConvertViewController alloc] init];
+            JiFenConvertViewController *vc = (JiFenConvertViewController *)childVc;
+            vc.delegate = self;
+            
+        }
         
-        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _loadingView.hidesWhenStopped = YES;
-        _loadingView.center = self.view.center;
-        [self.view addSubview:_loadingView];
+    }
+    return childVc;
+}
+
+
+#pragma mark- ZJPageViewControllerDelegate
+
+- (void)scrollViewIsScrolling:(UIScrollView *)scrollView {
+    _childScrollView = scrollView;
+    if (self.tableView.contentOffset.y < headViewHeight) {
+        scrollView.contentOffset = CGPointZero;
+        scrollView.showsVerticalScrollIndicator = NO;
+    }
+    else {
+        self.tableView.contentOffset = CGPointMake(0.0f, headViewHeight);
+        scrollView.showsVerticalScrollIndicator = YES;
     }
     
-    return _loadingView;
 }
--(UIImage*) createImageWithColor:(UIColor*) color
-{
-    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return theImage;
+
+#pragma mark- UIScrollViewDelegate
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (self.childScrollView && _childScrollView.contentOffset.y > 0) {
+        self.tableView.contentOffset = CGPointMake(0.0f, headViewHeight);
+    }
+    CGFloat offsetY = scrollView.contentOffset.y;
+    if(offsetY < headViewHeight) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:ZJParentTableViewDidLeaveFromTopNotification object:nil];
+        
+    }
+}
+
+#pragma mark- UITableViewDelegate, UITableViewDataSource
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+    }
+    
+    [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [cell.contentView addSubview:self.contentView];
+    
+    return cell;
 }
 
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return self.segmentView;
+}
+
+#pragma mark- setter getter
+- (ZJScrollSegmentView *)segmentView {
+    if (_segmentView == nil) {
+        ZJSegmentStyle *style = [[ZJSegmentStyle alloc] init];
+        style.showCover = NO;
+        style.showLine = YES;
+        style.scrollLineColor = [UIColor orangeColor];
+        // 渐变
+        style.gradualChangeTitleColor = NO;
+        // 遮盖背景颜色
+        style.coverBackgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+        //标题一般状态颜色 --- 注意一定要使用RGB空间的颜色值
+        style.normalTitleColor = colorWithRGB(0.53, 0.53, 0.53);
+        //标题选中状态颜色 --- 注意一定要使用RGB空间的颜色值
+        style.selectedTitleColor = [UIColor orangeColor];
+        style.autoAdjustTitlesWidth = YES;
+        self.titles = @[@"积分纪录",
+                        @"兑换纪录",
+                        ];
+        
+        // 注意: 一定要避免循环引用!!
+        __weak typeof(self) weakSelf = self;
+        ZJScrollSegmentView *segment = [[ZJScrollSegmentView alloc] initWithFrame:CGRectMake(0, naviBarHeight + headViewHeight, self.view.bounds.size.width, segmentViewHeight) segmentStyle:style delegate:self titles:self.titles titleDidClick:^(ZJTitleView *titleView, NSInteger index) {
+            
+            [weakSelf.contentView setContentOffSet:CGPointMake(weakSelf.contentView.bounds.size.width * index, 0.0) animated:YES];
+            
+        }];
+        segment.backgroundColor = [UIColor whiteColor];
+        _segmentView = segment;
+        
+    }
+    return _segmentView;
+}
+
+- (ZJContentView *)contentView {
+    if (_contentView == nil) {
+        ZJContentView *content = [[ZJContentView alloc] initWithFrame:self.view.bounds segmentView:self.segmentView parentViewController:self delegate:self];
+        _contentView = content;
+    }
+    return _contentView;
+}
+
+- (UIView *)headView {
+    if (!_headView) {
+        _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, headViewHeight)];
+        UILabel *label = [[UILabel alloc] initWithFrame:_headView.bounds];
+        label.text = @"22222222222";
+        label.font = [UIFont systemFontOfSize:26];
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textAlignment = NSTextAlignmentCenter;
+        label.textColor = [UIColor orangeColor];
+        [_headView addSubview:label];
+        _headView.backgroundColor = [UIColor whiteColor];
+    }
+    
+    return _headView;
+}
+
+- (UITableView *)tableView {
+    if (!_tableView) {
+        CGRect frame = CGRectMake(0.0f, 0, self.view.bounds.size.width, self.view.bounds.size.height - 44-64);
+        UITableView *tableView = [[UITableView alloc] initWithFrame:frame style:UITableViewStylePlain];
+        // 设置tableView的headView
+        tableView.tableHeaderView = self.headView;
+        tableView.tableFooterView = [UIView new];
+        // 设置cell行高为contentView的高度
+        tableView.rowHeight = self.contentView.bounds.size.height;
+        tableView.delegate = self;
+        tableView.dataSource = self;
+        // 设置tableView的sectionHeadHeight为segmentViewHeight
+        tableView.sectionHeaderHeight = segmentViewHeight;
+        tableView.showsVerticalScrollIndicator = false;
+        _tableView = tableView;
+    }
+    
+    return _tableView;
+}
+- (BOOL)shouldAutomaticallyForwardAppearanceMethods{
+    return NO;
+}
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     
     [super viewWillDisappear:animated];
+    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+
 }
 
 

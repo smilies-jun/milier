@@ -15,6 +15,9 @@
 #import "BuyCarViewController.h"
 #import "InterentViewController.h"
 #import "PersonViewController.h"
+#import "StageTotalTableViewCell.h"
+
+
 
 @interface MyStageViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>
 
@@ -59,12 +62,13 @@
     configration.scrollViewBackgroundColor = [UIColor redColor];
     configration.itemLeftAndRightMargin = 10;
     configration.itemMargin = 30;
-    configration.lineColor = [UIColor orangeColor];
+    configration.itemFont = [UIFont systemFontOfSize:13];
+    configration.lineColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineHeight = 2;
     configration.itemMaxScale = 1.2;
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
     configration.scrollViewBackgroundColor = [UIColor whiteColor];
-    configration.selectedItemColor = [UIColor redColor];
+    configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
     configration.scrollMenu = YES;

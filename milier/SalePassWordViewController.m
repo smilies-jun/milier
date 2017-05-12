@@ -30,8 +30,8 @@
 //    [self.BackButton addTarget:self action:@selector(SaleBackClick) forControlEvents:UIControlEventTouchUpInside];
 //    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SalePassClickBack)];
 //    [self.view addGestureRecognizer:tap]
-    self.navigationItem.title = @"找回交易密码";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.navigationItem.title = @"设置交易密码";
+    self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -43,25 +43,27 @@
 }
 - (void)ConFigUI{
     SaleNewPassWordView = [[customWithStatic alloc]init];
-    SaleNewPassWordView.NameLabel.text = @"交易密码:";
+    SaleNewPassWordView.NameLabel.text = @"新交易密码:";
+    SaleNewPassWordView.NameTextField.placeholder = @"密码至少6位";
     SaleNewPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     SaleNewPassWordView.NameTextField.delegate = self;
     [self.view addSubview:SaleNewPassWordView];
     [SaleNewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(self.view.mas_top).offset(20);
+        make.top.mas_equalTo(self.view.mas_top).offset(10);
         make.width.mas_offset(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
     
     SaleSurePassWordView = [[customWithStatic alloc]init];
-    SaleSurePassWordView.NameLabel.text = @"确认交易密码:";
+    SaleSurePassWordView.NameLabel.text = @"确认新密码:";
+    SaleSurePassWordView.NameTextField.placeholder = @"请再次输入交易密码";
     SaleSurePassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     SaleSurePassWordView.NameTextField.delegate = self;
     [self.view addSubview:SaleSurePassWordView];
     [SaleSurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(SaleNewPassWordView.mas_bottom).offset(20);
+        make.top.mas_equalTo(SaleNewPassWordView.mas_bottom).offset(10);
         make.width.mas_offset(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
@@ -78,7 +80,7 @@
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(SaleSurePassWordView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleSureBtnClick
@@ -86,6 +88,7 @@
     [SaleLbel addGestureRecognizer:SaleTap];
 
 }
+///输入密码的判断
 - (void)SaleSureBtnClick{
     //  已经绑卡返回指定页面
 //    for (UIViewController *controller in self.navigationController.viewControllers) {

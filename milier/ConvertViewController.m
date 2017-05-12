@@ -11,7 +11,8 @@
 #import "MJRefresh.h"
 #import "OldProfileTableViewCell.h"
 #import "ConvertTableViewCell.h"
-
+#import "CostViewController.h"
+#import "SubstanceViewController.h"
 
 @interface ConvertViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
@@ -158,6 +159,12 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    CostViewController *vc = [[CostViewController alloc]init];
+//    [self.navigationController   pushViewController:vc animated:NO];
+    
+    SubstanceViewController *vc = [[SubstanceViewController alloc]init];
+    [self.navigationController   pushViewController:vc animated:NO];
+    
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];

@@ -14,6 +14,8 @@
     int totalPage;//总页数
     BOOL isJuhua;//是否正在下拉刷新或者上拉加载。default NO。
 }
+@property (nonatomic) int productID;
+
 @property(nonatomic,strong)NSMutableArray *pictures;
 /** maxtime */
 @property(nonatomic,copy)NSString *maxtime;

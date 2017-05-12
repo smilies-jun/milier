@@ -47,7 +47,7 @@
     [self.view addSubview:saleView];
     
     UILabel *SaleLbel =  [[UILabel alloc]init];
-    SaleLbel.text = @"购买";
+    SaleLbel.text = @"使用道具";
     SaleLbel.userInteractionEnabled = YES;
     SaleLbel.backgroundColor = [UIColor greenColor];
     SaleLbel.textAlignment = NSTextAlignmentCenter;
@@ -69,17 +69,22 @@
 - (YNJianShuDemoViewController *)getJianShuDemoViewController{
     //配置信息
     YNPageScrollViewMenuConfigration *configration = [[YNPageScrollViewMenuConfigration alloc]init];
-    configration.scrollViewBackgroundColor = [UIColor redColor];
+    //configration.scrollViewBackgroundColor = [UIColor redColor];
     configration.itemLeftAndRightMargin = 30;
     configration.itemMargin = 60;
     configration.lineColor = [UIColor orangeColor];
     configration.lineHeight = 2;
     configration.itemMaxScale = 1.2;
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
-    configration.scrollViewBackgroundColor = [UIColor whiteColor];
-    configration.selectedItemColor = [UIColor redColor];
+    configration.scrollViewBackgroundColor = colorWithRGB(1, 0.89, 0.53);
+    configration.selectedItemColor = [UIColor blackColor];
+    configration.normalItemColor = [UIColor grayColor];
+    configration.selectedItemColor = [UIColor blackColor];
+    configration.showConver = YES;
+    configration.converColor = colorWithRGB(1,0.87, 0.01);
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
+    configration.showScrollLine = NO;
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
     configration.showNavigation = YES;
@@ -87,7 +92,55 @@
     
     //创建控制器
     YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"已绑卡",@"未绑卡"] Configration:configration];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 470)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 520)];
+    UIImageView *TopImageView = [[UIImageView alloc]init];
+    TopImageView.image = [UIImage imageNamed:@"shareforbonus"];
+    TopImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 365);
+    [imageView addSubview:TopImageView];
+    
+    UIView *titleview = [[UIView alloc]init];
+    titleview.backgroundColor = colorWithRGB(1, 0.94, 0.72);
+    [imageView addSubview:titleview];
+    [titleview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(imageView.mas_left).offset(26);
+        make.top.mas_equalTo(TopImageView.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 52);
+        make.height.mas_equalTo(40);
+    }];
+    
+    UILabel *titlelabel = [[UILabel alloc]init];
+    titlelabel.textAlignment = NSTextAlignmentCenter;
+    titlelabel.font = [UIFont systemFontOfSize:15];
+    titlelabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
+    titlelabel.text = @"已获得5个红包，还有3个红包未领取";
+    [titleview addSubview:titlelabel];
+    [titlelabel  mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(titleview.mas_centerX);
+        make.centerY.mas_equalTo(titleview.mas_centerY);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(30);
+    }];
+    
+    UILabel *SaleLbel =  [[UILabel alloc]init];
+    SaleLbel.text = @"马上领取";
+    SaleLbel.userInteractionEnabled = YES;
+    SaleLbel.backgroundColor = colorWithRGB(0.91, 0.31, 0.24);
+    SaleLbel.textAlignment = NSTextAlignmentCenter;
+    SaleLbel.textColor = [UIColor whiteColor];
+    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.masksToBounds = YES;
+    [imageView addSubview:SaleLbel];
+    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(titleview.mas_centerX);
+        make.top.mas_equalTo(titleview.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.height.mas_equalTo(30);
+    }];
+    
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(linquiBtnClick
+                                                                                                          )];
+    [SaleLbel addGestureRecognizer:SaleTap];
+    
     //footer用来当做内容高度
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -97,7 +150,9 @@
     vc.IsTab = NO;
     return vc;
 }
-
+- (void)linquiBtnClick{
+    //领取
+}
 - (void)dealloc{
     
     NSLog(@"释放 父类 UIHomeViewController");

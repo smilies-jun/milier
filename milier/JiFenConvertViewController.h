@@ -6,9 +6,12 @@
 //  Copyright © 2017年 yj. All rights reserved.
 //
 
-#import "YNTestBaseViewController.h"
+#import <UIKit/UIKit.h>
+
+#import "ZJPageViewController.h"
+#import "ZJScrollPageViewDelegate.h"
 
 
-@interface JiFenConvertViewController : YNTestBaseViewController<UITableViewDataSource , UITableViewDelegate>
+@interface JiFenConvertViewController :  ZJPageViewController<ZJScrollPageViewChildVcDelegate>
 
 @end

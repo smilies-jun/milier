@@ -20,15 +20,18 @@
 @property (nonatomic , retain) UILabel *TimeLabel;
 
 @property (nonatomic , retain) UILabel *ProfitLabel;
-@property (nonatomic , retain) UILabel *NumberLabel;
+
+@property (nonatomic , retain) UILabel *MoneyLabel;
 
 
 @property (nonatomic , retain) UILabel *limitTimeLabel;
-@property (nonatomic , retain) UILabel *MoneyLabel;
+
+@property (nonatomic , retain) UILabel *BeginMoneyLabel;
 
 
 
 @property (nonatomic , retain)  CAShapeLayer *shapeLayer;
+@property (nonatomic , retain)  CAShapeLayer *BageLayer;
 
 @property (nonatomic ,retain) UILabel *PercentLabel;
 

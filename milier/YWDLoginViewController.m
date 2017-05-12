@@ -32,7 +32,7 @@
     UITapGestureRecognizer *bagTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideKeyBoardClick)];
     [_bagView addGestureRecognizer:bagTap];
     _bagView.backgroundColor = [UIColor whiteColor];
-    _bagView.image = [UIImage imageNamed:@"login_bg"];
+    _bagView.image = [UIImage imageNamed:@"loginbg"];
     [self.view addSubview:_bagView];
     [_bagView mas_makeConstraints:^(MASConstraintMaker *make) {
        // make.centerX.mas_equalTo(self.view.mas_centerX);
@@ -46,39 +46,27 @@
 }
 
 - (void)initUIView{
-    _TitleLabel = [[UILabel alloc]init];
-    _TitleLabel.text = @"登录";
-    [_TitleLabel setFont:[UIFont systemFontOfSize:18]];
-    _TitleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:_TitleLabel];
-    [_TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.top.mas_equalTo(self.view.mas_top).offset(20);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(30);
-    }];
-    _ReginButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_ReginButton setTitle:@"注册" forState:UIControlStateNormal];
-    [_ReginButton addTarget:self action:@selector(ReginClick) forControlEvents:UIControlEventTouchUpInside];
-    [_ReginButton setTitleColor:colorWithRGB(0.96, 0.21, 0.29) forState:UIControlStateNormal];
-    _ReginButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.view addSubview:_ReginButton];
-    [_ReginButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.view.mas_top).offset(20);
-        make.right.mas_equalTo(self.view.mas_right).offset(-15);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(30);
-    }];
-    _YWDImageView = [[UIImageView alloc]init];
-    _YWDImageView.image = [UIImage imageNamed:@"login_logo"];
-    [_bagView addSubview:_YWDImageView];
-    
-    [_YWDImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(_bagView.mas_centerX);
-        make.top.mas_equalTo(_bagView.mas_top).offset(40+44);
-        make.width.mas_equalTo(110);
-        make.height.mas_equalTo(125);
-    }];
+//    _TitleLabel = [[UILabel alloc]init];
+//    _TitleLabel.text = @"登录";
+//    [_TitleLabel setFont:[UIFont systemFontOfSize:18]];
+//    _TitleLabel.textAlignment = NSTextAlignmentCenter;
+//    [self.view addSubview:_TitleLabel];
+//    [_TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.mas_equalTo(self.view.mas_centerX);
+//        make.top.mas_equalTo(self.view.mas_top).offset(20);
+//        make.width.mas_equalTo(40);
+//        make.height.mas_equalTo(30);
+//    }];
+  //    _YWDImageView = [[UIImageView alloc]init];
+//    _YWDImageView.image = [UIImage imageNamed:@"login_logo"];
+//    [_bagView addSubview:_YWDImageView];
+//    
+//    [_YWDImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.mas_equalTo(_bagView.mas_centerX);
+//        make.top.mas_equalTo(_bagView.mas_top).offset(40+44);
+//        make.width.mas_equalTo(110);
+//        make.height.mas_equalTo(125);
+//    }];
     
     _userNameBackImageView = [[UIImageView alloc]init];
     _userNameBackImageView.userInteractionEnabled = YES;
@@ -93,13 +81,13 @@
         make.height.mas_equalTo(45);
     }];
     _PhoneIconImageView = [[UIImageView alloc]init];
-    _PhoneIconImageView.image = [UIImage imageNamed:@"name_icon"];
+    _PhoneIconImageView.image = [UIImage imageNamed:@"phone"];
     [_userNameBackImageView addSubview:_PhoneIconImageView];
     [_PhoneIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_userNameBackImageView.mas_left).offset(5);
         make.centerY.mas_equalTo(_userNameBackImageView.mas_centerY);
-        make.width.mas_equalTo(25);
-        make.height.mas_equalTo(25);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
     _PhoneTextField = [[UITextField alloc]init];
     _PhoneTextField.placeholder = @"请输入手机号码";
@@ -128,13 +116,13 @@
     }];
    
     _PassWordIconImageView= [[UIImageView alloc]init];
-    _PassWordIconImageView.image = [UIImage imageNamed:@"password_icon"];
+    _PassWordIconImageView.image = [UIImage imageNamed:@"key"];
     [_PassWordBackImageView addSubview:_PassWordIconImageView];
     [_PassWordIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_PassWordBackImageView.mas_left).offset(5);
         make.centerY.mas_equalTo(_PassWordBackImageView.mas_centerY);
-        make.width.mas_equalTo(25);
-        make.height.mas_equalTo(25);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
     _PassWordTextField = [[UITextField alloc]init];
     _PassWordTextField.placeholder = @"请输入登录密码";
@@ -154,7 +142,7 @@
     [_LoginBtn setTitle:@"登录" forState:UIControlStateNormal];
     _LoginBtn.layer.masksToBounds = YES;
     _LoginBtn.layer.cornerRadius = 5.0f;
-    _LoginBtn.backgroundColor =colorWithRGB(0.96, 0.21, 0.29);
+    _LoginBtn.backgroundColor =colorWithRGB(0.99, 0.79, 0.09);
     [_LoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _LoginBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [_LoginBtn addTarget:self action:@selector(LoginNextBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -174,17 +162,30 @@
     NSRange conectRange = {0,[ConnectStr length]};
     [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
     _ForgetPasswordLabel.attributedText = ConnectStr;
-    _ForgetPasswordLabel.textColor= [UIColor whiteColor];
+    _ForgetPasswordLabel.textColor= colorWithRGB(0.99, 0.79, 0.09);
     _ForgetPasswordLabel.font = [UIFont systemFontOfSize:13];
     [_bagView addSubview:_ForgetPasswordLabel];
     [_ForgetPasswordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(_LoginBtn.mas_bottom).offset(20);
-        make.right.mas_equalTo(self.view.mas_right).offset(-20);
+        make.top.mas_equalTo(_LoginBtn.mas_bottom).offset(5);
+        make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);
     }];
     
-   
+    _ReginButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [_ReginButton setTitle:@"注册" forState:UIControlStateNormal];
+    _ReginButton.titleLabel.textAlignment = NSTextAlignmentRight;
+    [_ReginButton addTarget:self action:@selector(ReginClick) forControlEvents:UIControlEventTouchUpInside];
+    [_ReginButton setTitleColor:colorWithRGB(0.99, 0.79, 0.09) forState:UIControlStateNormal];
+    _ReginButton.titleLabel.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:_ReginButton];
+    [_ReginButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.view.mas_right).offset(-20);
+        make.top.mas_equalTo(_LoginBtn.mas_bottom).offset(5);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(20);
+    }];
+
 }
 
 
@@ -261,8 +262,20 @@
     [super viewWillDisappear:animated];
 }
 - (void)LoginNextBtn{
-    if (_PhoneTextField.text.length) {
-        
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2323",@"user_id",@"2323",@"accessToken",@"23245465" ,@"expiresAt",nil];
+//    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSLog(@"post = %@",result);
+//    }];
+    
+    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"put = %@",result);
+    }];
+//    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2222" ,@"userPwd", @"23232",@"phone",@"2",@"userFlag",nil];
+//    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:@"https://192.168.1.34:8443/products/1" usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSLog(@"result = %@",result);
+//    }];
+//    if (_PhoneTextField.text.length) {
+//        
 //        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%@",_PhoneTextField.text] ,@"phone", [NSString stringWithFormat:@"%@",_PassWordTextField.text],@"userPwd",@"2",@"userFlag",nil];
 //        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
 //            NSString *code = [result objectForKey:@"retcode"];
@@ -283,14 +296,14 @@
 //                normal_alert(@"提示", AlertStr , @"确定");
 //            }
 //        }];
-        
-        
-    }else{
-        normal_alert(@"提示", @"手机号不可为空", @"确定");
-
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"手机号码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alert show];
-    }
+//        
+//        
+//    }else{
+//        normal_alert(@"提示", @"手机号不可为空", @"确定");
+//
+//        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"提示" message:@"手机号码不可为空" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
+//        [alert show];
+//    }
     
 }
 

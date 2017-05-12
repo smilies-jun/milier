@@ -9,5 +9,11 @@
 #import <UIKit/UIKit.h>
 
 @interface ChoiceStageTableViewCell : UITableViewCell
+- (void)configUI:(NSIndexPath *)indexPath;
+@property (nonatomic,strong)UIImageView *TotalImageView;
+
+@property (nonatomic,strong)UILabel *TitleLable;
+
+@property (nonatomic,strong)UILabel *DetailLable;
 
 @end

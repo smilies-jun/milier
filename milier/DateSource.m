@@ -36,6 +36,9 @@
     }];
     manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.securityPolicy.allowInvalidCertificates = YES;
+    [manager.securityPolicy setValidatesDomainName:NO];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];    //发送POST请求
     [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -49,9 +52,80 @@
         if (block) {
             block(nil,error);
         }
-    }];
-
-    
+    }];    
     
 }
+
+- (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *, NSError *))block{
+    if (manager) {
+        manager = nil;
+    }
+//    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+//    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
+//        parameter = result;
+//    }];
+    manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.securityPolicy.allowInvalidCertificates = YES;
+    [manager.securityPolicy setValidatesDomainName:NO];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain",@"application/octet-stream", nil];    //发送get请求
+    
+    [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (block) {
+                       block(responseObject,nil);
+                   }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (block) {
+                        block(nil,error);
+                    }
+
+    }];
+
+
+}
+
+- (void)requestPutWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *result, NSError *error))block{
+    if (manager) {
+        manager = nil;
+    }
+    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
+        parameter = result;
+    }];
+    manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.securityPolicy.allowInvalidCertificates = YES;
+    [manager.securityPolicy setValidatesDomainName:NO];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];    //发送POST请求
+    [manager PUT:url parameters:parameter success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        if (block) {
+            block(responseObject,nil);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (block) {
+            block(nil,error);
+        }
+
+    }];
+    
+//    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
+//        NSLog(@"目前请求进度");
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        if (block) {
+//            block(responseObject,nil);
+//        }
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        NSLog(@"Error: ======================%@", error);
+//        if (block) {
+//            block(nil,error);
+//        }
+//    }];
+
+}
+
 @end

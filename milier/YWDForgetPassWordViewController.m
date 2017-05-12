@@ -119,7 +119,7 @@
     [PushBtn setTitle:@"提交" forState:UIControlStateNormal];
     PushBtn.layer.masksToBounds = YES;
     PushBtn.layer.cornerRadius = 5.0f;
-    PushBtn.backgroundColor = colorWithRGB(0.96, 0.21, 0.29);
+    PushBtn.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
     [PushBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     PushBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [PushBtn addTarget:self action:@selector(PostBtnClick) forControlEvents:UIControlEventTouchUpInside];

@@ -26,7 +26,40 @@
 
 @property (nonatomic , retain) UIView *BageView;
 
+@property (nonatomic , retain) UIImageView *FirstImageView;
+
+@property (nonatomic , retain) UILabel *FirstNameLabel;
+
+@property (nonatomic , retain) UILabel *FirstSailLabel;
+
+@property (nonatomic , retain) UIView *SecondBageView;
+
+@property (nonatomic , retain) UIImageView *SecondImageView;
+
+@property (nonatomic , retain) UILabel *SecondNameLabel;
+
+@property (nonatomic , retain) UILabel *SecondSailLabel;
+
+@property (nonatomic , retain) UIView *ThirdBageView;
+
+@property (nonatomic , retain) UIImageView *ThirdImageView;
+
+@property (nonatomic , retain) UILabel *ThirdNameLabel;
+
+@property (nonatomic , retain) UILabel *ThirdSailLabel;
+
 @property (nonatomic, retain)UIImageView *StaticImageView;
+
+@property (nonatomic , retain) UIView *FourBageView;
+
+
+@property (nonatomic , retain) UIImageView *FourImageView;
+
+@property (nonatomic , retain) UILabel *FourNameLabel;
+
+@property (nonatomic , retain) UILabel *FourSailLabel;
+
+
 
 - (void)configUI:(NSIndexPath *)indexPath;
 
