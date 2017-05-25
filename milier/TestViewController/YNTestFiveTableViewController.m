@@ -60,7 +60,7 @@
         url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=5",PRODUCTS_URL,page];
         
     }
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
         if (page == 0) {
@@ -150,6 +150,9 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
+    ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
+    vc.productID = [model.oid intValue];
+
     [self.navigationController pushViewController:vc animated:NO];
 }
 

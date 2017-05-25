@@ -22,7 +22,7 @@
     [_SailNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(self.mas_top).offset(5);
-        make.width.mas_equalTo(160);
+        make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
     }];
     _LookSailLabel = [[UILabel alloc]init];
@@ -38,17 +38,18 @@
         make.height.mas_equalTo(15);
     }];
     _LimitNameLabel = [[UILabel alloc]init];
-    _LimitNameLabel.text = @"购买时间:2015-02-30 23:32";
+    _LimitNameLabel.text = @"计息时间:2015-02-30 23:32";
     _LimitNameLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_LimitNameLabel];
     [_LimitNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(_SailNameLabel.mas_bottom).offset(5);
-        make.width.mas_equalTo(160);
+        make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
     }];
     _LookLimitLabel = [[UILabel alloc]init];
     _LookLimitLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
+    _LookLimitLabel.hidden = YES;
     _LookLimitLabel.text = @"债券转让";
     _LookLimitLabel.textAlignment = NSTextAlignmentRight;
     _LookLimitLabel.font = [UIFont systemFontOfSize:12];
@@ -241,12 +242,108 @@
     }];
     
 }
+- (void)setDinQiModel:(DinQiModel *)DinQiModel{
+    if (DinQiModel != _DinQiModel) {
+        _DinQiModel = DinQiModel;
+//        NSTimeInterval interval=[_DinQiModel.createTime doubleValue] / 1000.0;
+//        NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+//        NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+//        [objDateformat setDateFormat:@"yyyy-MM-dd"];
+//        NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+        NSString *CreateTimeStr = [self getTimeStr:_DinQiModel.createTime withForMat:@"yyyy-MM-dd HH:mm:ss"];
+        _SailNameLabel.text =[NSString stringWithFormat:@"购买时间:%@",CreateTimeStr];
+        
+        NSString *startTimeStr = [self getTimeStr:_DinQiModel.createTime withForMat:@"yyyy-MM-dd"];
+        NSString *endTimeStr = [self getTimeStr:_DinQiModel.createTime withForMat:@"yyyy-MM-dd"];
+        _LimitNameLabel.text = [NSString stringWithFormat:@"计息时间:%@到%@",startTimeStr,endTimeStr];
+        if ([_DinQiModel.transferable integerValue] == 1) {
+            _LookLimitLabel.hidden = NO;
+            if ([_DinQiModel.state integerValue]  == 5) {
+                _LookLimitLabel.text = @"取消转让";
 
+            }else{
+                _LookLimitLabel.text = @"债券转让";
+
+            }
+        }else{
+            _LookLimitLabel.hidden = YES;
+
+        }
+        if (_DinQiModel.InstallmentInterestList.count) {
+            
+            for (int i = 0; i<_DinQiModel.InstallmentInterestList.count; i++) {
+                if (i== 0) {
+                    
+                    NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:0];
+                    if ([[dic objectForKey:@"state"] integerValue] == 1) {
+                        _FirstImageView.hidden = NO;
+                       
+                    }else{
+                        _FirstImageView.hidden = YES;
+ 
+                    }
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    _FirstNameLabel.text = [NSString stringWithFormat:@"第一次付息：%@",TimeStr];
+                }
+                if (i == 1) {
+                    NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:1];
+                    if ([[dic objectForKey:@"state"] integerValue] == 1) {
+                        _SecondImageView.hidden = NO;
+                       
+
+                    }else{
+                        _SecondImageView.hidden = YES;
+ 
+                    }
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    _SecondNameLabel.text = [NSString stringWithFormat:@"第二次付息：%@",TimeStr];
+                }
+                if (i ==2) {
+                    NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:2];
+                    if ([[dic objectForKey:@"state"] integerValue] == 1) {
+                        _ThirdImageView.hidden = NO;
+                      
+                    }else{
+                        _ThirdImageView.hidden = YES;
+ 
+                    }
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    
+                    _ThirdNameLabel.text = [NSString stringWithFormat:@"第三次付息：%@",TimeStr];
+                }
+                if (i == 3) {
+                    NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:3];
+                    if ([[dic objectForKey:@"state"] integerValue] == 1) {
+                        _FourImageView.hidden = NO;
+                       
+                    }else{
+                        _FourImageView.hidden = YES;
+  
+                    }
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    
+                    _FourNameLabel.text = [NSString stringWithFormat:@"第四次付息：%@",TimeStr];
+                }
+            }
+            
+
+        }
+        
+        
+    }
+}
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
+}
 - (void)setCellDataWithStatusName:(NSString *)status{
     
 }
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object{
-    NSLog(@"object = %@",object);
     CGFloat statuesHeight =  25 *[object integerValue];
     return statuesHeight;
 }

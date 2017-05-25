@@ -39,4 +39,11 @@
 
 @property(nonatomic,strong)NSString *oid;//
 
+
+@property(nonatomic,strong)NSString *isFullScaleReward;//
+
+@property(nonatomic,strong)NSString *fullScaleReward;//
+
+
+
 @end

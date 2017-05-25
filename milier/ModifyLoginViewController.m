@@ -36,6 +36,8 @@
 }
 - (void)ConfigUI{
     OldLoginView = [[customWithStatic alloc]init];
+    OldLoginView.NameLabel.text = @"原登录密码";
+    OldLoginView.NameTextField.placeholder = @"请输入原登录密码";
     [self.view addSubview:OldLoginView];
     [OldLoginView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -45,6 +47,8 @@
     }];
     
     NewLoginView = [[customWithStatic alloc]init];
+    NewLoginView.NameLabel.text = @"新登录密码";
+    NewLoginView.NameTextField.placeholder = @"密码至少6位";
     [self.view addSubview:NewLoginView];
     [NewLoginView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -55,6 +59,8 @@
     }];
     
     SureLoginView = [[customWithStatic alloc]init];
+    SureLoginView.NameLabel.text = @"确认新密码";
+    SureLoginView.NameTextField.placeholder = @"请再次输入登录密码";
     [self.view addSubview:SureLoginView];
     [SureLoginView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -85,12 +91,62 @@
     [SaleLabel addGestureRecognizer:SaleTap];
 }
 - (void)LoginBackBtn{
-    //提交
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[UserSetViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
+    
+    
+    if (OldLoginView.NameTextField.text.length) {
+        if (NewLoginView.NameLabel.text.length < 5 ) {
+            normal_alert(@"提示", @"密码至少六位", @"确定");
+
+        }else{
+            if (NewLoginView.NameTextField.text.length) {
+                if ([NewLoginView.NameTextField.text isEqualToString:SureLoginView.NameTextField.text]) {
+                    [self reFreshData];
+                }else{
+                    normal_alert(@"提示", @"二次输入密码不一致", @"确定");
+                    
+                }
+            }else{
+                normal_alert(@"提示", @"密码不可为空", @"确定");
+
+            }
+            
+            
+
         }
+        
+        
+    }else{
+        normal_alert(@"提示", @"原密码不可为空", @"确定");
     }
+    
+   }
+
+- (void)reFreshData{
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
+    url = [NSString stringWithFormat:@"https://192.168.1.34:8443/users/%@/password",userID];
+
+    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:OldLoginView.NameTextField.text,@"password",NewLoginView.NameTextField.text,@"newPassword",   nil];
+    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *staues = [result objectForKey:@"statusCode"];
+        if ([staues integerValue] == 201) {
+            //提交
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[UserSetViewController class]]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+        }else{
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示", message, @"确定");
+        }
+
+    }];
+    
+    
+
 }
 - (void)ModifyLoginClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {

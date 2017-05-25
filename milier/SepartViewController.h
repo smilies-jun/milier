@@ -6,8 +6,8 @@
 //  Copyright © 2017年 yj. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "YNTestBaseViewController.h"
 
-@interface SepartViewController : UIViewController
+@interface SepartViewController : YNTestBaseViewController<UITableViewDataSource , UITableViewDelegate>
 
 @end

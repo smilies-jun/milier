@@ -67,7 +67,7 @@
     _ActivityLabel = [[UILabel alloc]init];
     _ActivityLabel.numberOfLines = 0;
     _ActivityLabel.font = [UIFont systemFontOfSize:11];
-    _ActivityLabel.text = @"，每年到了卡萨诺，妈蛋什么， 上，美女地方，慢慢，是你的，阿MSN什么，安定么";
+    _ActivityLabel.text = @"23";
     [_BagView addSubview:_ActivityLabel];
     [_ActivityLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_BagView.mas_left).offset(5);

@@ -10,6 +10,9 @@
 #import "ActivityTableViewCell.h"
 #import "MJRefresh.h"
 #import "ActivityModel.h"
+#import "ActivityDetailViewController.h"
+
+
 
 @interface FirstViewController ()<UITableViewDataSource,UITableViewDelegate>{
     ActivityModel *Model;
@@ -26,14 +29,26 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"活动列表";
+    
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
+
+    [self.navigationController.navigationBar setTranslucent:NO];
+    [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
+    // 导航栏标题字体颜色
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],NSForegroundColorAttributeName:[UIColor blackColor]}];
+    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     DataArray = [[NSMutableArray alloc]init];
-   // [self getNetworkData:YES];
-    [self ConfigUI];
+    
+    
    
     
+    
+    [self getNetworkData:YES];
+    [self ConfigUI];
+   
+   
 
 }
 - (void)ConfigUI{
@@ -50,6 +65,7 @@
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadNew)];
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMore)];
     [self.view addSubview:_tableView];
+  
 }
 
 - (void)loadNew{
@@ -81,12 +97,12 @@
     
     NSString *url;
     if (isFirstCome) {
-        url = [NSString stringWithFormat:@"https://192.168.1.34:8443/activities?page=%d&rows=10",page];
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=10",ACTIVITIES_URL,page];
     }else{
-        url = [NSString stringWithFormat:@"https://192.168.1.34:8443/activities?page=%d&rows=10",page];
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=10",ACTIVITIES_URL,page];
 
     }
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         [self endRefresh];
         isJuhua = NO;
                if (page == 0) {
@@ -149,9 +165,10 @@
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    //    SectionViewController *sVC = [[SectionViewController alloc] init];
-    //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
-    //    [self presentViewController:sVC animated:YES completion:nil];
+    ActivityDetailViewController *vc = [[ActivityDetailViewController alloc]init];
+    ActivityModel *model = [DataArray objectAtIndex:indexPath.row];
+    //vc.WebStr = model.
+    [self.navigationController   pushViewController:vc animated:NO];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

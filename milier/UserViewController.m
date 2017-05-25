@@ -18,6 +18,8 @@
 #import "MyStageViewController.h"
 #import "ShareViewController.h"
 #import "RiskViewController.h"
+#import "RiskComplyViewController.h"
+
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
     
@@ -93,24 +95,26 @@
     StaticUserDic = [[NSDictionary alloc]init];
     cirleArray = [[NSArray alloc]init];
     [self getNetworkData:YES];
-
+    
     [self ConfigUI];
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
     NSString *url;
-    
-    url = [NSString stringWithFormat:@"%@/23",USER_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
-        UserDic = result;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+
+    url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        UserDic = [result objectForKey:@"data"];
         [self reloadData];
     }];
     
     NSString *Statisurl;
     
-    Statisurl = [NSString stringWithFormat:@"%@/23/statistics",USER_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl usingBlock:^(NSDictionary *result, NSError *error) {
-        StaticUserDic = result;
+    Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        StaticUserDic = [result objectForKey:@"data"];
         [self reloadData];
     }];
     
@@ -528,7 +532,8 @@
 }
 //刷新数据
 - (void)reloadData{
-    [UserImageView sd_setImageWithURL:[NSURL URLWithString:[UserDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"head"]];;
+    
+   // [UserImageView sd_setImageWithURL:[NSURL URLWithString:[UserDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"head"]];;
     UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"username"]];
     PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
     MoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"investmentAmount"]];
@@ -583,10 +588,13 @@
 
 }
 
-//风险评估
+//风险评  测试不同的情况进行跳转
 - (void)DangerClick{
-    RiskViewController *RiskVC = [[RiskViewController alloc]init];
+//    RiskViewController *RiskVC = [[RiskViewController alloc]init];
+//    [self.navigationController   pushViewController:RiskVC animated:NO];
+    RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
     [self.navigationController   pushViewController:RiskVC animated:NO];
+
 }
 //帐号设置
 - (void)TopClick{
@@ -653,6 +661,7 @@
     [super viewWillAppear:animated];
     
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated {

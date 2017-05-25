@@ -14,7 +14,7 @@
 #import "AddProfitViewController.h"
 #import "DinQiDetailTableViewCell.h"
 #import "ChangeSailDetailViewController.h"
-
+#import "DinQiModel.h"
 
 @interface DinQiDeatilViewController ()<UITableViewDataSource,UITableViewDelegate,ZFPieChartDelegate,ZFPieChartDataSource>{
     ProfilView *MoneyView;
@@ -29,6 +29,8 @@
     UILabel *OldLabel;
     UILabel *AddLabel;
     NSMutableArray *DinQiArray;
+    NSDictionary *CircleDinQiDic;
+    NSArray *CircleArray;
     
 }
 @property (nonatomic,strong)UITableView *tableView;
@@ -49,7 +51,7 @@
     self.view.backgroundColor = [UIColor grayColor];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(DinQiClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -57,43 +59,87 @@
     MusArray = [[NSMutableArray alloc]init];
     _MutableArray = [[NSMutableArray alloc]initWithObjects:@"0", nil];
     _mysectionArray = [[NSMutableArray alloc]init];
+    CircleDinQiDic = [[NSDictionary alloc]init];
+    CircleArray = [[NSArray alloc]init];
     [self getNetworkData:YES];
     
     [self ConfigUI];
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
-    NSString *url;
+    NSString *Bottomurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+
+    //定期 0 活期 8
+    Bottomurl = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=0",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        CircleDinQiDic = [result objectForKey:@"data"];
+                CircleArray = [[NSArray alloc]initWithObjects:[result objectForKey:@"p2pLoanInvestmentAmount"],[result objectForKey:@"noviceExclusiveInvestmentAmount"],[result objectForKey:@"enterpriseLoanInvestmentAmount"],[result objectForKey:@"personalLoanInvestmentAmount"],[result objectForKey:@"carLoanInvestmentAmount"],[result objectForKey:@"debentureTransferInvestmentAmount"], nil];
+        [self reloadData];
+
+    }];
     
-    url = [NSString stringWithFormat:@"%@?page=1&rows=1&userId=1&productCategoryId=12",PRODUCTO_RDERS_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
+    
+    NSString *url;
+    if (isRefresh) {
+        page = 0;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+      if (isFirstCome) {
+        url = [NSString stringWithFormat:@"%@?page=1&rows=10&userId=%@&productCategoryId=12",PRODUCTO_RDERS_URL,userID];
+
+    }else{
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=10&userId=%@&productCategoryId=12",PRODUCTO_RDERS_URL,page,userID];
+
+    }
+    
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
         _mysectionArray = myArray;
+        
+        isJuhua = NO;
+        [self endRefresh];
+        if (page == 0) {
+            [DinQiArray removeAllObjects];
+        }
+        if (isJuhua) {
+            [self endRefresh];
+        }
+        
         for (NSDictionary *JinMidic in myArray) {
             
-            NSLog(@"result =- %@",result);
-//            NSTimeInterval interval=[[JinMidic objectForKey:@"createTime"] doubleValue] / 1000.0;
-//            NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
-//            NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
-//            [objDateformat setDateFormat:@"yyyy-MM-dd"];
-//            NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
-          //  NSString *str  =  [self getDateAccordingTime:[JinMidic objectForKey:@"createTime"] formatStyle:@"YYYY-MM-HH HH：MM：SS"];
-         //   NSLog(@"ssssssssss === %@",timeStr);
-            NSString *changeOrNo = [JinMidic objectForKey:@"transferable"];
+            DinQiModel *model = [[DinQiModel alloc]init];
+            model.dataDictionary = JinMidic;
+            [DinQiArray addObject:model];;
             int  rows = 2;
             NSArray *ChangeArray = [JinMidic objectForKey:@"InstallmentInterestList"];
             if (ChangeArray.count) {
-                rows = rows+ChangeArray.count;
+                rows = rows + (int)ChangeArray.count;
             }
             [_MutableArray addObject:[NSString stringWithFormat:@"%d",rows]];
 
         }
         [self reloadData];
+        isFirstCome = NO;
+
     }];
     
     
 }
-
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 0) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
+}
 - (void)reloadData{
     [self ConfigUI];
 }
@@ -103,13 +149,26 @@
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+    [self.view addSubview:_tableView];
     [self.view addSubview:_tableView];
     
 
 
 
 }
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    [self getNetworkData:NO];
+    
+}
+
 - (void)DinQiClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserViewController class]]) {
@@ -158,12 +217,13 @@
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-        
         NSLog(@"self = %@",[_MutableArray objectAtIndex:indexPath.section] );
-
-        CGFloat statuesFloat = [DinQiDetailTableViewCell tableView:tableView rowHeightForObject:[_MutableArray objectAtIndex:indexPath.section]];
+  
+    CGFloat statuesFloat = [DinQiDetailTableViewCell tableView:tableView rowHeightForObject:[_MutableArray objectAtIndex:indexPath.section]];
     
-        return statuesFloat;
+    return statuesFloat;
+
+       
 }
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -198,7 +258,7 @@
         }];
         
         UILabel *MoneyLabel = [[UILabel alloc]init];
-        MoneyLabel.text = @"232323232";
+        MoneyLabel.text = [NSString stringWithFormat:@"%@",[CircleDinQiDic objectForKey:@"investmentAmount"]];
         MoneyLabel.textAlignment = NSTextAlignmentCenter;
         MoneyLabel.font = [UIFont systemFontOfSize:16];
         [self.pieChart addSubview:MoneyLabel];
@@ -222,7 +282,7 @@
         }];
         FirstCircleLabel = [[UILabel alloc]init];
         FirstCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-        FirstCircleLabel.text = @"网贷基金：23232322";
+        FirstCircleLabel.text =[NSString stringWithFormat:@"网贷基金   %@",[CircleDinQiDic objectForKey:@"p2pLoanInvestmentAmount"]];
         FirstCircleLabel.textAlignment = NSTextAlignmentLeft;
         FirstCircleLabel.font = [UIFont systemFontOfSize:12];
         [topView addSubview:FirstCircleLabel];
@@ -248,7 +308,7 @@
         SecondCircleLabel = [[UILabel alloc]init];
         SecondCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
 
-        SecondCircleLabel.text = @"网贷基金：2222222";
+        SecondCircleLabel.text = [NSString stringWithFormat:@"新手专享   %@",[CircleDinQiDic objectForKey:@"noviceExclusiveInvestmentAmount"]];
         SecondCircleLabel.textAlignment = NSTextAlignmentLeft;
         SecondCircleLabel.font = [UIFont systemFontOfSize:12];
         [topView addSubview:SecondCircleLabel];
@@ -274,7 +334,7 @@
         ThirdCircleLabel = [[UILabel alloc]init];
         ThirdCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
 
-        ThirdCircleLabel.text = @"网贷基金：23333333";
+        ThirdCircleLabel.text = [NSString stringWithFormat:@"企业贷款   %@",[CircleDinQiDic objectForKey:@"enterpriseLoanInvestmentAmount"]];
         ThirdCircleLabel.textAlignment = NSTextAlignmentLeft;
         ThirdCircleLabel.font = [UIFont systemFontOfSize:12];
         [topView addSubview:ThirdCircleLabel];
@@ -301,7 +361,7 @@
         FourCircleLabel = [[UILabel alloc]init];
         FourCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
 
-        FourCircleLabel.text = @"网贷基金：4444444";
+        FourCircleLabel.text = [NSString stringWithFormat:@"个人贷款   %@",[CircleDinQiDic objectForKey:@"personalLoanInvestmentAmount"]];
         FourCircleLabel.textAlignment = NSTextAlignmentLeft;
         FourCircleLabel.font = [UIFont systemFontOfSize:12];
         [topView addSubview:FourCircleLabel];
@@ -327,7 +387,7 @@
         FiveCircleLabel = [[UILabel alloc]init];
         FiveCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
 
-        FiveCircleLabel.text = @"网贷基金：555555";
+        FiveCircleLabel.text = [NSString stringWithFormat:@"购车贷款   %@",[CircleDinQiDic objectForKey:@"carLoanInvestmentAmount"]];
         FiveCircleLabel.textAlignment = NSTextAlignmentLeft;
         FiveCircleLabel.font = [UIFont systemFontOfSize:12];
         [topView addSubview:FiveCircleLabel];
@@ -354,7 +414,7 @@
         SixCircleLabel = [[UILabel alloc]init];
         SixCircleLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
 
-        SixCircleLabel.text = @"网贷基金：66666";
+        SixCircleLabel.text =[NSString stringWithFormat:@"债权转让   %@",[CircleDinQiDic objectForKey:@"debentureTransferInvestmentAmount"]];
         SixCircleLabel.textAlignment = NSTextAlignmentLeft;
         SixCircleLabel.font = [UIFont systemFontOfSize:12];
         [topView addSubview:SixCircleLabel];
@@ -408,7 +468,7 @@
             make.height.mas_equalTo(20);
         }];
         OldLabel = [[UILabel alloc]init];
-        OldLabel.text = @"20000";
+        OldLabel.text = [NSString stringWithFormat:@"¥%@",[CircleDinQiDic objectForKey:@"yesterdayEarnings"]];
         OldLabel.textAlignment = NSTextAlignmentCenter;
         OldLabel.textColor = [UIColor orangeColor];
         OldLabel.font = [UIFont systemFontOfSize:14];
@@ -464,7 +524,7 @@
         AddLabel = [[UILabel alloc]init];
         AddLabel.textAlignment = NSTextAlignmentCenter;
 
-        AddLabel.text = @"20000";
+        AddLabel.text =[NSString stringWithFormat:@"¥%@",[CircleDinQiDic objectForKey:@"accumulatedEarnings"]];
         AddLabel.textColor = [UIColor orangeColor];
         AddLabel.font = [UIFont systemFontOfSize:14];
         [AddView addSubview:AddLabel];
@@ -501,7 +561,7 @@
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.height.mas_equalTo(10);
         }];
-        
+ 
         
         return topView;
     }else{
@@ -562,7 +622,7 @@
         [HeaderView addSubview:StateImageView];
         
         UIImageView *RowImageView = [[UIImageView alloc]init];
-        RowImageView.image = [UIImage imageNamed:@"goarrow"];
+        RowImageView.image = [UIImage imageNamed:@"down_arrow_gray"];
         RowImageView.frame = CGRectMake(SCREEN_WIDTH - 60, 20, 10, 10);
         [HeaderView addSubview:RowImageView];
         
@@ -584,6 +644,39 @@
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.height.mas_equalTo(10);
         }];
+        
+        if (DinQiArray.count) {
+            DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
+            DinQiLabel.text = [NSString stringWithFormat:@"%@",model.name];
+            DinQiDetailLabel.text =  [NSString stringWithFormat:@"预计年化收益 %@",model.subname];
+
+            DinQiNnumberLabel.text = [NSString stringWithFormat:@"%@",model.cci];
+            DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%@",model.ci];
+            switch ([model.state integerValue]) {
+                case 1:
+                    StateImageView.image = [UIImage imageNamed:@"raise"];
+  
+                    break;
+                case 2:
+                    StateImageView.image = [UIImage imageNamed:@"interest"];
+ 
+                    break;
+                case 3:
+                    StateImageView.image = [UIImage imageNamed:@"assignment"];
+ 
+                    break;
+                case 4:
+                    StateImageView.image = [UIImage imageNamed:@"repayment"];
+ 
+                    break;
+                case 5:
+                    StateImageView.image = [UIImage imageNamed:@"transferred"];
+
+                    break;
+                default:
+                    break;
+            }
+        }
         return HeaderView;
     }
     
@@ -601,9 +694,9 @@
 
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"DinQiCell";
+    static NSString *identify = @"DinQiLiCaiCell";
     DinQiDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
-    if (cell == nil) {
+    if (!cell) {
         cell = [[DinQiDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
         [cell configUI:indexPath];
         cell.LookSailLabel.userInteractionEnabled = YES;
@@ -613,7 +706,15 @@
         cell.LookLimitLabel.userInteractionEnabled = YES;
         UITapGestureRecognizer *LimitTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LimitClick)];
         [cell.LookLimitLabel addGestureRecognizer:LimitTap];
+
     }
+    if (DinQiArray.count) {
+        if (indexPath.section-1 >= 0) {
+            DinQiModel *model = [DinQiArray objectAtIndex:indexPath.section-1];
+            cell.DinQiModel = model;
+        }
+    }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
    // cell.textLabel.text= [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
@@ -657,7 +758,12 @@
 #pragma mark - ZFPieChartDataSource
 
 - (NSArray *)valueArrayInPieChart:(ZFPieChart *)chart{
-    return @[@"50", @"256", @"300", @"283", @"490", @"236"];
+    if (CircleArray.count) {
+        return CircleArray;
+    }else{
+        return @[@"50", @"256", @"300", @"283", @"490", @"236"];
+  
+    }
 }
 
 - (NSArray *)colorArrayInPieChart:(ZFPieChart *)chart{

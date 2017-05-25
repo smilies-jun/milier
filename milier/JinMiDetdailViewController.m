@@ -9,7 +9,7 @@
 #import "JinMiDetdailViewController.h"
 #import "UserViewController.h"
 #import "ProfilView.h"
-
+#import "AddProfitViewController.h"
 
 @interface JinMiDetdailViewController (){
     CAShapeLayer *ShapeLayer;
@@ -45,16 +45,18 @@
     [leftBtn addTarget:self action:@selector(JinMiClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-     [self getNetworkData:YES];
     [self ConfigUI];
+
+     [self getNetworkData:YES];
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
     NSString *url;
-    
-    url = [NSString stringWithFormat:@"%@/8/investmentStatistics?productCategoryId=8",USER_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
-        jinmiDic = result;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    url = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=8",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        jinmiDic = [result objectForKey:@"data"];
         [self reloadData];
     }];
     
@@ -165,6 +167,9 @@
     
     OldProfdilView = [[ProfilView alloc]init];
     OldProfdilView.NameLabel.text = @"累计收益";
+    OldProfdilView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *OldTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(OldClick)];
+    [OldProfdilView addGestureRecognizer:OldTap];
     OldProfdilView.NameLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [self.view addSubview:OldProfdilView];
     [OldProfdilView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -222,6 +227,12 @@
     PercentProfileView.DetailLabel.text = [NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"tenThousandIncome"]];
     AddProfileView.DetailLabel.text = [NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"accumulatedEarnings"]];
 
+}
+//累计收益
+- (void)OldClick{
+    AddProfitViewController *addVC = [[AddProfitViewController alloc]init];
+    addVC.ProductType = 1;
+    [self.navigationController pushViewController:addVC animated:NO];
 }
 - (void)JinMiClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {

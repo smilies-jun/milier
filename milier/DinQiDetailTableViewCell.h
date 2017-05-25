@@ -59,11 +59,12 @@
 
 @property (nonatomic , retain) UILabel *FourSailLabel;
 
+@property (nonatomic, retain)DinQiModel *DinQiModel;
 
 
 - (void)configUI:(NSIndexPath *)indexPath;
 
-
+- (void)setDinQiModel:(DinQiModel *)DinQiModel;
 /**
  *  设置cell的数据，提供接口
  *

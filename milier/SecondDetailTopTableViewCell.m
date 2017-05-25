@@ -172,7 +172,7 @@
         _detailModel = detailModel;
         TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
         NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
-        ProfitPercentLabel.text = [NSString stringWithFormat:@"%@%%",_detailModel.interestRate];
+        ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
         BondLabel.text = [NSString stringWithFormat:@"%@元起购",_detailModel.minimumInvestmentAmount];
         BondTimeLabel.text = [NSString stringWithFormat:@"%@天期限",_detailModel.investmentHorizon];
         PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.modeOfRepayment];

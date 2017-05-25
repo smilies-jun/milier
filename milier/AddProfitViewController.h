@@ -14,14 +14,13 @@
     int totalPage;//总页数
     BOOL isJuhua;//是否正在下拉刷新或者上拉加载。default NO。
 }
-@property(nonatomic,strong)NSMutableArray *pictures;
-/** maxtime */
-@property(nonatomic,copy)NSString *maxtime;
+
 /**
  *  获取网络数据
  *  @param isRefresh 是否是下拉刷新
  */
 -(void)getNetworkData:(BOOL)isRefresh;
 
+@property(assign)int ProductType;
 
 @end

@@ -26,29 +26,63 @@
     block(parameters,error);
 }
 
-- (void)requestHomeWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *, NSError *))block{
+- (void)CheckNetWorkinguseingBlock:(void (^)(NSString *staus))block{
+    AFNetworkReachabilityManager *Netmanager = [AFNetworkReachabilityManager sharedManager];
+    
+//    // 提示：要监控网络连接状态，必须要先调用单例的startMonitoring方法
+    [Netmanager startMonitoring];
+    
+    
+    [Netmanager  setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        NSString *CheckStr;
+
+        if (status == -1) {
+            CheckStr = [NSString stringWithFormat:@"未识别网络"];
+        }
+        if (status == 0) {
+            CheckStr = [NSString stringWithFormat:@"未连接网络"];
+        }
+        if (status == 1) {
+            CheckStr = [NSString stringWithFormat:@"3G/4G网络"];
+        }
+        if (status == 2) {
+            CheckStr = [NSString stringWithFormat:@"Wifi网络"];
+        }
+        if (block) {
+            block(CheckStr);
+        }
+        
+    }];
+
+}
+
+
+
+- (void)requestHomeWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
     if (manager) {
         manager = nil;
     }
-    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
-    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
-        parameter = result;
-    }];
+ //   __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+//    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
+//        parameter = result;
+//    }];
     manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     manager.securityPolicy.allowInvalidCertificates = YES;
     [manager.securityPolicy setValidatesDomainName:NO];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];    //发送POST请求
-    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
-        NSLog(@"目前请求进度");
+    if (tokenStr.length) {
+        [manager.requestSerializer setValue:tokenStr forHTTPHeaderField:@"Authorization"];
+    }
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript",@"text/plain", nil];    //发送POST请求
+    [manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (block) {
             block(responseObject,nil);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSLog(@"Error: ======================%@", error);
+        //NSLog(@"Error: ======================%@", error);
         if (block) {
             block(nil,error);
         }
@@ -56,7 +90,7 @@
     
 }
 
-- (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *, NSError *))block{
+- (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
     if (manager) {
         manager = nil;
     }
@@ -70,10 +104,16 @@
     manager.securityPolicy.allowInvalidCertificates = YES;
     [manager.securityPolicy setValidatesDomainName:NO];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    if (tokenStr.length) {
+        [manager.requestSerializer setValue:tokenStr forHTTPHeaderField:@"Authorization"];
+        
+    }
+
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain",@"application/octet-stream", nil];    //发送get请求
     
     [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+       } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+       // NSLog(@"url= %@",responseObject);
         if (block) {
                        block(responseObject,nil);
                    }
@@ -87,22 +127,26 @@
 
 }
 
-- (void)requestPutWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url usingBlock:(void (^)(NSDictionary *result, NSError *error))block{
+- (void)requestPutWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *result, NSError *error))block{
     if (manager) {
         manager = nil;
     }
-    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
-    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
-        parameter = result;
-    }];
+//    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
+//        parameter = result;
+//    }];
     manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     manager.securityPolicy.allowInvalidCertificates = YES;
     [manager.securityPolicy setValidatesDomainName:NO];
     [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript", nil];    //发送POST请求
-    [manager PUT:url parameters:parameter success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    if (tokenStr.length) {
+        [manager.requestSerializer setValue:tokenStr forHTTPHeaderField:@"Authorization"];
+        
+    }
+
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain",@"application/octet-stream", nil];    //发送get请求
+    [manager PUT:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (block) {
             block(responseObject,nil);
         }

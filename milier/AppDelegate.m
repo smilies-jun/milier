@@ -30,6 +30,7 @@
 
 
 @interface AppDelegate ()
+
 @end
 
 @implementation AppDelegate
@@ -42,7 +43,7 @@
     [self setupViewControllers];
     //启动动画延迟时间
     [NSThread sleepForTimeInterval:0.1];
-
+ 
     int i = 4;
     //判断是否登陆，服务器获取
     if ( i >= 5) {
@@ -136,7 +137,7 @@
 }
 
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
-    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_selected_background"];
+    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
     NSArray *tabBarItemImages = @[@"licai", @"huodong", @"more"];
     NSArray *tabBarItemNames = @[@"理财", @"活动", @"更多"];

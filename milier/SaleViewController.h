@@ -10,4 +10,21 @@
 
 @interface SaleViewController : UIViewController
 
+@property (nonatomic,strong)NSString *NameStr;
+
+@property (nonatomic,strong)NSString *TotalStr;
+
+@property (nonatomic,strong)NSString *SellStr;
+
+@property (nonatomic,strong)NSString *PercentStr;
+
+@property (nonatomic,strong)NSString *investmentHorizonStr;
+
+
+@property (nonatomic,strong)NSString *isFullScaleReward;
+
+@property (nonatomic,strong)NSString *fullScaleReward;
+
+@property (nonatomic,strong)NSString *investmentHorizon;
+
 @end

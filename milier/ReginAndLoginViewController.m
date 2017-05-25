@@ -21,7 +21,7 @@
     customWithStatic  *PassView;
     CustomView *callView;
      int _second;
-    
+    UIButton *ClickBtn;
     UIView *alphaBagView;//遮罩
     YWDAlertView *alertView;
     popupFade *fadeSort;
@@ -43,9 +43,6 @@
     
     [self.BackButton addTarget:self action:@selector(ReginAndLoginBackClick) forControlEvents:UIControlEventTouchUpInside];
     
-    if (_codeStr.length) {
-        [self senderInputSecurityCodeBtnClicked];
-    }
     [self initUI];
     [self initAlertView];
 }
@@ -57,7 +54,6 @@
 //        make.right.mas_equalTo(UsertPhoneView.mas_right).offset(-10);
 //    }];
     UsertPhoneView.NameTextField.delegate = self;
-    UsertPhoneView.NameTextField.secureTextEntry = YES;
     UsertPhoneView.NameTextField.placeholder = @"请输入手机号码";
     [self.view addSubview:UsertPhoneView];
     [UsertPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -123,7 +119,35 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
-    
+    ClickBtn = [[UIButton alloc]init];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    ClickBtn.selected = YES;
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn addTarget:self action:@selector(Agreeclicked:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:ClickBtn];
+    [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(callView.mas_bottom).offset(10);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(30);
+    }];
+    UILabel *nameLabel =[[UILabel alloc]init];
+    nameLabel.font = [UIFont systemFontOfSize:15];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
+    NSRange conectRange = {4,4};
+    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
+    nameLabel.attributedText = ConnectStr;
+    nameLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(gesClick)];
+    [nameLabel addGestureRecognizer:gesTap];
+    [self.view addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
+        make.top.mas_equalTo(callView.mas_bottom).offset(10);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(30);
+    }];
+
     UIButton *reginBtn = [[UIButton alloc]init];
     [reginBtn setBackgroundColor:colorWithRGB(0.99, 0.79, 0.09)];
     reginBtn.layer.masksToBounds = YES;
@@ -133,10 +157,23 @@
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(callView.mas_bottom).offset(10);
+        make.top.mas_equalTo(callView.mas_bottom).offset(40);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
+}
+-(void)Agreeclicked:(UIButton *)btn{
+    if (btn.selected) {
+        btn.selected = NO;
+    }else{
+        btn.selected = YES;
+    }
+
+}
+
+- (void)gesClick{
+// 协议跳转
+    
 }
 - (void)initAlertView{
     alphaBagView = [[UIView alloc]init];
@@ -168,7 +205,6 @@
 }
 
 - (void)ReginAndLoginClicked{
-    [self dismissViewControllerAnimated:NO completion:nil];
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
             [self ReginClicked];
@@ -188,27 +224,26 @@
 
 
 - (void)ReginClicked{
-//    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_codeStr ,@"phone",PassView.NameTextField.text,@"newPwd",PhoneView.NameTextField.text,@"newSms", nil];
-//    if (callView.NameTextField.text) {
-//        [YWDDic   setObject:callView.NameTextField.text forKey:@"parentId"];
-//    }
-//    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/register",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-//        NSLog(@"result= %@",result);
-//        NSString *code = [result objectForKey:@"retcode"];
-//        NSLog(@"code = %@",code );
-//        if ([code intValue] == 1000) {
-//            NSuserSave([result objectForKey:@"token"], @"token");
-//            NSuserSave(_codeStr, @"phone");
-//            NSuserSave(PassView.NameTextField.text, @"password");
-//            NSuserSave(@"1", @"state");
-//            [[NSUserDefaults standardUserDefaults]synchronize];
-//            [self showAlert];
-//            
-//        }else{
-//            NSString *AlertStr = [result objectForKey:@"retdesc"];
-//            normal_alert(@"提示", AlertStr , @"确定");
-//        }
-//    }];
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",PassView.NameTextField.text,@"password",PhoneView.NameTextField.text,@"captcha", nil];
+    if (callView.NameTextField.text) {
+        [YWDDic   setObject:callView.NameTextField.text forKey:@"parentId"];
+    }
+    
+    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:USER_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+            NSDictionary *dic = [result objectForKey:@"data"];
+            NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
+            NSuserSave([dic objectForKey:@"userId"], @"userId");
+            [self dismissViewControllerAnimated:NO completion:nil];
+        }else{
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示",message, @"确定");
+        }
+        
+
+
+    }];
+
 }
 - (void)showAlert{
     alphaBagView.hidden = NO;
@@ -219,27 +254,32 @@
 - (void)senderInputSecurityCodeBtnClicked
 
 {
-//    _second = 90;
-//    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
-//    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
-//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-//    BOOL isMatch  = [phoneTest evaluateWithObject:_codeStr];
-//    if (!isMatch) {
-//        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
-//        
-//    }else{
-//        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_codeStr ,@"phone", nil];
-//        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/getSms",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-//            NSString *code = [result objectForKey:@"retcode"];
-//            if ([code intValue] == 1000) {
-//                normal_alert(@"提示", @"验证码已发送您的手机注意查收", @"确定");
-//
-//            }else{
-//                NSString *AlertStr = [result objectForKey:@"retdesc"];
-//                normal_alert(@"提示", AlertStr , @"确定");
-//            }
-//        }];
-//    }
+    _second = 90;
+    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    BOOL isMatch  = [phoneTest evaluateWithObject:UsertPhoneView.NameTextField.text];
+    if (!isMatch) {
+        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
+        
+    }else{
+        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
+        //验证码获取陈功or失败
+        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+                        if ([[result objectForKey:@"success"]integerValue]==1 ) {
+                normal_alert(@"提示", @"验证码已发送", @"确定");
+            }else{
+                NSString *ErrorMessage = [result objectForKey:@"message"];
+                normal_alert(@"提示", ErrorMessage, @"确定");
+
+            }
+            
+        }];
+
+        
+    
+    
+    }
 }
 
 #pragma mark  - - 验证码倒计时 - -

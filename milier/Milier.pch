@@ -21,6 +21,7 @@
 #import "NSObject+Property.h"
 #import "UIImageView+WebCache.h"
 #import "MJRefresh.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 
 // Categories
@@ -42,11 +43,19 @@
 
 
 //URL
-#define CAROUSSELS_URL @"https://192.168.1.34:8443/carousels"
-#define PRODUCTS_URL @"https://192.168.1.34:8443/products"
-#define USER_URL @"https://192.168.1.34:8443/users"
+#define SMS_URL @"https://csapp.milibanking.com/app/sms" //短信验证
 
-#define PRODUCTO_RDERS_URL @"https://192.168.1.34:8443/productOrders"
+
+#define LOGIN_URL @"https://csapp.milibanking.com/app/tokens" //登录
+#define HOST_URL @"https://csapp.milibanking.com/app"
+#define CAROUSSELS_URL @"https://csapp.milibanking.com/app/carousels"
+#define PRODUCTS_URL @"https://csapp.milibanking.com/app/products"
+#define USER_URL @"https://csapp.milibanking.com/app/users"
+#define PRODUCTO_RDERS_URL @"https://csapp.milibanking.com/app/productOrders"
+
+#define ACTIVITIES_URL @"https://csapp.milibanking.com/app/activities"
+
+#define normal_alert(TITLE,MESSAGE,CANCEL) [[[UIAlertView alloc] initWithTitle:TITLE message:MESSAGE delegate:nil cancelButtonTitle:CANCEL otherButtonTitles:nil, nil] show]
 
 #ifndef weakify
 #if DEBUG

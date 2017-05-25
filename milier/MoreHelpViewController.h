@@ -10,4 +10,8 @@
 
 @interface MoreHelpViewController : UIViewController
 
+@property (nonatomic,retain)NSString *TitleStr;
+
+@property (assign)int type;
+
 @end

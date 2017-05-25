@@ -9,8 +9,6 @@
 #import "MyJiFenViewController.h"
 #import "JiFenRecordViewController.h"
 #import "JiFenConvertViewController.h"
-#import "SDCycleScrollView.h"
-#import "YNJianShuDemoViewController.h"
 #import "MJRefresh.h"
 #import "UserViewController.h"
 #import "ConvertViewController.h"
@@ -215,7 +213,7 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
 
 - (ZJContentView *)contentView {
     if (_contentView == nil) {
-        ZJContentView *content = [[ZJContentView alloc] initWithFrame:self.view.bounds segmentView:self.segmentView parentViewController:self delegate:self];
+        ZJContentView *content = [[ZJContentView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44- 44) segmentView:self.segmentView parentViewController:self delegate:self];
         _contentView = content;
     }
     return _contentView;

@@ -10,4 +10,7 @@
 
 @interface MessageTableViewCell : UITableViewCell
 
+@property (nonatomic,retain)UILabel *Messagelabel;
+@property (nonatomic, assign) CGFloat rowHeight;
+- (void)configUI:(NSIndexPath *)indexPath;
 @end

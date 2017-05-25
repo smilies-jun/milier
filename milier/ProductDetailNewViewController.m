@@ -47,10 +47,11 @@
     NSString *url;
 
     url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url usingBlock:^(NSDictionary *result, NSError *error) {
-     
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+        [_DataArray removeAllObjects];
+            NSDictionary *dic = [result objectForKey:@"data"];
             ProductDetailModel *model = [[ProductDetailModel alloc]init];
-            model.dataDictionary = result;
+            model.dataDictionary = dic;
             [_DataArray addObject:model];
 
         [_tableView reloadData];
@@ -95,12 +96,21 @@
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleBtnClick
-                                                                                                          )];
+                                                                                                    )];
     [SaleLbel addGestureRecognizer:SaleTap];
 
 }
 - (void)SaleBtnClick{
     SaleViewController *SaleVC = [[SaleViewController alloc]init];
+    ProductDetailModel *model = [_DataArray objectAtIndex:0];
+    SaleVC.NameStr = model.name;
+    SaleVC.TotalStr = model.aggregateAmount;
+    SaleVC.SellStr = model.sellTotal;
+    SaleVC.PercentStr = model.interestRate;
+    SaleVC.investmentHorizonStr = model.investmentHorizon;
+    SaleVC.isFullScaleReward = model.isFullScaleReward;
+    SaleVC.fullScaleReward = model.fullScaleReward;
+    
     [self.navigationController pushViewController:SaleVC animated:NO];
 }
 - (void)newDetailTap{
@@ -122,7 +132,7 @@
     if (indexPath.row == 0) {
         return 320;
     }else if (indexPath.row == 1){
-        return 150;
+        return 170;
     }
     else{
         return 44;

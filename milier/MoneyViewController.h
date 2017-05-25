@@ -1,15 +1,14 @@
 //
-//  TouUpViewController.h
+//  MoneyViewController.h
 //  milier
 //
-//  Created by amin on 17/4/19.
+//  Created by amin on 2017/5/24.
 //  Copyright © 2017年 yj. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface TouUpViewController : UIViewController
-
+@interface MoneyViewController : UIViewController
 @property(assign)int type;
 
 @end

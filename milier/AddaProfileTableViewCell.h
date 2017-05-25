@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ProfileModel.h"
 
 @interface AddaProfileTableViewCell : UITableViewCell
 
@@ -14,6 +15,11 @@
 
 @property (nonatomic , retain) UILabel *DetailLabel;
 
+
+@property(nonatomic, retain)ProfileModel *ProfileModel;
+
 - (void)configUI:(NSIndexPath *)indexPath;
+
+- (void)setProfileModel:(ProfileModel *)ProfileModel;
 
 @end

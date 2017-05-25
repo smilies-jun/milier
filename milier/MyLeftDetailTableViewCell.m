@@ -30,6 +30,7 @@
     }];
     _DetailLabel = [[UILabel alloc]init];
     _DetailLabel.text = @"订单编号：276726372367267327";
+    _DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     _DetailLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_DetailLabel];
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -39,6 +40,7 @@
         make.height.mas_equalTo(20);
     }];
     _TimeLabel = [[UILabel alloc]init];
+    _TimeLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     _TimeLabel.text = @"2014-23-32";
     _TimeLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_TimeLabel];

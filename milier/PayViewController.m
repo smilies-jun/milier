@@ -141,7 +141,7 @@
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"购买";
     SaleLabel.userInteractionEnabled = YES;
-    SaleLabel.backgroundColor = [UIColor greenColor];
+    SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
     SaleLabel.layer.cornerRadius = 10;

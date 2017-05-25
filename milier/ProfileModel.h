@@ -9,5 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface ProfileModel : NSObject
+@property(nonatomic,strong)NSString *createTime;
+
+@property(nonatomic,strong)NSString *interest;
 
 @end

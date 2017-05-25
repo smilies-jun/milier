@@ -9,5 +9,29 @@
 #import <Foundation/Foundation.h>
 
 @interface DinQiModel : NSObject
+@property(nonatomic,strong)NSArray *InstallmentInterestList;
+
+@property(nonatomic,strong)NSString *InterestBearingEndTime;
+
+@property(nonatomic,strong)NSString *InterestBearingStartTime;
+
+@property(nonatomic,strong)NSString *cci;
+
+@property(nonatomic,strong)NSString *ci;
+
+@property(nonatomic,strong)NSString *createTime;
+
+@property(nonatomic,strong)NSString *interestRate;
+
+@property(nonatomic,strong)NSString *name;
+
+@property(nonatomic,strong)NSString *oid;
+
+@property(nonatomic,strong)NSString *state;
+
+@property(nonatomic,strong)NSString *subname;
+
+@property(nonatomic,strong)NSString *transferable;
+
 
 @end

@@ -57,6 +57,7 @@
     NSMutableArray *ActivityArray;
     
 }
+@property(nonatomic, strong) MBProgressHUD *aProgressHUD;
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 @property (nonnull, strong)UIView *ContentView;
@@ -91,14 +92,16 @@
     
     EAIntroPage *page3 = [EAIntroPage page];
     page3.bgImage = [UIImage imageNamed:@"welcome3"];
+
     
     
     EAIntroView *intro = [[EAIntroView alloc] initWithFrame:rootView.bounds andPages:@[page1,page2,page3]];
     intro.pageControlY = 42.f;
-//    [intro.skipButton setTitle:@"跳过" forState:UIControlStateNormal];
+    [intro.skipButton setTitle:@"跳过" forState:UIControlStateNormal];
+    intro.skipButton.frame = CGRectMake(100, 100, 40, 40);
     [intro setDelegate:self];
-    intro.pageControl.currentPageIndicatorTintColor = [UIColor blackColor];
-    intro.pageControl.pageIndicatorTintColor = [UIColor orangeColor];
+    intro.pageControl.currentPageIndicatorTintColor = colorWithRGB(0.95, 0.6, 0.11);
+    intro.pageControl.pageIndicatorTintColor = colorWithRGB(0.94, 0.94, 0.94) ;
     intro.skipButton.hidden = YES;
    // intro.skipButtonY = 80;
 //    [intro.skipButton setTitle:@"Skip now" forState:UIControlStateNormal];
@@ -122,24 +125,54 @@
     [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    
+    
+    
     [self RequestData];
-    
-    
-    
-   
     
 
 }
+- (void)refreshData{
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
+    NSString *userID = NSuserUse(@"userId");
+    NSLog(@"userid = %@",userID);
+    if ([userID integerValue]>0) {
+        [self RequestHead];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }else{
+        self.navigationItem.rightBarButtonItem = nil;
+        
+    }
 
+}
+
+
+- (void)RequestHead{
+    NSString *tokenID = NSuserUse(@"Authorization");
+
+    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/messages/isNewMessageExist",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        if ([[result objectForKey:@"exist"]integerValue]==1) {
+            [self refreshUI];
+        }
+    }];
+
+}
+
+- (void)refreshUI{
+     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news_dot"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+
+}
 - (void)RequestData{
+    
     NSString *CarouselsUrl = [NSString stringWithFormat:@"%@",CAROUSSELS_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl usingBlock:^(NSDictionary *result, NSError *error) {
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *array = [result objectForKey:@"items"];
         for (NSDictionary *dic in array) {
             [ImageArray addObject:[dic objectForKey:@"image"]];
             [ActivityArray addObject:[dic objectForKey:@"href"]];
+            
         }
         [self CreateUI];
     }];
@@ -153,13 +186,19 @@
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
 }
 - (void)LeftBtnClick{
-    UserViewController *NserVC = [[UserViewController alloc]init];
-    [self.navigationController  pushViewController:NserVC animated:NO];
+    NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue] > 0) {
+        UserViewController *NserVC = [[UserViewController alloc]init];
+        [self.navigationController  pushViewController:NserVC animated:NO];
+    }else{
+        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+        loginNagition.navigationBarHidden = YES;
+        [self presentViewController:loginNagition animated:NO completion:nil];
+    }
+   
     
-//    YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-//    UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-//    loginNagition.navigationBarHidden = YES;
-//    [self presentViewController:loginNagition animated:NO completion:nil];
+
 }
 - (void)RightClick{
     FourViewController *fourVC = [[FourViewController alloc]init];
@@ -176,17 +215,17 @@
     
     [super viewWillLayoutSubviews];
     
-    NSLog(@"%@",[NSValue valueWithCGRect:self.view.frame]);
+   // NSLog(@"%@",[NSValue valueWithCGRect:self.view.frame]);
     
 }
 
 - (void)viewDidLayoutSubviews{
     
     [super viewDidLayoutSubviews];
-    NSLog(@"%@",[NSValue valueWithCGRect:self.view.frame]);
+   // NSLog(@"%@",[NSValue valueWithCGRect:self.view.frame]);
 }
 
-//简书Demo
+
 - (YNJianShuDemoViewController *)getJianShuDemoViewController{
     
     YNTestOneViewController *one = [[YNTestOneViewController alloc]init];
@@ -505,7 +544,19 @@
     UIGraphicsEndImageContext();
     return theImage;
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self refreshData];
+//    [[DateSource sharedInstance]CheckNetWorkinguseingBlock:^(NSString *staus) {
+//        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+//        
+//        // Set the text mode to show only text.
+//        hud.mode = MBProgressHUDModeText;
+//        hud.label.text = NSLocalizedString(staus, @"HUD message title");
+//        
+//        [hud hideAnimated:YES afterDelay:1.f];
+//    }];
+}
 
 //- (void)createTabbarItems
 //{

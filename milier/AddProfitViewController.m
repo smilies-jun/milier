@@ -10,9 +10,13 @@
 #import "DinQiDeatilViewController.h"
 #import "AddaProfileTableViewCell.h"
 #import "MJRefresh.h"
+#import "JinMiDetdailViewController.h"
+#import "ProfileModel.h"
 
 
-@interface AddProfitViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface AddProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray *AddArray;
+}
 @property (nonatomic,strong)UITableView *tableView;
 
 
@@ -27,10 +31,14 @@
     self.view.backgroundColor = [UIColor grayColor];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(AddProfitClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+    AddArray = [[NSMutableArray alloc]init];
+   
+    [self getNetworkData:YES];
     [self ConfigUI];
 
 }
@@ -38,12 +46,22 @@
     page = 0;
     isFirstCome = YES;
     isJuhua = NO;
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self.view addSubview:_tableView];
+}
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    [self getNetworkData:NO];
+    
 }
 /**
  *  停止刷新
@@ -58,68 +76,64 @@
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
+    NSString *url;
     if (isRefresh) {
         page = 0;
         isFirstCome = YES;
     }else{
         page++;
     }
-    
-    NSString *url;
-    if (isFirstCome) {
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,@"",page];
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    if (_ProductType == 1) {
+        //活期
+        if (isFirstCome) {
+            url = [NSString stringWithFormat:@"%@/earnings?page=1&rows=20&userId=%@&productCategoryId=8",HOST_URL,userID];
+ 
+        }else{
+            url = [NSString stringWithFormat:@"%@/earnings?page=%d&rows=20&userId=%@&productCategoryId=8",HOST_URL,page,userID];
+  
+        }
     }else{
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,self.maxtime,page];
+         // 定期
+        if (isFirstCome) {
+            url = [NSString stringWithFormat:@"%@/earnings?page=1&rows=20&userId=%@&productCategoryId=0",HOST_URL,userID];
+            
+        }else{
+            url = [NSString stringWithFormat:@"%@/earnings?page=%d&rows=20&userId=%@&productCategoryId=0",HOST_URL,page,userID];
+            
+        }
+       
+
     }
-    //    [HYBNetworking cacheGetRequest:YES shoulCachePost:YES];
-    //    [HYBNetworking getWithUrl:url refreshCache:NO params:nil progress:^(int64_t bytesRead, int64_t totalBytesRead) {
-    //
-    //    } success:^(id response) {
-    //        PPLog(@"请求成功---%@",response);
-    //        [self endRefresh];
-    //        isJuhua = NO; //数据获取成功后，设置为NO
-    //
-    //        NSDictionary *dict = (NSDictionary *)response;
-    //        NSDictionary *infoDict = [dict objectForKey:@"info"];
-    //        totalPage = (int)[infoDict objectForKey:@"page"];
-    //        self.maxtime = [infoDict objectForKey:@"maxtime"];
-    //
-    //        if (page == 0) {
-    //            [_pictures removeAllObjects];
-    //        }
-    //        //判断是否有菊花正在加载，如果有，判断当前页数是不是大于最大页数，是的话就不让加载，直接return；（因为下拉的当前页永远是最小的，所以直接return）
-    //        if (isJuhua) {
-    //            if (page >= totalPage) {
-    //                [self endRefresh];
-    //            }
-    //            return ;
-    //        }
-    //        //没有菊花正在加载，所以设置yes
-    //        isJuhua = YES;
-    //        //显然下面的方法适用于上拉加载更多
-    //        if (page >= totalPage) {
-    //            [self endRefresh];
-    //            return;
-    //        }
-    //        //获取模型数组
-    //        NSArray *pictureArr = [dict objectForKey:@"list"];
-    //        for (NSDictionary *dic in pictureArr) {
-    //            MJPicture *picture = [[MJPicture alloc]init];
-    //            [picture setValuesForKeysWithDictionary:dic];
-    //            [self.pictures addObject:picture];
-    //        }
-    //        [self.tableView reloadData];
-    //        //获取成功一次就判断
-    //        isFirstCome = NO;
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //        PPLog(@"请求失败---%@",error);
-    //    }];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSArray *myArray = [result objectForKey:@"items"];
+        
+        isJuhua = NO;
+        [self endRefresh];
+        if (page == 0) {
+            [AddArray removeAllObjects];
+        }
+                if (isJuhua) {
+                    [self endRefresh];
+                }
+
+        
+        for (NSDictionary *NewDic in myArray) {
+            ProfileModel *model = [[ProfileModel alloc]init];
+            model.dataDictionary = NewDic;
+            [AddArray addObject:model];
+        }
+        [self.tableView reloadData];
+        isFirstCome = NO;
+    }];
+    
+
+
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  30;
+    return  [AddArray count];
 }
 
 
@@ -130,7 +144,7 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 60;
+    return 44;
     
 }
 
@@ -142,6 +156,11 @@
     if (!cell) {
         cell = [[AddaProfileTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         [cell configUI:indexPath];
+    }
+    
+    if (AddArray.count) {
+        ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
+        cell.ProfileModel = model;
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
@@ -157,6 +176,11 @@
 - (void)AddProfitClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[JinMiDetdailViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

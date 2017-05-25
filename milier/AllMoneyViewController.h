@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "YNPageScrollViewController.h"
 
-@interface AllMoneyViewController : UIViewController
+@interface AllMoneyViewController : YNPageScrollViewController
 
 @end

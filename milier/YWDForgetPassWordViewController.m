@@ -142,7 +142,7 @@
 
                     }else{
                         if (SurePassWordView.NameTextField.text == NewPassWordView.NameTextField.text) {
-                            [self postCode];
+                            [self postForgetCode];
                         }else{
                             normal_alert(@"提示", @"二次密码不一致请重新输入", @"确定");
                             
@@ -165,24 +165,19 @@
     }
 }
 
-- (void)postCode{
-//    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phone",CodeNumView.NameTextField.text,@"newSms",NewPassWordView.NameTextField.text,@"newPwd1",SurePassWordView.NameTextField.text,@"newPwd2", nil];
-//
-//    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/backPwd",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-//        NSString *code = [result objectForKey:@"retcode"];
-//        if ([code intValue] == 1000) {
-//           //登陆
-//            NSuserSave([result objectForKey:@"token"], @"token");
-//            NSuserSave(@"1", @"state");
-//            [[NSUserDefaults standardUserDefaults]synchronize];
-//            [self.navigationController dismissViewControllerAnimated:NO completion:^{
-//                
-//            }];
-//        }else{
-//            NSString *AlertStr = [result objectForKey:@"retdesc"];
-//            normal_alert(@"提示", AlertStr , @"确定");
-//        }
-//    }];
+- (void)postForgetCode{
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",NewPassWordView.NameTextField.text,@"newPassword", nil];
+    NSString *url = [NSString stringWithFormat:@"%@/retrievePassword",USER_URL];
+    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"mee = %@",result);
+        
+        //注册成功or失败
+        [self dismissViewControllerAnimated:NO completion:nil];
+        
+    }];
+    
+    
+
 }
 
 
@@ -197,27 +192,32 @@
 
 
 - (void)codeGet{
-//    _second = 90;
-//    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
-//    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
-//    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-//    BOOL isMatch  = [phoneTest evaluateWithObject:phoneNumView.NameTextField.text];
-//    if (!isMatch) {
-//        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
-//        
-//    }else{
-//        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phone", nil];
-//        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/getSms",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
-//            NSString *code = [result objectForKey:@"retcode"];
-//            if ([code intValue] == 1000) {
-//                normal_alert(@"提示", @"验证码已发送您的手机注意查收", @"确定");
-//                
-//            }else{
-//                NSString *AlertStr = [result objectForKey:@"retdesc"];
-//                normal_alert(@"提示", AlertStr , @"确定");
-//            }
-//        }];
-//    }
+    _second = 90;
+    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+    NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
+    NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
+    BOOL isMatch  = [phoneTest evaluateWithObject:phoneNumView.NameTextField.text];
+    if (!isMatch) {
+        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
+        
+    }else{
+        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
+        //验证码获取陈功or失败
+        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+            if ([[result objectForKey:@"success"]integerValue]==1 ) {
+                normal_alert(@"提示", @"验证码已发送", @"确定");
+            }else{
+                NSString *ErrorMessage = [result objectForKey:@"message"];
+                normal_alert(@"提示", ErrorMessage, @"确定");
+                
+            }
+            
+        }];
+        
+        
+        
+        
+    }
 
 }
 #pragma mark  - - 验证码倒计时 - -

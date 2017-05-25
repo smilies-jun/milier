@@ -89,10 +89,12 @@
 //            NSLog(@"result = %@",result);
 //        }];
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2323",@"user_id",@"2323",@"accessToken", nil];
-        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
-            
-        }];
-        
+//        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
+//            
+//        }];
+[[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:LOGIN_URL withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+    
+}];
 //        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:[NSString stringWithFormat:@"%@/phone/login",TestSeverURL] usingBlock:^(NSDictionary *result, NSError *error) {
 //            NSString *code = [result objectForKey:@"retcode"];
 //            if ([code intValue] == 1000) {

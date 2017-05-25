@@ -10,4 +10,12 @@
 
 @interface SepartTableViewCell : UITableViewCell
 
+
+@property (nonatomic , retain) UILabel *TitleLabel;
+
+@property (nonatomic , retain) UILabel *TypeLabel;
+
+@property (nonatomic , retain) UILabel *TimeLabel;
+- (void)configUI:(NSIndexPath *)indexPath;
+
 @end

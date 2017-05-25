@@ -10,4 +10,15 @@
 
 @interface AleardyBundTableViewCell : UITableViewCell
 
+@property (nonatomic , retain) UIImageView *userImageView;
+
+@property (nonatomic , retain) UILabel *NameLabel;
+
+@property (nonatomic , retain) UILabel *DetailLabel;
+
+@property (nonatomic , retain) UILabel *TypeLabel;
+
+
+- (void)configUI:(NSIndexPath *)indexPath;
+
 @end

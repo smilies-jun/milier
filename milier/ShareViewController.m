@@ -14,9 +14,16 @@
 #import "AleardyBoundViewController.h"
 #import "UserViewController.h"
 #import "YNTestOneViewController.h"
+#import "ShareDetailViewController.h"
+#import "SGQRCode.h"
+#import <AwAlertViewlib/AwAlertViewlib.h>
 
 
-@interface ShareViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>
+@interface ShareViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
+    AwAlertView *alertView;
+
+}
+
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 
 @end
@@ -80,11 +87,11 @@
     configration.selectedItemColor = [UIColor blackColor];
     configration.normalItemColor = [UIColor grayColor];
     configration.selectedItemColor = [UIColor blackColor];
-    configration.showConver = YES;
-    configration.converColor = colorWithRGB(1,0.87, 0.01);
+    //configration.showConver = YES;
+    //configration.converColor = colorWithRGB(1,0.87, 0.01);
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
-    configration.showScrollLine = NO;
+    //configration.showScrollLine = NO;
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
     configration.showNavigation = YES;
@@ -92,7 +99,11 @@
     
     //创建控制器
     YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"已绑卡",@"未绑卡"] Configration:configration];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 520)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 600)];
+    imageView.userInteractionEnabled = YES;
+    
+    
+    
     UIImageView *TopImageView = [[UIImageView alloc]init];
     TopImageView.image = [UIImage imageNamed:@"shareforbonus"];
     TopImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 365);
@@ -133,13 +144,97 @@
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(titleview.mas_centerX);
         make.top.mas_equalTo(titleview.mas_bottom).offset(10);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(SCREEN_WIDTH - 52);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(linquiBtnClick
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
+    
+    
+    
+    UIView *UserInviteView = [[UIView alloc]init];
+    UserInviteView.backgroundColor = colorWithRGB(1, 0.94, 0.72);
+    [imageView addSubview:UserInviteView];
+    [UserInviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(imageView.mas_left);
+        make.top.mas_equalTo(SaleLbel.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(60);
+    }];
+    UIImageView *userImageView = [[UIImageView alloc]init];
+    userImageView.image = [UIImage imageNamed:@"head"];
+    userImageView.layer.cornerRadius = 20;
+    userImageView.layer.masksToBounds = YES;
+    [UserInviteView addSubview:userImageView];
+    [userImageView   mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(UserInviteView.mas_left).offset(30);
+        make.centerY.mas_equalTo(UserInviteView.mas_centerY);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(40);
+    }];
+    UIImageView *codeImageView = [[UIImageView alloc]init];
+    codeImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *CodeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(setupGenerateQRCode)];
+    [codeImageView addGestureRecognizer:CodeTap];
+    codeImageView.image = [UIImage imageNamed:@"erweima"];
+    codeImageView.backgroundColor = [UIColor orangeColor];
+    [UserInviteView addSubview:codeImageView];
+    [codeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(userImageView.mas_right).offset(10);
+        make.centerY.mas_equalTo(UserInviteView.mas_centerY);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
+    }];
+    
+    
+    UILabel *CodeLabel = [[UILabel alloc]init];
+    CodeLabel.font = [UIFont systemFontOfSize:15];
+    CodeLabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
+    CodeLabel.text = @"我的邀请码";
+    [UserInviteView addSubview:CodeLabel];
+    [CodeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(codeImageView.mas_right).offset(10);
+        make.centerY.mas_equalTo(UserInviteView.mas_centerY);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
+    }];
+    
+    UILabel *CodeNumberLabel = [[UILabel alloc]init];
+    CodeNumberLabel.font = [UIFont systemFontOfSize:15];
+    CodeNumberLabel.textColor = colorWithRGB(0.86, 0.29, 0.24);
+    CodeNumberLabel.text = @"2324";
+    [UserInviteView addSubview:CodeNumberLabel];
+    [CodeNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(CodeLabel.mas_right);
+        make.centerY.mas_equalTo(UserInviteView.mas_centerY);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
+    }];
+    
+
+    UIView *InviteView = [[UIView alloc]init];
+    InviteView.backgroundColor = colorWithRGB(1, 0.94, 0.72);
+    [imageView addSubview:InviteView];
+    [InviteView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(imageView.mas_left);
+        make.top.mas_equalTo(UserInviteView.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
+    }];
+    
+    UILabel *MeLabel = [[UILabel alloc]init];
+    MeLabel.text = @"我的邀请记录(共邀请7个好友)";
+    MeLabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
+    MeLabel.font = [UIFont systemFontOfSize:14];
+    [InviteView addSubview:MeLabel];
+    [MeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(InviteView.mas_left).offset(40);
+        make.centerY.mas_equalTo(InviteView.mas_centerY);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(40);
+    }];
     
     //footer用来当做内容高度
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
@@ -150,8 +245,56 @@
     vc.IsTab = NO;
     return vc;
 }
+
+// 生成二维码
+- (void)setupGenerateQRCode {
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH-40, 280)];
+    view.backgroundColor=[UIColor whiteColor];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 5.0f;
+    //view.alpha = 0.9;
+    
+    UILabel *userLabel = [[UILabel alloc]init];
+    userLabel.text = @"我的二维码";
+    userLabel.font = [UIFont systemFontOfSize:14];
+    userLabel.frame = CGRectMake(40, 10, 80, 20);
+    [view addSubview:userLabel];
+    
+    UIImageView*   CancelImageView = [[UIImageView alloc]init];
+    CancelImageView.image = [UIImage imageNamed:@"close"];
+    CancelImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(CancelClick)];
+    [CancelImageView addGestureRecognizer:CancelTap];
+    CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 40 - 30, 10, 20, 20);
+    [view addSubview:CancelImageView];
+    // 1、借助UIImageView显示二维码
+    UIImageView *imageView = [[UIImageView alloc] init];
+    CGFloat imageViewW = 200;
+    CGFloat imageViewH = imageViewW;
+    CGFloat imageViewX = 65;
+    CGFloat imageViewY = 40;
+    imageView.frame =CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
+    [view addSubview:imageView];
+    
+    CGFloat scale = 0.2;
+    
+    // 2、将最终合得的图片显示在UIImageView上
+    imageView.image = [SGQRCodeTool SG_generateWithLogoQRCodeData:@"https://github.com/kingsic" logoImageName:@"head" logoScaleToSuperView:scale];
+    
+    alertView=[[AwAlertView alloc]initWithContentView:view];
+    alertView.isUseHidden=YES;
+    [alertView showAnimated:YES];
+    
+    //[imageView addSubview:borderView];
+}
+- (void)CancelClick{
+    [alertView dismissAnimated:NO];
+
+}
 - (void)linquiBtnClick{
     //领取
+    ShareDetailViewController *vc = [[ShareDetailViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)dealloc{
     
@@ -200,30 +343,30 @@
 }
 
 
-#pragma mark - lazy
-
-- (UIActivityIndicatorView *)loadingView{
-    
-    if (!_loadingView) {
-        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        _loadingView.hidesWhenStopped = YES;
-        _loadingView.center = self.view.center;
-        [self.view addSubview:_loadingView];
-    }
-    
-    return _loadingView;
-}
--(UIImage*) createImageWithColor:(UIColor*) color
-{
-    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-    UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    CGContextSetFillColorWithColor(context, [color CGColor]);
-    CGContextFillRect(context, rect);
-    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return theImage;
-}
+//#pragma mark - lazy
+//
+//- (UIActivityIndicatorView *)loadingView{
+//    
+//    if (!_loadingView) {
+//        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//        _loadingView.hidesWhenStopped = YES;
+//        _loadingView.center = self.view.center;
+//        [self.view addSubview:_loadingView];
+//    }
+//    
+//    return _loadingView;
+//}
+//-(UIImage*) createImageWithColor:(UIColor*) color
+//{
+//    CGRect rect=CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
+//    UIGraphicsBeginImageContext(rect.size);
+//    CGContextRef context = UIGraphicsGetCurrentContext();
+//    CGContextSetFillColorWithColor(context, [color CGColor]);
+//    CGContextFillRect(context, rect);
+//    UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
+//    UIGraphicsEndImageContext();
+//    return theImage;
+//}
 
 
 - (void)viewWillAppear:(BOOL)animated {

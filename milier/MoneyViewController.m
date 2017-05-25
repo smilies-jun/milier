@@ -1,29 +1,29 @@
 //
-//  TouUpViewController.m
+//  MoneyViewController.m
 //  milier
 //
-//  Created by amin on 17/4/19.
+//  Created by amin on 2017/5/24.
 //  Copyright © 2017年 yj. All rights reserved.
 //
 
-#import "TouUpViewController.h"
-#import "SaleViewController.h"
+#import "MoneyViewController.h"
 #import "MyLeftViewController.h"
 #import "CustomView.h"
 
-
-@interface TouUpViewController (){
+@interface MoneyViewController (){
     CustomView *payView;
+    CustomView *passWordView;
+
 }
 
 @end
 
-@implementation TouUpViewController
+@implementation MoneyViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"充值";
+    self.navigationItem.title = @"提现";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -32,57 +32,51 @@
     [leftBtn addTarget:self action:@selector(TouUpTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    [self reloadData];
     [self configUI];
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
 }
-- (void)reloadData{
-    
+- (void)TouUpTap{
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[MyLeftViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 }
 - (void)configUI{
+    
+    UILabel *titleLabel = [[UILabel alloc]init];
+    titleLabel.text = @"预计3个工作日内到账";
+    titleLabel.font = [UIFont systemFontOfSize:10];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    [self.view addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.view.mas_centerX);
+        make.top.mas_equalTo(self.view.mas_top).offset(5);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(15);
+    }];
     payView = [[CustomView alloc]init];
-    payView.NameLabel.text = @"充值金额";
+    payView.NameLabel.text = @"输入金额:";
     payView.NameTextField.placeholder = @"请输入充值金额";
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(self.view.mas_top).offset(10);
+        make.top.mas_equalTo(self.view.mas_top).offset(30);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(44);
     }];
     
-    UIImageView *bankImageView = [[UIImageView alloc]init];
-    bankImageView.backgroundColor = [UIColor redColor];
-    [self.view addSubview:bankImageView];
-    [bankImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+    passWordView = [[CustomView alloc]init];
+    passWordView.NameLabel.text = @"交易密码:";
+    passWordView.NameTextField.placeholder = @"请输入交易密码";
+    [self.view addSubview:passWordView];
+    [passWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(payView.mas_bottom).offset(10);
-        make.width.mas_equalTo(40);
-        make.height.mas_equalTo(40);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.height.mas_equalTo(44);
     }];
-    
-    UILabel *bankLabel = [[UILabel alloc]init];
-    bankLabel.text = @"工商银行（7686)";
-    bankLabel.font = [UIFont systemFontOfSize:12];
-    [self.view addSubview:bankLabel];
-    [bankLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(bankImageView.mas_right).offset(5);
-        make.top.mas_equalTo(payView.mas_bottom).offset(10);
-        make.width.mas_equalTo(200);
-        make.height.mas_equalTo(15);
-    }];
-    
-    UILabel *bankDetailLabel = [[UILabel alloc]init];
-    bankDetailLabel.text = @"工商银行（7686)123213213213";
-    bankDetailLabel.font = [UIFont systemFontOfSize:12];
-    [self.view addSubview:bankDetailLabel];
-    [bankDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(bankImageView.mas_right).offset(5);
-        make.top.mas_equalTo(bankLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(200);
-        make.height.mas_equalTo(15);
-    }];
-    
     UILabel *TestLabel =  [[UILabel alloc]init];
     TestLabel.text = @"充值";
     TestLabel.userInteractionEnabled = YES;
@@ -94,7 +88,7 @@
     [self.view addSubview:TestLabel];
     [TestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
-        make.top.mas_equalTo(bankImageView.mas_bottom).offset(20);
+        make.top.mas_equalTo(passWordView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
         make.height.mas_equalTo(40);
     }];
@@ -107,13 +101,7 @@
 - (void)PaySureBtnClick{
     
 }
-- (void)TouUpTap{
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[MyLeftViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
-}
+
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{
     for (UIView *KeyView in self.view.subviews) {
@@ -153,6 +141,7 @@
     
     [super viewWillDisappear:animated];
 }
+
 
 
 /*

@@ -6,8 +6,8 @@
 //  Copyright © 2017年 yj. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "YNTestBaseViewController.h"
 
-@interface OutViewController : UIViewController
+@interface OutViewController : YNTestBaseViewController<UITableViewDataSource , UITableViewDelegate>
 
 @end

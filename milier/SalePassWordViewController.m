@@ -24,12 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.TopView.hidden = NO;
-//    self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
-//    self.TopTitleLabel.text = @"找回登录密码";
-//    [self.BackButton addTarget:self action:@selector(SaleBackClick) forControlEvents:UIControlEventTouchUpInside];
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SalePassClickBack)];
-//    [self.view addGestureRecognizer:tap]
+
     self.navigationItem.title = @"设置交易密码";
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -70,7 +65,7 @@
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"购买";
     SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = [UIColor greenColor];
+    SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
     SaleLbel.layer.cornerRadius = 10;

@@ -16,7 +16,7 @@
 
 @property(nonatomic,strong)NSString *riskLevel;
 
-@property(nonatomic,strong)NSString *productId;
+@property(nonatomic,strong)NSString *oid;
 
 @property(nonatomic,strong)NSString *name;
 

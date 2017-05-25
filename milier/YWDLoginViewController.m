@@ -261,15 +261,60 @@
     
     [super viewWillDisappear:animated];
 }
-- (void)LoginNextBtn{
-    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2323",@"user_id",@"2323",@"accessToken",@"23245465" ,@"expiresAt",nil];
-//    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
-//        NSLog(@"post = %@",result);
-//    }];
+#pragma 正则匹配手机号
+-(BOOL)checkTelNumber:(NSString *) telNumber
+{
+    NSString *MOBILE = @"^1[34578]\\d{9}$";
     
-    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"put = %@",result);
-    }];
+    NSPredicate *regexTestMobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",MOBILE];
+    /*
+     if ([regexTestMobile evaluateWithObject:self]) {
+     
+     return YES;
+     
+     }else {
+     
+     return NO;
+     
+     }*/
+    return [regexTestMobile evaluateWithObject:telNumber];
+}
+- (void)LoginNextBtn{
+    if ([self checkTelNumber:_PhoneTextField.text]) {
+        if (_PassWordTextField.text.length) {
+            if (_PassWordTextField.text.length >= 6) {
+                NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_PhoneTextField.text,@"username",_PassWordTextField.text,@"password",nil];
+                [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:LOGIN_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+                    if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                        NSDictionary *dic = [result objectForKey:@"data"];
+                        NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
+                        NSuserSave([dic objectForKey:@"userId"], @"userId");
+                        [self dismissViewControllerAnimated:NO completion:nil];
+                    }else{
+                        NSString *message = [result objectForKey:@"message"];
+                        normal_alert(@"提示",message, @"确定");
+                    }
+                    NSLog(@"re = %@",result);
+
+                }];
+            }else{
+                normal_alert(@"提示", @"密码至少6位", @"确定");
+
+            }
+        }else{
+            normal_alert(@"提示", @"密码不能为空", @"确定");
+  
+        }
+        
+        
+    }else{
+        normal_alert(@"提示", @"手机号不能为空", @"确定");
+    }
+   
+    
+//    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:@"https://192.168.1.34:8443/tokens" usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSLog(@"put = %@",result);
+//    }];
 //    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"2222" ,@"userPwd", @"23232",@"phone",@"2",@"userFlag",nil];
 //    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:@"https://192.168.1.34:8443/products/1" usingBlock:^(NSDictionary *result, NSError *error) {
 //        NSLog(@"result = %@",result);

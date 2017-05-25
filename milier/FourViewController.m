@@ -7,6 +7,9 @@
 //
 
 #import "FourViewController.h"
+#import "MessageTableViewCell.h"
+
+
 
 @interface FourViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
@@ -14,6 +17,8 @@
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
 
+@property (nonatomic, assign) CGFloat rowHeight;
+@property (nonatomic,strong)NSArray *MessageArray;
 
 
 @end
@@ -31,29 +36,77 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    
-//    [self.navigationController.navigationBar setTranslucent:NO];
-//    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.000 green:0.800 blue:0.800 alpha:1.000]];
-//    // 导航栏标题字体颜色
-//    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],NSForegroundColorAttributeName:[UIColor orangeColor]}];
-//    // 导航栏左右按钮字体颜色
-//    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-//    
-//    self.navigationItem.title = @"米粒儿金融";
-//    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(HistoryOnTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
+    _MessageArray = [[NSArray alloc]init];
+     [self getNetworkData:YES];
     [self makeData];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    [_tableView setTableFooterView:[UIView new]];
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
+}
+-(void)getNetworkData:(BOOL)isRefresh
+{
+
+    NSString *url;
+    if (isRefresh) {
+        page = 0;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+    isJuhua = NO;
+    [self endRefresh];
+
+    if (isJuhua) {
+        [self endRefresh];
+    }
+    NSString *tokenID = NSuserUse(@"Authorization");
+    if (isFirstCome) {
+        url = [NSString stringWithFormat:@"%@/messages?page=1&rows=10",HOST_URL];
+        
+    }else{
+        url = [NSString stringWithFormat:@"%@/messages?page=%d&rows=10",HOST_URL ,page];
+        
+    }
+    
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        _MessageArray = [result objectForKey:@"items"];
+        [self makeData];
+        [_tableView reloadData];
+        isFirstCome = NO;
+        
+    }];
+    
+    
+}
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    [self getNetworkData:NO];
+    
+}
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 0) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
 }
 
 - (void)HistoryOnTap{
@@ -65,10 +118,10 @@
 - (void)makeData{
     _sectionArray = [NSMutableArray array];
     _flagArray  = [NSMutableArray array];
-    NSInteger num = 10;
+    NSInteger num = _MessageArray.count;
     for (int i = 0; i < num; i ++) {
         NSMutableArray *rowArray = [NSMutableArray array];
-        for (int j = 0; j < arc4random()%20 + 1; j ++) {
+        for (int j = 0; j < 1; j ++) {
             [rowArray addObject:[NSString stringWithFormat:@"%d",j]];
         }
         [_sectionArray addObject:rowArray];
@@ -93,7 +146,7 @@
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-        return 44;
+         return self.rowHeight;;
 }
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -109,43 +162,81 @@
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(sectionClick:)];
     [sectionLabel addGestureRecognizer:tap];
     
-    UIView *leftView = [[UIView alloc]init];
-    leftView.backgroundColor = [UIColor orangeColor];
-    leftView.frame = CGRectMake(0, 5, 2, 30);
+    UIImageView *leftView = [[UIImageView alloc]init];
+    leftView.image = [UIImage imageNamed:@"circle"];
+    NSString *checkStr = [[_MessageArray objectAtIndex:section]objectForKey:@"checked"];
+    if ([checkStr integerValue] == 1) {
+        leftView.hidden = YES;
+    }else{
+        leftView.hidden = NO;
+    }
+    leftView.frame = CGRectMake(15, 15, 8, 8);
     [sectionLabel addSubview:leftView];
-    
+    UILabel *NameLabel = [[UILabel alloc]init];
+    NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
+    NameLabel.textAlignment = NSTextAlignmentLeft;
+    NameLabel.font = [UIFont systemFontOfSize:13];
+    [sectionLabel addSubview:NameLabel];
+    [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(leftView.mas_right);
+        make.top.mas_equalTo(sectionLabel.mas_top).offset(10);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(15);
+    }];
+    UILabel *timeLabel = [[UILabel alloc]init];
+    timeLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"createTime"];
+    timeLabel.textColor = colorWithRGB(0.94, 0.94, 0.94);
+    timeLabel.font = [UIFont systemFontOfSize:12];
+    [sectionLabel addSubview:timeLabel];
+    [timeLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(leftView.mas_right);
+        make.top.mas_equalTo(NameLabel.mas_bottom);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(15);    }];
     
     UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor = [UIColor redColor];
-    lineView.frame = CGRectMake(0, 43, 320, 1);
+    lineView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+    lineView.frame = CGRectMake(0, 43, SCREEN_WIDTH, 0.5);
     [sectionLabel addSubview:lineView];
  
     return sectionLabel;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
+    MessageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
+        cell = [[MessageTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
+        [cell configUI:indexPath];
     }
-    cell.textLabel.text= [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
+    cell.Messagelabel.text = [[_MessageArray objectAtIndex:indexPath.section]objectForKey:@"content"];
+  
+    self.rowHeight = cell.rowHeight;
     cell.clipsToBounds = YES;//这句话很重要 不信你就试试
     return cell;
 }
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    SectionViewController *sVC = [[SectionViewController alloc] init];
-//    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
-//    [self presentViewController:sVC animated:YES completion:nil];
+    
 }
 - (void)sectionClick:(UITapGestureRecognizer *)tap{
     int index = tap.view.tag % 100;
     
+    NSString *oidStr = [[_MessageArray objectAtIndex:index]objectForKey:@"oid"];
+    NSString *url;
+    NSString *tokenID = NSuserUse(@"Authorization");
+    url = [NSString stringWithFormat:@"%@/messages/%@/markAsRead",HOST_URL,oidStr];
+    [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        [_tableView reloadData];
+    }];
+
     NSMutableArray *indexArray = [[NSMutableArray alloc]init];
     NSArray *arr = _sectionArray[index];
     for (int i = 0; i < arr.count; i ++) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:index];
         [indexArray addObject:path];
     }
+    
     //展开
     if ([_flagArray[index] isEqualToString:@"0"]) {
         _flagArray[index] = @"1";
@@ -154,6 +245,7 @@
         _flagArray[index] = @"0";
         [_tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationTop]; //使用下面注释的方法就 注释掉这一句
     }
+    [_tableView reloadData];
     //	NSRange range = NSMakeRange(index, 1);
     //	NSIndexSet *sectionToReload = [NSIndexSet indexSetWithIndexesInRange:range];
     //	[_tableView reloadSections:sectionToReload withRowAnimation:UITableViewRowAnimationAutomatic];

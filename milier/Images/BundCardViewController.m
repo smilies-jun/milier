@@ -12,10 +12,12 @@
 #import "CustomChooseView.h"
 #import "ZHPickView.h"
 
-@interface BundCardViewController (){
-    UIView *BackView;
+@interface BundCardViewController ()<UIScrollViewDelegate>{
+    UIScrollView *BackView;
     
     UILabel *MoneyLabel;
+    
+    CustomView *MoneyView;
     
     CustomView *CardNameView;
     
@@ -31,6 +33,10 @@
 
     UILabel *ExlainLabel;
     NSArray *proTimeList;
+    NSMutableArray *BankArray;
+    NSMutableArray *BankIDArray;
+    NSString *bankStr;
+    UIButton *ClickBtn;
 }
 
 @end
@@ -51,41 +57,58 @@
     self.view.userInteractionEnabled = YES;
     UITapGestureRecognizer *BagTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BagClcik)];
     [self.view addGestureRecognizer:BagTap];
-    [self ConfigUI];
+    BankArray = [[NSMutableArray alloc]init];
+    BankIDArray = [[NSMutableArray alloc]init];
+    [self getBankCards];
+    
     
    
+}
+- (void)getBankCards{
+    NSString *url;
+    url = [NSString stringWithFormat:@"%@/banks?page=1&rows=100",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+        NSArray *myArray = [result objectForKey:@"items"];
+        for (NSDictionary *dic in myArray) {
+            [BankArray addObject:[dic objectForKey:@"name"]];
+            [BankIDArray addObject:[dic objectForKey:@"oid"]];
+
+        }
+        [self ConfigUI];
+    }];
 }
 - (void)BagClcik{
     [self HideKeyBoardClick];
 }
 - (void)ConfigUI{
-    BackView = [[UIView alloc]init];
+    BackView = [[UIScrollView alloc]init];
+    BackView.delegate = self;
+    BackView.contentSize = CGSizeMake(0, SCREEN_HEIGHT + 100);
     BackView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     BackView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:BackView];
     
-    MoneyLabel = [[UILabel alloc]init];
-    MoneyLabel.text = @"持卡金额：0.02元（绑卡后自动进入余额）";
-    MoneyLabel.textColor = [UIColor blackColor];
-    MoneyLabel.font = [UIFont systemFontOfSize:12];
-    [BackView addSubview:MoneyLabel];
-    [MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    MoneyView = [[CustomView alloc]init];
+    MoneyView.NameLabel.text = @"充值金额:";
+    MoneyView.NameTextField.placeholder = @"请输入充值金额";
+    MoneyView.NameTextField.delegate = self;
+    MoneyView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
+    [BackView addSubview:MoneyView];
+    [MoneyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(BackView.mas_top).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(15);
+        make.height.mas_equalTo(40);
     }];
-    
     
     CardNameView = [[CustomView alloc]init];
     CardNameView.NameLabel.text = @"持卡人姓名:";
     CardNameView.NameTextField.placeholder = @"请输入持卡人姓名";
     CardNameView.NameTextField.delegate = self;
-    CardNameView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardNameView];
     [CardNameView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(self.view.mas_top).offset(30);
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
+        make.top.mas_equalTo(MoneyView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
@@ -97,7 +120,7 @@
     CardNumberView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardNumberView];
     [CardNumberView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(CardNameView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
@@ -110,7 +133,7 @@
     CardIphoneView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardIphoneView];
     [CardIphoneView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(CardNumberView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
@@ -118,7 +141,7 @@
     
     CardBankView = [[CustomChooseView alloc]init];
     CardBankView.NameLabel.text = @"选择银行:";
-    CardBankView.ChooseLabel.text = @"中国银行";
+    CardBankView.ChooseLabel.text = @"选择银行";
     CardBankView.ChooseLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *ChooseTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(chooseTapClick)];
     [CardBankView.ChooseLabel addGestureRecognizer:ChooseTap];
@@ -126,7 +149,7 @@
     
     [BackView addSubview:CardBankView];
     [CardBankView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(CardIphoneView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
@@ -137,10 +160,9 @@
     CardWhichBankView.NameLabel.text = @"开户银行:";
     CardWhichBankView.NameTextField.placeholder = @"请输入银行支行名称";
     CardWhichBankView.NameTextField.delegate = self;
-    CardWhichBankView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardWhichBankView];
     [CardWhichBankView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(CardBankView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
@@ -152,13 +174,13 @@
     CardBankCodeView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardBankCodeView];
     [CardBankCodeView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(CardWhichBankView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
     ExlainLabel = [[UILabel alloc]init];
-    ExlainLabel.text = @"绑定银行卡用于体现以及。绑定后不可更改";
+    ExlainLabel.text = @"绑定银行卡用于提现以及充值。绑定后不可更改";
     ExlainLabel.textAlignment = NSTextAlignmentLeft;
     ExlainLabel.textColor = [UIColor orangeColor];
     ExlainLabel.font = [UIFont systemFontOfSize:12];
@@ -169,22 +191,35 @@
         make.width.mas_equalTo(SCREEN_WIDTH - 60);
         make.height.mas_equalTo(20);
     }];
+    ClickBtn = [[UIButton alloc]init];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    ClickBtn.selected = YES;
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn addTarget:self action:@selector(Saleclicked:) forControlEvents:UIControlEventTouchUpInside];
+    [BackView addSubview:ClickBtn];
+    [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(ExlainLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(30);
+    }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:14];
+    nameLabel.font = [UIFont systemFontOfSize:15];
     NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
     NSRange conectRange = {4,4};
     [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
     nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AgreeClick)];
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saleConnectClick)];
     [nameLabel addGestureRecognizer:gesTap];
     [BackView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(BackView.mas_left).offset(20);
+        make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
         make.top.mas_equalTo(ExlainLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(30);
     }];
+
 
     
     UILabel *SaleLbel =  [[UILabel alloc]init];
@@ -200,7 +235,7 @@
         make.left.mas_equalTo(BackView.mas_left).offset(20);
         make.top.mas_equalTo(nameLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BundBtnClick
@@ -209,21 +244,251 @@
     
 }
 
+- (void)saleConnectClick{
+    //协议
+}
+- (void)Saleclicked:(UIButton *)btn{
+    if (btn.selected) {
+        btn.selected = NO;
+    }else{
+        btn.selected = YES;
+    }
+}
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    [self HideKeyBoardClick];
+}
 - (void)chooseTapClick{
+    [self HideKeyBoardClick];
     ZHPickView *pickView = [[ZHPickView alloc] init];
-    [pickView setDataViewWithItem:@[@"中国工商银行",@"中国银行",@"杭州银行"] title:@"选择银行"];
+    [pickView setDataViewWithItem:BankArray title:@"选择银行"];
     [pickView showPickView:self];
+    
     pickView.block = ^(NSString *selectedStr)
     {
         CardBankView.ChooseLabel.text = selectedStr;
-
+        bankStr = [NSString stringWithFormat:@"%@",selectedStr];
     };
 }
 - (void)AgreeClick{
     
 }
-- (void)BundBtnClick{
+#pragma 正则匹配用户身份证号14或17位
+- (BOOL)checkUserIdCard: (NSString *) idCard
+{
+    BOOL flag;
     
+    if (idCard.length <= 0) {
+        
+        flag = NO;
+        
+        return flag;
+        
+    }
+    
+    NSString *regex2 = @"^(\\d{14}|\\d{17})(\\d|[xX])$";
+    
+    NSPredicate *identityCardPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex2];
+    
+    return [identityCardPredicate evaluateWithObject:idCard];
+    
+}
+
+#pragma 正则匹配手机号
+-(BOOL)checkTelNumber:(NSString *) telNumber
+{
+    NSString *MOBILE = @"^1[34578]\\d{9}$";
+    
+    NSPredicate *regexTestMobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",MOBILE];
+    /*
+     if ([regexTestMobile evaluateWithObject:self]) {
+     
+     return YES;
+     
+     }else {
+     
+     return NO;
+     
+     }*/
+    return [regexTestMobile evaluateWithObject:telNumber];
+}
+#pragma 正则匹配银行卡号
+
+//身份证号
+- (BOOL) validateIdentityCard: (NSString *)identityCard
+{
+    BOOL flag;
+    if (identityCard.length <= 0) {
+        flag = NO;
+        return flag;
+    }
+    NSString *regex2 = @"^(\\d{14}|\\d{17})(\\d|[xX])$";
+    NSPredicate *identityCardPredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex2];
+    return [identityCardPredicate evaluateWithObject:identityCard];
+}
+- (BOOL) checkCardNo:(NSString*) cardNo{
+    int oddsum = 0;     //奇数求和
+    int evensum = 0;    //偶数求和
+    int allsum = 0;
+    int cardNoLength = (int)[cardNo length];
+    int lastNum = [[cardNo substringFromIndex:cardNoLength-1] intValue];
+    
+    cardNo = [cardNo substringToIndex:cardNoLength - 1];
+    for (int i = cardNoLength -1 ; i>=1;i--) {
+        NSString *tmpString = [cardNo substringWithRange:NSMakeRange(i-1, 1)];
+        int tmpVal = [tmpString intValue];
+        if (cardNoLength % 2 ==1 ) {
+            if((i % 2) == 0){
+                tmpVal *= 2;
+                if(tmpVal>=10)
+                    tmpVal -= 9;
+                evensum += tmpVal;
+            }else{
+                oddsum += tmpVal;
+            }
+        }else{
+            if((i % 2) == 1){
+                tmpVal *= 2;
+                if(tmpVal>=10)
+                    tmpVal -= 9;
+                evensum += tmpVal;
+            }else{
+                oddsum += tmpVal;
+            }
+        }
+    }
+    
+    allsum = oddsum + evensum;
+    allsum += lastNum;
+    if((allsum % 10) == 0)
+        return YES;
+    else
+        return NO;
+}
+//银行卡验证
+-(BOOL)validateBankCard:(NSString *)card{
+    
+    if (card.length==0) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+//                                                            message:@"银行卡不能为空"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"确定"
+//                                                  otherButtonTitles:nil, nil];
+        return NO;
+    }
+    NSString *bankNameregex = @"^[\u4e00-\u9fa5]{0,}$";
+    NSPredicate *bankNamepredicate = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", bankNameregex];
+    BOOL isbankName = [bankNamepredicate evaluateWithObject:card];
+    
+    if (!isbankName) {
+//        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil
+//                                                            message:@"银行卡格式不对"
+//                                                           delegate:nil
+//                                                  cancelButtonTitle:@"确定"
+//                                                  otherButtonTitles:nil, nil];
+//        [alertView show];
+        return NO;
+    }
+    
+    return YES;
+
+
+}
+- (void)BundBtnClick{
+    [self HideKeyBoardClick];
+    if (MoneyView.NameTextField.text.length) {
+        if (CardNameView.NameTextField.text.length) {
+            
+            if ([self checkTelNumber:CardIphoneView.NameTextField.text]) {
+                
+                if ([self validateIdentityCard:CardNumberView.NameTextField.text]) {
+                    
+                    if ([self checkCardNo:CardBankCodeView.NameTextField.text]) {
+                        
+                        
+                        if (CardWhichBankView.NameTextField.text.length) {
+                            
+                            if (bankStr.length) {
+                                
+                                [self postBankCard];
+                                
+                                
+                            }else{
+                                normal_alert(@"提示", @"清选择银行", @"确定");
+
+                            }
+                            
+                            
+                        }else{
+                            normal_alert(@"提示", @"开户银行不可为空", @"确定");
+                            
+                        }
+                        
+                    }else{
+                        normal_alert(@"提示", @"银行卡号不正确", @"确定");
+                        
+                    }
+                    
+                    
+                    
+                }else{
+                    normal_alert(@"提示", @"身份证号码不正确", @"确定");
+                    
+                }
+                
+                
+                
+            }else{
+                normal_alert(@"提示", @"手机号码格式不正确", @"确定");
+                
+            }
+            
+        
+        }else{
+            normal_alert(@"提示", @"姓名不能为空", @"确定");
+            
+        }
+    }else{
+        normal_alert(@"提示", @"充值金额不能为空", @"确定");
+    }
+   
+    
+
+}
+
+- (void)postBankCard{
+    //银行获取信息
+    int j  = 0;
+    for (int i = 0; i < BankArray.count; i++) {
+        NSString *str = [BankArray objectAtIndex:i];
+        if ([str isEqualToString:bankStr]) {
+            j = i;
+        }
+    }
+    NSInteger bankI = 0;
+    for (int i = 0; i < BankIDArray.count; i++) {
+        if (i  == j) {
+            bankI = [[BankIDArray objectAtIndex:i]integerValue];
+        }
+    }
+    NSLog(@"ban= %@",BankIDArray);
+    NSLog(@" == %ld",(long)bankI);
+    
+
+    
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
+    url = [NSString stringWithFormat:@"%@/bankCards",HOST_URL];
+    
+    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:CardNameView.NameTextField.text,@"username",CardIphoneView.NameTextField.text,@"phoneNumber",CardNumberView.NameTextField.text,@"identityCardNumber",CardBankCodeView.NameTextField.text,@"bankCardNumber",userID,@"userId",bankID,@"bankId", nil];
+    
+   [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+       NSLog(@"re = %@",result);
+   }];
+
+    
+
 }
 - (void)BundBackClick{
     //  返回指定页面

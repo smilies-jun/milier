@@ -7,6 +7,8 @@
 //
 
 #import "BoundViewController.h"
+#import "BoundTableViewCell.h"
+
 
 @interface BoundViewController ()
 
@@ -63,7 +65,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 44;
+    return 50;
 }
 
 //cell-tableview
@@ -71,13 +73,15 @@
     
     static NSString *identifier = @"productidentifier";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    BoundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        cell = [[BoundTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+        [cell configUI:indexPath];
         cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
 
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"++++%ld",(long)indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     return cell;
     
 }

@@ -10,4 +10,9 @@
 
 @interface OutTableViewCell : UITableViewCell
 
+@property (nonatomic , retain) UILabel *TitleLabel;
+
+@property (nonatomic , retain) UILabel *TimeLabel;
+- (void)configUI:(NSIndexPath *)indexPath;
+
 @end
