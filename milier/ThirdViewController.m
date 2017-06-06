@@ -16,6 +16,8 @@
 #import "YNPageScrollViewController.h"
 #import "SDCycleScrollView.h"
 #import "MoreHelpViewController.h"
+#import "ApplyAllMoneyViewController.h"
+
 
 
 @interface ThirdViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
@@ -27,6 +29,7 @@
     CustomMoreView *ShareView;
     CustomMoreView *DuiHuanView;
     CustomMoreView *TellUsView;
+    NSDictionary    *MyDic;
 }
 
 @end
@@ -203,14 +206,40 @@
 }
 //意见反馈
 - (void)TellUSClick{
-    NSLog(@"意见反馈");
     NSString *urlStr = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?type=Purple+Software&id=1142042774&pageNumber=0&sortOrdering=2&mt=8"];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
 }
 - (void)AllClick{
-    UIViewController *allvc = nil;
-    allvc = [self getAllMoneyViewController];
-    [self.navigationController   pushViewController:allvc animated:NO];
+    NSString *userID = NSuserUse(@"userId");
+    
+    NSString *url = [NSString stringWithFormat:@"%@/users/%@/type",HOST_URL,userID];
+        NSString *tokenID = NSuserUse(@"Authorization");
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        if ([[result objectForKey:@"type"]integerValue] == 0) {
+            ApplyAllMoneyViewController *vc = [[ApplyAllMoneyViewController alloc]init];
+            [self.navigationController   pushViewController:vc animated:NO];
+
+        }else if ([[result objectForKey:@"type"]integerValue] == 1){
+            NSString *urlType = [NSString stringWithFormat:@"%@/brokers/%@",HOST_URL,userID];
+                [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:urlType withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                    if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                        MyDic = [result objectForKey:@"data"];
+                        UIViewController *allvc = nil;
+                        allvc = [self getAllMoneyViewController];
+                        [self.navigationController   pushViewController:allvc animated:NO];
+                    }else{
+                        
+                    }
+                }];
+            
+        }else{
+            normal_alert(@"提示", @"创道经纪人不能成为全民理财师", @"确定");
+        }
+    }];
+
+    
+    
+
 }
 - (UIViewController *)getAllMoneyViewController{
     //配置信息
@@ -246,9 +275,9 @@
     TopImageView.image = [UIImage imageNamed:@"licaishipic"];
     TopImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 160);
     [imageView addSubview:TopImageView];
-    
+   
     UILabel *MyScorLabel = [[UILabel alloc]init];
-    MyScorLabel.text = @"我的总分成：280元";
+    MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%@元", [MyDic objectForKey:@"totalIncome"]];
     MyScorLabel.font = [UIFont systemFontOfSize:12];
     [imageView addSubview:MyScorLabel];
     [MyScorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -269,7 +298,7 @@
         make.height.mas_equalTo(20);
     }];
     UILabel *myMoneyLabel = [[UILabel alloc]init];
-    myMoneyLabel.text = @"我的分成🐟🈷️额";
+    myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%@元", [MyDic objectForKey:@"assets"]];
     myMoneyLabel.font = [UIFont systemFontOfSize:14];
     [imageView addSubview:myMoneyLabel];
     [myMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -284,6 +313,9 @@
     ComeLabel.textAlignment = NSTextAlignmentCenter;
     ComeLabel.layer.cornerRadius = 10;
     ComeLabel.layer.masksToBounds = YES;
+    ComeLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ComeClick)];
+    [ComeLabel addGestureRecognizer:tap];
     ComeLabel.textColor = [UIColor whiteColor];
     ComeLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     ComeLabel.font = [UIFont systemFontOfSize:13];
@@ -311,6 +343,24 @@
     
     return vc;
 
+}
+
+- (void)ComeClick{
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    NSString *urlType = [NSString stringWithFormat:@"%@/brokers/%@/turn",HOST_URL,userID];
+    
+    [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:urlType withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+            normal_alert(@"提示", @"转入成功", @"确定");
+        }else{
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示", message, @"确定");
+            
+        }
+    }];
+    
+    
 }
 - (UITableView *)pageScrollViewController:(YNPageScrollViewController *)pageScrollViewController scrollViewForIndex:(NSInteger)index{
     

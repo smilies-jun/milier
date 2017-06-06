@@ -80,37 +80,56 @@
     
     UILabel *firstLabel = [[UILabel alloc]init];
     firstLabel.text = @"-能接受适中产品";
-    firstLabel.font = [UIFont systemFontOfSize:15];
+    firstLabel.font = [UIFont systemFontOfSize:13];
     [RiskBootmView addSubview:firstLabel];
     [firstLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(RisktopView.mas_left).offset(10);
         make.top.mas_equalTo(RiskBootmView.mas_top).offset(20);
-        make.width.mas_equalTo(180);
+        make.width.mas_equalTo(360);
         make.height.mas_equalTo(20);
     
     }];
     UILabel *secondLabel = [[UILabel alloc]init];
     secondLabel.text = @"-能接受适中产品";
-    secondLabel.font = [UIFont systemFontOfSize:15];
+    secondLabel.numberOfLines = 0;
+    secondLabel.font = [UIFont systemFontOfSize:13];
     [RiskBootmView addSubview:secondLabel];
     [secondLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(RiskBootmView.mas_left).offset(10);
         make.top.mas_equalTo(firstLabel.mas_bottom).offset(15);
-        make.width.mas_equalTo(180);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(360);
+        make.height.mas_equalTo(40);
     }];
 
     UILabel *threeLabel = [[UILabel alloc]init];
     threeLabel.text = @"-能接受适中产品";
-    threeLabel.font = [UIFont systemFontOfSize:15];
+    threeLabel.numberOfLines = 0;
+    threeLabel.font = [UIFont systemFontOfSize:13];
     [RiskBootmView addSubview:threeLabel];
     [threeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(RiskBootmView.mas_left).offset(10);
         make.top.mas_equalTo(secondLabel.mas_bottom).offset(15);
-        make.width.mas_equalTo(180);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(360);
+        make.height.mas_equalTo(30);
     }];
+    if (_type == 1) {
+        topTypeLabel.text = @"保守型";
+        firstLabel.text = @"-希望本金安全，能接受较小的价格波动";
+        secondLabel.text = @"-愿意尝试得到大于定期存款的回报并承担较小风险，希望投资本金不因通货膨胀而贬值";
+        threeLabel.hidden = YES;
 
+    }else if (_type == 2){
+        topTypeLabel.text = @"稳健型";
+        firstLabel.text = @"-能接受适中的价格波动";
+        secondLabel.text = @"-能承受较高的投资风险";
+        threeLabel.text = @"-偏好投资兼具成长性及收益性的产品";
+    }else{
+        topTypeLabel.text = @"积极型";
+        firstLabel.text = @"-资产市值波动比较大，可能会低于原始投资本金";
+        secondLabel.text = @"-能承担全部收益包括本金可能损失的风险，预期收益率较高";
+        threeLabel.text = @"-偏好投资高成长性的产品或投机性产品，希望投资较快的增长，尽可能获得最高回报";
+    }
+    
     UILabel *TestLabel =  [[UILabel alloc]init];
     TestLabel.text = @"再测一次";
     TestLabel.userInteractionEnabled = YES;

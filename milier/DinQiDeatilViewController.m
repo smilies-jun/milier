@@ -83,16 +83,16 @@
     
     NSString *url;
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
     }
       if (isFirstCome) {
-        url = [NSString stringWithFormat:@"%@?page=1&rows=10&userId=%@&productCategoryId=12",PRODUCTO_RDERS_URL,userID];
+        url = [NSString stringWithFormat:@"%@?page=1&rows=10&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,userID];
 
     }else{
-        url = [NSString stringWithFormat:@"%@?page=%d&rows=10&userId=%@&productCategoryId=12",PRODUCTO_RDERS_URL,page,userID];
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=10&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,page,userID];
 
     }
     
@@ -100,10 +100,9 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
         _mysectionArray = myArray;
-        
         isJuhua = NO;
         [self endRefresh];
-        if (page == 0) {
+        if (page == 1) {
             [DinQiArray removeAllObjects];
         }
         if (isJuhua) {
@@ -135,7 +134,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -297,7 +296,7 @@
         SecondImageView.layer.cornerRadius = 5;
         SecondImageView.clipsToBounds = YES;
 
-        SecondImageView.backgroundColor = colorWithRGB(0.99, 0.78, 0.09);
+        SecondImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
         [topView addSubview:SecondImageView];
         [SecondImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(FirstImageView.mas_centerX);
@@ -323,7 +322,7 @@
         ThirdImageView.layer.cornerRadius = 5;
         ThirdImageView.clipsToBounds = YES;
 
-        ThirdImageView.backgroundColor = colorWithRGB(0.99, 0.51, 0.18);
+        ThirdImageView.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
         [topView addSubview:ThirdImageView];
         [ThirdImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -350,7 +349,7 @@
         FourImageView.layer.cornerRadius = 5;
         FourImageView.clipsToBounds = YES;
 
-        FourImageView.backgroundColor = colorWithRGB(0.27, 0.79, 0.56);
+        FourImageView.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
         [topView addSubview:FourImageView];
         [FourImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -403,7 +402,7 @@
         SixImageView.layer.cornerRadius = 5;
         SixImageView.clipsToBounds = YES;
 
-        SixImageView.backgroundColor = colorWithRGB(0.19, 0.39, 0.89);
+        SixImageView.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);
         [topView addSubview:SixImageView];
         [SixImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -524,7 +523,7 @@
         AddLabel = [[UILabel alloc]init];
         AddLabel.textAlignment = NSTextAlignmentCenter;
 
-        AddLabel.text =[NSString stringWithFormat:@"¥%@",[CircleDinQiDic objectForKey:@"accumulatedEarnings"]];
+        AddLabel.text =[NSString stringWithFormat:@"¥%.2f",[[CircleDinQiDic objectForKey:@"accumulatedEarnings"] doubleValue]];
         AddLabel.textColor = [UIColor orangeColor];
         AddLabel.font = [UIFont systemFontOfSize:14];
         [AddView addSubview:AddLabel];
@@ -761,13 +760,13 @@
     if (CircleArray.count) {
         return CircleArray;
     }else{
-        return @[@"50", @"256", @"300", @"283", @"490", @"236"];
+        return @[@"100", @"100", @"100", @"100", @"100", @"100"];
   
     }
 }
 
 - (NSArray *)colorArrayInPieChart:(ZFPieChart *)chart{
-    return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.78, 0.09), colorWithRGB(0.99, 0.51, 0.18), colorWithRGB(0.27, 0.79, 0.56), colorWithRGB(0.31, 0.69, 0.10), colorWithRGB(0.19, 0.39, 0.89)];
+    return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.79, 0.09), colorWithRGB(0.99, 0.52, 0.18), colorWithRGB(0.27, 0.78, 0.96), colorWithRGB(0.31, 0.69, 1), colorWithRGB(0.19, 0.39, 0.9)];
 }
 
 #pragma mark - ZFPieChartDelegate

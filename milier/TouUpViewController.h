@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LLPaySdk.h"
 
-@interface TouUpViewController : UIViewController
+@interface TouUpViewController : UIViewController<LLPaySdkDelegate>
 
 @property(assign)int type;
 

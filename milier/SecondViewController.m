@@ -135,7 +135,6 @@
 - (void)refreshData{
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     NSString *userID = NSuserUse(@"userId");
-    NSLog(@"userid = %@",userID);
     if ([userID integerValue]>0) {
         [self RequestHead];
         self.navigationItem.rightBarButtonItem = rightItem;

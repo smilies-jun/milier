@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyLeftModel.h"
+
 
 @interface MyLeftDetailTableViewCell : UITableViewCell
 
+
+@property (nonatomic, retain)MyLeftModel *LeftModel;
 
 @property (nonatomic , retain) UILabel *NameLabel;
 
@@ -22,5 +26,7 @@
 @property (nonatomic , retain) UILabel *StatelLabel;
 
 - (void)configUI:(NSIndexPath *)indexPath;
+
+- (void)setLeftModel:(MyLeftModel *)LeftModel;
 
 @end

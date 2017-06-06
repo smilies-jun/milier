@@ -9,7 +9,10 @@
 #import "JiFenConvertViewController.h"
 #import "DuiHuanTableViewCell.h"
 
-@interface JiFenConvertViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface JiFenConvertViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray *DuiHuanArray;
+    NSMutableArray *SectionArray;
+}
 
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
@@ -33,16 +36,10 @@ static NSString * const cellId = @"CovertcellID";
     self.tableView.backgroundColor = [UIColor whiteColor];
     // Do any additional setup after loading the view.
     
+    SectionArray = [[NSMutableArray alloc]init];
+    DuiHuanArray = [[NSMutableArray alloc]init];
     
-    //    [self.navigationController.navigationBar setTranslucent:NO];
-    //    [self.navigationController.navigationBar setBarTintColor:[UIColor colorWithRed:0.000 green:0.800 blue:0.800 alpha:1.000]];
-    //    // 导航栏标题字体颜色
-    //    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:11],NSForegroundColorAttributeName:[UIColor orangeColor]}];
-    //    // 导航栏左右按钮字体颜色
-    //    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    //
-    //    self.navigationItem.title = @"米粒儿金融";
-    //    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+    [self getNetworkData:YES];
     [self makeData];
 }
 
@@ -51,35 +48,87 @@ static NSString * const cellId = @"CovertcellID";
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellId];
     [self.view addSubview:self.tableView];
 }
 - (void)zj_viewDidAppearForIndex:(NSInteger)index {
-    //    self.index = index;
-    //    NSLog(@"已经出现   标题: --- %@  index: -- %ld", self.title, index);
-    //
-    //    if (index%2==0) {
-    //        self.view.backgroundColor = [UIColor blueColor];
-    //    } else {
-    //        self.view.backgroundColor = [UIColor greenColor];
-    //
-    //    }
-    //    // 加载数据
-    //    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //    self.data = @[@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa"];
+    [self getNetworkData:YES];
     [self.tableView reloadData];
-    //    });
 }
+- (void)loadoconNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadconMore{
+    [self getNetworkData:NO];
+    
+}
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 0) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
+}
+
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    if (isRefresh) {
+        page = 0;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+    //1. 网贷基金，2. 特色产品，3. 企业贷款、4. 个人贷款，5. 购车贷款、6. 债权转让，7. 新手专享，8. 金米宝， 0. 定期（包含1 3 4 5 6 7）
+    NSString *tokenID = NSuserUse(@"Authorization");
+  //  NSString *userID = NSuserUse(@"userId");
+    
+    NSString *url;
+    if (isFirstCome) {
+        url = [NSString stringWithFormat:@"%@/commodityOrders?page=1&rows=20",HOST_URL];
+    }else{
+        url = [NSString stringWithFormat:@"%@/commodityOrders?page=%d&rows=20",HOST_URL,page];
+        
+    }
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+         //é NSLog(@"left result = %@",result);
+        for (NSDictionary *dic in [result objectForKey:@"items"]) {
+            DuiHuanModel *model = [[DuiHuanModel alloc]init];
+            model.dataDictionary = dic;
+            [DuiHuanArray addObject:model];
+            int  rows;
+            NSString *ChangeStr = [dic objectForKey:@"commodityDescArray"];
+            rows = (int)[ChangeStr integerValue];
+            [SectionArray addObject:[NSString stringWithFormat:@"%d",rows]];
+
+        }
+        [self makeData];
+        [self.tableView reloadData];
+        [self endRefresh];
+        // UserDic = [result objectForKey:@"data"];
+        // [self reloadData];
+    }];
+}
+
+
+
+
 /**
  *  处理数据  _sectionArray里面存储数组
  */
 - (void)makeData{
     _sectionArray = [NSMutableArray array];
     _flagArray  = [NSMutableArray array];
-    NSInteger num = 10;
+    NSInteger num = DuiHuanArray.count;
     for (int i = 0; i < num; i ++) {
         NSMutableArray *rowArray = [NSMutableArray array];
-        for (int j = 0; j < 2; j ++) {
+        for (int j = 0; j < 1; j ++) {
             [rowArray addObject:[NSString stringWithFormat:@"%d",j]];
         }
         [_sectionArray addObject:rowArray];
@@ -104,10 +153,25 @@ static NSString * const cellId = @"CovertcellID";
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-        return 44;
+        NSLog(@"self = %@",[SectionArray objectAtIndex:indexPath.section] );
+    
+    CGFloat statuesFloat = [DuiHuanTableViewCell tableView:tableView rowHeightForObject:[SectionArray objectAtIndex:indexPath.section]];
+    
+    return statuesFloat;
+}
+
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
 }
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    
+    DuiHuanModel *model = [DuiHuanArray objectAtIndex:section];
     UIView *sectionLabel = [[UIView alloc] init];
     sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 100);
     //sectionLabel.textColor = [UIColor orangeColor];
@@ -119,7 +183,8 @@ static NSString * const cellId = @"CovertcellID";
     
     
     UIImageView *NameImageView = [[UIImageView alloc]init];
-    NameImageView.backgroundColor = [UIColor greenColor];
+    [NameImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",model.commodityImage]] placeholderImage:[UIImage imageNamed:@""]];
+    //®´    NameImageView.backgroundColor = [UIColor grayColor];
     [sectionLabel addSubview:NameImageView];
     [NameImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(sectionLabel.mas_left).offset(10);
@@ -129,7 +194,7 @@ static NSString * const cellId = @"CovertcellID";
     }];
     
     UILabel *NameLabel = [[UILabel alloc]init];
-    NameLabel.text =@"苏泊尔双层电动锅";
+    NameLabel.text =[NSString stringWithFormat:@"%@",model.commodityName];
     NameLabel.textAlignment = NSTextAlignmentLeft;
     NameLabel.textColor = [UIColor blackColor];
     NameLabel.font = [UIFont systemFontOfSize:10];
@@ -142,7 +207,7 @@ static NSString * const cellId = @"CovertcellID";
     }];
     
    UILabel *NameDetailLabel = [[UILabel alloc]init];
-    NameDetailLabel.text = @"的，什么烦恼吗可能都撒到那时你的安克林斯曼的";
+    NameDetailLabel.text = [NSString stringWithFormat:@"积分:%@",model.commodityScore];
     NameDetailLabel.numberOfLines = 0;
     NameDetailLabel.lineBreakMode = NSLineBreakByCharWrapping;
     NameDetailLabel.font = [UIFont systemFontOfSize:10];
@@ -155,10 +220,11 @@ static NSString * const cellId = @"CovertcellID";
     }];
     
     UILabel *MyJiFenLabel = [[UILabel alloc]init];
-    MyJiFenLabel.text= @"积分：232232";
-    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:MyJiFenLabel.text attributes:attribtDic];
-    MyJiFenLabel.attributedText = attribtStr;
+    NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
+    MyJiFenLabel.text=[NSString stringWithFormat:@"%@",timeStr];
+//    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+//    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:MyJiFenLabel.text attributes:attribtDic];
+//    MyJiFenLabel.attributedText = attribtStr;
     MyJiFenLabel.font = [UIFont systemFontOfSize:10];
     [sectionLabel   addSubview:MyJiFenLabel];
     [MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -170,7 +236,22 @@ static NSString * const cellId = @"CovertcellID";
     
     
    UILabel *ProductLabel = [[UILabel alloc]init];
-    ProductLabel.text= @"积分：2343545456";
+    switch ([model.state integerValue]) {
+        case 1:
+            ProductLabel.text= @"未发货";
+
+            break;
+        case 2:
+            ProductLabel.text= @"已发货";
+
+            break;
+        case 3:
+            ProductLabel.text= @"关闭";
+
+            break;
+        default:
+            break;
+    }
     ProductLabel.font = [UIFont systemFontOfSize:10];
     [sectionLabel   addSubview:ProductLabel];
     [ProductLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -192,13 +273,19 @@ static NSString * const cellId = @"CovertcellID";
     return sectionLabel;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identify = @"DuihuanCell";
-    DuiHuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identify];
-    if (cell == nil) {
-        cell = [[DuiHuanTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
+    static NSString *identifier = @"duihuanTotalidentifier";
+    
+    DuiHuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[DuiHuanTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
         [cell configUI:indexPath];
     }
-    cell.clipsToBounds = YES;//这句话很重要 不信你就试试
+    if (DuiHuanArray.count) {
+        DuiHuanModel *model = [DuiHuanArray objectAtIndex:indexPath.row];
+        cell.DuiHuanModel = model;
+    }
+    
+    
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -223,30 +310,10 @@ static NSString * const cellId = @"CovertcellID";
         _flagArray[index] = @"0";
         [self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationTop]; //使用下面注释的方法就 注释掉这一句
     }
-    //	NSRange range = NSMakeRange(index, 1);
-    //	NSIndexSet *sectionToReload = [NSIndexSet indexSetWithIndexesInRange:range];
-    //	[_tableView reloadSections:sectionToReload withRowAnimation:UITableViewRowAnimationAutomatic];
+  
 }
-//- (void)viewWillAppear:(BOOL)animated {
-//    [super viewWillAppear:animated];
-//    
-//    [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-//}
-//
-//- (void)viewWillDisappear:(BOOL)animated {
-//    [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-//    
-//    [super viewWillDisappear:animated];
-//}
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
 
 @end

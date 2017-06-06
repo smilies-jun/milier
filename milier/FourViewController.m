@@ -59,7 +59,7 @@
 
     NSString *url;
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -103,7 +103,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -184,7 +184,9 @@
         make.height.mas_equalTo(15);
     }];
     UILabel *timeLabel = [[UILabel alloc]init];
-    timeLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"createTime"];
+    NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd´"];
+
+    timeLabel.text = timeStr;
     timeLabel.textColor = colorWithRGB(0.94, 0.94, 0.94);
     timeLabel.font = [UIFont systemFontOfSize:12];
     [sectionLabel addSubview:timeLabel];
@@ -200,6 +202,15 @@
     [sectionLabel addSubview:lineView];
  
     return sectionLabel;
+}
+
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identify = @"Cell";

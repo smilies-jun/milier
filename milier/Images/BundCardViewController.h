@@ -7,7 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LLPaySdk.h"
 
-@interface BundCardViewController : UIViewController<UITextFieldDelegate>
+@interface BundCardViewController : UIViewController<UITextFieldDelegate,LLPaySdkDelegate>
+
+
+@property (nonatomic,retain)NSString *MoneyType;
 
 @end

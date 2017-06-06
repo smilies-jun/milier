@@ -69,7 +69,7 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"兑换礼品";
     SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = [UIColor orangeColor];
+    SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
     SaleLbel.layer.cornerRadius = 10;
@@ -79,7 +79,7 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
         make.centerX.mas_equalTo(saleView.mas_centerX);
         make.centerY.mas_equalTo(saleView.mas_centerY);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(44);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenBtnClick
@@ -223,7 +223,7 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
     if (!_headView) {
         _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, headViewHeight)];
         UILabel *label = [[UILabel alloc] initWithFrame:_headView.bounds];
-        label.text = @"22222222222";
+        label.text =_JiFenStr;
         label.font = [UIFont systemFontOfSize:26];
         label.textAlignment = NSTextAlignmentCenter;
         label.textAlignment = NSTextAlignmentCenter;

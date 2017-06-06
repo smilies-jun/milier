@@ -10,4 +10,12 @@
 
 @interface SubstanceViewController : UIViewController
 
+@property (nonatomic,strong)NSString *NameStr;
+
+
+@property (nonatomic,strong)NSString *ScoreStr;
+
+
+@property (nonatomic,strong)NSString *ProductID;
+
 @end

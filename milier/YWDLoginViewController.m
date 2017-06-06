@@ -289,12 +289,12 @@
                         NSDictionary *dic = [result objectForKey:@"data"];
                         NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
                         NSuserSave([dic objectForKey:@"userId"], @"userId");
+                        
                         [self dismissViewControllerAnimated:NO completion:nil];
                     }else{
                         NSString *message = [result objectForKey:@"message"];
                         normal_alert(@"提示",message, @"确定");
                     }
-                    NSLog(@"re = %@",result);
 
                 }];
             }else{

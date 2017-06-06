@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface RiskComplyViewController : UIViewController
-
+@property (assign)int type;
 @end

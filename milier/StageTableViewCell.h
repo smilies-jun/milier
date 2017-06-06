@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "StageModel.h"
+
 
 @interface StageTableViewCell : UITableViewCell
+
+
 
 @property (nonatomic,strong)UIImageView *LeftImageView;
 
@@ -38,7 +42,10 @@
 
 @property (nonatomic,strong)UILabel *UseTimeTitleLable;
 
+
+@property (nonatomic,strong)StageModel *stageModel;
+
 - (void)configUI:(NSIndexPath *)indexPath;
 
-
+- (void)setStageModel:(StageModel *)stageModel;
 @end

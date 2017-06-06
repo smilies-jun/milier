@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface YJForgetDealPassWordViewController : UIViewController
+@interface YJForgetDealPassWordViewController : UIViewController<UITextFieldDelegate>
+
+@property (nonatomic,strong) NSTimer *securityCodeTimer;
+@property (nonatomic,strong) UIButton *GetCode;
+
+
+@property (nonatomic,strong)NSString *TypeStr;
 
 @end

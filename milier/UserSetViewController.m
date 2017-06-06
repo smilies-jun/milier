@@ -12,6 +12,8 @@
 #import "ModifyLoginViewController.h"
 #import "ModifySailViewController.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
+#import "SecondViewController.h"
+#import "BundCardViewController.h"
 
 @interface UserSetViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
     UserSetView *ImageSetView;
@@ -40,7 +42,19 @@
     [leftBtn addTarget:self action:@selector(UserSetClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    [self reloadData];
     [self ConfigUI];
+}
+- (void)reloadData{
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    
+    url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"result = %@",result);
+    }];
+
 }
 - (void)ConfigUI{
     ImageSetView = [[UserSetView alloc]init];
@@ -102,7 +116,18 @@
     BundSetView.StaticImageView.image = [UIImage imageNamed:@"creditcard"];
     BundSetView.NameLabel.text  = @"绑定银行卡";
     BundSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
-    BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+    NSString *bankCardID = NSuserUse(@"bankCardExist");
+
+    if ([bankCardID integerValue] ==1) {
+        BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+
+    }else{
+        BundSetView.DetailLabel.text = @"未绑定银行卡";
+        
+        //
+
+    }
+    
     NSMutableAttributedString *bundStr = [[NSMutableAttributedString alloc] initWithString:@"已认证绑定  dsfsdf"];
     NSRange BunddRange = NSMakeRange([[bundStr string] rangeOfString:@"已认证绑定"].location, [[bundStr string] rangeOfString:@"已认证绑定"].length);
     //需要设置的位置
@@ -124,7 +149,7 @@
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"退出账号";
     SaleLabel.userInteractionEnabled = YES;
-    SaleLabel.backgroundColor = [UIColor orangeColor];
+    SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
     SaleLabel.layer.cornerRadius = 10;
@@ -142,6 +167,24 @@
     [SaleLabel addGestureRecognizer:SaleTap];
 }
 -(void)BundClick{
+    NSString *bankCardID = NSuserUse(@"bankCardExist");
+
+    if ([bankCardID integerValue] ==1) {
+        BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+        [self ShowBank];
+        
+    }else{
+        BundSetView.DetailLabel.text = @"未绑定银行卡";
+        BundCardViewController *bundVC = [[BundCardViewController alloc]init];
+        bundVC.MoneyType = @"3";
+        [self.navigationController pushViewController:bundVC animated:NO];
+        //
+        
+    }
+    
+    }
+
+- (void)ShowBank{
     //绑定银行卡
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 320)];
     view.backgroundColor=[UIColor whiteColor];
@@ -227,7 +270,7 @@
     SureLabel = [[UILabel alloc]init];
     SureLabel.text = @"确定";
     SureLabel.userInteractionEnabled = YES;
-    SureLabel.backgroundColor = [UIColor orangeColor];
+    SureLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SureLabel.textAlignment = NSTextAlignmentCenter;
     SureLabel.textColor = [UIColor whiteColor];
     SureLabel.layer.cornerRadius = 10;
@@ -237,7 +280,7 @@
         make.centerX.mas_equalTo(TiShiImageView.mas_centerX);
         make.top.mas_equalTo(YinHangLabel.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SureTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SureBackBtn
@@ -247,10 +290,10 @@
     awlertView.hidden = NO;
     awlertView.isUseHidden=YES;
     [awlertView showAnimated:YES];
+
 }
 - (void)SureBackBtn{
     [awlertView dismissAnimated:NO];
-    NSLog(@"3");
 }
 - (void)LoginSetClick{
    ModifyLoginViewController *loginVC = [[ModifyLoginViewController alloc]init];
@@ -305,7 +348,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)SetBackBtn{
-    NSLog(@"退出帐号");
+    NSuserRemove(@"userId");
+    NSuserRemove(@"Authorization");
+    [self.navigationController popToRootViewControllerAnimated:NO];
+
 }
 - (void)UserSetClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {

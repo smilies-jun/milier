@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "giftModel.h"
 
 @interface ConvertTableViewCell : UITableViewCell
 
@@ -20,6 +21,9 @@
 
 @property (nonatomic , retain) UILabel *ProductLabel;
 
+@property(nonatomic, retain)giftModel *GiftModel;
+
+- (void)setGiftModel:(giftModel *)GiftModel;
 
 - (void)configUI:(NSIndexPath *)indexPath;
 @end

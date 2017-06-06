@@ -40,7 +40,7 @@
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -56,18 +56,20 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
-        if (page == 0) {
+        if (page == 1) {
             [dataArray removeAllObjects];
         }
         if (isJuhua) {
             [self endRefresh];
         }
+        
         NSArray *myArray = [result objectForKey:@"items"];
         for (NSDictionary *NewDic in myArray) {
             ProuctModel *model = [[ProuctModel alloc]init];
             model.dataDictionary = NewDic;
             [dataArray addObject:model];
         }
+        NSLog(@"da = %lu",(unsigned long)dataArray.count);
         [self.tableView reloadData];
         isFirstCome = NO;
     }];
@@ -108,7 +110,7 @@
 
 //sections-tableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
+    return 1;
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

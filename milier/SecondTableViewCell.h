@@ -28,7 +28,7 @@
 
 @property (nonatomic , retain) UILabel *BeginMoneyLabel;
 
-
+@property (nonatomic, retain)UILabel *ChangeLabel;
 
 @property (nonatomic , retain)  CAShapeLayer *shapeLayer;
 @property (nonatomic , retain)  CAShapeLayer *BageLayer;

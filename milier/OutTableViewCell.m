@@ -47,4 +47,20 @@
     }];
  
 }
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
+}
+- (void)setOutModel:(OutModel *)OutModel{
+    if (OutModel != _OutModel) {
+        _OutModel = OutModel;
+        NSString *timeStr = [self getTimeStr:_OutModel.createTime withForMat:@"yyyy-MM-dd"];
+        _TitleLabel.text= [NSString stringWithFormat:@"%@",timeStr];;
+        _TimeLabel.text  =[NSString stringWithFormat:@"-%@",_OutModel.amount];
+    }
+}
 @end

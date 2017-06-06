@@ -9,9 +9,12 @@
 #import "OutViewController.h"
 #import "AleardyBundTableViewCell.h"
 #import "OutTableViewCell.h"
+#import "OutModel.h"
 
 
-@interface OutViewController ()
+@interface OutViewController (){
+    NSMutableArray *outArray;
+}
 
 @end
 
@@ -20,9 +23,62 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
+    outArray  = [[NSMutableArray alloc]init];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
+    [self getNetworkData:YES];
     
     
+}
+- (void)loadoconNew{
+    [self getNetworkData:YES];
     
+}
+- (void)loadconMore{
+    [self getNetworkData:NO];
+    
+}
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 0) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
+}
+
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    if (isRefresh) {
+        page = 0;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    
+    NSString *url;
+    if (isFirstCome) {
+        url = [NSString stringWithFormat:@"%@/brokers/%@/earningLogs?page=1&rows=20",HOST_URL,userID];
+    }else{
+        url = [NSString stringWithFormat:@"%@/brokers/%@/earningLogs?page=%d&rows=20",HOST_URL,userID,page];
+        
+    }
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        for (NSDictionary *dic in [result objectForKey:@"items"]) {
+            OutModel *model = [[OutModel alloc]init];
+            model.dataDictionary = dic;
+            [outArray addObject:model];
+        }
+        [self.tableView reloadData];
+        [self endRefresh];
+        // UserDic = [result objectForKey:@"data"];
+        // [self reloadData];
+    }];
 }
 
 #pragma mark - UITableViewDelegate  UITableViewDataSource
@@ -60,7 +116,7 @@
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 20;
+    return outArray.count +1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -79,7 +135,16 @@
         [cell configUI:indexPath];
         
     }
-    
+    if (indexPath.row == 0) {
+        cell.TitleLabel.text = @"时间";
+        cell.TimeLabel.text = @"我的分成";
+    }else{
+        if (outArray.count) {
+            OutModel *model = [outArray objectAtIndex:indexPath.row-1];
+            cell.OutModel = model;
+        }
+        
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
     

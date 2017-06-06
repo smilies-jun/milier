@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ChooseStageModel.h"
 
 @interface ChoiceStageTableViewCell : UITableViewCell
+
+
+
 - (void)configUI:(NSIndexPath *)indexPath;
 @property (nonatomic,strong)UIImageView *TotalImageView;
 
@@ -16,4 +20,10 @@
 
 @property (nonatomic,strong)UILabel *DetailLable;
 
+@property (nonatomic,strong)ChooseStageModel *stageModel;
+
+
+- (void)setStageModel:(ChooseStageModel *)stageModel;
+
 @end
+

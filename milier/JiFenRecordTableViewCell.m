@@ -56,6 +56,26 @@
     
     
 }
+- (void)setJiFenModel:(JiFenModel *)JiFenModel{
+    if (JiFenModel != _JiFenModel) {
+        _JiFenModel = JiFenModel;
+        _NameLabel.text =[NSString stringWithFormat:@"%@",_JiFenModel.desc];
+        NSString *timeStr = [self getTimeStr:_JiFenModel.createTime withForMat:@"yyyy-MM-dd"];
+        _NameDetailLabel.text = [NSString stringWithFormat:@"%@",timeStr];
+        _MyJiFenLabel.text=  [NSString stringWithFormat:@"%@",_JiFenModel.point];
+
+        
+        
+    }
+}
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
+}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

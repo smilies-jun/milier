@@ -10,4 +10,10 @@
 
 @interface OutModel : NSObject
 
+@property(nonatomic,strong)NSString *amount;
+
+@property(nonatomic,strong)NSString *createTime;
+
+@property(nonatomic,strong)NSString *stock;
+
 @end

@@ -14,6 +14,8 @@
 #import "ProductDetailNewViewController.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "ChoiceStageTableViewCell.h"
+#import "ChooseStageModel.h"
+
 
 @interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate>{
     
@@ -26,27 +28,45 @@
     
     UILabel *LeftLabel;
     UILabel *MoneyLeftLbel;
-    
     UILabel *ExplainLabel;
+    
     UIView *ChoceStageView;
     UIView *SaleView;
+    UIView *InterestView;
+    UILabel *InterestMoneyLabel;//选择道具
+
+    UIView *PassWordView;
+
+    
     
     UILabel *TotalMoneyLabel;
     UILabel *AgreementLabel;
     
-    UILabel *SaleLabel;
+    UILabel *SaleLabel;//选择道具
     
     
     UILabel *interestLabel;
     UILabel *StageLabel;
     
     AwAlertView *alertView;
+    AwAlertView *RiskAlertView;
+
     UITableView *StageTableView;
     NSString *AddStr;
     UIButton *ClickBtn;
     
-    
     UITextField *BuyTextField;
+    NSString *MyMoneyStr;//余额
+    NSString *BankStatus;//绑卡
+    NSString *PassWordStr;//交易密码
+    UITextField *PassWordTextField;
+
+    
+    NSString *userRiskStr;
+    NSMutableArray *stageArray;
+    UIButton *RiskClickBtn;
+    
+    int riskOrNo;
 }
 
 @end
@@ -65,17 +85,61 @@
     [leftBtn addTarget:self action:@selector(SaleOnTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
+    stageArray = [[NSMutableArray alloc]init];
+    riskOrNo = 0;
+    [self reloadMyMoney];
+    [self reloadMyStage];
     [self ConfigUI];
-    [self ConfigInverest];
+    //[self ConfigInverest];
 }
 
+- (void)reloadMyMoney{
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *statusStr = [result objectForKey:@"statusCode"];
+        if ([statusStr integerValue] == 200) {
+            MyMoneyStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"assets"]];
+            BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
+            PassWordStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dealPasswordExist"]];
+            userRiskStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"riskLevel"]];
+
+            [self ConfigUI];
+
+        }
+        
+    }];
+
+}
+- (void)reloadMyStage{
+    NSString *Statisurl;
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/products/%@/props",HOST_URL,_productStr];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *statusStr = [result objectForKey:@"statusCode"];
+        if ([statusStr integerValue] == 200) {
+         NSArray *MyStageArray = [result objectForKey:@"items"];
+            [self ConfigUI];
+            for (NSDictionary *NewDic in MyStageArray) {
+                ChooseStageModel *model = [[ChooseStageModel alloc]init];
+                model.dataDictionary = NewDic;
+                [stageArray addObject:model];
+            }
+            
+            [StageTableView reloadData];
+        }
+        
+    }];
+
+}
 - (void)ConfigUI{
     TopView = [[UIView alloc]init];
     TopView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideKeyBoardClick)];
     [TopView addGestureRecognizer:tap];
-    TopView.backgroundColor = colorWithRGB(0.28, 0.46, 0.91);
+    TopView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:TopView];
     [TopView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(self.view.mas_top);
@@ -86,7 +150,7 @@
     TitleLabel = [[UILabel alloc]init];
     TitleLabel.text = _NameStr;
     TitleLabel.font = [UIFont systemFontOfSize:13];
-    TitleLabel.textColor = [UIColor whiteColor];
+    TitleLabel.textColor = colorWithRGB(0.67, 0.87, 0.1);
     TitleLabel.textAlignment = NSTextAlignmentCenter;
     [TopView addSubview:TitleLabel];
     [TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -98,7 +162,7 @@
     
     MoneyPercentLabel = [[UILabel alloc]init];
     MoneyPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_PercentStr doubleValue]];
-    MoneyPercentLabel.textColor = [UIColor whiteColor];
+    MoneyPercentLabel.textColor = colorWithRGB(0.67, 0.87, 0.1);
     MoneyPercentLabel.textAlignment = NSTextAlignmentCenter;
     MoneyPercentLabel.font = [UIFont systemFontOfSize:50];
 //    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"12.34%"];
@@ -112,12 +176,12 @@
     [MoneyPercentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(TopView.mas_centerX);
         make.top.mas_equalTo(TitleLabel.mas_bottom).offset(20);
-        make.width.mas_equalTo(180);
+        make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
     
     UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor = [UIColor whiteColor];
+    lineView.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     [TopView addSubview:lineView];
     [lineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(10);
@@ -139,14 +203,12 @@
     }];
     
     MoneyLeftLbel = [[UILabel alloc]init];
-    
     NSString *totalStr = [NSString stringWithFormat:@"%@",_TotalStr];
     double totalDouble = [totalStr doubleValue];
-    
     NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
     double sellDouble = [sellStr doubleValue];
         MoneyLeftLbel.text = [NSString stringWithFormat:@"%.2f元",totalDouble - sellDouble];
-    MoneyLeftLbel.textColor = [UIColor whiteColor];
+    MoneyLeftLbel.textColor = colorWithRGB(0.67, 0.87, 0.1);
     MoneyLeftLbel.textAlignment = NSTextAlignmentRight;
     MoneyLeftLbel.font = [UIFont systemFontOfSize:12];
     [TopView addSubview:MoneyLeftLbel];
@@ -162,7 +224,7 @@
     UITapGestureRecognizer *bottomTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideKeyBoardClick)];
     [BootmView addGestureRecognizer:bottomTap];
 
-    BootmView.backgroundColor = colorWithRGB(0.92, 0.92, 0.92);
+    BootmView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.view addSubview:BootmView];
     [BootmView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(TopView.mas_bottom);
@@ -173,7 +235,7 @@
     
     ExplainLabel = [[UILabel alloc]init];
     ExplainLabel.text = @"注：若支付失败道具将在15分钟内返还";
-    ExplainLabel.textColor =  colorWithRGB(0.28, 0.46, 0.91);
+    ExplainLabel.textColor =  colorWithRGB(0.67, 0.87, 0.1);
     ExplainLabel.textAlignment = NSTextAlignmentCenter;
     ExplainLabel.font = [UIFont systemFontOfSize:11];
     [BootmView addSubview:ExplainLabel];
@@ -191,9 +253,9 @@
     ChoceStageView.backgroundColor = [UIColor whiteColor];
     [BootmView addSubview:ChoceStageView];
     [ChoceStageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(BootmView.mas_left).offset(20);
+        make.left.mas_equalTo(BootmView.mas_left);
         make.top.mas_equalTo(ExplainLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
     
@@ -206,10 +268,6 @@
         make.width.mas_equalTo(15);
         make.height.mas_equalTo(15);
     }];
-    
-    interestLabel = [[UILabel alloc]init];
-    
-    
     
     UILabel *choceLabel = [[UILabel alloc]init];
     choceLabel.text  = @"选择道具";
@@ -246,9 +304,9 @@
     SaleView.backgroundColor = [UIColor whiteColor];
     [BootmView addSubview:SaleView];
     [SaleView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(BootmView.mas_left).offset(20);
-        make.top.mas_equalTo(ChoceStageView.mas_bottom).offset(10);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.left.mas_equalTo(BootmView.mas_left);
+        make.top.mas_equalTo(ChoceStageView.mas_bottom).offset(0.5);
+        make.width.mas_equalTo(SCREEN_WIDTH );
         make.height.mas_equalTo(40);
     }];
     UIImageView *BuyImageView = [[UIImageView alloc]init];
@@ -286,39 +344,108 @@
         make.height.mas_equalTo(20);
     }];
     
-    interestLabel = [[UILabel alloc]init];
-    interestLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
-    interestLabel.font = [UIFont systemFontOfSize:10];
-    interestLabel.textColor = [UIColor whiteColor];
-    interestLabel.text = @"  预计本息(元):";
-    [BootmView addSubview:interestLabel];
-    [interestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(BootmView.mas_left).offset(20);
-        make.top.mas_equalTo(SaleView.mas_bottom);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(30);
- 
+    InterestView = [[UIView alloc]init];
+    InterestView.backgroundColor = [UIColor whiteColor];
+    [BootmView addSubview:InterestView];
+    [InterestView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(BootmView.mas_left);
+        make.top.mas_equalTo(SaleView.mas_bottom).offset(0.5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
     }];
     
+    UIImageView *InterestImageView = [[UIImageView alloc]init];
+    InterestImageView.image = [UIImage imageNamed:@"principal"];
+    [InterestView addSubview:InterestImageView];
+    [InterestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(InterestView.mas_centerY);
+        make.left.mas_equalTo(InterestView.mas_left).offset(10);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
+    }];
     
+    UILabel *InterestLabel = [[UILabel alloc]init];
+    InterestLabel.text  = @"预计本息";
+    InterestLabel.font = [UIFont systemFontOfSize:12];
+    [InterestView addSubview:InterestLabel];
+    [InterestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(InterestView.mas_centerY);
+        make.left.mas_equalTo(InterestImageView.mas_right).offset(10);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
+    }];
+    InterestMoneyLabel = [[UILabel alloc]init];
+    InterestMoneyLabel.text = @"0.00";
+    InterestMoneyLabel.font = [UIFont systemFontOfSize:12];
+    [InterestView addSubview:InterestMoneyLabel];
+    [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(InterestView.mas_centerY);
+        make.left.mas_equalTo(InterestLabel.mas_right);
+        make.width.mas_equalTo(300);
+        make.height.mas_equalTo(20);
+        
+    }];
+    
+
+    PassWordView = [[UIView alloc]init];
+    PassWordView.backgroundColor = [UIColor whiteColor];
+    [BootmView addSubview:PassWordView];
+    [PassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(BootmView.mas_left);
+        make.top.mas_equalTo(InterestView.mas_bottom).offset(0.5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
+    }];
+    UIImageView *PassWordImageView = [[UIImageView alloc]init];
+    PassWordImageView.image = [UIImage imageNamed:@"password"];
+    [PassWordView addSubview:PassWordImageView];
+    [PassWordImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(PassWordView.mas_centerY);
+        make.left.mas_equalTo(PassWordView.mas_left).offset(10);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
+    }];
+    UILabel *passWordLabel = [[UILabel alloc]init];
+    passWordLabel.text  = @"交易密码";
+    passWordLabel.font = [UIFont systemFontOfSize:12];
+    [PassWordView addSubview:passWordLabel];
+    [passWordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(PassWordView.mas_centerY);
+        make.left.mas_equalTo(PassWordImageView.mas_right).offset(10);
+        make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
+    }];
+    
+    PassWordTextField = [[UITextField alloc]init];
+    PassWordTextField.backgroundColor = [UIColor whiteColor];
+    PassWordTextField.font = [UIFont systemFontOfSize:12];
+    PassWordTextField.textAlignment = NSTextAlignmentLeft;
+    PassWordTextField.keyboardType = UIKeyboardTypeNumberPad;
+    PassWordTextField.delegate = self;
+    PassWordTextField.placeholder = @"请输入交易密码";
+    [PassWordView addSubview:PassWordTextField];
+    [PassWordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.mas_equalTo(PassWordView.mas_centerY);
+        make.left.mas_equalTo(passWordLabel.mas_right);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
+    }];
     
     ClickBtn = [[UIButton alloc]init];
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
     ClickBtn.selected = YES;
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
     [ClickBtn addTarget:self action:@selector(Saleclicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:ClickBtn];
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.top.mas_equalTo(interestLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
+        make.top.mas_equalTo(PassWordView.mas_bottom).offset(10);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:15];
+    nameLabel.font = [UIFont systemFontOfSize:14];
     NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
-    NSRange conectRange = {4,4};
-    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
     nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saleConnectClick)];
@@ -326,11 +453,13 @@
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
-        make.top.mas_equalTo(interestLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(PassWordView.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(15);
     }];
 
+    
+    
     
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"购买";
@@ -338,13 +467,13 @@
     SaleLabel.backgroundColor = colorWithRGB(0.28, 0.46, 0.91);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
-    SaleLabel.layer.cornerRadius = 10;
+    SaleLabel.layer.cornerRadius = 20;
     SaleLabel.layer.masksToBounds = YES;
     [BootmView addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(BootmView.mas_left).offset(40);
-        make.top.mas_equalTo(interestLabel.mas_bottom).offset(50);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.left.mas_equalTo(BootmView.mas_left).offset(20);
+        make.top.mas_equalTo(PassWordView.mas_bottom).offset(50);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
     
@@ -369,6 +498,7 @@
     AddMoneyLabel.font = [UIFont systemFontOfSize:12];
     CGSize size =CGSizeMake(400,20);
     if (AddStr.length) {
+        NSLog(@"add = %@",AddStr);
         AddMoneyLabel.hidden = NO;
         AddMoneyLabel.text =[NSString stringWithFormat:@"+%@",AddStr];
         NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
@@ -379,32 +509,235 @@
         [AddMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(MoneyPercentLabel.mas_right);
             make.top.mas_equalTo(TitleLabel.mas_bottom);
-            make.width.mas_equalTo(actualsize.width);
+            make.width.mas_equalTo(actualsize.width+40);
             make.height.mas_equalTo(20);
         }];
     }else{
         AddMoneyLabel.hidden = YES;
+        [TopView addSubview:AddMoneyLabel];
+        [AddMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MoneyPercentLabel.mas_right);
+            make.top.mas_equalTo(TitleLabel.mas_bottom);
+            make.width.mas_equalTo(200);
+            make.height.mas_equalTo(20);
+        }];
+        
     }
    
-    
+    NSLog(@"");
   
 }
 - (void)SaleBtn{
-    
-//未登录
-    //YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
-    //[self.navigationController pushViewController:LoginVC animated:NO];
-    //未设置交易密码
-    SalePassWordViewController *SaleVC = [[SalePassWordViewController alloc]init];
-    [self.navigationController   pushViewController:SaleVC animated:NO];
-//余额充足
-//    PayViewController *PayVC = [[PayViewController alloc]init];
-//    [self.navigationController   pushViewController:PayVC animated:NO];
+    NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue] > 0) {
+        if ([BankStatus integerValue] ==1) {
+            if ([PassWordStr integerValue] == 1) {
+                NSString *totalStr = [NSString stringWithFormat:@"%@",_TotalStr];
+                double totalDouble = [totalStr doubleValue];
+                
+                NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
+                double sellDouble = [sellStr doubleValue];
+                double leftMoney = totalDouble - sellDouble;
+                if ([BuyTextField.text doubleValue] < leftMoney) {
+                    if ([BuyTextField.text doubleValue] > [_minBuyStr doubleValue]) {
+                        if ([BuyTextField.text doubleValue] > [MyMoneyStr doubleValue]) {
+                            //购 买
+                            if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
+                                
+                                if (riskOrNo == 1) {
+                                    [self popAlertView];
 
-    //余额不足
+                                }else{
+                                    //购买
+                                    [self WriteSailPassWord];
+                                    
+            
+                                }
+                                
+                                
+                            }else{
+                                //弹出提示框
+                                [self popAlertView];
+                                
+                            }
+                            
+                            
+                        }else{
+                            //跳转充值
+                        }
+                        
+                        
+                    }else{
+                        normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
+                    }
+                    
+                }else{
+                    normal_alert(@"提示", @"购买金额不得大于剩余额度", @"确定");
+                }
+      
+                
+                
+                
+            }else{
+               //设置交易密码
+                SalePassWordViewController *SaleVC = [[SalePassWordViewController alloc]init];
+                [self.navigationController   pushViewController:SaleVC animated:NO];
+            }
+            
+            
+        }else{
+            //绑卡页面
+        }
+        
+        
+    }else{
+        YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
+        [self.navigationController pushViewController:LoginVC animated:NO];
+  
+    }
+
     
 }
+
+- (void)WriteSailPassWord{
+    
+}
+- (void)popAlertView{
+    
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 240)];
+    view.backgroundColor=[UIColor whiteColor];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 5.0f;
+    view.alpha = 0.9;
+
+    
+    UIImageView *  CancelImageView = [[UIImageView alloc]init];
+    CancelImageView.image = [UIImage imageNamed:@"close"];
+    CancelImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(RiskCancelClick)];
+    [CancelImageView addGestureRecognizer:CancelTap];
+    CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
+    [view addSubview:CancelImageView];
+    
+    
+    UILabel *label = [[UILabel alloc]init];
+    label.frame = CGRectMake(20, 10, 80, 20);
+    label.text = @"提示";
+    label.font = [UIFont systemFontOfSize:15];
+    [view addSubview:label];
+    
+    UIImageView *UseImageView = [[UIImageView alloc]init];
+    UseImageView.image = [UIImage imageNamed:@"tip"];
+    [view addSubview:UseImageView];
+    [UseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(view.mas_left).offset(40);
+        make.top.mas_equalTo(view.mas_top).offset(80);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(40);
+        
+    }];
+    UILabel *alertLabel = [[UILabel alloc]init];
+    alertLabel.text = @"您的风险等级不够！";
+    alertLabel.font = [UIFont systemFontOfSize:15];
+    alertLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    [view addSubview:alertLabel];
+    [alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(UseImageView.mas_right).offset(40);
+        make.top.mas_equalTo(view.mas_top).offset(60);
+        make.width.mas_equalTo(140);
+        make.height.mas_equalTo(20);
+    }];
+    
+    UILabel *goonLabel = [[UILabel alloc]init];
+    goonLabel.text = @"如果继续购买，请先打勾认可风险";
+    goonLabel.font = [UIFont systemFontOfSize:13];
+    [view addSubview:goonLabel];
+    [goonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(UseImageView.mas_right).offset(40);
+        make.top.mas_equalTo(alertLabel.mas_bottom);
+        make.width.mas_equalTo(160);
+        make.height.mas_equalTo(20);
+    }];
+    
+    RiskClickBtn = [[UIButton alloc]init];
+    [RiskClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    RiskClickBtn.selected = YES;
+    [RiskClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [RiskClickBtn addTarget:self action:@selector(riskclicked:) forControlEvents:UIControlEventTouchUpInside];
+    [view addSubview:RiskClickBtn];
+    [RiskClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(UseImageView.mas_right).offset(40);
+        make.top.mas_equalTo(goonLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(30);
+    }];
+    UILabel *nameLabel =[[UILabel alloc]init];
+    nameLabel.font = [UIFont systemFontOfSize:15];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
+    NSRange conectRange = {4,4};
+    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
+    nameLabel.attributedText = ConnectStr;
+    nameLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(riskClick)];
+    [nameLabel addGestureRecognizer:gesTap];
+    [view addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(RiskClickBtn.mas_right).offset(10);
+        make.top.mas_equalTo(goonLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(30);
+    }];
+    
+   UILabel * RiskLabel = [[UILabel alloc]init];
+    RiskLabel.text = @"继续购买";
+    RiskLabel.userInteractionEnabled = YES;
+    RiskLabel.backgroundColor = colorWithRGB(0.28, 0.46, 0.91);
+    RiskLabel.textAlignment = NSTextAlignmentCenter;
+    RiskLabel.textColor = [UIColor whiteColor];
+    RiskLabel.layer.cornerRadius = 10;
+    RiskLabel.layer.masksToBounds = YES;
+    [view addSubview:RiskLabel];
+    [RiskLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.top.mas_equalTo(RiskClickBtn.mas_bottom).offset(20);
+        make.width.mas_equalTo(SCREEN_WIDTH - 180);
+        make.height.mas_equalTo(40);
+    }];
+    
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(RiskBtnTap
+                                                                                                          )];
+    [RiskLabel addGestureRecognizer:SaleTap];
+    
+    RiskAlertView=[[AwAlertView alloc]initWithContentView:view];
+    RiskAlertView.isUseHidden=YES;
+    [RiskAlertView showAnimated:YES];
+}
+- (void)RiskBtnTap{
+    if (RiskClickBtn.selected) {
+        riskOrNo = 1;
+    }else{
+        riskOrNo = 0;
+    }
+    [RiskAlertView dismissAnimated:NO];
+
+}
+- (void)RiskCancelClick{
+    [RiskAlertView dismissAnimated:NO];
+  
+}
+- (void)riskClick{
+    //服务协议
+}
+
+- (void)riskclicked:(UIButton *)btn{
+    if (btn.selected) {
+        btn.selected = NO;
+    }else{
+        btn.selected = YES;
+    }
+}
 - (void)MyChoceClcik{
+    
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
     view.backgroundColor=[UIColor whiteColor];
     view.layer.masksToBounds = YES;
@@ -444,49 +777,43 @@
     if (BuyTextField.text.length) {
         if (AddStr.length) {
             NSString *  isfull;
+            
             if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
+
                 if ([_isFullScaleReward integerValue] == 1) {
                     if ([_fullScaleReward doubleValue]) {
+
                         isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
                         if (isfull.length) {
-                            interestLabel.text =[NSString stringWithFormat:@"  预计本息(元)1：%@+%@*(%@+%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,AddStr,
+                            InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%@+%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,AddStr,
                                                  isfull,_investmentHorizonStr] ;
                         }
                     }else{
-                        interestLabel.text =[NSString stringWithFormat:@"  预计本息(元)2：%@+%@*(%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,AddStr,_investmentHorizonStr] ;
+
+                        InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,AddStr,_investmentHorizonStr] ;
                     }
                     
                     
                 }
             }else{
+
                 if (AddStr.length) {
-                    interestLabel.text =[NSString stringWithFormat:@"  预计本息(元)4：%@+%@*(%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,AddStr,_investmentHorizonStr] ;
+                    InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,AddStr,_investmentHorizonStr] ;
                 }else{
-                  interestLabel.text =[NSString stringWithFormat:@"  预计本息(元)5：%@+%@*%@+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,_investmentHorizonStr] ;
+                  InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*%@+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,_investmentHorizonStr] ;
                 }
                 
               
             }
             
             
-            
-         
-   
+
             
         }else{
-             interestLabel.text =[NSString stringWithFormat:@"  预计本息(元)3：%@+%@*%@+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,_investmentHorizonStr] ;
+             InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*%@+%@/365",BuyTextField.text,BuyTextField.text,_PercentStr,_investmentHorizonStr] ;
+ 
         }
-        　NSLog(@"a= %@",AddStr);
-        
-        NSLog(@" 1== %@",_isFullScaleReward);
-        
-        NSLog(@" 2== %@",_fullScaleReward);
-        
-        NSLog(@" 3== %@",_PercentStr);
-        NSLog(@"4 == %@",_TotalStr);
-
-        NSLog(@" 5== %@",_SellStr);
-        NSLog(@"6 == %@",BuyTextField.text);
+     
 
         
     }
@@ -505,7 +832,7 @@
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  30;
+    return  [stageArray count];
 }
 
 
@@ -529,6 +856,20 @@
         cell = [[ChoiceStageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         [cell configUI:indexPath];
     }
+    if (indexPath.row == 0) {
+        cell.TotalImageView.image = [UIImage imageNamed:@"icon_none"];
+        cell.TitleLable.text = @"不使用道具";
+        cell.TitleLable.textColor =  colorWithRGB(0.63, 0.63, 0.63);
+        cell.DetailLable.hidden = YES;
+        [cell.TitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(cell.contentView.mas_centerY);
+        }];
+
+    }
+    if (stageArray.count) {
+        ChooseStageModel *model  = [stageArray objectAtIndex:indexPath.row];
+        cell.stageModel = model;
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
@@ -536,16 +877,27 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    NSString *StageStr = @"10000";
-    AddStr  = StageStr;
-    StageLabel.text = AddStr;
+    NSString *StageStr;
+    if (indexPath.row == 0) {
+        StageStr = @"";
+        StageLabel.text = @"不使用道具";
+        AddStr  = StageStr;
+
+
+    }else{
+        
+        ChooseStageModel *model = [stageArray objectAtIndex:indexPath.row];
+        StageStr = [NSString stringWithFormat:@"%@元%@",model.value,model.name];
+        
+        AddStr  = [NSString stringWithFormat:@"%@",model.value];
+        
+        StageLabel.text = StageStr;
+    }
+    
     [self ConfigInverest];
     [self refreshInvest];
     [alertView dismissAnimated:NO];
 
-    //    SectionViewController *sVC = [[SectionViewController alloc] init];
-    //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
-    //    [self presentViewController:sVC animated:YES completion:nil];
 }
 
 #pragma mark - 隐藏当前页面所有键盘-

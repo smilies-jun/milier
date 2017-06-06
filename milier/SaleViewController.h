@@ -27,4 +27,10 @@
 
 @property (nonatomic,strong)NSString *investmentHorizon;
 
+
+@property (nonatomic,strong)NSString *riskLevelStr;
+
+@property (nonatomic,strong)NSString *minBuyStr;
+
+@property (nonatomic,strong)NSString *productStr;
 @end

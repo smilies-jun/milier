@@ -39,7 +39,7 @@
 
 #define APP_SECRET @"6bdaa4031d3013e5a21200163e002615"
 
-#define ActivityURL @"https://192.168.1.34:8443/activities?page=1&rows=10"
+#define Text_URL @"https://192.168.1.34:8443"
 
 
 //URL

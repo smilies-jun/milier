@@ -67,9 +67,22 @@
     [_limitTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_ProfitLabel.mas_right).offset(30);
         make.centerY.mas_equalTo(_ProfitLabel.mas_centerY);
-        make.width.mas_equalTo(150);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(250);
+        make.height.mas_equalTo(15);
     }];
+    _ChangeLabel = [[UILabel alloc]init];
+    _ChangeLabel.text = @"投资期限 6个月";
+
+    _ChangeLabel.font = [UIFont systemFontOfSize:15];
+    _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+    [self addSubview:_ChangeLabel];
+    [_ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(30);
+        make.top.mas_equalTo(_limitTimeLabel.mas_bottom).offset(3);
+        make.width.mas_equalTo(250);
+        make.height.mas_equalTo(15);
+    }];
+
     
     _BeginMoneyLabel = [[UILabel alloc]init];
     _BeginMoneyLabel.text = @"起购金额 10000元";
@@ -79,7 +92,7 @@
     [_BeginMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_limitTimeLabel.mas_left);
         make.bottom.mas_equalTo(_MoneyLabel.mas_bottom);
-        make.width.mas_equalTo(150);
+        make.width.mas_equalTo(250);
         make.height.mas_equalTo(20);
     }];
     
@@ -144,8 +157,18 @@
         float interestRate = [[NSString stringWithFormat:@"%@%%",_productMoel.interestRate]floatValue];
         _MoneyLabel.text = [NSString stringWithFormat:@"%.2f%%",interestRate];
         NSInteger limitTime = [[NSString stringWithFormat:@"%@",_productMoel.investmentHorizon] integerValue];
-        _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld个月",(long)limitTime/30];
-        _BeginMoneyLabel.text =[NSString stringWithFormat:@"起购金额 %@元",_productMoel.minimumInvestmentAmount];
+        if ([_productMoel.productCategoryId integerValue] == 6) {
+            _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld个月",(long)limitTime/30];
+            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债券包价值 %@元",_productMoel.minimumInvestmentAmount];
+            _ChangeLabel.text =[NSString stringWithFormat:@"购买金额 %@元",_productMoel.minimumInvestmentAmount];
+
+        }else{
+            _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld个月",(long)limitTime/30];
+            _BeginMoneyLabel.text =[NSString stringWithFormat:@"起购金额 %@元",_productMoel.minimumInvestmentAmount];
+            _ChangeLabel.hidden = YES;
+        }
+        
+     
         if ([_productMoel.state intValue] == 2) {
             _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             _PercentLabel.text = [NSString stringWithFormat:@"%@%%",_productMoel.progressMessage];

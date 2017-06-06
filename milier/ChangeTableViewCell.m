@@ -24,7 +24,7 @@
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(self.mas_top).offset(5);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
         
     }];
@@ -170,6 +170,40 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(5);
     }];
+}
+
+- (void)setChangeModel:(MyChangeModel *)changeModel{
+    if (changeModel != _changeModel) {
+        _changeModel = changeModel;
+        _NameLabel.text = [NSString stringWithFormat:@"%@",_changeModel.name];;
+        _ChangeValueNumberLabel.text = [NSString stringWithFormat:@"%.2f",[_changeModel.bondTotal doubleValue]];
+        _OneDayChangeNumberLabel.text = [NSString stringWithFormat:@"%.2f",[_changeModel.interestRate doubleValue]];
+        _RegularNumberLabel.text = [NSString stringWithFormat:@"%@",_changeModel.aggregateAmount];
+        NSString *timeStr = [self getTimeStr:_changeModel.expireTime withForMat:@"yyyy-MM-dd"];
+        
+        
+        if ([_changeModel.state integerValue] == 2) {
+            _OutLabel.text =[NSString stringWithFormat:@"下架时间:%@",timeStr];
+            _OutSailLabel.text = [NSString stringWithFormat:@"手续费:%@元",_changeModel.fee];
+            _StateImageView.image = [UIImage imageNamed:@"assignment"];
+            _IsOrNoLabel.text = @"取消转让";
+
+        }else{
+            _OutLabel.text =[NSString stringWithFormat:@"手续费:%@元",_changeModel.fee];
+            _OutSailLabel.hidden = YES;
+            _StateImageView.image = [UIImage imageNamed:@"transferred"];
+            _IsOrNoLabel.hidden = YES;
+
+        }
+    }
+}
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

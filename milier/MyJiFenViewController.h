@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface MyJiFenViewController : UIViewController
-
+@property (nonatomic,retain)NSString *JiFenStr;
 @end

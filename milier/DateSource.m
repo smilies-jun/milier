@@ -114,6 +114,15 @@
     [manager GET:url parameters:parameters progress:^(NSProgress * _Nonnull downloadProgress) {
        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
        // NSLog(@"url= %@",responseObject);
+           
+           static dispatch_once_t onceToken;
+           dispatch_once(&onceToken, ^{
+               if ([[responseObject objectForKey:@"statusCode"]integerValue] == 401) {
+                   normal_alert(@"提示", @"认证失败请重新登录", @"确定");
+               }
+           });
+           
+           
         if (block) {
                        block(responseObject,nil);
                    }

@@ -47,7 +47,34 @@
     
 
 }
+- (void)setStageModel:(ChooseStageModel *)stageModel{
+    if (stageModel != _stageModel) {
+        _stageModel = stageModel;
+        switch ([_stageModel.type integerValue]) {
+            case 0:
+                _TotalImageView.image = [UIImage imageNamed:@"icon_none"];
+                _TitleLable.text = @"无道具";
+                _DetailLable.text =@"";
 
+                break;
+            case 1:
+                _TotalImageView.image = [UIImage imageNamed:@"icon_jx"];
+                _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
+                _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+
+                break;
+            case 2:
+                _TotalImageView.image = [UIImage imageNamed:@"icon_xm"];
+                _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
+                _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+
+                break;
+            default:
+                break;
+        }
+ 
+    }
+}
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code

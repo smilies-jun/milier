@@ -10,4 +10,31 @@
 
 @interface DuiHuanModel : NSObject
 
+@property(nonatomic,strong)NSString *address;
+
+@property(nonatomic,strong)NSString *commodityImage;
+
+@property(nonatomic,strong)NSString *commodityName;
+
+@property(nonatomic,strong)NSString *commodityScore;
+
+@property(nonatomic,strong)NSString *commodityType;
+
+@property(nonatomic,strong)NSString *createTime;
+
+@property(nonatomic,strong)NSString *logisticsName;
+
+@property(nonatomic,strong)NSString *oid;
+
+@property(nonatomic,strong)NSString *person;
+
+@property(nonatomic,strong)NSString *phoneNumber;
+
+@property(nonatomic,strong)NSString *promotion;
+
+@property(nonatomic,strong)NSString *state;
+
+@property(nonatomic,strong)NSString *commodityDesc;
+
+
 @end

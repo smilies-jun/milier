@@ -10,6 +10,8 @@
 #import "CustomChooseView.h"
 #import "CustomView.h"
 #import "MyJiFenViewController.h"
+#import "giftModel.h"
+
 
 @interface CostViewController (){
     CustomChooseView *NameChooseView;
@@ -33,11 +35,13 @@
     [leftBtn addTarget:self action:@selector(PhoneTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
+    self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     [self ConfigUI];
 }
 - (void)ConfigUI{
     NameChooseView = [[CustomChooseView alloc]init];
+    NameChooseView.NameLabel.text= @"礼品名称";
+    NameChooseView.ChooseLabel.text = _NameStr;
     [self.view addSubview:NameChooseView];
     [NameChooseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -46,18 +50,23 @@
         make.height.mas_equalTo(44);
     }];
     CodeChooseView = [[CustomChooseView alloc]init];
+    CodeChooseView.NameLabel.text = @"消费积分";
+    CodeChooseView.ChooseLabel.text = _ScoreStr ;
     [self.view addSubview:CodeChooseView];
     [CodeChooseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(NameChooseView.mas_bottom);
+        make.top.mas_equalTo(NameChooseView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);
     }];
     PhoneView = [[CustomView alloc]init];
+    PhoneView.NameLabel.text = @"消费积分";
+    PhoneView.NameTextField.placeholder = @"请输入手机号码";
+    PhoneView.NameTextField.keyboardType = UIKeyboardTypeNamePhonePad;
     [self.view addSubview:PhoneView];
     [PhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(CodeChooseView.mas_bottom).offset(5);
+        make.top.mas_equalTo(CodeChooseView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);    }];
     
@@ -65,7 +74,7 @@
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"兑换";
     SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = [UIColor orangeColor];
+    SaleLbel.backgroundColor =colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
     SaleLbel.layer.cornerRadius = 10;
@@ -84,7 +93,26 @@
     
 }
 - (void)QuerenBtnClick{
-    NSLog(@"确认");
+    if (PhoneView.NameTextField.text.length) {
+        NSString * url = [NSString stringWithFormat:@"%@/commodityOrders",HOST_URL];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:_ProductID, @"commodityId",PhoneView.NameTextField.text,@"phoneNumber",nil];
+        NSString *tokenID = NSuserUse(@"Authorization");
+        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                [self.navigationController popToRootViewControllerAnimated:NO];
+            }else{
+                NSString *message = [result objectForKey:@"message"];
+                normal_alert(@"提示", message, @"确定");
+                
+            }
+        }];
+
+    }else{
+        normal_alert(@"提示", @"手机号不可为空", @"确定　");
+    }
+    
+    
 }
 - (void)PhoneTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {

@@ -13,8 +13,14 @@
 #import "MyLeftTopViewTableViewCell.h"
 #import "TouUpViewController.h"
 #import "MoneyViewController.h"
+#import "MyLeftModel.h"
+#import "BundCardViewController.h"
 
-@interface MyLeftViewController ()<UITableViewDataSource,UITableViewDelegate>
+
+@interface MyLeftViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSDictionary *MyMoneyDic;
+    NSMutableArray *MyLeftArray;
+}
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)UIView *BottomView;
 
@@ -33,9 +39,46 @@
     [leftBtn addTarget:self action:@selector(MyLeftClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    MyLeftArray = [[NSMutableArray alloc]init];
+   
+    [self reloadMyMoney];
     [self getNetworkData:YES];
     [self ConfigUI];
 
+}
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    [self getNetworkData:NO];
+    
+}
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 1) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
+}
+- (void)reloadMyMoney{
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        
+        NSString *statusStr = [result objectForKey:@"statusCode"];
+        if ([statusStr integerValue] == 200) {
+            MyMoneyDic = [result objectForKey:@"data"];
+            [self ConfigUI];
+            
+        }
+        
+    }];
 }
 -(void)ConfigUI{
     page = 0;
@@ -44,6 +87,10 @@
     
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- 64 -44) style:UITableViewStylePlain];
     _tableView.delegate = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+    
+
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
@@ -94,8 +141,19 @@
     }];
 }
 - (void)payClick{
-    TouUpViewController *vc = [[TouUpViewController alloc]init];
-    [self.navigationController pushViewController:vc animated:NO];
+   
+
+    NSString *bankStr = NSuserUse(@"bankCardExist");
+    if ([bankStr integerValue] == 0) {
+        BundCardViewController *vc = [[BundCardViewController alloc]init];
+        vc.MoneyType = @"1";
+        [self.navigationController pushViewController:vc animated:NO];
+    }else{
+        TouUpViewController *vc = [[TouUpViewController alloc]init];
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+    
+  
 }
 - (void)cashClick{
     MoneyViewController *vc = [[MoneyViewController alloc]init];
@@ -111,18 +169,11 @@
 /**
  *  停止刷新
  */
--(void)endRefresh{
-    
-    if (page == 0) {
-        [self.tableView.mj_header endRefreshing];
-    }
-    [self.tableView.mj_footer endRefreshing];
-}
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -131,18 +182,30 @@
     NSString *url;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
+    if (isRefresh) {
+        url = [NSString stringWithFormat:@"%@/users/%@/traces?page=1&rows=20",HOST_URL,userID];
+ 
+    }else{
+        url = [NSString stringWithFormat:@"%@/users/%@/traces?page=$%d&rows=20",HOST_URL,userID,page];
+
+    }
     
-    url = [NSString stringWithFormat:@"%@/%@/traces",USER_URL,userID];
-    NSLog(@"url = %@",url);
+    
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"left result = %@",result);
-       // UserDic = [result objectForKey:@"data"];
-       // [self reloadData];
+        NSArray *array = [result objectForKey:@"items"];
+        for (NSDictionary *dic in array) {
+            MyLeftModel *model = [[MyLeftModel alloc]init];
+            model.dataDictionary = dic;
+            [MyLeftArray addObject:model];
+            
+        }
+        [self endRefresh];
+        [self.tableView reloadData];
     }];
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  30;
+    return  MyLeftArray.count + 1;
 }
 
 
@@ -169,6 +232,7 @@
             cell = [[MyLeftTopViewTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.NameLabel.text = [NSString stringWithFormat:@"¥%@",[MyMoneyDic objectForKey:@"assets"]];;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         
@@ -180,6 +244,10 @@
         if (!cell) {
             cell = [[MyLeftDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
+        }
+        if (MyLeftArray.count) {
+            MyLeftModel *model = [MyLeftArray objectAtIndex:indexPath.row-1];
+            cell.LeftModel = model;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         

@@ -102,7 +102,7 @@
     _BuyTitleLable.text = @"车贷";
     _BuyTitleLable.textColor = [UIColor whiteColor];
     _BuyTitleLable.textAlignment = NSTextAlignmentCenter;
-    _BuyTitleLable.backgroundColor = [UIColor redColor];
+    _BuyTitleLable.backgroundColor = [UIColor whiteColor];
     _BuyTitleLable.font = [UIFont systemFontOfSize:11];
     [MiddleImageView addSubview:_BuyTitleLable];
     [_BuyTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -114,7 +114,7 @@
     _InterentTitleLable = [[UILabel alloc]init];
     _InterentTitleLable.text = @"网贷";
     _InterentTitleLable.textAlignment = NSTextAlignmentCenter;
-    _InterentTitleLable.backgroundColor = [UIColor orangeColor];
+    _InterentTitleLable.backgroundColor = [UIColor whiteColor];
     _InterentTitleLable.textColor = [UIColor whiteColor];
     _InterentTitleLable.font = [UIFont systemFontOfSize:11];
     [MiddleImageView addSubview:_InterentTitleLable];
@@ -127,7 +127,7 @@
     _QiYeTitleLable = [[UILabel alloc]init];
     _QiYeTitleLable.textColor = [UIColor whiteColor];
     _QiYeTitleLable.text = @"企业贷";
-    _QiYeTitleLable.backgroundColor = [UIColor greenColor];
+    _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
     _QiYeTitleLable.textAlignment = NSTextAlignmentCenter;
     _QiYeTitleLable.font = [UIFont systemFontOfSize:11];
     [MiddleImageView addSubview:_QiYeTitleLable];
@@ -139,7 +139,7 @@
     }];
     _PersonTitleLable = [[UILabel alloc]init];
     _PersonTitleLable.textColor = [UIColor whiteColor];
-    _PersonTitleLable.backgroundColor = [UIColor blueColor];
+    _PersonTitleLable.backgroundColor = [UIColor whiteColor];
     _PersonTitleLable.textAlignment = NSTextAlignmentCenter;
     _PersonTitleLable.text = @"个人贷";
     _PersonTitleLable.font = [UIFont systemFontOfSize:11];
@@ -177,7 +177,182 @@
         make.height.mas_equalTo(20);
     }];
 }
+- (void)setStageModel:(StageModel *)stageModel{
+    if (stageModel != _stageModel) {
+        _stageModel = stageModel;
+        NSString *stageType = [NSString stringWithFormat:@"%@",_stageModel.type];
+        switch ([stageType integerValue]) {
+            case 1:
+                _TitleStateLable.text = @"加 息 卷";
+                _RightImageView.image = [UIImage imageNamed:@"wangdai_xmq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"wangdai_xmq_01"];
+                break;
+            case 2:
+                _TitleStateLable.text = @"小 米 卷";
+                _RightImageView.image = [UIImage imageNamed:@"gold_xmq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"gold_xmq_01"];
+                break;
+            case 3:
+                _TitleStateLable.text = @"新 手 卷";
+                _RightImageView.image = [UIImage imageNamed:@"new_xmq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"new_xmq_01"];
+                break;
+            case 4:
+                _TitleStateLable.text = @"金 米 卷";
+                _RightImageView.image = [UIImage imageNamed:@"qiye_xmq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"qiye_xmq_01"];
+                break;
+                
+            default:
+                break;
+        }
+     
+        
+        
+        _TitleLable.text = [NSString stringWithFormat:@"¥%@元",_stageModel.value];
 
+        _SailMoneyLable.text =[NSString stringWithFormat:@"投资金额：%@月以上",_stageModel.value];
+
+        
+        if ([_stageModel.state integerValue] ==1) {
+            _UseTitleLable.text = @"已使用";
+            _UseTimeTitleLable.hidden = YES;
+
+        }else if ([_stageModel.state integerValue] ==2){
+            _UseTitleLable.text = @"使用";
+            _UseTimeTitleLable.text = [NSString stringWithFormat:@"剩余%@天过期",_stageModel.expireTime];
+        }
+        
+        else{
+            _UseTitleLable.text = @"已过期";
+            _UseTimeTitleLable.hidden = YES;
+            _RightImageView.image = [UIImage imageNamed:@"gray_quan_03"];
+            _TypeImageView.image = [UIImage imageNamed:@"gray_quan_01"];
+
+
+        }
+        
+        for (int i = 0; i < _stageModel.productCategoryIds.count; i++) {
+            NSString *MyStageType = [_stageModel.productCategoryIds objectAtIndex:i];
+            switch (i) {
+                case 0:
+                    switch ([MyStageType integerValue]) {
+                        case 1:
+                            _BuyTitleLable.text = @"网贷";
+                            _BuyTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+
+                            break;
+                        case 3:
+                            _BuyTitleLable.text = @"企业贷";
+                            _BuyTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+
+                            break;
+                        case 4:
+                            _BuyTitleLable.text = @"车贷";
+                            _BuyTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+
+                            break;
+                        case 5:
+                            _BuyTitleLable.text = @"个人贷";
+                            _BuyTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    break;
+                case 1:
+                    switch ([MyStageType integerValue]) {
+                        case 1:
+                            _InterentTitleLable.text = @"网贷";
+                            _InterentTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                            
+                            break;
+                        case 3:
+                            _InterentTitleLable.text = @"企业贷";
+                            _InterentTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                            
+                            break;
+                        case 4:
+                            _InterentTitleLable.text = @"车贷";
+                            _InterentTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                            
+                            break;
+                        case 5:
+                            _InterentTitleLable.text = @"个人贷";
+                            _InterentTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                            
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 2:
+                    switch ([MyStageType integerValue]) {
+                        case 1:
+                            _QiYeTitleLable.text = @"网贷";
+                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                            
+                            break;
+                        case 3:
+                            _QiYeTitleLable.text = @"企业贷";
+                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                            
+                            break;
+                        case 4:
+                            _QiYeTitleLable.text = @"车贷";
+                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                            
+                            break;
+                        case 5:
+                            _QiYeTitleLable.text = @"个人贷";
+                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                            
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                case 3:
+                    switch ([MyStageType integerValue]) {
+                        case 1:
+                            _PersonTitleLable.text = @"网贷";
+                            _PersonTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                            
+                            break;
+                        case 3:
+                            _PersonTitleLable.text = @"企业贷";
+                            _PersonTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                            
+                            break;
+                        case 4:
+                            _PersonTitleLable.text = @"车贷";
+                            _PersonTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                            
+                            break;
+                        case 5:
+                            _PersonTitleLable.text = @"个人贷";
+                            _PersonTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                            
+                            break;
+                        default:
+                            break;
+                    }
+
+                    break;
+                default:
+                    break;
+            }
+        }
+        
+
+        
+
+    }
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

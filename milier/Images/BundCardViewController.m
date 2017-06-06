@@ -11,6 +11,23 @@
 #import "CustomView.h"
 #import "CustomChooseView.h"
 #import "ZHPickView.h"
+#import "LLPayUtil.h"
+#import "LLOrder.h"
+#import "UserSetViewController.h"
+#import "MyLeftViewController.h"
+
+
+/*! TODO: 修改两个参数成商户自己的配置 */
+static NSString *kLLOidPartner = @"201606081000897509";//@"201408071000001546";                 // 商户号
+static NSString *kLLPartnerKey = @"cdzbMLE2016Md5";//@"201408071000001546_test_20140815";   // 密钥
+static NSString *signType = @"MD5"; //签名方式
+
+/*! 接入什么支付产品就改成那个支付产品的LLPayType，如快捷支付就是LLPayTypeQuick */
+
+static LLPayType payType = LLPayTypeQuick;
+
+
+
 
 @interface BundCardViewController ()<UIScrollViewDelegate>{
     UIScrollView *BackView;
@@ -37,7 +54,17 @@
     NSMutableArray *BankIDArray;
     NSString *bankStr;
     UIButton *ClickBtn;
+    
+    NSString *orderStr;
+    NSString *createTimeStr;
+    NSString *reginStr;
 }
+
+@property (nonatomic, strong) LLOrder *order;
+@property (nonatomic, retain) NSMutableDictionary *orderDic;
+
+
+
 
 @end
 
@@ -470,10 +497,6 @@
             bankI = [[BankIDArray objectAtIndex:i]integerValue];
         }
     }
-    NSLog(@"ban= %@",BankIDArray);
-    NSLog(@" == %ld",(long)bankI);
-    
-
     
     NSString *url;
     NSString *userID = NSuserUse(@"userId");
@@ -481,22 +504,141 @@
     NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
     url = [NSString stringWithFormat:@"%@/bankCards",HOST_URL];
     
-    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:CardNameView.NameTextField.text,@"username",CardIphoneView.NameTextField.text,@"phoneNumber",CardNumberView.NameTextField.text,@"identityCardNumber",CardBankCodeView.NameTextField.text,@"bankCardNumber",userID,@"userId",bankID,@"bankId", nil];
+    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:CardNameView.NameTextField.text,@"username",CardIphoneView.NameTextField.text,@"phoneNumber",CardNumberView.NameTextField.text,@"identityCardNumber",CardBankCodeView.NameTextField.text,@"bankCardNumber",userID,@"userId",bankID,@"bankId",CardWhichBankView.NameTextField.text,@"branchBank", nil];
     
    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-       NSLog(@"re = %@",result);
+       
+       NSString *statuesCode = [result objectForKey:@"statusCode"];
+       
+       if ([statuesCode integerValue] == 201) {
+           [self payMoney];
+       }
+       
+       
    }];
 
     
 
 }
+
+- (void)payMoney{
+    NSString *url;
+    NSString *tokenID = NSuserUse(@"Authorization");
+    url = [NSString stringWithFormat:@"%@/dealOrder",HOST_URL];
+    
+    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:MoneyView.NameTextField.text,@"amount",@"3",@"type", nil];
+    
+    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        
+        NSString *statuesCode = [result objectForKey:@"statusCode"];
+        
+        if ([statuesCode integerValue] == 201) {
+            orderStr = [[result objectForKey:@"data"]objectForKey:@"dealOrderNo"];
+            createTimeStr = [[result objectForKey:@"data"]objectForKey:@"createTime"];
+            reginStr = [[result objectForKey:@"data"]objectForKey:@"userRegistrationTime"];
+            [self createOrder];
+            [self requestLLP];
+        }
+        
+        
+    }];
+
+}
+- (void)requestLLP{
+    self.orderDic = [[_order tradeInfoForPayment] mutableCopy];
+    LLPayUtil *payUtil = [[LLPayUtil alloc] init];
+    
+    // 进行签名
+    NSDictionary *signedOrder = [payUtil signedOrderDic:self.orderDic andSignKey:kLLPartnerKey];
+    
+    [LLPaySdk sharedSdk].sdkDelegate = self;
+    
+    //接入什么产品就传什么LLPayType
+    [[LLPaySdk sharedSdk] presentLLPaySDKInViewController:self
+                                              withPayType:payType
+                                            andTraderInfo:signedOrder];
+}
+
+#pragma - mark 支付结果 LLPaySdkDelegate
+// 订单支付结果返回，主要是异常和成功的不同状态
+// TODO: 开发人员需要根据实际业务调整逻辑
+- (void)paymentEnd:(LLPayResult)resultCode withResultDic:(NSDictionary *)dic {
+    
+    NSString *msg = @"异常";
+    switch (resultCode) {
+        case kLLPayResultSuccess: {
+            msg = @"成功";
+        } break;
+        case kLLPayResultFail: {
+            msg = @"失败";
+        } break;
+        case kLLPayResultCancel: {
+            msg = @"取消";
+        } break;
+        case kLLPayResultInitError: {
+            msg = @"sdk初始化异常";
+        } break;
+        case kLLPayResultInitParamError: {
+            msg = dic[@"ret_msg"];
+        } break;
+        default:
+            break;
+    }
+    
+    NSString *showMsg =
+    [msg stringByAppendingString:[LLPayUtil jsonStringOfObj:dic]];
+    
+    NSLog(@"showmessage = %@",showMsg);
+    
+}
+
+
+-(void)createOrder{
+    NSString *userID =[NSString stringWithFormat:@"%@",NSuserUse(@"userId"]);
+
+    _order = [[LLOrder alloc] initWithLLPayType:payType];
+    NSString *timeStamp = [LLOrder timeStamp];
+    _order.oid_partner = kLLOidPartner;
+    _order.sign_type = signType;
+    _order.busi_partner = @"101001";
+    _order.no_order = orderStr;
+    _order.dt_order = timeStamp;
+    _order.money_order = MoneyView.NameTextField.text;
+    _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
+    //    _order.acct_name = acctName;
+    //    _order.card_no = cardNumber;
+    //    _order.id_no = idNumber;
+    _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr}];
+    _order.user_id = userID;
+    
+}
 - (void)BundBackClick{
     //  返回指定页面
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[SaleViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
+    
+    if([_MoneyType integerValue] == 3){
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[UserSetViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }else if ([_MoneyType integerValue] == 1){
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[MyLeftViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
         }
     }
+    
+    
+    else{
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[SaleViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }
+    
+   
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

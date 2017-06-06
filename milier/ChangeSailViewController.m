@@ -10,8 +10,12 @@
 #import "UserViewController.h"
 #import "MJRefresh.h"
 #import "ChangeTableViewCell.h"
+#import "MyChangeModel.h"
 
-@interface ChangeSailViewController ()<UITableViewDataSource,UITableViewDelegate>
+
+@interface ChangeSailViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray *MyChangeArray;
+}
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)UIView *BottomView;
 
@@ -30,11 +34,13 @@
     [leftBtn addTarget:self action:@selector(MyChangeClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    MyChangeArray = [[NSMutableArray alloc]init];
+    [self getNetworkData:YES];
     [self ConfigUI];
     
 }
 -(void)ConfigUI{
-    page = 0;
+    page = 1;
     isFirstCome = YES;
     isJuhua = NO;
 
@@ -43,9 +49,30 @@
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
+    
+}
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 1) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
+}
+
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    [self getNetworkData:NO];
     
 }
 - (void)MyChangeClick{
@@ -55,81 +82,50 @@
         }
     }
 }
-/**
- *  停止刷新
- */
--(void)endRefresh{
-    
-    if (page == 0) {
-        [self.tableView.mj_header endRefreshing];
-    }
-    [self.tableView.mj_footer endRefreshing];
-}
+
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
+   
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
     }
-    
+    //1. 网贷基金，2. 特色产品，3. 企业贷款、4. 个人贷款，5. 购车贷款、6. 债权转让，7. 新手专享，8. 金米宝， 0. 定期（包含1 3 4 5 6 7）
+    NSString *tokenID = NSuserUse(@"Authorization");
+    NSString *userID = NSuserUse(@"userId");
     NSString *url;
     if (isFirstCome) {
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,@"",page];
+        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&%@",HOST_URL,userID];
     }else{
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,self.maxtime,page];
+        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&%@",HOST_URL,page,userID];
+        
     }
-    //    [HYBNetworking cacheGetRequest:YES shoulCachePost:YES];
-    //    [HYBNetworking getWithUrl:url refreshCache:NO params:nil progress:^(int64_t bytesRead, int64_t totalBytesRead) {
-    //
-    //    } success:^(id response) {
-    //        PPLog(@"请求成功---%@",response);
-    //        [self endRefresh];
-    //        isJuhua = NO; //数据获取成功后，设置为NO
-    //
-    //        NSDictionary *dict = (NSDictionary *)response;
-    //        NSDictionary *infoDict = [dict objectForKey:@"info"];
-    //        totalPage = (int)[infoDict objectForKey:@"page"];
-    //        self.maxtime = [infoDict objectForKey:@"maxtime"];
-    //
-    //        if (page == 0) {
-    //            [_pictures removeAllObjects];
-    //        }
-    //        //判断是否有菊花正在加载，如果有，判断当前页数是不是大于最大页数，是的话就不让加载，直接return；（因为下拉的当前页永远是最小的，所以直接return）
-    //        if (isJuhua) {
-    //            if (page >= totalPage) {
-    //                [self endRefresh];
-    //            }
-    //            return ;
-    //        }
-    //        //没有菊花正在加载，所以设置yes
-    //        isJuhua = YES;
-    //        //显然下面的方法适用于上拉加载更多
-    //        if (page >= totalPage) {
-    //            [self endRefresh];
-    //            return;
-    //        }
-    //        //获取模型数组
-    //        NSArray *pictureArr = [dict objectForKey:@"list"];
-    //        for (NSDictionary *dic in pictureArr) {
-    //            MJPicture *picture = [[MJPicture alloc]init];
-    //            [picture setValuesForKeysWithDictionary:dic];
-    //            [self.pictures addObject:picture];
-    //        }
-    //        [self.tableView reloadData];
-    //        //获取成功一次就判断
-    //        isFirstCome = NO;
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //        PPLog(@"请求失败---%@",error);
-    //    }];
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        NSArray *array = [result objectForKey:@"items"];
+        for (NSDictionary *dic in array) {
+            MyChangeModel *model = [[MyChangeModel alloc]init];
+            model.dataDictionary = dic;
+            [MyChangeArray addObject:model];
+            
+        }
+        [self.tableView reloadData];
+        [self endRefresh];
+
+        // UserDic = [result objectForKey:@"data"];
+        // [self reloadData];
+    }];
+
+
+
 }
+
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  30;
+    return  MyChangeArray.count;
 }
 
 
@@ -152,12 +148,13 @@
         ChangeTableViewCell    *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[ChangeTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-//            UIImageView *imageViewSepE = [[UIImageView alloc]initWithFrame:CGRectMake(0, 120, SCREEN_WIDTH, 5)];
-//            imageViewSepE.backgroundColor = [UIColor blackColor];
-//            [cell.contentView addSubview:imageViewSepE];
             [cell configUI:indexPath];
              cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
+    if (MyChangeArray.count) {
+        MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
+        cell.changeModel = model;
+    }
     　
         return cell;
 

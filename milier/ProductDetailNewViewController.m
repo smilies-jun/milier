@@ -110,7 +110,9 @@
     SaleVC.investmentHorizonStr = model.investmentHorizon;
     SaleVC.isFullScaleReward = model.isFullScaleReward;
     SaleVC.fullScaleReward = model.fullScaleReward;
-    
+    SaleVC.riskLevelStr = model.riskLevel;
+    SaleVC.minBuyStr = model.minimumInvestmentAmount;
+    SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
     [self.navigationController pushViewController:SaleVC animated:NO];
 }
 - (void)newDetailTap{

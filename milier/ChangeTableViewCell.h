@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MyChangeModel.h"
+
 
 @interface ChangeTableViewCell : UITableViewCell
 @property (nonatomic , retain) UILabel *NameLabel;
@@ -26,6 +28,8 @@
 
 @property (nonatomic , retain) UIImageView *StateImageView;
 
-- (void)configUI:(NSIndexPath *)indexPath;
+@property (nonatomic, retain)MyChangeModel  *changeModel;
 
+- (void)configUI:(NSIndexPath *)indexPath;
+- (void)setChangeModel:(MyChangeModel *)changeModel;
 @end

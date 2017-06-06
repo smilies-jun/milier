@@ -13,8 +13,12 @@
 #import "ConvertTableViewCell.h"
 #import "CostViewController.h"
 #import "SubstanceViewController.h"
+#import "giftModel.h"
 
-@interface ConvertViewController ()<UITableViewDataSource,UITableViewDelegate>
+
+@interface ConvertViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    NSMutableArray *JiFenArray;
+}
 @property (nonatomic,strong)UITableView *tableView;
 
 
@@ -33,6 +37,8 @@
     [leftBtn addTarget:self action:@selector(ConvertClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    JiFenArray = [[NSMutableArray alloc]init];
+    [self getNetworkData:YES];
     [self ConfigUI];
 }
 - (void)ConvertClick{
@@ -48,12 +54,22 @@
     isFirstCome = YES;
     isJuhua = NO;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
+}
+- (void)loadoconNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadconMore{
+    [self getNetworkData:NO];
+    
 }
 /**
  *  停止刷新
@@ -66,6 +82,7 @@
     [self.tableView.mj_footer endRefreshing];
 }
 
+
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
@@ -74,62 +91,35 @@
     }else{
         page++;
     }
-    [self.tableView reloadData];
+    //1. 网贷基金，2. 特色产品，3. 企业贷款、4. 个人贷款，5. 购车贷款、6. 债权转让，7. 新手专享，8. 金米宝， 0. 定期（包含1 3 4 5 6 7）
+    NSString *tokenID = NSuserUse(@"Authorization");
+    //  NSString *userID = NSuserUse(@"userId");
+    
     NSString *url;
     if (isFirstCome) {
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,@"",page];
+        url = [NSString stringWithFormat:@"%@/commodities?page=1&rows=20",HOST_URL];
     }else{
-        //url = [NSString stringWithFormat:MissBaisiImageUrl,self.maxtime,page];
+        url = [NSString stringWithFormat:@"%@/commodities?page=%d&rows=20",HOST_URL,page];
+        
     }
-    //    [HYBNetworking cacheGetRequest:YES shoulCachePost:YES];
-    //    [HYBNetworking getWithUrl:url refreshCache:NO params:nil progress:^(int64_t bytesRead, int64_t totalBytesRead) {
-    //
-    //    } success:^(id response) {
-    //        PPLog(@"请求成功---%@",response);
-    //        [self endRefresh];
-    //        isJuhua = NO; //数据获取成功后，设置为NO
-    //
-    //        NSDictionary *dict = (NSDictionary *)response;
-    //        NSDictionary *infoDict = [dict objectForKey:@"info"];
-    //        totalPage = (int)[infoDict objectForKey:@"page"];
-    //        self.maxtime = [infoDict objectForKey:@"maxtime"];
-    //
-    //        if (page == 0) {
-    //            [_pictures removeAllObjects];
-    //        }
-    //        //判断是否有菊花正在加载，如果有，判断当前页数是不是大于最大页数，是的话就不让加载，直接return；（因为下拉的当前页永远是最小的，所以直接return）
-    //        if (isJuhua) {
-    //            if (page >= totalPage) {
-    //                [self endRefresh];
-    //            }
-    //            return ;
-    //        }
-    //        //没有菊花正在加载，所以设置yes
-    //        isJuhua = YES;
-    //        //显然下面的方法适用于上拉加载更多
-    //        if (page >= totalPage) {
-    //            [self endRefresh];
-    //            return;
-    //        }
-    //        //获取模型数组
-    //        NSArray *pictureArr = [dict objectForKey:@"list"];
-    //        for (NSDictionary *dic in pictureArr) {
-    //            MJPicture *picture = [[MJPicture alloc]init];
-    //            [picture setValuesForKeysWithDictionary:dic];
-    //            [self.pictures addObject:picture];
-    //        }
-    //        [self.tableView reloadData];
-    //        //获取成功一次就判断
-    //        isFirstCome = NO;
-    //
-    //
-    //    } fail:^(NSError *error) {
-    //        PPLog(@"请求失败---%@",error);
-    //    }];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        for (NSDictionary *dic  in [result objectForKey:@"items"]) {
+            giftModel *model = [[giftModel alloc]init];
+            model.dataDictionary = dic;
+            [JiFenArray addObject:model];
+        }
+        
+        [self.tableView reloadData];
+        
+        [self endRefresh];
+       
+    }];
+    
+    
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  30;
+    return  [JiFenArray count];
 }
 
 
@@ -153,17 +143,34 @@
         cell = [[ConvertTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
         [cell configUI:indexPath];
     }
+    if (JiFenArray.count) {
+        giftModel *model = [JiFenArray objectAtIndex:indexPath.row];
+        cell.GiftModel = model;
+    }
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-//    CostViewController *vc = [[CostViewController alloc]init];
-//    [self.navigationController   pushViewController:vc animated:NO];
+    giftModel *model = [JiFenArray objectAtIndex:indexPath.row];
+    if ([model.type integerValue] == 1) {
+        CostViewController *vc = [[CostViewController alloc]init];
+        vc.NameStr = model.name;
+        vc.ProductID = model.oid;
+        vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+        [self.navigationController   pushViewController:vc animated:NO];
+    }else{
+        SubstanceViewController *vc = [[SubstanceViewController alloc]init];
+        vc.NameStr = model.name;
+        vc.ProductID = model.oid;
+        vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+        [self.navigationController   pushViewController:vc animated:NO];
+
+    }
     
-    SubstanceViewController *vc = [[SubstanceViewController alloc]init];
-    [self.navigationController   pushViewController:vc animated:NO];
+
     
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];

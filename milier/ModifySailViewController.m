@@ -37,6 +37,8 @@ UILabel *SaleLabel;
 }
 - (void)ConfigUI{
     OldSailView = [[customWithStatic alloc]init];
+    OldSailView.NameLabel.text = @"原交易密码";
+    OldSailView.NameTextField.placeholder = @"请输入原交易密码";
     [self.view addSubview:OldSailView];
     [OldSailView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -46,6 +48,8 @@ UILabel *SaleLabel;
     }];
     
     NewSailView = [[customWithStatic alloc]init];
+    NewSailView.NameLabel.text = @"新交易密码";
+    NewSailView.NameTextField.placeholder = @"请输入新交易密码";
     [self.view addSubview:NewSailView];
     [NewSailView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -56,6 +60,8 @@ UILabel *SaleLabel;
     }];
     
     SureSailView = [[customWithStatic alloc]init];
+    SureSailView.NameLabel.text = @"确认交易密码";
+    SureSailView.NameTextField.placeholder = @"请再次确认交易密码";
     [self.view addSubview:SureSailView];
     [SureSailView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -68,7 +74,7 @@ UILabel *SaleLabel;
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"提交";
     SaleLabel.userInteractionEnabled = YES;
-    SaleLabel.backgroundColor = [UIColor orangeColor];
+    SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
     SaleLabel.layer.cornerRadius = 10;
@@ -78,7 +84,7 @@ UILabel *SaleLabel;
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(SureSailView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SailBackBtn
@@ -86,13 +92,63 @@ UILabel *SaleLabel;
     [SaleLabel addGestureRecognizer:SaleTap];
 }
 - (void)SailBackBtn{
-    //提交
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[UserSetViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
+    
+    if (OldSailView.NameTextField.text.length) {
+        if (NewSailView.NameLabel.text.length < 5 ) {
+            normal_alert(@"提示", @"密码至少六位", @"确定");
+            
+        }else{
+            if (NewSailView.NameTextField.text.length) {
+                if ([NewSailView.NameTextField.text isEqualToString:SureSailView.NameTextField.text]) {
+                    [self reFreshData];
+                }else{
+                    normal_alert(@"提示", @"二次输入密码不一致", @"确定");
+                    
+                }
+            }else{
+                normal_alert(@"提示", @"密码不可为空", @"确定");
+                
+            }
+            
+            
+            
         }
+        
+        
+    }else{
+        normal_alert(@"提示", @"原密码不可为空", @"确定");
     }
+    
 }
+- (void)reFreshData{
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
+    url = [NSString stringWithFormat:@"%@/users/%@/dealPassword",HOST_URL,userID];
+    
+    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:OldSailView.NameTextField.text,@"dealPassword",NewSailView.NameTextField.text,@"newDealPassword",   nil];
+    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *staues = [result objectForKey:@"statusCode"];
+        if ([staues integerValue] == 201) {
+            //提交
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[UserSetViewController class]]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+        }else{
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示", message, @"确定");
+        }
+        
+    }];
+    
+    
+    
+}
+
+
 - (void)ModifySailClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserSetViewController class]]) {

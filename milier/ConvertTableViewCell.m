@@ -67,18 +67,30 @@
     }];
     
     
-    _ProductLabel = [[UILabel alloc]init];
-    _ProductLabel.text= @"积分：2343545456";
-    _ProductLabel.font = [UIFont systemFontOfSize:10];
-    [self addSubview:_ProductLabel];
-    [_ProductLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
-        make.top.mas_equalTo(_MyJiFenLabel.mas_bottom);
-        make.width.mas_equalTo(100);
-        make.height.mas_equalTo(15);
-    }];
+    
 
     
 }
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
+}
+
+- (void)setGiftModel:(giftModel *)GiftModel{
+    if (GiftModel != _GiftModel) {
+        _GiftModel = GiftModel;
+        [_NameImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_GiftModel.image]] placeholderImage:[UIImage imageNamed:@""]];
+        _NameLabel.text =[NSString stringWithFormat:@"%@",_GiftModel.name];
+        _NameDetailLabel.text =[NSString stringWithFormat:@"%@",_GiftModel.desc];
+        _MyJiFenLabel.text= [NSString stringWithFormat:@"积分:%@",_GiftModel.score];
+
+    }
+}
+
+
 
 @end

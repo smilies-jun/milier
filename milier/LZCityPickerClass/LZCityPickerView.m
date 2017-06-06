@@ -221,10 +221,11 @@ static NSInteger const lz_buttonHeight = 30;
 - (UIButton *)commitButton {
     if (_commitButton == nil) {
         
-        _commitButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _commitButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         
         NSAttributedString *str = [[NSAttributedString alloc]initWithString:@"完成" attributes:self.titleAttributes];
         [_commitButton setAttributedTitle:str forState:UIControlStateNormal];
+        [_commitButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
         
         [_commitButton addTarget:self action:@selector(commitButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_commitButton];
@@ -235,9 +236,11 @@ static NSInteger const lz_buttonHeight = 30;
 
 - (UIButton *)cancelButton {
     if (_cancelButton == nil) {
-        _cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        _cancelButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         
         NSAttributedString *str = [[NSAttributedString alloc]initWithString:@"取消" attributes:self.titleAttributes];
+        [_cancelButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+
         [_cancelButton setAttributedTitle:str forState:UIControlStateNormal];
         [_cancelButton addTarget:self action:@selector(cancelButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_cancelButton];

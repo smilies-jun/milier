@@ -73,7 +73,7 @@
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"提交";
     SaleLabel.userInteractionEnabled = YES;
-    SaleLabel.backgroundColor = [UIColor orangeColor];
+    SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
     SaleLabel.layer.cornerRadius = 10;
@@ -83,7 +83,7 @@
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(SureLoginView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LoginBackBtn
@@ -126,7 +126,7 @@
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
     //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
-    url = [NSString stringWithFormat:@"https://192.168.1.34:8443/users/%@/password",userID];
+    url = [NSString stringWithFormat:@"%@/users/%@/password",HOST_URL,userID];
 
     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:OldLoginView.NameTextField.text,@"password",NewLoginView.NameTextField.text,@"newPassword",   nil];
     [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {

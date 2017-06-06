@@ -10,7 +10,7 @@
 #import "UserViewController.h"
 #import "ProfilView.h"
 #import "AddProfitViewController.h"
-
+#import "ProductDetailNewViewController.h"
 @interface JinMiDetdailViewController (){
     CAShapeLayer *ShapeLayer;
     CAShapeLayer *BackShapeLayer;
@@ -205,6 +205,9 @@
     ComeLabel = [[UILabel alloc]init];
     ComeLabel.backgroundColor = [UIColor whiteColor];
     ComeLabel.text = @"转入";
+    ComeLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer*comeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(comeCliCk)];
+    [ComeLabel addGestureRecognizer:comeTap];
     ComeLabel.frame = CGRectMake(0, SCREEN_HEIGHT -64-40, SCREEN_WIDTH/2+0.5, 40);
     ComeLabel.textAlignment = NSTextAlignmentCenter;
     ComeLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
@@ -220,6 +223,12 @@
  
     
     
+}
+- (void)comeCliCk{
+    ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
+   
+    vc.productID = @"0";
+    [self.navigationController pushViewController:vc animated:NO];
 }
 -(void)reloadData{
     MoneyNumberLabel.text =[NSString stringWithFormat:@"¥%@",[jinmiDic objectForKey:@"investmentAmount"]] ;

@@ -9,9 +9,13 @@
 #import "PersonViewController.h"
 #import "StageTableViewCell.h"
 #import "StageTotalTableViewCell.h"
+#import "StageModel.h"
 
 
-@interface PersonViewController ()
+@interface PersonViewController (){
+    NSMutableArray *DataArray;
+}
+
 
 @end
 
@@ -20,12 +24,66 @@
 - (void)viewDidLoad{
     
     [super viewDidLoad];
-    
+    DataArray = [[NSMutableArray alloc]init];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+
+    [self getNetworkData:YES];
+
     self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     
 }
+- (void)loadoneNew{
+    [self getNetworkData:YES];
+    
+}
+- (void)loadoneMore{
+    [self getNetworkData:NO];
+    
+}
+/**
+ *  停止刷新
+ */
+-(void)endRefresh{
+    
+    if (page == 1) {
+        [self.tableView.mj_header endRefreshing];
+    }
+    [self.tableView.mj_footer endRefreshing];
+}
+
+-(void)getNetworkData:(BOOL)isRefresh
+{
+    if (isRefresh) {
+        page = 1;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+    //1. 网贷基金，2. 特色产品，3. 企业贷款、4. 个人贷款，5. 购车贷款、6. 债权转让，7. 新手专享，8. 金米宝， 0. 定期（包含1 3 4 5 6 7）
+    NSString *tokenID = NSuserUse(@"Authorization");
+    NSString *url;
+    if (isFirstCome) {
+        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=1",HOST_URL];
+    }else{
+        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=1",HOST_URL,page];
+        
+    }
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        for (NSDictionary *dic in [result objectForKey:@"items"]) {
+            StageModel *model = [[StageModel alloc]init];
+            model.dataDictionary = dic;
+            [DataArray addObject:model];
+        }
+        [self.tableView reloadData];
+        // UserDic = [result objectForKey:@"data"];
+        // [self reloadData];
+    }];
+}
+
 
 #pragma mark - UITableViewDelegate  UITableViewDataSource
 
@@ -62,7 +120,7 @@
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return 20;
+    return [DataArray count];
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -95,6 +153,11 @@
             cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        if ([DataArray count]) {
+            StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
+            cell.stageModel = model;
+        }
+
         return cell;
         
     }

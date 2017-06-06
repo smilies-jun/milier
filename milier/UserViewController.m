@@ -103,10 +103,15 @@
     NSString *url;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
-
     url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         UserDic = [result objectForKey:@"data"];
+        NSuserSave([UserDic objectForKey:@"bankCardExist"], @"bankCardExist");
+        NSuserSave([UserDic objectForKey:@"dealPasswordExist"], @"dealPasswordExist");
+        NSuserSave([UserDic objectForKey:@"bankCardId"], @"bankCardId");
+        NSuserSave([UserDic objectForKey:@"bankId"], @"bankId");
+        NSuserSave([UserDic objectForKey:@"bankCardNumberSuffix"], @"bankCardNumberSuffix");
+        
         [self reloadData];
     }];
     
@@ -387,7 +392,7 @@
     [MyLeftMoneyNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(MyLeftMoneyImageView.mas_centerX);
         make.top.mas_equalTo(MyLeftMoneyLabel.mas_bottom);
-        make.width.mas_equalTo(60);
+        make.width.mas_equalTo(160);
         make.height.mas_equalTo(15);
     }];
     
@@ -541,7 +546,7 @@
     JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：%@",[StaticUserDic objectForKey:@"currentYesterdayEarnings"]];
     DinQiNumber.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
     DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: %@",[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]];
-    MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"assets"]];
+    MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];
     MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     float   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]floatValue];
     float DinQiCircle = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue];
@@ -568,6 +573,7 @@
 //积分
 -(void)JiFenClick{
     MyJiFenViewController *JiFenVC = [[MyJiFenViewController alloc]init];
+    JiFenVC.JiFenStr = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     [self.navigationController   pushViewController:JiFenVC animated:NO];
 }
 //债券转让
@@ -590,11 +596,28 @@
 
 //风险评  测试不同的情况进行跳转
 - (void)DangerClick{
-//    RiskViewController *RiskVC = [[RiskViewController alloc]init];
-//    [self.navigationController   pushViewController:RiskVC animated:NO];
-    RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
-    [self.navigationController   pushViewController:RiskVC animated:NO];
+    
+    NSString *riskType = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"riskLevel"]];
+    if ([riskType integerValue] == 0) {
+        RiskViewController *VC = [[RiskViewController alloc]init];
+        [self.navigationController   pushViewController:VC animated:NO];
+    }else if ([riskType integerValue] == 1){
+        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
+        RiskVC.type =1;
+        [self.navigationController   pushViewController:RiskVC animated:NO];
+    }else if ([riskType integerValue] == 2){
+        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
+        RiskVC.type =2;
+        [self.navigationController   pushViewController:RiskVC animated:NO];
 
+    }else{
+        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
+        RiskVC.type =3;
+        [self.navigationController   pushViewController:RiskVC animated:NO];
+
+    }
+    
+  
 }
 //帐号设置
 - (void)TopClick{
