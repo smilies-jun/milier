@@ -41,7 +41,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(self.view.mas_top);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(130);
+        make.height.mas_equalTo(140);
     }];
     UILabel *topLabel = [[UILabel alloc]init];
     topLabel.text = @"评估结果";
@@ -75,7 +75,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(RisktopView.mas_bottom);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(130);
+        make.height.mas_equalTo(160);
     }];
     
     UILabel *firstLabel = [[UILabel alloc]init];
@@ -110,7 +110,7 @@
         make.left.mas_equalTo(RiskBootmView.mas_left).offset(10);
         make.top.mas_equalTo(secondLabel.mas_bottom).offset(15);
         make.width.mas_equalTo(360);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     if (_type == 1) {
         topTypeLabel.text = @"保守型";

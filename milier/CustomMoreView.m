@@ -41,7 +41,7 @@
     
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"短信验证码:";
-    _NameLabel.font = [UIFont systemFontOfSize:13];
+    _NameLabel.font = [UIFont systemFontOfSize:15];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right).offset(10);

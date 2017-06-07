@@ -145,6 +145,8 @@
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
+    vc.productCateID = 4;
+
     [self.navigationController pushViewController:vc animated:NO];
 }
 

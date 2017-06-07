@@ -8,7 +8,7 @@
 
 #import "YWDLoginViewController.h"
 #import "ReginAndLoginViewController.h"
-
+#import "SaleViewController.h"
 
 
 @interface YWDLoginViewController ()<UITextFieldDelegate>
@@ -289,8 +289,23 @@
                         NSDictionary *dic = [result objectForKey:@"data"];
                         NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
                         NSuserSave([dic objectForKey:@"userId"], @"userId");
-                        
+                        NSuserRemove(@"tokenIDisOraNo");
+//                        if (_Type == 1) {
+//                            //  返回指定页面
+////                            for (UIViewController *controller in self.navigationController.viewControllers) {
+////                                if ([controller isKindOfClass:[SaleViewController   class]]) {
+////                                    [self.navigationController popToViewController:controller animated:YES];
+////                                }
+////                            }
+//                            [self.navigationController popToRootViewControllerAnimated:NO];
+//
+//                        }else{
+//                            [self dismissViewControllerAnimated:NO completion:nil];
+// 
+//                        }
                         [self dismissViewControllerAnimated:NO completion:nil];
+
+                        
                     }else{
                         NSString *message = [result objectForKey:@"message"];
                         normal_alert(@"提示",message, @"确定");

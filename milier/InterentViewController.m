@@ -73,7 +73,6 @@
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;
@@ -143,6 +142,8 @@
             cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         return cell;
         
     }else{
@@ -153,11 +154,21 @@
             cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         if ([DataArray count]) {
             StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
             cell.stageModel = model;
         }
-
+        if ([cell.stageModel.state integerValue] == 2) {
+            cell.RightImageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
+            [cell.RightImageView addGestureRecognizer:qiyeTap];
+            
+        }
+        cell.RightImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
+        [cell.RightImageView addGestureRecognizer:qiyeTap];
         return cell;
         
     }
@@ -165,6 +176,12 @@
     
 }
 
+- (void)QiYeClick{
+    
+    NSuserSave(@"2", @"qiye");
+    
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
 
 /*
 #pragma mark - Navigation

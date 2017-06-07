@@ -31,7 +31,6 @@
 
 
 
-
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
     
     UIImageView *CancelImageView;
@@ -92,8 +91,8 @@
     
     EAIntroPage *page3 = [EAIntroPage page];
     page3.bgImage = [UIImage imageNamed:@"welcome3"];
-
     
+  
     
     EAIntroView *intro = [[EAIntroView alloc] initWithFrame:rootView.bounds andPages:@[page1,page2,page3]];
     intro.pageControlY = 42.f;
@@ -119,12 +118,7 @@
     self.navigationItem.title = @"米粒儿金融";
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    UIButton *LeftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    LeftBtn.frame = CGRectMake(0, 0, 29, 29);
-    [LeftBtn setImage:[UIImage imageNamed:@"head"] forState:UIControlStateNormal];
-    [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
-    self.navigationItem.leftBarButtonItem = leftItem;
+   
     
     
     
@@ -133,12 +127,46 @@
 
 }
 - (void)refreshData{
+    UIButton *LeftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    LeftBtn.frame = CGRectMake(0, 0, 29, 29);
+    [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"] forState:UIControlStateNormal];
+    [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     NSString *userID = NSuserUse(@"userId");
     if ([userID integerValue]>0) {
-        [self RequestHead];
-        self.navigationItem.rightBarButtonItem = rightItem;
+        NSString *url;
+        NSString *userID = NSuserUse(@"userId");
+        NSString *tokenID = NSuserUse(@"Authorization");
+        url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+            NSMutableDictionary *   UserDic = [result objectForKey:@"data"];
+            NSuserSave([UserDic objectForKey:@"bankCardExist"], @"bankCardExist");
+            NSuserSave([UserDic objectForKey:@"dealPasswordExist"], @"dealPasswordExist");
+            NSuserSave([UserDic objectForKey:@"bankCardId"], @"bankCardId");
+            NSuserSave([UserDic objectForKey:@"bankId"], @"bankId");
+            NSuserSave([UserDic objectForKey:@"bankCardNumberSuffix"], @"bankCardNumberSuffix");
+            NSuserSave([UserDic objectForKey:@"phoneNumber"], @"phoneNumber");
+            NSuserSave([UserDic objectForKey:@"receivedPropsCount"], @"receivedPropsCount");
+            NSuserSave([UserDic objectForKey:@"noneReceivedPropsCount"], @"noneReceivedPropsCount");
+            NSuserSave([UserDic objectForKey:@"customersCount"], @"customersCount");
+            NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
+            NSString *userImageStr = NSuserUse(@"avatar");
+            if (userImageStr.length) {
+                [LeftBtn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userImageStr]]]]   forState:UIControlStateNormal];
+            }else{
+                 [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"]   forState:UIControlStateNormal];
+            }
+           
+            
+            [self RequestHead];
+            self.navigationItem.rightBarButtonItem = rightItem;
+        }];
+      
     }else{
+        [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"] forState:UIControlStateNormal];
+
         self.navigationItem.rightBarButtonItem = nil;
         
     }
@@ -187,8 +215,18 @@
 - (void)LeftBtnClick{
     NSString *userID = NSuserUse(@"userId");
     if ([userID integerValue] > 0) {
-        UserViewController *NserVC = [[UserViewController alloc]init];
-        [self.navigationController  pushViewController:NserVC animated:NO];
+        NSString *tokenIsOrNo = NSuserUse(@"tokenIDisOraNo");
+        if ([tokenIsOrNo integerValue] ==1) {
+            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+            loginNagition.navigationBarHidden = YES;
+            [self presentViewController:loginNagition animated:NO completion:nil];
+        }else{
+            UserViewController *NserVC = [[UserViewController alloc]init];
+            [self.navigationController  pushViewController:NserVC animated:NO];
+        }
+        
+       
     }else{
         YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
         UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
@@ -546,6 +584,25 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self refreshData];
+    NSString *typeStr =  NSuserUse(@"qiye");
+    switch ([typeStr integerValue]) {
+        case 1:
+            [self ProClick];
+            break;
+        case 2:
+            [self NetClick];
+            break;
+        case 3:
+            [self BuyClick];
+            break;
+        case 4:
+            [self PersonClick];
+            break;
+     
+        default:
+            break;
+    }
+
 //    [[DateSource sharedInstance]CheckNetWorkinguseingBlock:^(NSString *staus) {
 //        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
 //        

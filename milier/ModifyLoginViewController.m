@@ -132,12 +132,11 @@
     [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *staues = [result objectForKey:@"statusCode"];
         if ([staues integerValue] == 201) {
+            NSuserRemove(@"userId");
+            NSuserRemove(@"Authorization");
+
             //提交
-            for (UIViewController *controller in self.navigationController.viewControllers) {
-                if ([controller isKindOfClass:[UserSetViewController class]]) {
-                    [self.navigationController popToViewController:controller animated:YES];
-                }
-            }
+            [self.navigationController popToRootViewControllerAnimated:NO];
         }else{
             NSString *message = [result objectForKey:@"message"];
             normal_alert(@"提示", message, @"确定");

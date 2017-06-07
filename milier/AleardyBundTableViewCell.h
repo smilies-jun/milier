@@ -7,8 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShareModel.h"
+
 
 @interface AleardyBundTableViewCell : UITableViewCell
+
+@property (nonatomic, retain)ShareModel *ShareModel;
 
 @property (nonatomic , retain) UIImageView *userImageView;
 
@@ -18,6 +22,7 @@
 
 @property (nonatomic , retain) UILabel *TypeLabel;
 
+- (void)setShareModel:(ShareModel *)ShareModel;
 
 - (void)configUI:(NSIndexPath *)indexPath;
 

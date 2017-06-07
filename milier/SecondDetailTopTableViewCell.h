@@ -36,6 +36,9 @@
 }
 @property (nonatomic, strong)ProductDetailModel *detailModel;
 
+@property (assign)int  ProductcatID;
+
+
 - (void)configUI:(NSIndexPath *)indexPath;
 
 

@@ -81,7 +81,7 @@
     }];
 }
 -(void)ConfigUI{
-    page = 0;
+    page = 1;
     isFirstCome = YES;
     isJuhua = NO;
     

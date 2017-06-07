@@ -12,6 +12,7 @@
 #import "MJRefresh.h"
 #import "JinMiDetdailViewController.h"
 #import "ProfileModel.h"
+#import "AddOneDayViewController.h"
 
 
 @interface AddProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
@@ -68,7 +69,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -78,7 +79,7 @@
 {
     NSString *url;
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -111,7 +112,7 @@
         
         isJuhua = NO;
         [self endRefresh];
-        if (page == 0) {
+        if (page == 1) {
             [AddArray removeAllObjects];
         }
                 if (isJuhua) {
@@ -124,6 +125,7 @@
             model.dataDictionary = NewDic;
             [AddArray addObject:model];
         }
+         [self endRefresh];
         [self.tableView reloadData];
         isFirstCome = NO;
     }];
@@ -171,6 +173,12 @@
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];
+    AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
+    ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
+    VC.OidStr = [NSString stringWithFormat:@"%@",model.oid];
+    [self.navigationController pushViewController:VC animated:NO];
+    
+    
 }
 
 - (void)AddProfitClick{

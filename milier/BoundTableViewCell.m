@@ -16,7 +16,6 @@
 }
 - (void)configUI:(NSIndexPath *)indexPath{
     _userImageView = [[UIImageView alloc]init];
-    _userImageView.backgroundColor = [UIColor grayColor];
     [self addSubview:_userImageView];
     [_userImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
@@ -69,6 +68,16 @@
     }];
 
 }
+
+- (void)setShareModel:(ShareModel *)ShareModel{
+    if (ShareModel != _ShareModel) {
+        _ShareModel = ShareModel;
+        [_userImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_ShareModel.avatar]]];
+        _NameLabel.text =[NSString stringWithFormat:@"%@",_ShareModel.phoneNumber];
+        
+    }
+}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

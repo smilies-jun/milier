@@ -22,4 +22,7 @@
 - (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
 - (void)requestPutWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
 - (void)CheckNetWorkinguseingBlock:(void (^)(NSString *staus))block;
+
+- (void)requestImageWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
+
 @end

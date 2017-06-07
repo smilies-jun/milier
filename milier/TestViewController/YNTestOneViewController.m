@@ -69,7 +69,6 @@
             model.dataDictionary = NewDic;
             [dataArray addObject:model];
         }
-        NSLog(@"da = %lu",(unsigned long)dataArray.count);
         [self.tableView reloadData];
         isFirstCome = NO;
     }];
@@ -150,6 +149,7 @@
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
+    vc.productCateID = 1;
     [self.navigationController pushViewController:vc animated:NO];
 }
 

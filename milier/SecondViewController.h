@@ -7,6 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QiYeViewController.h"
+
+
 @protocol ModalViewControllerDelegate <NSObject>
 
 - (void)changLabelText:(NSString *)text;

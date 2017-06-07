@@ -68,7 +68,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -78,29 +78,30 @@
 {
     NSString *url;
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
     }
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
-        // 定期
-        if (isFirstCome) {
-            url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?page=1&rows=20&userId=2&productCategoryId=0",HOST_URL,userID];
-            
-        }else{
-            url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?page=%d&rows=20&userId=2&productCategoryId=0",HOST_URL,userID,page];
-            
-        }
-        
-        
+//        // 定期
+//        if (isFirstCome) {
+//            url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?page=1&rows=20&userId=2&productCategoryId=0",HOST_URL,userID];
+//            
+//        }else{
+//            url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?page=%d&rows=20&userId=2&productCategoryId=0",HOST_URL,userID,page];
+//            
+//        }
+    
+    url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?productCategoryId=0",HOST_URL,userID];
+
 
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
         isJuhua = NO;
         [self endRefresh];
-        if (page == 0) {
+        if (page == 1) {
             [AddArray removeAllObjects];
         }
         if (isJuhua) {
@@ -113,6 +114,7 @@
             model.dataDictionary = NewDic;
             [AddArray addObject:model];
         }
+        [self endRefresh];
         [self.tableView reloadData];
         isFirstCome = NO;
     }];

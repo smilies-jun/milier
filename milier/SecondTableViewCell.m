@@ -158,9 +158,9 @@
         _MoneyLabel.text = [NSString stringWithFormat:@"%.2f%%",interestRate];
         NSInteger limitTime = [[NSString stringWithFormat:@"%@",_productMoel.investmentHorizon] integerValue];
         if ([_productMoel.productCategoryId integerValue] == 6) {
-            _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld个月",(long)limitTime/30];
-            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债券包价值 %@元",_productMoel.minimumInvestmentAmount];
-            _ChangeLabel.text =[NSString stringWithFormat:@"购买金额 %@元",_productMoel.minimumInvestmentAmount];
+            _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld天",(long)limitTime];
+            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债券包价值 %@元",_productMoel.bondTotal];
+            _ChangeLabel.text =[NSString stringWithFormat:@"购买金额 %@元",_productMoel.aggregateAmount];
 
         }else{
             _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld个月",(long)limitTime/30];

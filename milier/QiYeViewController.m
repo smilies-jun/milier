@@ -10,6 +10,8 @@
 #import "StageTableViewCell.h"
 #import "StageTotalTableViewCell.h"
 #import "StageModel.h"
+#import "SecondViewController.h"
+
 
 @interface QiYeViewController (){
     NSMutableArray *DataArray;
@@ -70,6 +72,7 @@
 
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
+            
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;
             [DataArray addObject:model];
@@ -137,6 +140,7 @@
             cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
  
     }else{
@@ -147,19 +151,39 @@
             cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         if ([DataArray count]) {
             StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
             cell.stageModel = model;
         }
+        if ([cell.stageModel.state integerValue] == 2) {
+            cell.RightImageView.userInteractionEnabled = YES;
+            UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
+            [cell.RightImageView addGestureRecognizer:qiyeTap];
+            
+        }
+        cell.RightImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
+        [cell.RightImageView addGestureRecognizer:qiyeTap];
+
         return cell;
 
     }
     
     
 }
+// 设置block,设置要传的值
+- (void)text:(newBlock)block
+{
+    self.block = block;
+}
+- (void)QiYeClick{
+    
+    NSuserSave(@"1", @"qiye");
 
-
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
 
 
 /*

@@ -16,6 +16,12 @@
 }
 @property (nonatomic) int productID;
 
+
+@property (nonatomic) int productCateID;
+
+
+@property (nonatomic) int Type;
+
 @property(nonatomic,strong)NSMutableArray *pictures;
 /** maxtime */
 @property(nonatomic,copy)NSString *maxtime;

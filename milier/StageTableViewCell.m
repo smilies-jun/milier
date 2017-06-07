@@ -82,7 +82,7 @@
     [_SaileTimeLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TitleLable.mas_left);
         make.top.mas_equalTo(_TitleLable.mas_bottom).offset(5);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     
@@ -95,7 +95,7 @@
     [_SailMoneyLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TitleLable.mas_left);
         make.top.mas_equalTo(_SaileTimeLable.mas_bottom);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
        }];
     _BuyTitleLable = [[UILabel alloc]init];

@@ -61,7 +61,6 @@
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
-        NSLog(@"resulrt == %@",result);
         [self endRefresh];
         if (page == 1) {
             [dataArray removeAllObjects];
@@ -152,6 +151,7 @@
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
+    vc.productCateID = 6;
 
     [self.navigationController pushViewController:vc animated:NO];
 }

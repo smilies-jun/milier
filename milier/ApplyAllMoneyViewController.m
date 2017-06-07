@@ -104,24 +104,29 @@
 }
 - (void)agreeClicked{
     NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue] > 0) {
+        NSString *url = [NSString stringWithFormat:@"%@/brokers",HOST_URL];
+        
+        NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:userID, @"userId",nil];
+        NSString *tokenID = NSuserUse(@"Authorization");
+        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                MyDic = [result objectForKey:@"data"];
+                UIViewController *allvc = nil;
+                allvc = [self getAllMoneyViewController];
+                [self.navigationController   pushViewController:allvc animated:NO];
+            }else{
+                NSString *message = [result objectForKey:@"message"];
+                normal_alert(@"提示", message, @"确定");
+            }
+            
+        }];
 
-   NSString *url = [NSString stringWithFormat:@"%@/brokers",HOST_URL];
+    }else{
+        normal_alert(@"提示", @"请登陆", @"确定");
 
-    NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:userID, @"userId",nil];
-    NSString *tokenID = NSuserUse(@"Authorization");
-    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-            MyDic = [result objectForKey:@"data"];
-            UIViewController *allvc = nil;
-            allvc = [self getAllMoneyViewController];
-            [self.navigationController   pushViewController:allvc animated:NO];
-        }else{
-            NSString *message = [result objectForKey:@"message"];
-            normal_alert(@"提示", message, @"确定");
-        }
-
-    }];
-}
+    }
+   }
 - (void)clicked:(UIButton *)btn{
     if (btn.selected) {
         btn.selected = NO;

@@ -19,7 +19,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"分享详细规则说明";
+    self.navigationItem.title = @"分享详细规则";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -28,7 +28,16 @@
     [leftBtn addTarget:self action:@selector(ShareDetail) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-
+    self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    UILabel *label = [[UILabel alloc]init];
+    label.text = @"1、邀请好友成功绑卡，奖励最高800元小米券1张\n2、根据好友投资额度，奖励邀请积分，多投多得哦，积分=(好友投资金额*投资期限)／1000";
+    label.numberOfLines = 0;
+    label.font = [UIFont systemFontOfSize:13];
+    label.frame = CGRectMake(10, 20, SCREEN_WIDTH- 20, 60);
+    [self.view addSubview:label];
+    
+    
+    
 }
 - (void)ShareDetail{
     //  返回指定页面

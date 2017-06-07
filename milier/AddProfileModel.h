@@ -10,4 +10,12 @@
 
 @interface AddProfileModel : NSObject
 
+@property(nonatomic,strong)NSString *createTime;
+
+
+@property(nonatomic,strong)NSString *targetOrderName;
+
+
+@property(nonatomic,strong)NSString *interest;
+
 @end

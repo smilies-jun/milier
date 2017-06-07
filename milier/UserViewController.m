@@ -111,6 +111,11 @@
         NSuserSave([UserDic objectForKey:@"bankCardId"], @"bankCardId");
         NSuserSave([UserDic objectForKey:@"bankId"], @"bankId");
         NSuserSave([UserDic objectForKey:@"bankCardNumberSuffix"], @"bankCardNumberSuffix");
+        NSuserSave([UserDic objectForKey:@"phoneNumber"], @"phoneNumber");
+        NSuserSave([UserDic objectForKey:@"receivedPropsCount"], @"receivedPropsCount");
+        NSuserSave([UserDic objectForKey:@"noneReceivedPropsCount"], @"noneReceivedPropsCount");
+        NSuserSave([UserDic objectForKey:@"customersCount"], @"customersCount");
+        NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
         
         [self reloadData];
     }];
@@ -149,6 +154,10 @@
     UserImageView.layer.cornerRadius = 15;
     UserImageView.layer.masksToBounds = YES;
     UserImageView.image = [UIImage imageNamed:@"head"];
+    NSString *userImageStr = NSuserUse(@"avatar");
+    [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userImageStr]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
+    
+    
     [TopView addSubview:UserImageView];
     [UserImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(10);
@@ -179,8 +188,7 @@
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(10);
     }];
-    
-    self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(65, 64, 100, 100)];
+    self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
     self.cirqueChart.dataSource = self;
     self.cirqueChart.delegate = self;
     self.cirqueChart.textLabel.hidden = YES;

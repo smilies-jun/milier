@@ -33,6 +33,6 @@
 @property (nonatomic,strong) UILabel *ForgetPasswordLabel;
 
 
-
+@property(assign)int Type;
 
 @end

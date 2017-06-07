@@ -14,7 +14,7 @@
 #import "CostViewController.h"
 #import "SubstanceViewController.h"
 #import "giftModel.h"
-
+#import "ConvertViewController.h"
 
 @interface ConvertViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *JiFenArray;
@@ -76,7 +76,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -86,7 +86,7 @@
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;

@@ -59,6 +59,15 @@
     
     
 }
+
+- (void)setShareModel:(ShareModel *)ShareModel{
+    if (ShareModel != _ShareModel) {
+        _ShareModel = ShareModel;
+        [_userImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_ShareModel.avatar]]];
+        _NameLabel.text =[NSString stringWithFormat:@"%@",_ShareModel.phoneNumber];
+        
+    }
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

@@ -11,6 +11,9 @@
 #import "ProfilView.h"
 #import "AddProfitViewController.h"
 #import "ProductDetailNewViewController.h"
+#import "OutMoneyViewController.h"
+
+
 @interface JinMiDetdailViewController (){
     CAShapeLayer *ShapeLayer;
     CAShapeLayer *BackShapeLayer;
@@ -112,7 +115,7 @@
     }];
     
     MoneyNumberLabel = [[UILabel alloc]init];
-    MoneyNumberLabel.text = @"¥200000";
+    MoneyNumberLabel.text = @"¥";
     MoneyNumberLabel.textAlignment = NSTextAlignmentCenter;
     MoneyNumberLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
     MoneyNumberLabel.font = [UIFont systemFontOfSize:40];
@@ -215,6 +218,9 @@
 
     OutLabel = [[UILabel alloc]init];
     OutLabel.backgroundColor = [UIColor whiteColor];
+    OutLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer*OutTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(outCliCk)];
+    [OutLabel addGestureRecognizer:OutTap];
     OutLabel.frame = CGRectMake(SCREEN_WIDTH/2+1, SCREEN_HEIGHT -64-40, SCREEN_WIDTH/2+0.5, 40);
     OutLabel.text = @"转出";
     OutLabel.textAlignment = NSTextAlignmentCenter;
@@ -226,8 +232,9 @@
 }
 - (void)comeCliCk{
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
-   
-    vc.productID = @"0";
+    vc.Type = 1;
+    vc.productCateID = 2;
+    vc.productID = 375;;
     [self.navigationController pushViewController:vc animated:NO];
 }
 -(void)reloadData{
@@ -241,6 +248,11 @@
 - (void)OldClick{
     AddProfitViewController *addVC = [[AddProfitViewController alloc]init];
     addVC.ProductType = 1;
+    [self.navigationController pushViewController:addVC animated:NO];
+}
+
+- (void)outCliCk{
+    OutMoneyViewController *addVC = [[OutMoneyViewController alloc]init];
     [self.navigationController pushViewController:addVC animated:NO];
 }
 - (void)JinMiClick{

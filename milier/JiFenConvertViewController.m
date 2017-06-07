@@ -48,6 +48,8 @@ static NSString * const cellId = @"CovertcellID";
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    [self.tableView setTableFooterView:[UIView new]];
+
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellId];
@@ -70,7 +72,7 @@ static NSString * const cellId = @"CovertcellID";
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -79,7 +81,7 @@ static NSString * const cellId = @"CovertcellID";
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;

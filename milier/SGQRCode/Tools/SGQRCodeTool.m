@@ -102,7 +102,9 @@
     
     // 再把小图片画上去
     NSString *icon_imageName = logoImageName;
-    UIImage *icon_image = [UIImage imageNamed:icon_imageName];
+    UIImageView *imageView = [[UIImageView alloc]init];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",logoImageName]]];
+    UIImage *icon_image = imageView.image;
     CGFloat icon_imageW = start_image.size.width * logoScaleToSuperView;
     CGFloat icon_imageH = start_image.size.height * logoScaleToSuperView;
     CGFloat icon_imageX = (start_image.size.width - icon_imageW) * 0.5;

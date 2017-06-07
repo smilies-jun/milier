@@ -18,9 +18,8 @@
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 480)];
     [self addSubview:imageView];
     TitleLabel = [[UILabel alloc]init];
-    TitleLabel.text = @"米三－新密计划第一期";
+    TitleLabel.text = @"";
     TitleLabel.font = [UIFont systemFontOfSize:18];
-    TitleLabel.textColor = colorWithRGB(0.6, 0.81, 0.14);
     TitleLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:TitleLabel];
     [TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -31,7 +30,7 @@
         
     }];
     NumberLabel = [[UILabel alloc]init];
-    NumberLabel.text = @"项目编号：251425";
+    NumberLabel.text = @"";
     NumberLabel.textColor = colorWithRGB(0.63, 0.63, 0.63);
     NumberLabel.font = [UIFont systemFontOfSize:12];
     NumberLabel.textAlignment = NSTextAlignmentCenter;
@@ -47,7 +46,6 @@
     ShapeLayer.fillColor = [UIColor clearColor].CGColor;//填充颜色为ClearColor
     //设置线条的宽度和颜色
     ShapeLayer.lineWidth = 8.0f;
-    ShapeLayer.strokeColor = colorWithRGB(0.6, 0.81, 0.14).CGColor;
     //创建出圆形贝塞尔曲线
     UIBezierPath *circlePath =  [UIBezierPath bezierPathWithArcCenter:CGPointMake(imageView.centerX, imageView.centerY-60) radius:110 startAngle:0.75f*M_PI endAngle:0.25f*M_PI clockwise:YES];
     
@@ -58,7 +56,7 @@
     [imageView.layer addSublayer:ShapeLayer];
     
     ProfitLabel  = [[UILabel alloc]init];
-    ProfitLabel.text = @"预期年化收益";
+    ProfitLabel.text = @"";
     ProfitLabel.textColor = colorWithRGB(0.63, 0.63, 0.63);
     ProfitLabel.font = [UIFont systemFontOfSize:15];
     ProfitLabel.textAlignment = NSTextAlignmentCenter;
@@ -72,7 +70,6 @@
     
     ProfitPercentLabel  = [[UILabel alloc]init];
     ProfitPercentLabel.text = @"12.34%";
-    ProfitPercentLabel.textColor = colorWithRGB(0.6, 0.81, 0.14);
     NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"12.34%"];
     [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:30] range:NSMakeRange(0,ProfitPercentLabel.text.length
                                                                                                           )];
@@ -146,7 +143,6 @@
     
     LeftMoneyLabel = [[UILabel alloc]init];
     LeftMoneyLabel.text = @"0.0元";
-    LeftMoneyLabel.textColor = colorWithRGB(0.6, 0.81, 0.14);
     LeftMoneyLabel.textAlignment = NSTextAlignmentRight;
     LeftMoneyLabel.font = [UIFont systemFontOfSize:15];
     [imageView addSubview:LeftMoneyLabel];
@@ -165,16 +161,77 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(5);
     }];
+    
+   
  
 }
 - (void)setDetailModel:(ProductDetailModel *)detailModel{
     if (detailModel != _detailModel) {
+        
+        switch (_ProductcatID) {
+            case 1:
+                TitleLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+                ShapeLayer.strokeColor = colorWithRGB(0.62, 0.80, 0.09).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+                ProfitPercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+                
+                
+                
+                break;
+            case 2:
+                TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                ShapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                
+                break;
+            case 3:
+                TitleLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
+                ShapeLayer.strokeColor = colorWithRGB(0.99, 0.52, 0.18).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
+                ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
+                
+                break;
+            case 4:
+                TitleLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
+                ShapeLayer.strokeColor = colorWithRGB(0.27, 0.78, 0.96).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
+                ProfitPercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
+                
+                break;
+            case 5:
+                TitleLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
+                ShapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 0.10).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
+                ProfitPercentLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
+                
+                break;
+            case 6:
+                TitleLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
+                ShapeLayer.strokeColor = colorWithRGB(0.19, 0.39, 0.9).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
+                ProfitPercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
+                
+                break;
+                
+            default:
+                break;
+        }
+
+        
         _detailModel = detailModel;
         TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
         NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
         ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
         BondLabel.text = [NSString stringWithFormat:@"%@元起购",_detailModel.minimumInvestmentAmount];
-        BondTimeLabel.text = [NSString stringWithFormat:@"%@天期限",_detailModel.investmentHorizon];
+        if ([_detailModel.oid integerValue] == 375) {
+            BondTimeLabel.text = @"随时提现";
+ 
+        }else{
+            BondTimeLabel.text = [NSString stringWithFormat:@"%@天期限",_detailModel.investmentHorizon];
+  
+        }
+        
         PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.modeOfRepayment];
         NSString *totalStr = [NSString stringWithFormat:@"%@",_detailModel.aggregateAmount];
         double totalDouble = [totalStr doubleValue];

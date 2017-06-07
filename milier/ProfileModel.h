@@ -13,4 +13,7 @@
 
 @property(nonatomic,strong)NSString *interest;
 
+@property(nonatomic,strong)NSString *oid;
+
+
 @end

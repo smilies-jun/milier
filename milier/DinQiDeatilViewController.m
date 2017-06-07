@@ -401,7 +401,6 @@
         UIImageView *SixImageView = [[UIImageView alloc]init];
         SixImageView.layer.cornerRadius = 5;
         SixImageView.clipsToBounds = YES;
-
         SixImageView.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);
         [topView addSubview:SixImageView];
         [SixImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -481,7 +480,9 @@
         UILabel *OldDetailLabel = [[UILabel alloc]init];
         OldDetailLabel.text = @"详情";
         OldDetailLabel.userInteractionEnabled = YES;
-        OldDetailLabel.layer.borderColor = ZFOrange.CGColor;
+        UITapGestureRecognizer *OldLabelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(OldTap)];
+        [OldDetailLabel addGestureRecognizer:OldLabelTap];
+        OldDetailLabel.layer.borderColor = colorWithRGB(0.95, 0.6, 0.11).CGColor;
         OldDetailLabel.layer.borderWidth = 0.5f;
         OldDetailLabel.layer.masksToBounds = YES;
         OldDetailLabel.layer.cornerRadius = 5;
@@ -535,6 +536,9 @@
         }];
        UILabel *AddDetailLabel = [[UILabel alloc]init];
         AddDetailLabel.text = @"详情";
+        AddDetailLabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *AddLabelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AddTap)];
+        [AddDetailLabel addGestureRecognizer:AddLabelTap];
         AddDetailLabel.layer.borderColor = ZFOrange.CGColor;
         AddDetailLabel.layer.borderWidth = 0.5f;
         AddDetailLabel.layer.masksToBounds = YES;

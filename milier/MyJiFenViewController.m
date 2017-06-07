@@ -18,7 +18,7 @@
 
 static CGFloat const segmentViewHeight = 44.0;
 static CGFloat const naviBarHeight = 64.0;
-static CGFloat const headViewHeight = 200.0;
+static CGFloat const headViewHeight = 150.0;
 
 
 @interface MyJiFenViewController ()<ZJScrollPageViewDelegate, ZJPageViewControllerDelegate, UIScrollViewDelegate, UITableViewDelegate, UITableViewDataSource>

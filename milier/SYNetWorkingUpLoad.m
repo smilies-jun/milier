@@ -27,7 +27,7 @@
     }
     //初始化
     NSString *hyphens = @"--";
-    NSString *boundary = @"shiyi";
+    NSString *boundary = @"milier";
     NSString *end = @"\r\n";
     //初始化数据
     NSMutableData *myRequestData1=[NSMutableData data];

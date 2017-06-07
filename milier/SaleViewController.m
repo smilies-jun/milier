@@ -15,7 +15,8 @@
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "ChoiceStageTableViewCell.h"
 #import "ChooseStageModel.h"
-
+#import "BundCardViewController.h"
+#import "TouUpViewController.h"
 
 @interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate>{
     
@@ -43,7 +44,7 @@
     UILabel *AgreementLabel;
     
     UILabel *SaleLabel;//选择道具
-    
+    NSString *StageOid;
     
     UILabel *interestLabel;
     UILabel *StageLabel;
@@ -498,7 +499,6 @@
     AddMoneyLabel.font = [UIFont systemFontOfSize:12];
     CGSize size =CGSizeMake(400,20);
     if (AddStr.length) {
-        NSLog(@"add = %@",AddStr);
         AddMoneyLabel.hidden = NO;
         AddMoneyLabel.text =[NSString stringWithFormat:@"+%@",AddStr];
         NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
@@ -524,7 +524,6 @@
         
     }
    
-    NSLog(@"");
   
 }
 - (void)SaleBtn{
@@ -564,6 +563,8 @@
                             
                         }else{
                             //跳转充值
+                            TouUpViewController *SaleVC = [[TouUpViewController alloc]init];
+                            [self.navigationController   pushViewController:SaleVC animated:NO];
                         }
                         
                         
@@ -587,12 +588,16 @@
             
         }else{
             //绑卡页面
+            BundCardViewController *LoginVC = [[BundCardViewController alloc]init];
+            [self.navigationController pushViewController:LoginVC animated:NO];
+
         }
         
         
     }else{
         YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
-        [self.navigationController pushViewController:LoginVC animated:NO];
+        LoginVC.Type = 1;
+        [self presentViewController:LoginVC animated:NO completion:nil];
   
     }
 
@@ -600,6 +605,20 @@
 }
 
 - (void)WriteSailPassWord{
+    NSString *Bottomurl;
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Bottomurl = [NSString stringWithFormat:@"%@/productOrders ",HOST_URL];
+    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
+    
+    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+            normal_alert(@"提示", @"购买成功　", @"确定");
+
+        }else{
+            NSString *message = [result objectForKey:@"statusCode"];
+            normal_alert(@"提示", message, @"确定");
+        }
+    }];
     
 }
 - (void)popAlertView{
@@ -650,12 +669,12 @@
     
     UILabel *goonLabel = [[UILabel alloc]init];
     goonLabel.text = @"如果继续购买，请先打勾认可风险";
-    goonLabel.font = [UIFont systemFontOfSize:13];
+    goonLabel.font = [UIFont systemFontOfSize:12];
     [view addSubview:goonLabel];
     [goonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(UseImageView.mas_right).offset(40);
         make.top.mas_equalTo(alertLabel.mas_bottom);
-        make.width.mas_equalTo(160);
+        make.width.mas_equalTo(170);
         make.height.mas_equalTo(20);
     }];
     
@@ -882,7 +901,7 @@
         StageStr = @"";
         StageLabel.text = @"不使用道具";
         AddStr  = StageStr;
-
+        StageOid   = @"-1";
 
     }else{
         
@@ -890,7 +909,7 @@
         StageStr = [NSString stringWithFormat:@"%@元%@",model.value,model.name];
         
         AddStr  = [NSString stringWithFormat:@"%@",model.value];
-        
+        StageOid =  [NSString stringWithFormat:@"%@",model.oid];
         StageLabel.text = StageStr;
     }
     

@@ -10,4 +10,6 @@
 
 @interface MyStageViewController : UIViewController
 
+@property (assign)int Type;
+
 @end

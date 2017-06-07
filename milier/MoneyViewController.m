@@ -58,7 +58,7 @@
     }];
     payView = [[CustomView alloc]init];
     payView.NameLabel.text = @"输入金额:";
-    payView.NameTextField.placeholder = @"请输入充值金额";
+    payView.NameTextField.placeholder = @"请输入提现金额";
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -78,7 +78,7 @@
         make.height.mas_equalTo(44);
     }];
     UILabel *TestLabel =  [[UILabel alloc]init];
-    TestLabel.text = @"充值";
+    TestLabel.text = @"提现";
     TestLabel.userInteractionEnabled = YES;
     TestLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     TestLabel.textAlignment = NSTextAlignmentCenter;
@@ -93,15 +93,46 @@
         make.height.mas_equalTo(40);
     }];
     
-    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PaySureBtnClick
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PayMoneyClick
                                                                                                           )];
     [TestLabel addGestureRecognizer:SaleTap];
     
 }
-- (void)PaySureBtnClick{
+- (void)PayMoneyClick{
+    if (payView.NameTextField.text.length) {
+        if (passWordView.NameTextField.text.length) {
+            NSString *Statisurl;
+            NSString *tokenID = NSuserUse(@"Authorization");
+            NSString *userID = NSuserUse(@"userId");
+            
+            Statisurl = [NSString stringWithFormat:@"%@/users/%@/withdraw",HOST_URL,userID];
+            NSMutableDictionary  *Dic =[[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",passWordView.NameTextField.text,@"dealPassword", nil];
+            [[DateSource sharedInstance]requestHomeWithParameters:Dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                    NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
+                    normal_alert(@"提示", message, @"确定");
+                }else{
+                    NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
+                    normal_alert(@"提示", message, @"确定");
+                    
+                }
+            }];
+        }else{
+            normal_alert(@"提示", @"交易密码不能为空", @"确定");
+ 
+        }
+        
+        
+    }else{
+        normal_alert(@"提示", @"提现金额不能为0", @"确定");
     
-}
+    }
+   
 
+
+
+
+}
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{
     for (UIView *KeyView in self.view.subviews) {

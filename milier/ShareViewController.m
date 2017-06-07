@@ -17,10 +17,14 @@
 #import "ShareDetailViewController.h"
 #import "SGQRCode.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
+#import "MyStageViewController.h"
+#import <ShareSDK/ShareSDK.h>
+#import <ShareSDKUI/ShareSDK+SSUI.h>
 
 
 @interface ShareViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
     AwAlertView *alertView;
+    NSDictionary *UserDic;
 
 }
 
@@ -43,35 +47,75 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     
+   
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        UserDic = [result objectForKey:@"data"];
+        
+        [self ConFigUI];
+        
+        UIView *saleView = [[UIView alloc]init];
+        saleView.backgroundColor = [UIColor whiteColor];
+        saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
+        [self.view addSubview:saleView];
+        
+        UILabel *SaleLbel =  [[UILabel alloc]init];
+        SaleLbel.text = @"使用道具";
+        SaleLbel.userInteractionEnabled = YES;
+        SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
+        SaleLbel.textAlignment = NSTextAlignmentCenter;
+        SaleLbel.textColor = [UIColor whiteColor];
+        SaleLbel.layer.cornerRadius = 10;
+        SaleLbel.layer.masksToBounds = YES;
+        [saleView addSubview:SaleLbel];
+        [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(saleView.mas_left).offset(10);
+            make.centerY.mas_equalTo(saleView.mas_centerY);
+            make.width.mas_equalTo(SCREEN_WIDTH/2-20);
+            make.height.mas_equalTo(30);
+        }];
+        
+        UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseBtnClick
+                                                                                                              )];
+        [SaleLbel addGestureRecognizer:SaleTap];
+        
+        
+        
+        
+        UILabel *getLabel =  [[UILabel alloc]init];
+        getLabel.text = @"获得道具";
+        getLabel.userInteractionEnabled = YES;
+        getLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
+        getLabel.textAlignment = NSTextAlignmentCenter;
+        getLabel.textColor = [UIColor whiteColor];
+        getLabel.layer.cornerRadius = 10;
+        getLabel.layer.masksToBounds = YES;
+        [saleView addSubview:getLabel];
+        [getLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(saleView.mas_right).offset(-10);
+            make.centerY.mas_equalTo(saleView.mas_centerY);
+            make.width.mas_equalTo(SCREEN_WIDTH/2-20);
+            make.height.mas_equalTo(30);
+        }];
+        
+        UITapGestureRecognizer *GetTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(GetBtnClick
+                                                                                                              )];
+        [getLabel addGestureRecognizer:GetTap];
+        
+    }];
+
+    
+  
+}
+
+- (void)ConFigUI{
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];
     YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
-    
-    UIView *saleView = [[UIView alloc]init];
-    saleView.backgroundColor = [UIColor whiteColor];
-    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
-    [self.view addSubview:saleView];
-    
-    UILabel *SaleLbel =  [[UILabel alloc]init];
-    SaleLbel.text = @"使用道具";
-    SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = [UIColor greenColor];
-    SaleLbel.textAlignment = NSTextAlignmentCenter;
-    SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
-    SaleLbel.layer.masksToBounds = YES;
-    [saleView addSubview:SaleLbel];
-    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(saleView.mas_centerX);
-        make.centerY.mas_equalTo(saleView.mas_centerY);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
-    }];
-    
-    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseBtnClick
-                                                                                                          )];
-    [SaleLbel addGestureRecognizer:SaleTap];
 }
 - (YNJianShuDemoViewController *)getJianShuDemoViewController{
     //配置信息
@@ -98,7 +142,7 @@
     configration.showTabbar = NO;//设置显示tabbar
     
     //创建控制器
-    YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"已绑卡",@"未绑卡"] Configration:configration];
+    YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"未绑卡",@"已绑卡"] Configration:configration];
     UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 600)];
     imageView.userInteractionEnabled = YES;
     
@@ -123,7 +167,7 @@
     titlelabel.textAlignment = NSTextAlignmentCenter;
     titlelabel.font = [UIFont systemFontOfSize:15];
     titlelabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
-    titlelabel.text = @"已获得5个红包，还有3个红包未领取";
+    titlelabel.text =[NSString stringWithFormat:@"已获得%@个红包，还有%@个红包未领取",[UserDic objectForKey:@"receivedPropsCount"],[UserDic objectForKey:@"noneReceivedPropsCount"]] ;
     [titleview addSubview:titlelabel];
     [titlelabel  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(titleview.mas_centerX);
@@ -148,7 +192,7 @@
         make.height.mas_equalTo(40);
     }];
     
-    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(linquiBtnClick
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseNowBtnClick
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
     
@@ -164,7 +208,7 @@
         make.height.mas_equalTo(60);
     }];
     UIImageView *userImageView = [[UIImageView alloc]init];
-    userImageView.image = [UIImage imageNamed:@"head"];
+    [userImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"head"]];;
     userImageView.layer.cornerRadius = 20;
     userImageView.layer.masksToBounds = YES;
     [UserInviteView addSubview:userImageView];
@@ -200,16 +244,32 @@
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(20);
     }];
-    
+    NSString *userID = NSuserUse(@"userId");
+
     UILabel *CodeNumberLabel = [[UILabel alloc]init];
     CodeNumberLabel.font = [UIFont systemFontOfSize:15];
     CodeNumberLabel.textColor = colorWithRGB(0.86, 0.29, 0.24);
-    CodeNumberLabel.text = @"2324";
+    CodeNumberLabel.text =[NSString stringWithFormat:@"%@",userID];
     [UserInviteView addSubview:CodeNumberLabel];
     [CodeNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(CodeLabel.mas_right);
         make.centerY.mas_equalTo(UserInviteView.mas_centerY);
         make.width.mas_equalTo(80);
+        make.height.mas_equalTo(20);
+    }];
+    
+    UILabel *detailLabel = [[UILabel alloc]init];
+    detailLabel.font = [UIFont systemFontOfSize:13];
+    detailLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *detailTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(linquiBtnClick)];
+    [detailLabel addGestureRecognizer:detailTap];
+    detailLabel.textColor = colorWithRGB(0.86, 0.29, 0.24);
+    detailLabel.text =@"查看详细规则>>";
+    [UserInviteView addSubview:detailLabel];
+    [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(UserInviteView.mas_right);
+        make.centerY.mas_equalTo(UserInviteView.mas_centerY);
+        make.width.mas_equalTo(120);
         make.height.mas_equalTo(20);
     }];
     
@@ -225,14 +285,14 @@
     }];
     
     UILabel *MeLabel = [[UILabel alloc]init];
-    MeLabel.text = @"我的邀请记录(共邀请7个好友)";
+    MeLabel.text = [NSString stringWithFormat:@"我的邀请记录       (共邀请%@个好友)",[UserDic objectForKey:@"customersCount"]];
     MeLabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
     MeLabel.font = [UIFont systemFontOfSize:14];
     [InviteView addSubview:MeLabel];
     [MeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(InviteView.mas_left).offset(40);
         make.centerY.mas_equalTo(InviteView.mas_centerY);
-        make.width.mas_equalTo(200);
+        make.width.mas_equalTo(300);
         make.height.mas_equalTo(40);
     }];
     
@@ -277,15 +337,30 @@
     [view addSubview:imageView];
     
     CGFloat scale = 0.2;
+    NSString *userID = NSuserUse(@"userId");
     
     // 2、将最终合得的图片显示在UIImageView上
-    imageView.image = [SGQRCodeTool SG_generateWithLogoQRCodeData:@"https://github.com/kingsic" logoImageName:@"head" logoScaleToSuperView:scale];
+    imageView.image = [SGQRCodeTool SG_generateWithLogoQRCodeData:[NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/activity/share?userId=%@",userID] logoImageName:[UserDic objectForKey:@"avatar"] logoScaleToSuperView:scale];
     
+    UIImageView *UserImageView = [[UIImageView alloc]init];
+    [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]]];
+    [imageView addSubview:UserImageView];
+    [UserImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(imageView.mas_centerX);
+        make.centerY.mas_equalTo(imageView.mas_centerY);
+        make.height.mas_equalTo(29);
+        make.width.mas_equalTo(29);
+    }];
     alertView=[[AwAlertView alloc]initWithContentView:view];
     alertView.isUseHidden=YES;
     [alertView showAnimated:YES];
     
     //[imageView addSubview:borderView];
+}
+
+- (void)UseNowBtnClick{
+    MyStageViewController *StageVC= [[MyStageViewController alloc]init];
+    [self.navigationController pushViewController:StageVC animated:NO];
 }
 - (void)CancelClick{
     [alertView dismissAnimated:NO];
@@ -295,6 +370,40 @@
     //领取
     ShareDetailViewController *vc = [[ShareDetailViewController alloc]init];
     [self.navigationController pushViewController:vc animated:NO];
+}
+
+- (void)GetBtnClick{
+    //先构造分享参数：
+    NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
+    [shareParams SSDKSetupShareParamsByText:@"分享内容"
+                                     images:@[[UIImage imageNamed:@"erweima"]]
+                                        url:[NSURL URLWithString:@"http://mob.com"]
+                                      title:@"分享标题"
+                                       type:SSDKContentTypeAuto];
+    //有的平台要客户端分享需要加此方法，例如微博
+    [shareParams SSDKEnableUseClientShare];
+    //调用分享的方法
+    SSUIShareActionSheetController *sheet = [ShareSDK showShareActionSheet:self.view
+                                                                     items:nil
+                                                               shareParams:shareParams
+                                                       onShareStateChanged:^(SSDKResponseState state, SSDKPlatformType platformType, NSDictionary *userData, SSDKContentEntity *contentEntity, NSError *error, BOOL end) {
+                                                           switch (state) {
+                                                               case SSDKResponseStateSuccess:
+                                                                   NSLog(@"分享成功!");
+                                                                   break;
+                                                               case SSDKResponseStateFail:
+                                                                   NSLog(@"分享失败%@",error);
+                                                                   break;
+                                                               case SSDKResponseStateCancel:
+                                                                   NSLog(@"分享已取消");
+                                                                   break;
+                                                               default:
+                                                                   break;
+                                                           }
+                                                       }];
+    //删除和添加平台示例
+    //[sheet.directSharePlatforms removeObject:@(SSDKPlatformTypeWechat)];//(默认微信，QQ，QQ空间都是直接跳客户端分享，加了这个方法之后，可以跳分享编辑界面分享)
+    [sheet.directSharePlatforms addObject:@(SSDKPlatformTypeSinaWeibo)];//（加了这个方法之后可以不跳分享编辑界面，直接点击分享菜单里的选项，直接分享）
 }
 - (void)dealloc{
     
@@ -330,6 +439,9 @@
 
 
 - (void)UseBtnClick{
+    MyStageViewController *StageVC= [[MyStageViewController alloc]init];
+    StageVC.Type = 1;
+    [self.navigationController pushViewController:StageVC animated:NO];
     NSLog(@"使用");
 }
 - (NSArray *)getViewController{

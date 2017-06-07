@@ -10,4 +10,14 @@
 
 @interface ShareModel : NSObject
 
+@property(nonatomic,strong)NSString *avatar;
+
+
+@property(nonatomic,strong)NSString *bankCardExist;
+
+
+@property(nonatomic,strong)NSString *oid;
+
+@property(nonatomic,strong)NSString *phoneNumber;
+
 @end

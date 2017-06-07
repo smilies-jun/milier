@@ -16,7 +16,7 @@
 #import "InterentViewController.h"
 #import "PersonViewController.h"
 #import "StageTotalTableViewCell.h"
-
+#import "ShareViewController.h"
 
 
 @interface MyStageViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>
@@ -51,6 +51,12 @@
 - (void)SatgeTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[ShareViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

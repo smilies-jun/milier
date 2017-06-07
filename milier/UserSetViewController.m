@@ -14,8 +14,10 @@
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "SecondViewController.h"
 #import "BundCardViewController.h"
+#import "SYNetWorkingUpLoad.h"
+#import "SalePassWordViewController.h"
 
-@interface UserSetViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate>{
+@interface UserSetViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,SYNetworkUploadDelegat>{
     UserSetView *ImageSetView;
     UserSetView *PassSetView;
     UserSetView *SailSetView;
@@ -25,7 +27,10 @@
     UILabel *SaleLabel;
     UILabel *SureLabel;
     AwAlertView *awlertView;
+    NSDictionary  *MyDic;
+    NSDictionary *BankDic;
 }
+@property (nonatomic, strong) SYNetWorkingUpLoad* networkUpload;
 
 @end
 
@@ -42,17 +47,28 @@
     [leftBtn addTarget:self action:@selector(UserSetClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    MyDic = [[NSDictionary alloc]init];
+    BankDic = [[NSDictionary alloc]init];
     [self reloadData];
     [self ConfigUI];
 }
 - (void)reloadData{
     NSString *url;
+    NSString *BankUrl;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
     
     url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"result = %@",result);
+        MyDic = [result objectForKey:@"data"];
+        [self ConfigUI];
+    }];
+    NSString *bankID = NSuserUse(@"bankId");
+
+    BankUrl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,bankID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        BankDic = [result objectForKey:@"data"];
+        [self ConfigUI];
     }];
 
 }
@@ -60,9 +76,11 @@
     ImageSetView = [[UserSetView alloc]init];
     ImageSetView.StaticImageView.image = [UIImage imageNamed:@"changehead"];
     ImageSetView.NameLabel.text  = @"更换头像";
-    ImageSetView.DetailLabel.text = @"帐号  161111111";
+    NSString *PhoneID = NSuserUse(@"phoneNumber");
+    ImageSetView.DetailLabel.text = [NSString stringWithFormat:@"%@",PhoneID];
+    
     ImageSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
-    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:@"帐号  161111111"];
+    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"账号 %@",PhoneID]];
     NSRange redRange = NSMakeRange([[noteStr string] rangeOfString:@"帐号"].location, [[noteStr string] rangeOfString:@"帐号"].length);
     //需要设置的位置
     [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.56, 0.56, 0.56) range:redRange];
@@ -119,7 +137,7 @@
     NSString *bankCardID = NSuserUse(@"bankCardExist");
 
     if ([bankCardID integerValue] ==1) {
-        BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"已认证绑定 %@",[MyDic objectForKey:@"bankCardNumberSuffix"]];
 
     }else{
         BundSetView.DetailLabel.text = @"未绑定银行卡";
@@ -128,7 +146,7 @@
 
     }
     
-    NSMutableAttributedString *bundStr = [[NSMutableAttributedString alloc] initWithString:@"已认证绑定  dsfsdf"];
+    NSMutableAttributedString *bundStr = [[NSMutableAttributedString alloc] initWithString:@"已认证绑定"];
     NSRange BunddRange = NSMakeRange([[bundStr string] rangeOfString:@"已认证绑定"].location, [[bundStr string] rangeOfString:@"已认证绑定"].length);
     //需要设置的位置
     [bundStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.56, 0.56, 0.56) range:BunddRange];
@@ -149,6 +167,7 @@
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"退出账号";
     SaleLabel.userInteractionEnabled = YES;
+    SaleLabel.font = [UIFont systemFontOfSize:15];
     SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
@@ -159,7 +178,7 @@
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(BundSetView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SetBackBtn
@@ -193,24 +212,27 @@
     view.alpha = 0.9;
     UILabel *WarningLabel = [[UILabel alloc]init];
     WarningLabel.text = @"提示";
-    WarningLabel.textColor = [UIColor orangeColor];
+    WarningLabel.textColor = [UIColor blackColor];
     WarningLabel.font = [UIFont systemFontOfSize:13];
     WarningLabel.frame = CGRectMake(10, 10, 40, 20);
     WarningLabel.textAlignment = NSTextAlignmentLeft;
     [view addSubview:WarningLabel];
     UIImageView *CanCelView = [[UIImageView alloc]init];
+    UITapGestureRecognizer *tapClick = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SureBackBtn)];
+    CanCelView.userInteractionEnabled = YES;
+    [CanCelView addGestureRecognizer:tapClick];
     CanCelView.image = [UIImage imageNamed:@"close"];
     CanCelView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
     [view addSubview:CanCelView];
     
     UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor = [UIColor grayColor];
-    lineView.frame = CGRectMake(0, 40, SCREEN_WIDTH, 1);
+    lineView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    lineView.frame = CGRectMake(0, 40, SCREEN_WIDTH, 0.5);
     [view addSubview:lineView];
     
     
     UIImageView *TiShiImageView = [[UIImageView alloc]init];
-    TiShiImageView.image = [UIImage imageNamed:@"businessloans"];
+    TiShiImageView.image = [UIImage imageNamed:@"tip"];
     [view addSubview:TiShiImageView];
     [TiShiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(view.mas_centerX);
@@ -222,7 +244,7 @@
     UILabel *MessageLabel = [[UILabel alloc]init];
     MessageLabel.text = @"若需修改默认银行卡";
     MessageLabel.textAlignment = NSTextAlignmentCenter;
-    MessageLabel.textColor = [UIColor orangeColor];
+    MessageLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
     MessageLabel.font = [UIFont systemFontOfSize:14];
     [view addSubview:MessageLabel];
     [MessageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -235,7 +257,7 @@
     UILabel *KeFuLabel = [[UILabel alloc]init];
     KeFuLabel.text = @"请联系客服400-6261-677";
     KeFuLabel.textAlignment = NSTextAlignmentCenter;
-    KeFuLabel.textColor = [UIColor orangeColor];
+    KeFuLabel.textColor = [UIColor blackColor];
     KeFuLabel.font = [UIFont systemFontOfSize:14];
     [view addSubview:KeFuLabel];
     [KeFuLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -246,7 +268,7 @@
     }];
     
     YinHangImageView = [[UIImageView alloc]init];
-    YinHangImageView.image = [UIImage imageNamed:@"businessloans"];
+    [YinHangImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[BankDic objectForKey:@"icon"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
     [view addSubview:YinHangImageView];
     [YinHangImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(KeFuLabel.mas_left);
@@ -256,8 +278,8 @@
         
     }];
     YinHangLabel = [[UILabel alloc]init];
-    YinHangLabel.text = @"工商银行（2098）";
-    YinHangLabel.textColor = [UIColor blueColor];
+    YinHangLabel.text = [NSString stringWithFormat:@"%@(%@)",[MyDic objectForKey:@"bankName"],[MyDic objectForKey:@"bankCardNumberSuffix"]];
+    YinHangLabel.textColor = [UIColor blackColor];
     YinHangLabel.textAlignment = NSTextAlignmentLeft;
     YinHangLabel.font = [UIFont systemFontOfSize:13];
     [view addSubview:YinHangLabel];
@@ -300,8 +322,16 @@
    [self.navigationController   pushViewController:loginVC animated:NO];
 }
 - (void)SailSetClick{
-    ModifySailViewController *SailVC = [[ModifySailViewController alloc]init];
-    [self.navigationController   pushViewController:SailVC animated:NO];
+    NSString *dealPassWord = NSuserUse(@"dealPasswordExist");
+    if ([dealPassWord integerValue] == 1) {
+        ModifySailViewController *SailVC = [[ModifySailViewController alloc]init];
+        [self.navigationController   pushViewController:SailVC animated:NO];
+    }else{
+        SalePassWordViewController *SailVC = [[SalePassWordViewController alloc]init];
+        [self.navigationController   pushViewController:SailVC animated:NO];
+    }
+    
+   
 }
 - (void)ImageSetClick{
     /**
@@ -344,9 +374,49 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info{
     //定义一个newPhoto，用来存放我们选择的图片。
     UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
-    NSLog(@"new = %@",newPhoto);
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    NSData *imageData = UIImageJPEGRepresentation(newPhoto, 0.5);
+    __block NSMutableDictionary* parameter = [[NSMutableDictionary alloc] init];
+    parameter = [[NSMutableDictionary alloc]initWithObjectsAndKeys:tokenID,@"tokenID", nil];
+ 
+    //1。创建管理者对象
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.securityPolicy.allowInvalidCertificates = YES;
+    [manager.securityPolicy setValidatesDomainName:NO];
+
+    //2.上传文件
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@/users/%@/avatar",Text_URL,userID];
+    NSDictionary *dict = @{@"Authorization":tokenID};
+
+    [manager POST:urlString parameters:dict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        //这个就是参数
+        [formData appendPartWithFileData:imageData name:@"avatarFile" fileName:[NSString stringWithFormat:@"%@.png",userID] mimeType:@"image/png"];
+        
+    } progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        //打印下上传进度
+        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSuserSave([responseObject objectForKey:@"avatar"], @"avatar");
+        //请求成功
+        NSLog(@"请求成功：%@",responseObject);
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        //请求失败
+        NSLog(@"请求失败：%@",error);
+    }];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+
+
+
 - (void)SetBackBtn{
     NSuserRemove(@"userId");
     NSuserRemove(@"Authorization");

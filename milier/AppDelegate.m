@@ -42,7 +42,7 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self setupViewControllers];
     //启动动画延迟时间
-    [NSThread sleepForTimeInterval:0.1];
+    [NSThread sleepForTimeInterval:3.0];
  
     int i = 4;
     //判断是否登陆，服务器获取

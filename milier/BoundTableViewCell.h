@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ShareModel.h"
 
 @interface BoundTableViewCell : UITableViewCell
+@property (nonatomic, retain)ShareModel *ShareModel;
 
 @property (nonatomic , retain) UIImageView *userImageView;
 
@@ -22,5 +24,6 @@
 
 - (void)configUI:(NSIndexPath *)indexPath;
 
+- (void)setShareModel:(ShareModel *)ShareModel;
 
 @end

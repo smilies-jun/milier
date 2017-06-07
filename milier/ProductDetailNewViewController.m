@@ -16,6 +16,9 @@
 #import "ProductDetailModel.h"
 #import "SaleViewController.h"
 #import "ProductDetailNewViewController.m"
+#import "JinMiDetdailViewController.h"
+
+
 
 @interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
@@ -49,6 +52,7 @@
     url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         [_DataArray removeAllObjects];
+        
             NSDictionary *dic = [result objectForKey:@"data"];
             ProductDetailModel *model = [[ProductDetailModel alloc]init];
             model.dataDictionary = dic;
@@ -62,7 +66,7 @@
 
 -(void)ConfigUI{
     
-    page = 0;
+    page = 1;
     isFirstCome = YES;
     isJuhua = NO;
     
@@ -82,7 +86,31 @@
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"立即购买";
     SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = colorWithRGB(0.62, 0.8, 0.09);
+    
+    switch (_productCateID) {
+        case 1:
+        SaleLbel.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+            break;
+        case 2:
+         SaleLbel.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+            break;
+        case 3:
+         SaleLbel.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+            break;
+        case 4:
+           SaleLbel.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+            break;
+        case 5:
+          SaleLbel.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+            break;
+        case 6:
+           SaleLbel.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);
+            break;
+            
+        default:
+            break;
+    }
+    
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
     SaleLbel.layer.cornerRadius = 10;
@@ -116,7 +144,17 @@
     [self.navigationController pushViewController:SaleVC animated:NO];
 }
 - (void)newDetailTap{
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    if (_Type == 1) {
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[JinMiDetdailViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }else{
+        [self.navigationController popToRootViewControllerAnimated:NO];
+ 
+    }
+    
 
 }
 //设置行数
@@ -150,11 +188,41 @@
         SecondDetailTopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[SecondDetailTopTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            switch (_productCateID) {
+                case 1:
+                    cell.ProductcatID = 1;
+                    break;
+                case 2:
+                    cell.ProductcatID =2;
+                    break;
+                    
+                case 3:
+                    cell.ProductcatID = 3;
+                    break;
+                    
+                case 4:
+                    cell.ProductcatID = 4;
+                    break;
+                    
+                case 5:
+                    cell.ProductcatID = 5;
+                    break;
+                    
+                case 6:
+                    cell.ProductcatID = 6;
+                    break;
+                    
+                    
+                default:
+                    break;
+            }
+
             [cell configUI:indexPath];
         }
         if (_DataArray.count) {
             ProductDetailModel *model  = [_DataArray objectAtIndex:0];
             cell.detailModel = model;
+            
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
