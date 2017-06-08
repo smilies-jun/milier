@@ -267,16 +267,16 @@
         make.height.mas_equalTo(30);
     }];
     
-    YinHangImageView = [[UIImageView alloc]init];
-    [YinHangImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[BankDic objectForKey:@"icon"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
-    [view addSubview:YinHangImageView];
-    [YinHangImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(KeFuLabel.mas_left);
-        make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
-        
-    }];
+//    YinHangImageView = [[UIImageView alloc]init];
+//    [YinHangImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[BankDic objectForKey:@"icon"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
+//    [view addSubview:YinHangImageView];
+//    [YinHangImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(KeFuLabel.mas_left);
+//        make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
+//        make.width.mas_equalTo(30);
+//        make.height.mas_equalTo(30);
+//        
+//    }];
     YinHangLabel = [[UILabel alloc]init];
     YinHangLabel.text = [NSString stringWithFormat:@"%@(%@)",[MyDic objectForKey:@"bankName"],[MyDic objectForKey:@"bankCardNumberSuffix"]];
     YinHangLabel.textColor = [UIColor blackColor];
@@ -284,7 +284,7 @@
     YinHangLabel.font = [UIFont systemFontOfSize:13];
     [view addSubview:YinHangLabel];
     [YinHangLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(YinHangImageView.mas_right).offset(5);
+        make.left.mas_equalTo(KeFuLabel.mas_left);
         make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(130);
         make.height.mas_equalTo(30);

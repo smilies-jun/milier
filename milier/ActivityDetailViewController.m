@@ -60,6 +60,8 @@
     // NSLog(@"webview fail load");
 }
 - (void)ActivityDetailTap{
+    
+    [self.navigationController popToRootViewControllerAnimated:NO];
     //  返回指定页面
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[FirstViewController  class]]) {

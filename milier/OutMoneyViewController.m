@@ -59,7 +59,7 @@
         make.height.mas_equalTo(15);
     }];
     payView = [[CustomView alloc]init];
-    payView.NameLabel.text = @"输入金额:";
+    payView.NameLabel.text = @"转出金额:";
     payView.NameTextField.placeholder = @"请输入提现金额";
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -80,7 +80,7 @@
         make.height.mas_equalTo(44);
     }];
     UILabel *TestLabel =  [[UILabel alloc]init];
-    TestLabel.text = @"提现";
+    TestLabel.text = @"转出";
     TestLabel.userInteractionEnabled = YES;
     TestLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     TestLabel.textAlignment = NSTextAlignmentCenter;
@@ -105,9 +105,8 @@
         if (passWordView.NameTextField.text.length) {
             NSString *Statisurl;
             NSString *tokenID = NSuserUse(@"Authorization");
-            NSString *userID = NSuserUse(@"userId");
             
-            Statisurl = [NSString stringWithFormat:@"%@/users/%@/withdraw",HOST_URL,userID];
+            Statisurl = [NSString stringWithFormat:@"%@/products/action/redeemCurrent",HOST_URL];
             NSMutableDictionary  *Dic =[[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",passWordView.NameTextField.text,@"dealPassword", nil];
             [[DateSource sharedInstance]requestHomeWithParameters:Dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
                 if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
@@ -126,7 +125,7 @@
         
         
     }else{
-        normal_alert(@"提示", @"提现金额不能为0", @"确定");
+        normal_alert(@"提示", @"转出金额不能为0", @"确定");
         
     }
     

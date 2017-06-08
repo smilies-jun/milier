@@ -33,7 +33,7 @@
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(UserBackClick) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn addTarget:self action:@selector(ForgetBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
 
@@ -41,7 +41,9 @@
 
     
 }
-
+- (void)ForgetBackClick{
+    [self.navigationController popToRootViewControllerAnimated:NO];
+}
 - (void)initUI{
     phoneNumView = [[CustomView alloc]init];
     phoneNumView.NameLabel.text = @"手机号码:";
@@ -79,7 +81,7 @@
     _GetCode = [[UIButton alloc] init];
     [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_GetCode setBackgroundColor:colorWithRGB(0.19, 0.69, 0.42)];
+    [_GetCode setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     [_GetCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_GetCode addTarget:self action:@selector(forgetSenderCodeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [CodeNumView addSubview:_GetCode];
@@ -113,7 +115,7 @@
     SurePassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:SurePassWordView];
     [SurePassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(110);
     }];
     [SurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -126,7 +128,7 @@
     [PushBtn setTitle:@"提交" forState:UIControlStateNormal];
     PushBtn.layer.masksToBounds = YES;
     PushBtn.layer.cornerRadius = 5.0f;
-    PushBtn.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+    PushBtn.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     [PushBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     PushBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [PushBtn addTarget:self action:@selector(PostBtnClick) forControlEvents:UIControlEventTouchUpInside];

@@ -56,7 +56,7 @@
     [imageView.layer addSublayer:ShapeLayer];
     
     ProfitLabel  = [[UILabel alloc]init];
-    ProfitLabel.text = @"";
+    ProfitLabel.text = @"预计年化收益";
     ProfitLabel.textColor = colorWithRGB(0.63, 0.63, 0.63);
     ProfitLabel.font = [UIFont systemFontOfSize:15];
     ProfitLabel.textAlignment = NSTextAlignmentCenter;

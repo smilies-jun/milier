@@ -35,7 +35,7 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     MyChangeArray = [[NSMutableArray alloc]init];
-    [self getNetworkData:YES];
+   // [self getNetworkData:YES];
     [self ConfigUI];
     
 }
@@ -89,7 +89,7 @@
    
     if (isRefresh) {
         page = 1;
-        isFirstCome = YES;
+        [MyChangeArray removeAllObjects];
     }else{
         page++;
     }
@@ -97,15 +97,20 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *userID = NSuserUse(@"userId");
     NSString *url;
-    if (isFirstCome) {
-        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&%@",HOST_URL,userID];
+    if (isRefresh) {
+        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&userid=%@",HOST_URL,userID];
     }else{
-        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&%@",HOST_URL,page,userID];
+        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&userid=%@",HOST_URL,page,userID];
         
     }
-    
+    NSLog(@"page = %d",page);        NSLog(@"url =%@",url);
+    NSLog(@"usid = %@",userID);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *array = [result objectForKey:@"items"];
+        NSLog(@"result = %@",result);
+        if (page == 1) {
+            [MyChangeArray removeAllObjects];
+        }
         for (NSDictionary *dic in array) {
             MyChangeModel *model = [[MyChangeModel alloc]init];
             model.dataDictionary = dic;
@@ -154,6 +159,7 @@
     if (MyChangeArray.count) {
         MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
         cell.changeModel = model;
+        
     }
     　
         return cell;
@@ -163,6 +169,11 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
+    if ([model.state integerValue] == 2) {
+        
+    }
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];

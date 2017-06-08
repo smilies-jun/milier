@@ -142,7 +142,7 @@
     [_LoginBtn setTitle:@"登录" forState:UIControlStateNormal];
     _LoginBtn.layer.masksToBounds = YES;
     _LoginBtn.layer.cornerRadius = 5.0f;
-    _LoginBtn.backgroundColor =colorWithRGB(0.99, 0.79, 0.09);
+    _LoginBtn.backgroundColor =colorWithRGB(0.95, 0.6, 0.11);
     [_LoginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _LoginBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [_LoginBtn addTarget:self action:@selector(LoginNextBtn) forControlEvents:UIControlEventTouchUpInside];
@@ -162,7 +162,7 @@
     NSRange conectRange = {0,[ConnectStr length]};
     [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
     _ForgetPasswordLabel.attributedText = ConnectStr;
-    _ForgetPasswordLabel.textColor= colorWithRGB(0.99, 0.79, 0.09);
+    _ForgetPasswordLabel.textColor= colorWithRGB(0.95, 0.6, 0.11);
     _ForgetPasswordLabel.font = [UIFont systemFontOfSize:13];
     [_bagView addSubview:_ForgetPasswordLabel];
     [_ForgetPasswordLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -176,7 +176,7 @@
     [_ReginButton setTitle:@"注册" forState:UIControlStateNormal];
     _ReginButton.titleLabel.textAlignment = NSTextAlignmentRight;
     [_ReginButton addTarget:self action:@selector(ReginClick) forControlEvents:UIControlEventTouchUpInside];
-    [_ReginButton setTitleColor:colorWithRGB(0.99, 0.79, 0.09) forState:UIControlStateNormal];
+    [_ReginButton setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     _ReginButton.titleLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:_ReginButton];
     [_ReginButton mas_makeConstraints:^(MASConstraintMaker *make) {

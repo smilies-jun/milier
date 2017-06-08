@@ -79,7 +79,7 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
         make.centerX.mas_equalTo(saleView.mas_centerX);
         make.centerY.mas_equalTo(saleView.mas_centerY);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenBtnClick

@@ -35,6 +35,7 @@ static LLPayType payType = LLPayTypeQuick;
     NSString *reginStr;
     
     UILabel *ForgetPayLabel;
+    NSMutableDictionary *myBankDic;
 
 }
 @property (nonatomic, strong) LLOrder *order;
@@ -55,6 +56,7 @@ static LLPayType payType = LLPayTypeQuick;
     [leftBtn addTarget:self action:@selector(TouUpTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    myBankDic = [[NSMutableDictionary alloc]init];
     [self reloadData];
    // [self configUI];
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
@@ -87,6 +89,7 @@ static LLPayType payType = LLPayTypeQuick;
     }];
     PassWordView = [[CustomView alloc]init];
     PassWordView.NameLabel.text = @"交易密码";
+    PassWordView.NameTextField.secureTextEntry = YES;
     PassWordView.NameTextField.placeholder = @"请输入交易密码";
     PassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:PassWordView];
@@ -188,7 +191,7 @@ static LLPayType payType = LLPayTypeQuick;
     if ([payView.NameTextField.text integerValue] > 0) {
         if (PassWordView.NameTextField.text.length) {
             
-            [self payMoney];
+            [self requestBank];
             
         }else{
             normal_alert(@"提示", @"交易密码不能为空", @"确定");
@@ -198,13 +201,35 @@ static LLPayType payType = LLPayTypeQuick;
         normal_alert(@"提示", @"充值金额不能少于0", @"确定");
     }
 }
+- (void)requestBank{
+    NSString *BankStrUrl;
+    NSString *bankID = NSuserUse(@"bankCardId");
+    NSString *tokenID = NSuserUse(@"Authorization");
 
+    BankStrUrl = [NSString stringWithFormat:@"%@/bankCards/%@",HOST_URL,bankID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:BankStrUrl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *erro) {
+        NSString *statuesCode = [result objectForKey:@"statusCode"];
+
+        if ([statuesCode integerValue] == 200) {
+            myBankDic = [result objectForKey:@"data"];
+            
+            [self payMoney];
+
+        }else{
+            NSString *messageStr = [result objectForKey:@"message"];
+            normal_alert(@"提示", messageStr, @"确定");
+        }
+
+    }];
+}
 - (void)payMoney{
     NSString *url;
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *userID = NSuserUse(@"userId");
 
     url = [NSString stringWithFormat:@"%@/users/%@/recharge",HOST_URL,userID];
+    
+    
     
     NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",PassWordView.NameTextField.text,@"dealPassword", nil];
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
@@ -222,6 +247,9 @@ static LLPayType payType = LLPayTypeQuick;
         
         
     }];
+    
+   
+    
     
 }
 
@@ -269,14 +297,14 @@ static LLPayType payType = LLPayTypeQuick;
     NSString *showMsg =
     [msg stringByAppendingString:[LLPayUtil jsonStringOfObj:dic]];
     
-    NSLog(@"showmessage = %@",showMsg);
     
 }
 
 
 -(void)createOrder{
-    NSString *userID =[NSString stringWithFormat:@"%@",NSuserUse(@"userId"]);
-                       
+                        NSString *userID =[NSString stringWithFormat:@"%@",NSuserUse(@"userId"]);
+                       NSString *phoneStr = NSuserUse(@"phoneNumber");
+                 
                        _order = [[LLOrder alloc] initWithLLPayType:payType];
                        NSString *timeStamp = [LLOrder timeStamp];
                        _order.oid_partner = kLLOidPartner;
@@ -286,10 +314,10 @@ static LLPayType payType = LLPayTypeQuick;
                        _order.dt_order = timeStamp;
                        _order.money_order = payView.NameTextField.text;
                        _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
-                       //    _order.acct_name = acctName;
-                       //    _order.card_no = cardNumber;
-                       //    _order.id_no = idNumber;
-                       _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr}];
+                       _order.acct_name =[myDic objectForKey:@"username"];
+                        _order.card_no = [myDic objectForKey:@"bankCardNumber"];
+                       _order.id_no = [myDic objectForKey:@"identityCardNumber"];
+                       _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr}];
                        _order.user_id = userID;
                        
                        }

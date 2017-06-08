@@ -168,7 +168,7 @@
     
     UserLabel = [[UILabel alloc]init];
     UserLabel.textColor = colorWithRGB(0.22, 0.22, 0.22);
-    UserLabel.text = @"0";
+    UserLabel.text = @"";
     UserLabel.font = [UIFont systemFontOfSize:15];
     [TopView addSubview:UserLabel];
     [UserLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -178,7 +178,7 @@
         make.height.mas_equalTo(20);
     }];
     PhoneLabel = [[UILabel alloc]init];
-    PhoneLabel.text= @"0";
+    PhoneLabel.text= @"";
     PhoneLabel.font = [UIFont systemFontOfSize:12];
     PhoneLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [TopView addSubview:PhoneLabel];
@@ -216,7 +216,7 @@
     }];
     
     MoneyNumberLabel = [[UILabel alloc]init];
-    MoneyNumberLabel.text = @"2762.00";
+    MoneyNumberLabel.text = @"";
     MoneyNumberLabel.font = [UIFont systemFontOfSize:26];
     MoneyNumberLabel.textAlignment = NSTextAlignmentCenter;
     MoneyNumberLabel.textColor = colorWithRGB(0.22, 0.22, 0.22);
@@ -252,7 +252,7 @@
     }];
     
     JinMiNumber = [[UILabel alloc]init];
-    JinMiNumber.text = @"¥200000";
+    JinMiNumber.text = @"¥";
     JinMiNumber.font = [UIFont systemFontOfSize:15];
     JinMiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:JinMiNumber];
@@ -317,7 +317,7 @@
     }];
     
     DinQiNumber = [[UILabel alloc]init];
-    DinQiNumber.text = @"¥333330";
+    DinQiNumber.text = @"¥";
     DinQiNumber.font = [UIFont systemFontOfSize:15];
     DinQiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:DinQiNumber];
@@ -392,7 +392,7 @@
         make.height.mas_equalTo(20);
     }];
     MyLeftMoneyNumberLabel = [[UILabel alloc]init];
-    MyLeftMoneyNumberLabel.text = @"23232.89";
+    MyLeftMoneyNumberLabel.text = @"";
     MyLeftMoneyNumberLabel.textColor = [UIColor orangeColor];
     MyLeftMoneyNumberLabel.font = [UIFont systemFontOfSize:12];
     MyLeftMoneyNumberLabel.textAlignment = NSTextAlignmentCenter;
@@ -431,7 +431,7 @@
     }];
     
     MyJifenNmberLabel = [[UILabel alloc]init];
-    MyJifenNmberLabel.text = @"23232.89";
+    MyJifenNmberLabel.text = @"";
     MyJifenNmberLabel.textColor = [UIColor orangeColor];
     MyJifenNmberLabel.font = [UIFont systemFontOfSize:12];
     MyJifenNmberLabel.textAlignment = NSTextAlignmentCenter;

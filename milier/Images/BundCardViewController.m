@@ -595,6 +595,7 @@ static LLPayType payType = LLPayTypeQuick;
 
 -(void)createOrder{
     NSString *userID =[NSString stringWithFormat:@"%@",NSuserUse(@"userId"]);
+    NSString *phoneStr = NSuserUse(@"phoneNumber");
 
     _order = [[LLOrder alloc] initWithLLPayType:payType];
     NSString *timeStamp = [LLOrder timeStamp];
@@ -605,10 +606,10 @@ static LLPayType payType = LLPayTypeQuick;
     _order.dt_order = timeStamp;
     _order.money_order = MoneyView.NameTextField.text;
     _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
-    //    _order.acct_name = acctName;
-    //    _order.card_no = cardNumber;
-    //    _order.id_no = idNumber;
-    _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr}];
+    _order.acct_name = CardNameView.NameTextField.text;
+    _order.card_no = CardNumberView.NameTextField.text;
+    _order.id_no = CardBankCodeView.NameTextField.text;
+    _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr}];
     _order.user_id = userID;
     
 }

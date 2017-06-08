@@ -25,4 +25,7 @@
 
 - (void)requestImageWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *result, NSError *error))block;
 
+
+- (void)requestDeleteWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block;
+
 @end

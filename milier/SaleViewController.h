@@ -33,4 +33,7 @@
 @property (nonatomic,strong)NSString *minBuyStr;
 
 @property (nonatomic,strong)NSString *productStr;
+
+@property (nonatomic,strong)NSString *productID;
+
 @end

@@ -62,8 +62,11 @@
     CircleDinQiDic = [[NSDictionary alloc]init];
     CircleArray = [[NSArray alloc]init];
     [self getNetworkData:YES];
-    
-    [self ConfigUI];
+//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//        [self ConfigUI];
+//
+//    });
+
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {

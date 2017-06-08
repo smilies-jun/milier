@@ -131,6 +131,7 @@
 - (void)SaleBtnClick{
     SaleViewController *SaleVC = [[SaleViewController alloc]init];
     ProductDetailModel *model = [_DataArray objectAtIndex:0];
+    SaleVC.productID = [NSString stringWithFormat:@"%d",_productCateID];
     SaleVC.NameStr = model.name;
     SaleVC.TotalStr = model.aggregateAmount;
     SaleVC.SellStr = model.sellTotal;

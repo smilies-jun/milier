@@ -72,7 +72,7 @@
     _GetCode = [[UIButton alloc] init];
     [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_GetCode setBackgroundColor:colorWithRGB(0.19, 0.69, 0.42)];
+    [_GetCode setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     [_GetCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_GetCode addTarget:self action:@selector(forgetSenderCodeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [CodeNumView addSubview:_GetCode];
@@ -119,7 +119,7 @@
     [PushBtn setTitle:@"提交" forState:UIControlStateNormal];
     PushBtn.layer.masksToBounds = YES;
     PushBtn.layer.cornerRadius = 5.0f;
-    PushBtn.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+    PushBtn.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     [PushBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     PushBtn.titleLabel.font = [UIFont systemFontOfSize:16];
     [PushBtn addTarget:self action:@selector(PostBtnClick) forControlEvents:UIControlEventTouchUpInside];

@@ -41,6 +41,7 @@
     SaleNewPassWordView.NameLabel.text = @"新交易密码:";
     SaleNewPassWordView.NameTextField.placeholder = @"密码至少6位";
     SaleNewPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
+    SaleNewPassWordView.NameTextField.secureTextEntry = YES;;
     SaleNewPassWordView.NameTextField.delegate = self;
     [self.view addSubview:SaleNewPassWordView];
     [SaleNewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -53,6 +54,7 @@
     SaleSurePassWordView = [[customWithStatic alloc]init];
     SaleSurePassWordView.NameLabel.text = @"确认新密码:";
     SaleSurePassWordView.NameTextField.placeholder = @"请再次输入交易密码";
+    SaleSurePassWordView.NameTextField.secureTextEntry =YES;
     SaleSurePassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     SaleSurePassWordView.NameTextField.delegate = self;
     [self.view addSubview:SaleSurePassWordView];

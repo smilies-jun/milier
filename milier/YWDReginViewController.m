@@ -48,9 +48,9 @@
     }];
     
     ClickBtn = [[UIButton alloc]init];
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
     ClickBtn.selected = YES;
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
     [ClickBtn addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:ClickBtn];
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {

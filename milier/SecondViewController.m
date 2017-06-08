@@ -28,7 +28,7 @@
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "UserViewController.h"
 #import <EAIntroView/EAIntroView.h>
-
+#import "ActivityDetailViewController.h"
 
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
@@ -516,8 +516,9 @@
     [alertView dismissAnimated:NO];
 }
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
-//    FourViewController *fourVC = [[FourViewController alloc]init];
-//    [self.navigationController pushViewController:fourVC animated:YES];
+    ActivityDetailViewController *fourVC = [[ActivityDetailViewController alloc]init];
+    fourVC.WebStr = [ActivityArray objectAtIndex:index];
+    [self.navigationController pushViewController:fourVC animated:YES];
     NSLog(@"轮播图 点击 Index : %zd",index);
 }
 - (void)pageScrollViewMenuItemOnClick:(UILabel *)label index:(NSInteger)index{

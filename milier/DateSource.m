@@ -98,7 +98,9 @@
     }];    
     
 }
-
+- (void)requestDeleteWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
+    
+}
 - (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
     if (manager) {
         manager = nil;

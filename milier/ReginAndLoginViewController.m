@@ -81,7 +81,7 @@
     _GetCode = [[UIButton alloc] init];
     [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
-    [_GetCode setBackgroundColor:colorWithRGB(0.19, 0.69, 0.42)];
+    [_GetCode setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     [_GetCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [_GetCode addTarget:self action:@selector(senderInputSecurityCodeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [PhoneView addSubview:_GetCode];
@@ -149,7 +149,7 @@
     }];
 
     UIButton *reginBtn = [[UIButton alloc]init];
-    [reginBtn setBackgroundColor:colorWithRGB(0.99, 0.79, 0.09)];
+    [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 5.0f;
     [reginBtn setTitle:@"注册并登录" forState:UIControlStateNormal];

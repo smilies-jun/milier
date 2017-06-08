@@ -172,9 +172,8 @@
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
-    if (isRefresh) {
+    if (isFirstCome) {
         page = 1;
-        isFirstCome = YES;
     }else{
         page++;
     }
