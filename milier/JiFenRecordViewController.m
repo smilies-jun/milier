@@ -85,13 +85,15 @@ static NSString * const cellId = @"cellID";
     NSString *userID = NSuserUse(@"userId");
 
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/users/%@/pointLogs?page=1&rows=20",HOST_URL,userID];
     }else{
         url = [NSString stringWithFormat:@"%@/users/%@/pointLogs?page=%d&rows=20",HOST_URL,userID,page];
         
     }
-    
+    if (page ==1) {
+        [MyArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
       //  NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {

@@ -33,5 +33,8 @@
 
 @property(nonatomic,strong)NSString *transferable;
 
+@property(nonatomic,strong)NSString *progress;
+
+
 
 @end

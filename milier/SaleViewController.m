@@ -711,8 +711,10 @@
                 double sellDouble = [sellStr doubleValue];
                 double leftMoney = totalDouble - sellDouble;
                 if ([BuyTextField.text doubleValue] < leftMoney) {
+                    NSLog(@"left money  =%f",[MyMoneyStr doubleValue]);
+                    
                     if ([BuyTextField.text doubleValue] > [_minBuyStr doubleValue]) {
-                        if ([BuyTextField.text doubleValue] > [MyMoneyStr doubleValue]) {
+                        if ([BuyTextField.text doubleValue] < [MyMoneyStr doubleValue]) {
                             //购 买
                             if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
                                 
@@ -784,10 +786,19 @@
     NSString *Bottomurl;
     NSString *tokenID = NSuserUse(@"Authorization");
     Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
+    
+    if (StageOid.length) {
+        
+    }else{
+        StageOid = @"-1";
+    }
     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             normal_alert(@"提示", @"购买成功　", @"确定");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:NO];
+            });
 
         }else{
             NSString *message = [result objectForKey:@"message"];

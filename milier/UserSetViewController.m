@@ -16,6 +16,8 @@
 #import "BundCardViewController.h"
 #import "SYNetWorkingUpLoad.h"
 #import "SalePassWordViewController.h"
+#import "SalePassWordViewController.h"
+
 
 @interface UserSetViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,SYNetworkUploadDelegat>{
     UserSetView *ImageSetView;
@@ -116,7 +118,15 @@
     }];
     SailSetView = [[UserSetView alloc]init];
     SailSetView.StaticImageView.image = [UIImage imageNamed:@"cardpassword"];
-    SailSetView.NameLabel.text  = @"修改交易密码";
+    NSString *dealPassWordID = NSuserUse(@"dealPasswordExist");
+    if ([dealPassWordID integerValue] == 1) {
+        SailSetView.NameLabel.text  = @"修改交易密码";
+  
+    }else{
+        SailSetView.NameLabel.text  = @"设置交易密码";
+  
+    }
+    
     SailSetView.DetailLabel.text = @"保证您在米粒儿平台的交易安全，请妥善保管";
     SailSetView.DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
 

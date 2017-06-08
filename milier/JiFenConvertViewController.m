@@ -91,13 +91,16 @@ static NSString * const cellId = @"CovertcellID";
   //  NSString *userID = NSuserUse(@"userId");
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/commodityOrders?page=1&rows=20",HOST_URL];
     }else{
         url = [NSString stringWithFormat:@"%@/commodityOrders?page=%d&rows=20",HOST_URL,page];
         
     }
-    
+    if (page ==1) {
+        [DuiHuanArray removeAllObjects];
+        [SectionArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
          //é NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {

@@ -68,7 +68,7 @@
         make.width.mas_equalTo(80);
     }];
     [CodeNumView.NameTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(CodeNumView.mas_right).offset(-60);
+        make.right.mas_equalTo(CodeNumView.mas_right).offset(-80);
     }];
     [self.view addSubview:CodeNumView];
     [CodeNumView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -99,7 +99,7 @@
     NewPassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:NewPassWordView];
     [NewPassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(110);
     }];
     [NewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -175,10 +175,11 @@
 }
 
 - (void)postForgetCode{
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",NewPassWordView.NameTextField.text,@"newPassword", nil];
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",NewPassWordView.NameTextField.text,@"newDealPassword", nil];
     NSString *url = [NSString stringWithFormat:@"%@/retrieveDealPassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+
             if ([_TypeStr integerValue]==1) {
                 normal_alert(@"提示", @"密码修改成功", @"确定");
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -190,6 +191,9 @@
 
                 });
             }
+        }else{
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示", message, @"确定　");
         }
 //        //注册成功or失败
 //        [self dismissViewControllerAnimated:NO completion:nil];
@@ -221,7 +225,7 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
+        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"6",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
             if ([[result objectForKey:@"success"]integerValue]==1 ) {

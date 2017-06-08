@@ -24,7 +24,7 @@ static NSString *signType = @"MD5"; //签名方式
 
 /*! 接入什么支付产品就改成那个支付产品的LLPayType，如快捷支付就是LLPayTypeQuick */
 
-static LLPayType payType = LLPayTypeQuick;
+static LLPayType payType = LLPayTypeVerify;
 
 
 
@@ -144,7 +144,6 @@ static LLPayType payType = LLPayTypeQuick;
     CardNumberView.NameLabel.text = @"身份证号:";
     CardNumberView.NameTextField.placeholder = @"身份证号";
     CardNumberView.NameTextField.delegate = self;
-    CardNumberView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardNumberView];
     [CardNumberView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(BackView.mas_left).offset(20);
@@ -505,9 +504,8 @@ static LLPayType payType = LLPayTypeQuick;
     url = [NSString stringWithFormat:@"%@/bankCards",HOST_URL];
     
     NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:CardNameView.NameTextField.text,@"username",CardIphoneView.NameTextField.text,@"phoneNumber",CardNumberView.NameTextField.text,@"identityCardNumber",CardBankCodeView.NameTextField.text,@"bankCardNumber",userID,@"userId",bankID,@"bankId",CardWhichBankView.NameTextField.text,@"branchBank", nil];
-    
+
    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-       
        NSString *statuesCode = [result objectForKey:@"statusCode"];
        
        if ([statuesCode integerValue] == 201) {
@@ -567,13 +565,21 @@ static LLPayType payType = LLPayTypeQuick;
     NSString *msg = @"异常";
     switch (resultCode) {
         case kLLPayResultSuccess: {
-            msg = @"成功";
+            msg = @"绑卡成功";
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                normal_alert(@"提示", msg, @"确定");
+
+            });
+
+            [self.navigationController popToRootViewControllerAnimated:NO];
         } break;
         case kLLPayResultFail: {
             msg = @"失败";
+            normal_alert(@"提示", msg, @"确定");
         } break;
         case kLLPayResultCancel: {
             msg = @"取消";
+
         } break;
         case kLLPayResultInitError: {
             msg = @"sdk初始化异常";
@@ -585,10 +591,7 @@ static LLPayType payType = LLPayTypeQuick;
             break;
     }
     
-    NSString *showMsg =
-    [msg stringByAppendingString:[LLPayUtil jsonStringOfObj:dic]];
     
-    NSLog(@"showmessage = %@",showMsg);
     
 }
 
@@ -607,8 +610,8 @@ static LLPayType payType = LLPayTypeQuick;
     _order.money_order = MoneyView.NameTextField.text;
     _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
     _order.acct_name = CardNameView.NameTextField.text;
-    _order.card_no = CardNumberView.NameTextField.text;
-    _order.id_no = CardBankCodeView.NameTextField.text;
+    _order.card_no =[NSString stringWithFormat:@"%@",CardBankCodeView.NameTextField.text] ;
+    _order.id_no =[NSString stringWithFormat:@"%@", CardNumberView.NameTextField.text];
     _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr}];
     _order.user_id = userID;
     

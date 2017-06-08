@@ -172,7 +172,7 @@
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
-    if (isFirstCome) {
+    if (isRefresh) {
         page = 1;
     }else{
         page++;
@@ -185,11 +185,13 @@
         url = [NSString stringWithFormat:@"%@/users/%@/traces?page=1&rows=20",HOST_URL,userID];
  
     }else{
-        url = [NSString stringWithFormat:@"%@/users/%@/traces?page=$%d&rows=20",HOST_URL,userID,page];
+        url = [NSString stringWithFormat:@"%@/users/%@/traces?page=%d&rows=20",HOST_URL,userID,page];
 
     }
-    
-    
+    if (page ==1) {
+        [MyLeftArray removeAllObjects];
+    }
+    NSLog(@"url = %@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *array = [result objectForKey:@"items"];
         for (NSDictionary *dic in array) {

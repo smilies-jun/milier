@@ -637,6 +637,7 @@
         processView.frame = CGRectMake(10, 65,SCREEN_WIDTH-20, 2);
         processView.transform = CGAffineTransformMakeScale(1.0f, 2.0f);
         processView.progressTintColor = colorWithRGB(0.96, 0.6, 0.12);
+        
         [processView setProgress:0.5 animated:YES];
         processView.trackTintColor = colorWithRGB(0.93, 0.93, 0.93);
         [HeaderView addSubview:processView];
@@ -655,6 +656,7 @@
             DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
             DinQiLabel.text = [NSString stringWithFormat:@"%@",model.name];
             DinQiDetailLabel.text =  [NSString stringWithFormat:@"预计年化收益 %@",model.subname];
+            [processView setProgress:[model.progress doubleValue]/10000 animated:YES];
 
             DinQiNnumberLabel.text = [NSString stringWithFormat:@"%@",model.cci];
             DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%@",model.ci];

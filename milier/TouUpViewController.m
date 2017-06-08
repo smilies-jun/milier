@@ -13,7 +13,7 @@
 #import "LLPayUtil.h"
 #import "LLOrder.h"
 #import "YJForgetDealPassWordViewController.h"
-
+#import "SaleViewController.h"
 
 /*! TODO: 修改两个参数成商户自己的配置 */
 static NSString *kLLOidPartner = @"201606081000897509";//@"201408071000001546";                 // 商户号
@@ -22,7 +22,7 @@ static NSString *signType = @"MD5"; //签名方式
 
 /*! 接入什么支付产品就改成那个支付产品的LLPayType，如快捷支付就是LLPayTypeQuick */
 
-static LLPayType payType = LLPayTypeQuick;
+static LLPayType payType = LLPayTypeVerify;
 
 
 @interface TouUpViewController (){
@@ -209,7 +209,6 @@ static LLPayType payType = LLPayTypeQuick;
     BankStrUrl = [NSString stringWithFormat:@"%@/bankCards/%@",HOST_URL,bankID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:BankStrUrl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *erro) {
         NSString *statuesCode = [result objectForKey:@"statusCode"];
-
         if ([statuesCode integerValue] == 200) {
             myBankDic = [result objectForKey:@"data"];
             
@@ -277,6 +276,10 @@ static LLPayType payType = LLPayTypeQuick;
     switch (resultCode) {
         case kLLPayResultSuccess: {
             msg = @"成功";
+            normal_alert(@"提示", msg, @"确定");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self TouUpTap];
+            });
         } break;
         case kLLPayResultFail: {
             msg = @"失败";
@@ -296,7 +299,7 @@ static LLPayType payType = LLPayTypeQuick;
     
     NSString *showMsg =
     [msg stringByAppendingString:[LLPayUtil jsonStringOfObj:dic]];
-    
+    NSLog(@"message == %@",showMsg);
     
 }
 
@@ -314,9 +317,10 @@ static LLPayType payType = LLPayTypeQuick;
                        _order.dt_order = timeStamp;
                        _order.money_order = payView.NameTextField.text;
                        _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
-                       _order.acct_name =[myDic objectForKey:@"username"];
-                        _order.card_no = [myDic objectForKey:@"bankCardNumber"];
-                       _order.id_no = [myDic objectForKey:@"identityCardNumber"];
+                                           
+                       _order.acct_name =[myBankDic objectForKey:@"username"];
+                        _order.card_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"bankCardNumber"]];
+                       _order.id_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"identityCardNumber"]];
                        _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr}];
                        _order.user_id = userID;
                        
@@ -328,6 +332,13 @@ static LLPayType payType = LLPayTypeQuick;
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[SaleViewController   class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+
 }
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{

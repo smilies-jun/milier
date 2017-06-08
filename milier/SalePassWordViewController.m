@@ -85,18 +85,61 @@
     [SaleLbel addGestureRecognizer:SaleTap];
 
 }
+
+- (void)reFreshData{
+    if (SaleNewPassWordView.NameTextField.text.length) {
+        if ([SaleNewPassWordView.NameTextField.text isEqualToString:SaleSurePassWordView.NameTextField.text]) {
+            
+            [self reloaData];
+        }else{
+            normal_alert(@"提示", @"两次输入密码不一致", @"确定");
+  
+        }
+        
+        
+    }else{
+   }
+    
+    
+}
+- (void)reloaData{
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
+    url = [NSString stringWithFormat:@"%@/users/%@/dealPassword",HOST_URL,userID];
+    
+    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:SaleNewPassWordView.NameTextField.text,@"dealPassword", nil];
+    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *staues = [result objectForKey:@"statusCode"];
+        if ([staues integerValue] == 201) {
+            //提交
+            normal_alert(@"提示", @"交易密码设置成功", @"确定");
+
+//            for (UIViewController *controller in self.navigationController.viewControllers) {
+//                if ([controller isKindOfClass:[SaleViewController class]]) {
+//                    [self.navigationController popToViewController:controller animated:YES];
+//                }
+//            }
+        }else{
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示", message, @"确定");
+        }
+        
+    }];
+}
+
 ///输入密码的判断
 - (void)SaleSureBtnClick{
-    //  已经绑卡返回指定页面
-//    for (UIViewController *controller in self.navigationController.viewControllers) {
-//        if ([controller isKindOfClass:[SaleViewController class]]) {
-//            [self.navigationController popToViewController:controller animated:YES];
-//        }
-//    }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[SaleViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
     
-    //未绑卡
-    BundCardViewController *bundVC = [[BundCardViewController alloc]init];
-    [self.navigationController pushViewController:bundVC    animated:NO];
+//    //未绑卡
+//    BundCardViewController *bundVC = [[BundCardViewController alloc]init];
+//    [self.navigationController pushViewController:bundVC    animated:NO];
 }
 - (void)SaleBackClick{
     //  返回指定页面

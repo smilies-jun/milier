@@ -98,9 +98,9 @@
     NSString *userID = NSuserUse(@"userId");
     NSString *url;
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&userid=%@",HOST_URL,userID];
+        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&userId=%@",Text_URL,userID];
     }else{
-        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&userid=%@",HOST_URL,page,userID];
+        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&userId=%@",Text_URL,page,userID];
         
     }
     NSLog(@"page = %d",page);        NSLog(@"url =%@",url);
