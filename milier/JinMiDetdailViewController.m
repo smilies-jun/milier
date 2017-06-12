@@ -129,6 +129,7 @@
     
     ProfileLabel = [[UILabel alloc]init];
     ProfileLabel.text = @"查看协议";
+    ProfileLabel.hidden = YES;
     NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
     NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:ProfileLabel.text attributes:attribtDic];
     ProfileLabel.attributedText = attribtStr;

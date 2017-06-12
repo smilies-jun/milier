@@ -111,7 +111,6 @@
         if (isJuhua) {
             [self endRefresh];
         }
-        
         for (NSDictionary *JinMidic in myArray) {
             
             DinQiModel *model = [[DinQiModel alloc]init];
@@ -707,15 +706,11 @@
     if (!cell) {
         cell = [[DinQiDetailTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
         [cell configUI:indexPath];
-        cell.LookSailLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *LoolTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LookClick)];
-        [cell.LookSailLabel addGestureRecognizer:LoolTap];
-        
-        cell.LookLimitLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *LimitTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LimitClick)];
-        [cell.LookLimitLabel addGestureRecognizer:LimitTap];
+      
 
     }
+    
+    
     if (DinQiArray.count) {
         if (indexPath.section-1 >= 0) {
             DinQiModel *model = [DinQiArray objectAtIndex:indexPath.section-1];
@@ -723,6 +718,10 @@
         }
     }
     
+    [cell.LookSailLabel addTarget:self action:@selector(LookClick:) forControlEvents:UIControlEventTouchUpInside];
+
+    [cell.LookLimitLabel addTarget:self action:@selector(LimitClick:) forControlEvents:UIControlEventTouchUpInside];
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
    // cell.textLabel.text= [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
@@ -730,11 +729,37 @@
     return cell;
 }
 //债券转让
-- (void)LimitClick{
-    ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
-    [self.navigationController pushViewController:ChangeVC animated:NO];
+- (void)LimitClick:(UIButton *)btn{
+    if ([btn.titleLabel.text isEqualToString:@"债券转让"]) {
+        ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
+        DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
+        ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];
+        ChangeVC.MoneyName = [NSString stringWithFormat:@"%@",model.ci];
+        ChangeVC.TimeName = [NSString stringWithFormat:@"%@",model.InterestBearingEndTime];
+        ChangeVC.OrderNumber = [NSString stringWithFormat:@"%@",model.orderNo];
+        [self.navigationController pushViewController:ChangeVC animated:NO];
+    }else{
+        NSString *Statisurl;
+        NSString *tokenID = NSuserUse(@"Authorization");
+        Statisurl = [NSString stringWithFormat:@"%@/products/action/deleteDebentureTransferProduct",HOST_URL];
+        DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
+
+        NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:model.orderNo,@"orderNo", nil];;
+        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            NSString *state = [result objectForKey:@"statusCode"];
+            if ([state integerValue]  == 201) {
+                [self getNetworkData:YES];
+            }else{
+                NSString *message = [result objectForKey:@"message"];
+                normal_alert(@"提示", message, @"确定");
+            }
+        }];
+    }
+    
 }
-- (void)LookClick{
+- (void)LookClick:(UIButton *)btn{
+    DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 200];
+
     NSLog(@"1212");
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

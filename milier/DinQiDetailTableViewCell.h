@@ -15,14 +15,14 @@
 
 @property (nonatomic , retain) UILabel *SailNameLabel;
 
-@property (nonatomic , retain) UILabel *LookSailLabel;
+@property (nonatomic , retain) UIButton *LookSailLabel;
 
 
 @property (nonatomic , retain) UIImageView *LimitTimeImageView;
 
 @property (nonatomic , retain) UILabel *LimitNameLabel;
 
-@property (nonatomic , retain) UILabel *LookLimitLabel;
+@property (nonatomic , retain) UIButton *LookLimitLabel;
 
 @property (nonatomic , retain) UIView *BageView;
 

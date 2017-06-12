@@ -98,16 +98,13 @@
     NSString *userID = NSuserUse(@"userId");
     NSString *url;
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&userId=%@",Text_URL,userID];
+        url = [NSString stringWithFormat:@"%@/products?page=1&rows=20&productCategoryId=6&userId=%@",HOST_URL,userID];
     }else{
-        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&userId=%@",Text_URL,page,userID];
+        url = [NSString stringWithFormat:@"%@/products?page=%d&rows=20&productCategoryId=6&userId=%@",HOST_URL,page,userID];
         
     }
-    NSLog(@"page = %d",page);        NSLog(@"url =%@",url);
-    NSLog(@"usid = %@",userID);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *array = [result objectForKey:@"items"];
-        NSLog(@"result = %@",result);
         if (page == 1) {
             [MyChangeArray removeAllObjects];
         }
@@ -156,15 +153,14 @@
             [cell configUI:indexPath];
              cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
-    if (MyChangeArray.count) {
-        MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
-        cell.changeModel = model;
-        
-    }
-    　
-        return cell;
-
+        if (MyChangeArray.count) {
+            MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
+            cell.changeModel = model;
+        }
     
+    [cell.IsOrNoLabel addTarget:self action:@selector(CancelClick:) forControlEvents:UIControlEventTouchUpInside];
+    return cell;
+
     
 }
 
@@ -178,7 +174,23 @@
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];
 }
+- (void)CancelClick:(UIButton *)btn{
+    MyChangeModel *model = [MyChangeArray objectAtIndex:btn.tag - 100];
+    NSString *url;
+    NSString *tokenID = NSuserUse(@"Authorization");
+    //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
+    url = [NSString stringWithFormat:@"%@/products/%@",HOST_URL,model.oid];
+   [[DateSource sharedInstance]requestDeleteWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary * dic, NSError *error) {
+       NSString *stateStr = [dic objectForKey:@"statusCode"];
+       if ([stateStr integerValue] == 201) {
+           [self getNetworkData:YES];
+       }else{
+           NSString *message = [dic objectForKey:@"message"];
+           normal_alert(@"提示", message, @"确定");
+       }
+   }];
 
+}
 - (void)OldProfitClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserViewController class]]) {

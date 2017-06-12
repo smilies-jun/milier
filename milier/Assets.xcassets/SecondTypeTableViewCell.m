@@ -105,15 +105,69 @@
         make.width.mas_equalTo(SCREEN_WIDTH - 20);
         make.height.mas_equalTo(20);
     }];
-    UIView *BottomLineView = [[UIView alloc]init];
-    BottomLineView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
-    [self.contentView addSubview:BottomLineView];
-    [BottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left);
+    UIView *daoqiLineView = [[UIView alloc]init];
+    daoqiLineView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    [self.contentView addSubview:daoqiLineView];
+    [daoqiLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.contentView.mas_left);
         make.top.mas_equalTo(_DaoQiTypeDetailLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(5);
     }];
+    
+    _IsFullImageView  = [[UIImageView alloc]init];
+    _IsFullImageView.image = [UIImage imageNamed:@"manbiaojl"];
+    [self.contentView addSubview:_IsFullImageView];
+    [_IsFullImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(daoqiLineView.mas_bottom).offset(10);
+        make.left.mas_equalTo(self.contentView.mas_left).offset(10);
+        make.width.mas_equalTo(16);
+        make.height.mas_equalTo(16);
+    }];
+    _IsFullLabel = [[UILabel alloc]init];
+    _IsFullLabel.text = @"到期还本付息";
+    _IsFullLabel.font = [UIFont systemFontOfSize:15];
+    [self.contentView addSubview:_IsFullLabel];
+    [_IsFullLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_IsFullImageView.mas_right).offset(5);
+        make.centerY.mas_equalTo(_IsFullImageView.mas_centerY);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
+    }];
+    _IsFulllineView = [[UIView alloc]init];
+    _IsFulllineView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+    [self.contentView addSubview:_IsFulllineView];
+    [_IsFulllineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.contentView.mas_left).offset(5);
+        make.top.mas_equalTo(_IsFullLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH - 10);
+        make.height.mas_equalTo(0.5);
+    }];
+    _IsFullDetailLabel = [[UILabel alloc]init];
+    _IsFullDetailLabel.text = @"投资者全部买入该标的，可享受额外0.5%加息";
+    _IsFullDetailLabel.font = [UIFont systemFontOfSize:15];
+    _IsFullDetailLabel.textColor = colorWithRGB(0.83, 0.83, 0.83);
+    [self.contentView addSubview:_IsFullDetailLabel];
+    [_IsFullDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.contentView.mas_left).offset(10);
+        make.top.mas_equalTo(_IsFulllineView.mas_bottom).offset(5);
+        make.width.mas_equalTo(SCREEN_WIDTH - 20);
+        make.height.mas_equalTo(20);
+    }];
+
+    
+    _BottomLineView = [[UIView alloc]init];
+    _BottomLineView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    [self.contentView addSubview:_BottomLineView];
+    [_BottomLineView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left);
+        make.top.mas_equalTo(_IsFullDetailLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(5);
+    }];
+    
+    
+    
 
 }
 
@@ -177,6 +231,20 @@
        
 
     }
+    if ([_detailModel.isFullScaleReward integerValue] == 1) {
+        _IsFullDetailLabel.text = [NSString stringWithFormat:@"投资者全部买入该标的，可享受额外%@%%加息",_detailModel.fullScaleReward];
+
+        
+        
+    }else{
+        _IsFullImageView.hidden = YES;
+        _IsFullLabel.hidden = YES;
+        _IsFullDetailLabel.hidden = YES;
+        _IsFulllineView.hidden= YES;
+        _BottomLineView.hidden = YES;
+    }
+    
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

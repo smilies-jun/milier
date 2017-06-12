@@ -10,4 +10,14 @@
 
 @interface ChangeSailDetailViewController : UIViewController
 
+@property (nonatomic, retain) NSString *TitleName;
+
+@property (nonatomic, retain) NSString *MoneyName;
+
+@property (nonatomic, retain) NSString *TimeName;
+
+@property (nonatomic, retain) NSString *OrderNumber;
+
+
+
 @end

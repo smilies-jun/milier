@@ -23,6 +23,8 @@
 @interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *DataArray;
+
+@property (assign)int  count;
 @end
 
 @implementation ProductDetailNewViewController
@@ -39,8 +41,11 @@
     [leftBtn addTarget:self action:@selector(newDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news"] style:UIBarButtonItemStylePlain target:self action:@selector(DetailRightClick)];
+    self.navigationItem.rightBarButtonItem = rightItem;
+
     _DataArray = [[NSMutableArray alloc]init];
-    
+    _count = 150;
     [self getNetworkData:YES];
     [self ConfigUI];
 }
@@ -56,6 +61,12 @@
             NSDictionary *dic = [result objectForKey:@"data"];
             ProductDetailModel *model = [[ProductDetailModel alloc]init];
             model.dataDictionary = dic;
+        if ([model.isFullScaleReward integerValue] == 1) {
+            _count = 230;
+        }else{
+            _count = 160;
+        }
+        
             [_DataArray addObject:model];
 
         [_tableView reloadData];
@@ -63,7 +74,9 @@
     
 }
 
-
+- (void)DetailRightClick{
+    
+}
 -(void)ConfigUI{
     
     page = 1;
@@ -173,7 +186,7 @@
     if (indexPath.row == 0) {
         return 320;
     }else if (indexPath.row == 1){
-        return 170;
+        return _count;
     }
     else{
         return 44;

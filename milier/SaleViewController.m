@@ -17,6 +17,10 @@
 #import "ChooseStageModel.h"
 #import "BundCardViewController.h"
 #import "TouUpViewController.h"
+#import "BundProfileViewController.h"
+
+
+
 
 @interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate>{
     
@@ -562,8 +566,9 @@
         make.height.mas_equalTo(15);
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:14];
-    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
+    nameLabel.font = [UIFont systemFontOfSize:13];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》 及"]];
+    [ConnectStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.62, 0.80, 0.09)range:NSMakeRange(3,4)];
     nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saleConnectClick)];
@@ -572,10 +577,25 @@
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
         make.top.mas_equalTo(PassWordView.mas_bottom).offset(10);
+        make.width.mas_equalTo(140);
+        make.height.mas_equalTo(15);
+    }];
+    
+    UILabel *riskLabel = [[UILabel alloc]init];
+    riskLabel.text = @"《风险提示》";
+    riskLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *riskTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(RiskClick)];
+    [riskLabel addGestureRecognizer:riskTap];
+    riskLabel.textAlignment = NSTextAlignmentLeft;
+    riskLabel.font = [UIFont systemFontOfSize:13];
+    riskLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+    [self.view addSubview:riskLabel];
+    [riskLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(nameLabel.mas_right);
+        make.top.mas_equalTo(PassWordView.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(15);
     }];
-
     
     
     
@@ -657,6 +677,20 @@
 }
 - (void)saleConnectClick{
     //协议
+    
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"米粒儿金融投资咨询与管理服务协议(出借人)";
+    vc.WebStr = [NSString stringWithFormat:@"%@/agreement/registration.html",HOST_URL];
+    [self.navigationController pushViewController:vc animated:NO];
+
+}
+
+- (void)riskClickOrNo{
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"米粒儿金融风险提示协议";
+    vc.WebStr = [NSString stringWithFormat:@"%@/agreement/service.html",HOST_URL];
+    [self.navigationController pushViewController:vc animated:NO];
+
 }
 - (void)Saleclicked:(UIButton *)btn{
     if (btn.selected) {
@@ -879,12 +913,11 @@
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
     nameLabel.font = [UIFont systemFontOfSize:15];
-    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
-    NSRange conectRange = {4,4};
-    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》及《风险提示》"]];
+   [ConnectStr addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor]range:NSMakeRange(0,1)];
     nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(riskClick)];
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(riskClickOrNo)];
     [nameLabel addGestureRecognizer:gesTap];
     [view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {

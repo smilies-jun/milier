@@ -138,11 +138,10 @@
         make.width.mas_equalTo(120);
         make.height.mas_equalTo(30);
     }];
-    _IsOrNoLabel = [[UILabel alloc]init];
-    _IsOrNoLabel.text = @"取消转让";
-    _IsOrNoLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
-    _IsOrNoLabel.font = [UIFont systemFontOfSize:10];
-    _IsOrNoLabel.textAlignment = NSTextAlignmentRight;
+    _IsOrNoLabel = [[UIButton alloc]init];
+    _IsOrNoLabel.tag = indexPath.row + 100;
+    [_IsOrNoLabel setTitle:@"取消转让" forState:UIControlStateNormal];
+    [_IsOrNoLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     [self addSubview:_IsOrNoLabel];
     [_IsOrNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(-20);
@@ -186,7 +185,6 @@
             _OutLabel.text =[NSString stringWithFormat:@"下架时间:%@",timeStr];
             _OutSailLabel.text = [NSString stringWithFormat:@"手续费:%@元",_changeModel.fee];
             _StateImageView.image = [UIImage imageNamed:@"assignment"];
-            _IsOrNoLabel.text = @"取消转让";
 
         }else{
             _OutLabel.text =[NSString stringWithFormat:@"手续费:%@元",_changeModel.fee];

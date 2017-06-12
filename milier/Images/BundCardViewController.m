@@ -15,7 +15,7 @@
 #import "LLOrder.h"
 #import "UserSetViewController.h"
 #import "MyLeftViewController.h"
-
+#import "BundProfileViewController.h"
 
 /*! TODO: 修改两个参数成商户自己的配置 */
 static NSString *kLLOidPartner = @"201606081000897509";//@"201408071000001546";                 // 商户号
@@ -58,6 +58,7 @@ static LLPayType payType = LLPayTypeVerify;
     NSString *orderStr;
     NSString *createTimeStr;
     NSString *reginStr;
+    NSString *bankOid;
 }
 
 @property (nonatomic, strong) LLOrder *order;
@@ -218,9 +219,9 @@ static LLPayType payType = LLPayTypeVerify;
         make.height.mas_equalTo(20);
     }];
     ClickBtn = [[UIButton alloc]init];
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
     ClickBtn.selected = YES;
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
     [ClickBtn addTarget:self action:@selector(Saleclicked:) forControlEvents:UIControlEventTouchUpInside];
     [BackView addSubview:ClickBtn];
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -231,7 +232,7 @@ static LLPayType payType = LLPayTypeVerify;
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
     nameLabel.font = [UIFont systemFontOfSize:15];
-    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》"]];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意银行卡绑定及解绑服务协议"]];
     NSRange conectRange = {4,4};
     [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
     nameLabel.attributedText = ConnectStr;
@@ -272,6 +273,10 @@ static LLPayType payType = LLPayTypeVerify;
 
 - (void)saleConnectClick{
     //协议
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"米粒儿金融银行卡绑定及解绑服务协议";
+    vc.WebStr = [NSString stringWithFormat:@"%@/agreement/bank-card.html",HOST_URL];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)Saleclicked:(UIButton *)btn{
     if (btn.selected) {
@@ -509,6 +514,7 @@ static LLPayType payType = LLPayTypeVerify;
        NSString *statuesCode = [result objectForKey:@"statusCode"];
        
        if ([statuesCode integerValue] == 201) {
+           bankOid = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"oid"]];
            [self payMoney];
        }
        
@@ -522,9 +528,9 @@ static LLPayType payType = LLPayTypeVerify;
 - (void)payMoney{
     NSString *url;
     NSString *tokenID = NSuserUse(@"Authorization");
-    url = [NSString stringWithFormat:@"%@/dealOrder",HOST_URL];
+    url = [NSString stringWithFormat:@"%@/dealOrders",HOST_URL];
     
-    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:MoneyView.NameTextField.text,@"amount",@"3",@"type", nil];
+    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:MoneyView.NameTextField.text,@"amount",@"3",@"type",bankOid,@"temporaryBankCardId", nil];
     
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         

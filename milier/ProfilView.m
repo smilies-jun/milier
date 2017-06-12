@@ -41,7 +41,7 @@
     }];
     
     _DetailLabel = [[UILabel alloc]init];
-    _DetailLabel.text = @"0.22";
+    _DetailLabel.text = @"0";
     _DetailLabel.font = [UIFont systemFontOfSize:13];
     _DetailLabel.textAlignment = NSTextAlignmentRight;
     _DetailLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);

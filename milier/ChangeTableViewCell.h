@@ -24,7 +24,7 @@
 
 @property (nonatomic , retain) UILabel *OutLabel;
 @property (nonatomic , retain) UILabel *OutSailLabel;
-@property (nonatomic , retain) UILabel *IsOrNoLabel;
+@property (nonatomic , retain) UIButton *IsOrNoLabel;
 
 @property (nonatomic , retain) UIImageView *StateImageView;
 

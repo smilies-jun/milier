@@ -99,7 +99,37 @@
     
 }
 - (void)requestDeleteWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
+    manager = [AFHTTPSessionManager manager];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+    manager.securityPolicy.allowInvalidCertificates = YES;
+    [manager.securityPolicy setValidatesDomainName:NO];
+    [manager.requestSerializer setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    if (tokenStr.length) {
+        [manager.requestSerializer setValue:tokenStr forHTTPHeaderField:@"Authorization"];
+        
+    }
     
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain",@"application/octet-stream", nil];
+    [manager DELETE:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            if ([[responseObject objectForKey:@"statusCode"]integerValue] == 401) {
+                normal_alert(@"提示", @"认证失败请重新登录", @"确定");
+                NSuserSave(@"1", @"tokenIDisOraNo");
+                
+            }
+        });
+        
+        if (block) {
+            block(responseObject,nil);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        if (block) {
+            block(nil,error);
+        }
+
+    }];
 }
 - (void)requestHtml5WithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
     if (manager) {

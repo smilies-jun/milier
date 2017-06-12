@@ -35,6 +35,7 @@
 
 @property(nonatomic,strong)NSString *progress;
 
+@property(nonatomic,strong)NSString *orderNo;
 
 
 @end

@@ -70,7 +70,6 @@
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"result  =%@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             
             ShareModel *model = [[ShareModel alloc]init];

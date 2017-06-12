@@ -473,6 +473,19 @@
 		2755DA8B1E5BD45500C75656 /* third_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA771E5BD45500C75656 /* third_selected.png */; };
 		2755DA8C1E5BD45500C75656 /* third_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA781E5BD45500C75656 /* third_selected@2x.png */; };
 		2755DA901E5C144700C75656 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA8F1E5C144700C75656 /* loginViewController.m */; };
+		27C7C34F1EEA8673008CDDD2 /* THDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C34E1EEA8673008CDDD2 /* THDatePickerView.m */; };
+		27C7C3521EEA88C1008CDDD2 /* DataChoseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C3511EEA88C1008CDDD2 /* DataChoseView.m */; };
+		27C7C3551EEA8D97008CDDD2 /* icon_revocation1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C7C3531EEA8D97008CDDD2 /* icon_revocation1@2x.png */; };
+		27C7C3561EEA8D97008CDDD2 /* icon_revocation1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C7C3541EEA8D97008CDDD2 /* icon_revocation1@3x.png */; };
+		27C7C3591EEA8D9E008CDDD2 /* icon_select1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C7C3571EEA8D9E008CDDD2 /* icon_select1@2x.png */; };
+		27C7C35A1EEA8D9E008CDDD2 /* icon_select1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C7C3581EEA8D9E008CDDD2 /* icon_select1@3x.png */; };
+		27C7C3631EEA8EBC008CDDD2 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C35D1EEA8EBC008CDDD2 /* NSDate+Extension.m */; };
+		27C7C3641EEA8EBC008CDDD2 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C35F1EEA8EBC008CDDD2 /* UIView+Extension.m */; };
+		27C7C3651EEA8EBC008CDDD2 /* WSDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C3611EEA8EBC008CDDD2 /* WSDatePickerView.m */; };
+		27C7C3661EEA8EBC008CDDD2 /* WSDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27C7C3621EEA8EBC008CDDD2 /* WSDatePickerView.xib */; };
+		27D296621EED711D001DAB5F /* BundProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D296611EED711D001DAB5F /* BundProfileViewController.m */; };
+		27D296651EEE3EB2001DAB5F /* manbiaojl@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D296631EEE3EB2001DAB5F /* manbiaojl@2x.png */; };
+		27D296661EEE3EB2001DAB5F /* manbiaojl@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D296641EEE3EB2001DAB5F /* manbiaojl@3x.png */; };
 		27DCC7EF1ED808B0005DD560 /* ChooseStageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DCC7EE1ED808B0005DD560 /* ChooseStageModel.m */; };
 		27DCC7FD1ED92CE7005DD560 /* buy@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DCC7F11ED92CE7005DD560 /* buy@2x.png */; };
 		27DCC7FE1ED92CE7005DD560 /* buy@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27DCC7F21ED92CE7005DD560 /* buy@3x.png */; };
@@ -1258,6 +1271,25 @@
 		2755DA781E5BD45500C75656 /* third_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third_selected@2x.png"; sourceTree = "<group>"; };
 		2755DA8E1E5C144700C75656 /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
 		2755DA8F1E5C144700C75656 /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
+		27C7C34D1EEA8673008CDDD2 /* THDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THDatePickerView.h; sourceTree = "<group>"; };
+		27C7C34E1EEA8673008CDDD2 /* THDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THDatePickerView.m; sourceTree = "<group>"; };
+		27C7C3501EEA88C1008CDDD2 /* DataChoseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataChoseView.h; sourceTree = "<group>"; };
+		27C7C3511EEA88C1008CDDD2 /* DataChoseView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataChoseView.m; sourceTree = "<group>"; };
+		27C7C3531EEA8D97008CDDD2 /* icon_revocation1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_revocation1@2x.png"; sourceTree = "<group>"; };
+		27C7C3541EEA8D97008CDDD2 /* icon_revocation1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_revocation1@3x.png"; sourceTree = "<group>"; };
+		27C7C3571EEA8D9E008CDDD2 /* icon_select1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_select1@2x.png"; sourceTree = "<group>"; };
+		27C7C3581EEA8D9E008CDDD2 /* icon_select1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_select1@3x.png"; sourceTree = "<group>"; };
+		27C7C35C1EEA8EBC008CDDD2 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		27C7C35D1EEA8EBC008CDDD2 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		27C7C35E1EEA8EBC008CDDD2 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		27C7C35F1EEA8EBC008CDDD2 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		27C7C3601EEA8EBC008CDDD2 /* WSDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSDatePickerView.h; sourceTree = "<group>"; };
+		27C7C3611EEA8EBC008CDDD2 /* WSDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSDatePickerView.m; sourceTree = "<group>"; };
+		27C7C3621EEA8EBC008CDDD2 /* WSDatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WSDatePickerView.xib; sourceTree = "<group>"; };
+		27D296601EED711D001DAB5F /* BundProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BundProfileViewController.h; sourceTree = "<group>"; };
+		27D296611EED711D001DAB5F /* BundProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BundProfileViewController.m; sourceTree = "<group>"; };
+		27D296631EEE3EB2001DAB5F /* manbiaojl@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "manbiaojl@2x.png"; sourceTree = "<group>"; };
+		27D296641EEE3EB2001DAB5F /* manbiaojl@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "manbiaojl@3x.png"; sourceTree = "<group>"; };
 		27DCC7ED1ED808B0005DD560 /* ChooseStageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseStageModel.h; sourceTree = "<group>"; };
 		27DCC7EE1ED808B0005DD560 /* ChooseStageModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseStageModel.m; sourceTree = "<group>"; };
 		27DCC7F11ED92CE7005DD560 /* buy@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "buy@2x.png"; sourceTree = "<group>"; };
@@ -1884,6 +1916,8 @@
 				27404DB51EA7634D00DAFFC2 /* SalePassWordViewController.m */,
 				27404DB71EA7698700DAFFC2 /* BundCardViewController.h */,
 				27404DB81EA7698700DAFFC2 /* BundCardViewController.m */,
+				27D296601EED711D001DAB5F /* BundProfileViewController.h */,
+				27D296611EED711D001DAB5F /* BundProfileViewController.m */,
 			);
 			name = "绑卡交易密码";
 			sourceTree = "<group>";
@@ -2245,6 +2279,8 @@
 				27032EDD1EA9A7E000A4233B /* UserSetView.m */,
 				27032EEF1EAA00A000A4233B /* ProfilView.h */,
 				27032EF01EAA00A000A4233B /* ProfilView.m */,
+				27C7C3501EEA88C1008CDDD2 /* DataChoseView.h */,
+				27C7C3511EEA88C1008CDDD2 /* DataChoseView.m */,
 			);
 			name = view;
 			sourceTree = "<group>";
@@ -2721,6 +2757,12 @@
 		2755DA641E5BD45500C75656 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				27D296631EEE3EB2001DAB5F /* manbiaojl@2x.png */,
+				27D296641EEE3EB2001DAB5F /* manbiaojl@3x.png */,
+				27C7C3571EEA8D9E008CDDD2 /* icon_select1@2x.png */,
+				27C7C3581EEA8D9E008CDDD2 /* icon_select1@3x.png */,
+				27C7C3531EEA8D97008CDDD2 /* icon_revocation1@2x.png */,
+				27C7C3541EEA8D97008CDDD2 /* icon_revocation1@3x.png */,
 				271D370F1EE7982900F99664 /* logoicon */,
 				271D36FE1EE78F6C00F99664 /* 启动页 */,
 				27DCC7F01ED92CE7005DD560 /* buy */,
@@ -2790,6 +2832,29 @@
 				27404D641EA7564E00DAFFC2 /* ProtocalViewController.m */,
 			);
 			name = home;
+			sourceTree = "<group>";
+		};
+		27C7C34C1EEA8663008CDDD2 /* dataChose */ = {
+			isa = PBXGroup;
+			children = (
+				27C7C34D1EEA8673008CDDD2 /* THDatePickerView.h */,
+				27C7C34E1EEA8673008CDDD2 /* THDatePickerView.m */,
+			);
+			name = dataChose;
+			sourceTree = "<group>";
+		};
+		27C7C35B1EEA8EBC008CDDD2 /* WSDaePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				27C7C35C1EEA8EBC008CDDD2 /* NSDate+Extension.h */,
+				27C7C35D1EEA8EBC008CDDD2 /* NSDate+Extension.m */,
+				27C7C35E1EEA8EBC008CDDD2 /* UIView+Extension.h */,
+				27C7C35F1EEA8EBC008CDDD2 /* UIView+Extension.m */,
+				27C7C3601EEA8EBC008CDDD2 /* WSDatePickerView.h */,
+				27C7C3611EEA8EBC008CDDD2 /* WSDatePickerView.m */,
+				27C7C3621EEA8EBC008CDDD2 /* WSDatePickerView.xib */,
+			);
+			path = WSDaePickerView;
 			sourceTree = "<group>";
 		};
 		27DCC7F01ED92CE7005DD560 /* buy */ = {
@@ -3128,6 +3193,8 @@
 		27FB50B21E5D857D0090AB69 /* until */ = {
 			isa = PBXGroup;
 			children = (
+				27C7C35B1EEA8EBC008CDDD2 /* WSDaePickerView */,
+				27C7C34C1EEA8663008CDDD2 /* dataChose */,
 				272A0EC11EE5632200E36B40 /* NetIamge */,
 				272A0E9B1EDFF63D00E36B40 /* LZCityPickerClass */,
 				27E22A011ED6C12A00B1034D /* llp */,
@@ -3324,6 +3391,7 @@
 				274A851A1EBC26E0002B7069 /* gray_quan_01@2x.png in Resources */,
 				274A84B21EBC26C8002B7069 /* interest@2x.png in Resources */,
 				27032E571EA89E5700A4233B /* featured@3x.png in Resources */,
+				27C7C3591EEA8D9E008CDDD2 /* icon_select1@2x.png in Resources */,
 				274A85151EBC26E0002B7069 /* geren_xmq_03@2x.png in Resources */,
 				274A851F1EBC26E0002B7069 /* new_xmq_03@2x.png in Resources */,
 				274A85C01EBC2719002B7069 /* 8zhe@2x.png in Resources */,
@@ -3392,6 +3460,8 @@
 				274A84B31EBC26C8002B7069 /* interest@3x.png in Resources */,
 				27404DAA1EA75A5B00DAFFC2 /* name_icon@2x.png in Resources */,
 				274A85221EBC26E0002B7069 /* quan_content@2x.png in Resources */,
+				27C7C3661EEA8EBC008CDDD2 /* WSDatePickerView.xib in Resources */,
+				27D296661EEE3EB2001DAB5F /* manbiaojl@3x.png in Resources */,
 				271288E51E5A9FBC00DCB546 /* LaunchScreen.storyboard in Resources */,
 				27404DA81EA75A5B00DAFFC2 /* login_logo@2x.png in Resources */,
 				271288E21E5A9FBC00DCB546 /* Assets.xcassets in Resources */,
@@ -3435,6 +3505,7 @@
 				274A85A41EBC2704002B7069 /* yifuxi@3x.png in Resources */,
 				274A854E1EBC26EB002B7069 /* key@3x.png in Resources */,
 				27DCC8011ED92CE7005DD560 /* password@2x.png in Resources */,
+				27C7C35A1EEA8D9E008CDDD2 /* icon_select1@3x.png in Resources */,
 				27DCC8041ED92CE7005DD560 /* principal@3x.png in Resources */,
 				274A852F1EBC26E0002B7069 /* gold_xmq_01@3x.png in Resources */,
 				27032E501EA89E5700A4233B /* businessloans@2x.png in Resources */,
@@ -3449,6 +3520,7 @@
 				2755DA8A1E5BD45500C75656 /* third_normal@2x.png in Resources */,
 				274A85E31EBC2731002B7069 /* welcome3@2x.png in Resources */,
 				274A852D1EBC26E0002B7069 /* geren_xmq_01@3x.png in Resources */,
+				27C7C3561EEA8D97008CDDD2 /* icon_revocation1@3x.png in Resources */,
 				274A855F1EBC26FC002B7069 /* jifenpic@3x.png in Resources */,
 				27DCC8071ED92CE7005DD560 /* uncheck@2x.png in Resources */,
 				27032FA91EB97CC900A4233B /* attorn@3x.png in Resources */,
@@ -3513,6 +3585,7 @@
 				274A85431EBC26E0002B7069 /* xmq_03@3x.png in Resources */,
 				274A85961EBC2704002B7069 /* smallarrow@3x.png in Resources */,
 				274A85501EBC26EB002B7069 /* loginbg@3x.png in Resources */,
+				27D296651EEE3EB2001DAB5F /* manbiaojl@2x.png in Resources */,
 				274A85921EBC2704002B7069 /* news@3x.png in Resources */,
 				27032E551EA89E5700A4233B /* creditor@3x.png in Resources */,
 				274A85BD1EBC2719002B7069 /* 7zhe@3x.png in Resources */,
@@ -3554,6 +3627,7 @@
 				274A84D91EBC26D4002B7069 /* novice@2x.png in Resources */,
 				27DFC8541E9E1E7E008E6098 /* more_hover@3x.png in Resources */,
 				274A85991EBC2704002B7069 /* tip_green@2x.png in Resources */,
+				27C7C3551EEA8D97008CDDD2 /* icon_revocation1@2x.png in Resources */,
 				274A859A1EBC2704002B7069 /* tip_green@3x.png in Resources */,
 				274A84CD1EBC26D4002B7069 /* about@2x.png in Resources */,
 				274A84B41EBC26C8002B7069 /* raise@2x.png in Resources */,
@@ -3699,6 +3773,7 @@
 				272A0EC41EE5633C00E36B40 /* SYNetWorkingUpLoad.m in Sources */,
 				271F27581EDEC566001245C3 /* DuiHuanModel.m in Sources */,
 				27032EC61EA8B41C00A4233B /* ZFBarChart.m in Sources */,
+				27C7C3521EEA88C1008CDDD2 /* DataChoseView.m in Sources */,
 				27E229E71ECD96AF00B1034D /* SepartViewController.m in Sources */,
 				274A860B1EC0603F002B7069 /* ZJPageViewController.m in Sources */,
 				272A0EB61EE168E300E36B40 /* YJForgetDealPassWordViewController.m in Sources */,
@@ -3825,6 +3900,7 @@
 				2705AF611E9F7971008C20CA /* YNPageScrollViewController.m in Sources */,
 				27032EBE1EA8B41C00A4233B /* ZFPopoverLabel.m in Sources */,
 				27E22A121ED6C13E00B1034D /* LLPayUtil.m in Sources */,
+				27D296621EED711D001DAB5F /* BundProfileViewController.m in Sources */,
 				2705AF461E9F12AE008C20CA /* YNTestFourViewController.m in Sources */,
 				275213751EA4699000A36B0F /* UINavigationBar+Awesome.m in Sources */,
 				272A0EA51EDFF63D00E36B40 /* LZCityPickerView.m in Sources */,
@@ -3845,6 +3921,7 @@
 				2705AF451E9F12AE008C20CA /* YNTestBaseViewController.m in Sources */,
 				27032ED21EA8B41C00A4233B /* ZFPieChart.m in Sources */,
 				27032EF11EAA00A000A4233B /* ProfilView.m in Sources */,
+				27C7C3651EEA8EBC008CDDD2 /* WSDatePickerView.m in Sources */,
 				27032EFB1EADAD8F00A4233B /* OldProfileTableViewCell.m in Sources */,
 				27404DB91EA7698700DAFFC2 /* BundCardViewController.m in Sources */,
 				275213341EA0AAFB00A36B0F /* UIImage+Color.m in Sources */,
@@ -3896,10 +3973,13 @@
 				272A0EA91EE0032400E36B40 /* ApplyAllMoneyViewController.m in Sources */,
 				27032EF41EADA39500A4233B /* OldProfitViewController.m in Sources */,
 				272A0E8E1EDFC38900E36B40 /* giftModel.m in Sources */,
+				27C7C34F1EEA8673008CDDD2 /* THDatePickerView.m in Sources */,
 				27E9F7601E5ED792008A5E0E /* YJCircleProgressView.m in Sources */,
 				27E229DE1ECD2C8200B1034D /* AleardyBundTableViewCell.m in Sources */,
 				27032F191EADFC9500A4233B /* ChangeSailViewController.m in Sources */,
+				27C7C3641EEA8EBC008CDDD2 /* UIView+Extension.m in Sources */,
 				2752134C1EA0AC0E00A36B0F /* SnailFullView.m in Sources */,
+				27C7C3631EEA8EBC008CDDD2 /* NSDate+Extension.m in Sources */,
 				27032EF71EADA3A600A4233B /* AddProfitViewController.m in Sources */,
 				27032EE41EA9B7A300A4233B /* ModifySailViewController.m in Sources */,
 				27032F2A1EAF3EBD00A4233B /* QiYeViewController.m in Sources */,

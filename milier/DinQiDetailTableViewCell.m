@@ -25,11 +25,12 @@
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
     }];
-    _LookSailLabel = [[UILabel alloc]init];
-    _LookSailLabel.text = @"查看协议>>";
-    _LookSailLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
-    _LookSailLabel.textAlignment = NSTextAlignmentRight;
-    _LookSailLabel.font = [UIFont systemFontOfSize:12];
+    _LookSailLabel =  [UIButton buttonWithType:UIButtonTypeCustom];
+    _LookSailLabel.tag = indexPath.section + 200 -1;
+    [_LookSailLabel setTitle:@"查看协议>>" forState:UIControlStateNormal ];
+    [_LookSailLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
+    _LookSailLabel.titleLabel.font = [UIFont systemFontOfSize:12];
+
     [self addSubview:_LookSailLabel];
     [_LookSailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(_SailNameLabel.mas_centerY);
@@ -47,12 +48,12 @@
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
     }];
-    _LookLimitLabel = [[UILabel alloc]init];
-    _LookLimitLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
+    _LookLimitLabel =  [UIButton buttonWithType:UIButtonTypeCustom];
+    [_LookLimitLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     _LookLimitLabel.hidden = YES;
-    _LookLimitLabel.text = @"债券转让";
-    _LookLimitLabel.textAlignment = NSTextAlignmentRight;
-    _LookLimitLabel.font = [UIFont systemFontOfSize:12];
+    _LookLimitLabel.tag = 100 + indexPath.section-1;
+    _LookLimitLabel.titleLabel.text = @"债券转让";
+    _LookLimitLabel.titleLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_LookLimitLabel];
     [_LookLimitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(_LimitNameLabel.mas_centerY);
@@ -251,18 +252,21 @@
 //        [objDateformat setDateFormat:@"yyyy-MM-dd"];
 //        NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
         NSString *CreateTimeStr = [self getTimeStr:_DinQiModel.createTime withForMat:@"yyyy-MM-dd HH:mm:ss"];
+        
+        
         _SailNameLabel.text =[NSString stringWithFormat:@"购买时间:%@",CreateTimeStr];
         
-        NSString *startTimeStr = [self getTimeStr:_DinQiModel.createTime withForMat:@"yyyy-MM-dd"];
-        NSString *endTimeStr = [self getTimeStr:_DinQiModel.createTime withForMat:@"yyyy-MM-dd"];
+        NSString *startTimeStr = [self getTimeStr:_DinQiModel.InterestBearingStartTime withForMat:@"yyyy-MM-dd"];
+        NSString *endTimeStr = [self getTimeStr:_DinQiModel.InterestBearingEndTime withForMat:@"yyyy-MM-dd"];
         _LimitNameLabel.text = [NSString stringWithFormat:@"计息时间:%@到%@",startTimeStr,endTimeStr];
         if ([_DinQiModel.transferable integerValue] == 1) {
             _LookLimitLabel.hidden = NO;
             if ([_DinQiModel.state integerValue]  == 5) {
-                _LookLimitLabel.text = @"取消转让";
+                [_LookLimitLabel setTitle:@"取消转让" forState:UIControlStateNormal];
 
             }else{
-                _LookLimitLabel.text = @"债券转让";
+                [_LookLimitLabel setTitle:@"债券转让" forState:UIControlStateNormal];
+
 
             }
         }else{
