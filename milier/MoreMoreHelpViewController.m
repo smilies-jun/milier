@@ -33,16 +33,9 @@
     ActivityWebView  = [[UIWebView alloc]init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
     ActivityWebView.delegate= self;
+    ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:ActivityWebView];
     [ActivityWebView loadRequest:request];
-    [ActivityWebView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.view.mas_top);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.bottom.mas_equalTo(SCREEN_HEIGHT - 64 - 44);
-    }];
-    
-    
     
 }
 

@@ -664,26 +664,28 @@
             DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%@",model.ci];
             switch ([model.state integerValue]) {
                 case 1:
-                    StateImageView.image = [UIImage imageNamed:@"raise"];
+                    StateImageView.image = [UIImage imageNamed:@"raise"];//募集
   
                     break;
                 case 2:
-                    StateImageView.image = [UIImage imageNamed:@"interest"];
+                    StateImageView.image = [UIImage imageNamed:@"interest"];//计息
  
                     break;
                 case 3:
-                    StateImageView.image = [UIImage imageNamed:@"assignment"];
+                    StateImageView.image = [UIImage imageNamed:@"repayment"];//一到期
  
                     break;
                 case 4:
-                    StateImageView.image = [UIImage imageNamed:@"repayment"];
- 
+                   // StateImageView.image = [UIImage imageNamed:@"repayment"];//已还款
+
                     break;
                 case 5:
-                    StateImageView.image = [UIImage imageNamed:@"transferred"];
+                    StateImageView.image = [UIImage imageNamed:@"transferred"];//已转让
 
                     break;
                 default:
+                    StateImageView.image = [UIImage imageNamed:@"repayment"];//已到期
+
                     break;
             }
         }
@@ -832,7 +834,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self getNetworkData:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

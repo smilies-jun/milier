@@ -411,11 +411,11 @@
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     [shareParams SSDKSetupShareParamsByText:[ShareDic objectForKey:@"content"]
-                                     images:@[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"image"]]]]]]
+                                     images:[NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"image"]]
                                         url:[NSURL URLWithString:Url]
                                       title:[ShareDic objectForKey:@"title"]
                                        type:SSDKContentTypeAuto];
-    //有的平台要客户端分享需要加此方法，例如微博
+    //有的平台要客户端
     [shareParams SSDKEnableUseClientShare];
     //调用分享的方法
     SSUIShareActionSheetController *sheet = [ShareSDK showShareActionSheet:self.view
@@ -445,7 +445,8 @@
     
     NSString *Shareurl;
     Shareurl = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
-    [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:Shareurl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:Shareurl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *State = [result objectForKey:@"statusCode"];
         NSLog(@"reas = %@",result);
         if ([State integerValue] == 200) {
@@ -453,7 +454,7 @@
             [self shareMyUi];
         }
     }];
-    
+       
 }
 
 

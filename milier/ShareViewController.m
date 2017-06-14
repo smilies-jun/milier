@@ -372,15 +372,17 @@
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
     url = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
-    [[DateSource  sharedInstance]requestHomeWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *state = [result objectForKey:@"statusCode"];
         if ([state integerValue] == 201) {
             normal_alert(@"提示", @"领取成功", @"确定");
         }else{
             normal_alert(@"提示", @"领取成功", @"确定");
-   
+            
         }
     }];
+    
 //    MyStageViewController *StageVC= [[MyStageViewController alloc]init];
 //    [self.navigationController pushViewController:StageVC animated:NO];
 }
@@ -407,7 +409,7 @@
     
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
     [shareParams SSDKSetupShareParamsByText:[ShareDic objectForKey:@"content"]
-                                     images:@[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"image"]]]]]]
+                                     images:[NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"image"]]
                                         url:[NSURL URLWithString:Url]
                                       title:[ShareDic objectForKey:@"title"]
                                        type:SSDKContentTypeAuto];
