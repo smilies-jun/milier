@@ -568,10 +568,10 @@
     UILabel *nameLabel =[[UILabel alloc]init];
     nameLabel.font = [UIFont systemFontOfSize:13];
     NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》 及"]];
-    [ConnectStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.62, 0.80, 0.09)range:NSMakeRange(3,4)];
+    [ConnectStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.62, 0.80, 0.09)range:NSMakeRange(3,6)];
     nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saleConnectClick)];
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleConnectClick)];
     [nameLabel addGestureRecognizer:gesTap];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -584,7 +584,7 @@
     UILabel *riskLabel = [[UILabel alloc]init];
     riskLabel.text = @"《风险提示》";
     riskLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *riskTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(RiskClick)];
+    UITapGestureRecognizer *riskTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(riskClickOrNo)];
     [riskLabel addGestureRecognizer:riskTap];
     riskLabel.textAlignment = NSTextAlignmentLeft;
     riskLabel.font = [UIFont systemFontOfSize:13];
@@ -675,12 +675,12 @@
     }
 
 }
-- (void)saleConnectClick{
+- (void)SaleConnectClick{
     //协议
-    
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"米粒儿金融投资咨询与管理服务协议(出借人)";
-    vc.WebStr = [NSString stringWithFormat:@"%@/agreement/registration.html",HOST_URL];
+    NSString *urlStr =  [NSString stringWithFormat:@"%@/agreement/registration.html",HOST_URL];
+    vc.WebStr = urlStr;
     [self.navigationController pushViewController:vc animated:NO];
 
 }
@@ -734,82 +734,88 @@
   
 }
 - (void)SaleBtn{
-    NSString *userID = NSuserUse(@"userId");
-    if ([userID integerValue] > 0) {
-        if ([BankStatus integerValue] ==1) {
-            if ([PassWordStr integerValue] == 1) {
-                NSString *totalStr = [NSString stringWithFormat:@"%@",_TotalStr];
-                double totalDouble = [totalStr doubleValue];
-                
-                NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
-                double sellDouble = [sellStr doubleValue];
-                double leftMoney = totalDouble - sellDouble;
-                if ([BuyTextField.text doubleValue] < leftMoney) {
-                    NSLog(@"left money  =%f",[MyMoneyStr doubleValue]);
+    
+    if (ClickBtn.selected) {
+        NSString *userID = NSuserUse(@"userId");
+        if ([userID integerValue] > 0) {
+            if ([BankStatus integerValue] ==1) {
+                if ([PassWordStr integerValue] == 1) {
+                    NSString *totalStr = [NSString stringWithFormat:@"%@",_TotalStr];
+                    double totalDouble = [totalStr doubleValue];
                     
-                    if ([BuyTextField.text doubleValue] > [_minBuyStr doubleValue]) {
-                        if ([BuyTextField.text doubleValue] < [MyMoneyStr doubleValue]) {
-                            //购 买
-                            if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
-                                
-                                if (riskOrNo == 1) {
-                                    [self popAlertView];
-
-                                }else{
-                                    //购买
-                                    [self WriteSailPassWord];
+                    NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
+                    double sellDouble = [sellStr doubleValue];
+                    double leftMoney = totalDouble - sellDouble;
+                    if ([BuyTextField.text doubleValue] < leftMoney) {
+                        
+                        if ([BuyTextField.text doubleValue] > [_minBuyStr doubleValue]) {
+                            if ([BuyTextField.text doubleValue] < [MyMoneyStr doubleValue]) {
+                                //购 买
+                                if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
                                     
-            
+                                    if (riskOrNo == 1) {
+                                        [self popAlertView];
+                                        
+                                    }else{
+                                        //购买
+                                        [self WriteSailPassWord];
+                                        
+                                        
+                                    }
+                                    
+                                    
+                                }else{
+                                    //弹出提示框
+                                    [self popAlertView];
+                                    
                                 }
                                 
                                 
                             }else{
-                                //弹出提示框
-                                [self popAlertView];
-                                
+                                //跳转充值
+                                TouUpViewController *SaleVC = [[TouUpViewController alloc]init];
+                                [self.navigationController   pushViewController:SaleVC animated:NO];
                             }
                             
                             
                         }else{
-                            //跳转充值
-                            TouUpViewController *SaleVC = [[TouUpViewController alloc]init];
-                            [self.navigationController   pushViewController:SaleVC animated:NO];
+                            normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
                         }
                         
-                        
                     }else{
-                        normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
+                        normal_alert(@"提示", @"购买金额不得大于剩余额度", @"确定");
                     }
                     
+                    
+                    
+                    
                 }else{
-                    normal_alert(@"提示", @"购买金额不得大于剩余额度", @"确定");
+                    //设置交易密码
+                    SalePassWordViewController *SaleVC = [[SalePassWordViewController alloc]init];
+                    [self.navigationController   pushViewController:SaleVC animated:NO];
                 }
-      
-                
                 
                 
             }else{
-               //设置交易密码
-                SalePassWordViewController *SaleVC = [[SalePassWordViewController alloc]init];
-                [self.navigationController   pushViewController:SaleVC animated:NO];
+                //绑卡页面
+                BundCardViewController *LoginVC = [[BundCardViewController alloc]init];
+                [self.navigationController pushViewController:LoginVC animated:NO];
+                
             }
             
             
         }else{
-            //绑卡页面
-            BundCardViewController *LoginVC = [[BundCardViewController alloc]init];
-            [self.navigationController pushViewController:LoginVC animated:NO];
-
+            YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
+            LoginVC.Type = 1;
+            [self presentViewController:LoginVC animated:NO completion:nil];
+            
         }
-        
-        
-    }else{
-        YWDLoginViewController *LoginVC = [[YWDLoginViewController alloc]init];
-        LoginVC.Type = 1;
-        [self presentViewController:LoginVC animated:NO completion:nil];
-  
-    }
 
+    }else{
+        normal_alert(@"提示", @"请同意协议", @"确定");
+    }
+    
+    
     
 }
 
@@ -889,7 +895,7 @@
     
     UILabel *goonLabel = [[UILabel alloc]init];
     goonLabel.text = @"如果继续购买，请先打勾认可风险";
-    goonLabel.font = [UIFont systemFontOfSize:12];
+    goonLabel.font = [UIFont systemFontOfSize:11];
     goonLabel.numberOfLines = 0;
     [view addSubview:goonLabel];
     [goonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -908,13 +914,13 @@
     [RiskClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(UseImageView.mas_right).offset(40);
         make.top.mas_equalTo(goonLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:15];
-    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《服务协议》及《风险提示》"]];
-   [ConnectStr addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor]range:NSMakeRange(0,1)];
+    nameLabel.font = [UIFont systemFontOfSize:12];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《风险提示》"]];
+   [ConnectStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.62, 0.8, 0.09) range:NSMakeRange(3,6)];
     nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(riskClickOrNo)];
@@ -924,7 +930,7 @@
         make.left.mas_equalTo(RiskClickBtn.mas_right).offset(10);
         make.top.mas_equalTo(goonLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(15);
     }];
     
    UILabel * RiskLabel = [[UILabel alloc]init];
@@ -953,12 +959,13 @@
 }
 - (void)RiskBtnTap{
     if (RiskClickBtn.selected) {
-        riskOrNo = 1;
+        riskOrNo = 0;
         [self WriteSailPassWord];
         [RiskAlertView dismissAnimated:NO];
 
     }else{
-        riskOrNo = 0;
+        
+        riskOrNo = 1;
         [RiskAlertView dismissAnimated:NO];
 
     }

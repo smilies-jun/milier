@@ -13,7 +13,7 @@
 #import "YWDAlertView.h"
 #import "YWDAlertView.h"
 #import "popupFade.h"
-
+#import "ProtocalViewController.h"
 
 @interface ReginAndLoginViewController (){
     customWithStatic  *UsertPhoneView;
@@ -120,16 +120,16 @@
         make.height.mas_equalTo(40);
     }];
     ClickBtn = [[UIButton alloc]init];
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
     ClickBtn.selected = YES;
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
     [ClickBtn addTarget:self action:@selector(Agreeclicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:ClickBtn];
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(callView.mas_bottom).offset(10);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(15);
+        make.height.mas_equalTo(15);
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
     nameLabel.font = [UIFont systemFontOfSize:15];
@@ -145,7 +145,7 @@
         make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
         make.top.mas_equalTo(callView.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(15);
     }];
 
     UIButton *reginBtn = [[UIButton alloc]init];
@@ -173,6 +173,11 @@
 
 - (void)gesClick{
 // 协议跳转
+    ProtocalViewController *vc= [[ProtocalViewController alloc]init];
+    [self.navigationController pushViewController:vc animated:NO];
+
+    
+    
     
 }
 - (void)initAlertView{
@@ -207,7 +212,14 @@
 - (void)ReginAndLoginClicked{
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
-            [self ReginClicked];
+            if (ClickBtn.selected) {
+                [self ReginClicked];
+
+            }else{
+                normal_alert(@"提示", @"请同意协议" , @"确定");
+ 
+            }
+            
   
         }else{
             normal_alert(@"提示", @"登录密码不可为空" , @"确定");

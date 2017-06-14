@@ -20,5 +20,6 @@
 
 @property(nonatomic,strong)NSString *subname;
 
+@property(nonatomic,strong)NSString *url;
 
 @end

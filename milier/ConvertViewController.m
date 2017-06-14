@@ -15,6 +15,7 @@
 #import "SubstanceViewController.h"
 #import "giftModel.h"
 #import "ConvertViewController.h"
+#import "FYLCityPickView.h"
 
 @interface ConvertViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *JiFenArray;

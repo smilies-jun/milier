@@ -36,6 +36,6 @@
 
 @property(nonatomic,strong)NSString *aggregateAmount;
 
-
+@property(nonatomic,strong)NSString *tenThousandIncome;
 
 @end

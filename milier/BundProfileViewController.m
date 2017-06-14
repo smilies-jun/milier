@@ -8,6 +8,10 @@
 
 #import "BundProfileViewController.h"
 #import "BundCardViewController.h"
+#import "ProductDetailNewViewController.h"
+#import "SaleViewController.h"
+#import "MoreHelpViewController.h"
+#import "DinQiDeatilViewController.h"
 
 
 @interface BundProfileViewController ()<UIWebViewDelegate>{
@@ -29,19 +33,19 @@
     [leftBtn addTarget:self action:@selector(BundDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    
-    ActivityWebView  = [[UIWebView alloc]init];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
-    ActivityWebView.delegate= self;
-    [self.view addSubview:ActivityWebView];
-    [ActivityWebView loadRequest:request];
-    [ActivityWebView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.view.mas_top);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.bottom.mas_equalTo(SCREEN_HEIGHT - 64);
-    }];
-    
+        ActivityWebView  = [[UIWebView alloc]init];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
+        ActivityWebView.delegate= self;
+        [self.view addSubview:ActivityWebView];
+        [ActivityWebView loadRequest:request];
+        [ActivityWebView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(self.view.mas_left);
+            make.top.mas_equalTo(self.view.mas_top);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            make.bottom.mas_equalTo(SCREEN_HEIGHT - 64 - 44);
+        }];
+ 
+
     
 }
 
@@ -62,12 +66,41 @@
 }
 - (void)BundDetailTap{
         //  返回指定页面
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[BundCardViewController  class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
+  
+    if ([_WebTypeStr integerValue] == 1) {
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[ProductDetailNewViewController  class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
         }
+ 
+    }else{
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[BundCardViewController  class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[SaleViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[MoreHelpViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        
     }
-    
     
 }
 - (void)viewWillAppear:(BOOL)animated {

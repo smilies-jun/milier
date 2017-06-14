@@ -16,7 +16,7 @@
 }
 - (void)configUI:(NSIndexPath *)indexPath{
     _NameLabel = [[UILabel alloc]init];
-    _NameLabel.text =@"29999";
+    _NameLabel.text =@"";
     _NameLabel.textAlignment = NSTextAlignmentCenter;
     _NameLabel.textColor = [UIColor orangeColor];
     _NameLabel.font = [UIFont systemFontOfSize:50];

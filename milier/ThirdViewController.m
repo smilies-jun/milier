@@ -29,6 +29,7 @@
     CustomMoreView *DuiHuanView;
     CustomMoreView *TellUsView;
     NSDictionary    *MyDic;
+    NSDictionary *ShareDic;
 }
 
 @end
@@ -397,14 +398,22 @@
 
     return @[one,two];
 }
-
--(void)ShareClick{
+- (void)shareMyUi{
     //先构造分享参数：
+    NSString *userID = NSuserUse(@"userId");
+    NSString *Url;
+    if ([userID integerValue] >0) {
+        Url = [NSString stringWithFormat:@"%@?userId=%@",[ShareDic objectForKey:@"url"],userID];
+    }else{
+        Url = [NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"url"]];
+    }
+    
+    
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    [shareParams SSDKSetupShareParamsByText:@"分享内容"
-                                     images:@[[UIImage imageNamed:@"erweima"]]
-                                        url:[NSURL URLWithString:@"http://mob.com"]
-                                      title:@"分享标题"
+    [shareParams SSDKSetupShareParamsByText:[ShareDic objectForKey:@"content"]
+                                     images:@[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"image"]]]]]]
+                                        url:[NSURL URLWithString:Url]
+                                      title:[ShareDic objectForKey:@"title"]
                                        type:SSDKContentTypeAuto];
     //有的平台要客户端分享需要加此方法，例如微博
     [shareParams SSDKEnableUseClientShare];
@@ -430,6 +439,21 @@
     //删除和添加平台示例
     //[sheet.directSharePlatforms removeObject:@(SSDKPlatformTypeWechat)];//(默认微信，QQ，QQ空间都是直接跳客户端分享，加了这个方法之后，可以跳分享编辑界面分享)
     [sheet.directSharePlatforms addObject:@(SSDKPlatformTypeSinaWeibo)];//（加了这个方法之后可以不跳分享编辑界面，直接点击分享菜单里的选项，直接分享）
+ 
+}
+-(void)ShareClick{
+    
+    NSString *Shareurl;
+    Shareurl = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
+    [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:Shareurl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *State = [result objectForKey:@"statusCode"];
+        NSLog(@"reas = %@",result);
+        if ([State integerValue] == 200) {
+            ShareDic = [result objectForKey:@"data"];
+            [self shareMyUi];
+        }
+    }];
+    
 }
 
 

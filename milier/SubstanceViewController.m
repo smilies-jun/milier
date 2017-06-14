@@ -12,6 +12,7 @@
 #import "MyJiFenViewController.h"
 #import "LZCityPickerView.h"
 #import "LZCityPickerController.h"
+#import "FYLCityPickView.h"
 
 @interface SubstanceViewController (){
     CustomChooseView *NameChooseView;
@@ -137,6 +138,7 @@
 
 }
 - (void)QuerenBtnClick{
+    [self HideKeyBoardClick];
     NSString *AddStr;
     if (CustomUseView.NameTextField.text.length) {
         if (CustomPhoneView.NameTextField.text.length) {
@@ -180,15 +182,12 @@
 }
 
 - (void)ChoseBtnClick{
-    [LZCityPickerController showPickerInViewController:self selectBlock:^(NSString *address, NSString *province, NSString *city, NSString *area) {
-        
-        // 选择结果回调
-
-        AddressChooseView.ChooseLabel.text = address;
-        NSLog(@"%@--%@--%@--%@",address,province,city,area);
-        
+    [self HideKeyBoardClick];
+    [FYLCityPickView showPickViewWithComplete:^(NSArray *arr) {
+        AddressChooseView.ChooseLabel.text = [NSString stringWithFormat:@"%@-%@-%@",arr[0],arr[1],arr[2]];
     }];
 
+    
 }
 
 

@@ -7,7 +7,7 @@
 //
 
 #import "ProtocalViewController.h"
-#import "YWDReginViewController.h"
+#import "ReginAndLoginViewController.h"
 
 @interface ProtocalViewController ()
 
@@ -22,11 +22,11 @@
     self.TopView.hidden = NO;
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     
-    self.TopTitleLabel.text = @"隐私协议";
+    self.TopTitleLabel.text = @"米粒儿金融注册协议（出借人）";
     [self.BackButton addTarget:self action:@selector(protocalBackClick) forControlEvents:UIControlEventTouchUpInside];
     
     AboutSafeWebView  = [[UIWebView alloc]init];
-    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.yiwudai.com/mobile/webview/legal.html"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/agreement/registration.html",HOST_URL]]];
     AboutSafeWebView.delegate= self;
     [self.view addSubview:AboutSafeWebView];
     [AboutSafeWebView loadRequest:request];
@@ -75,7 +75,7 @@
 - (void)protocalBackClick{
     //  返回指定页面
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[YWDReginViewController class]]) {
+        if ([controller isKindOfClass:[ReginAndLoginViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

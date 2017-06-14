@@ -232,7 +232,7 @@ static LLPayType payType = LLPayTypeVerify;
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
     nameLabel.font = [UIFont systemFontOfSize:15];
-    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意银行卡绑定及解绑服务协议"]];
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意绑定及解绑服务协议"]];
     NSRange conectRange = {4,4};
     [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
     nameLabel.attributedText = ConnectStr;

@@ -168,6 +168,9 @@
 - (void)setDetailModel:(ProductDetailModel *)detailModel{
     if (detailModel != _detailModel) {
         
+       
+        
+        _detailModel = detailModel;
         switch (_ProductcatID) {
             case 1:
                 TitleLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
@@ -217,29 +220,52 @@
             default:
                 break;
         }
-
-        
-        _detailModel = detailModel;
-        TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
-        NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
-        ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
-        BondLabel.text = [NSString stringWithFormat:@"%@元起购",_detailModel.minimumInvestmentAmount];
-        if ([_detailModel.oid integerValue] == 375) {
-            BondTimeLabel.text = @"随时提现";
- 
+        if (_ProductcatID == 6) {
+            TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
+            NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
+            ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
+            
+            BondLabel.text = [NSString stringWithFormat:@"%@元债权",_detailModel.bondTotal];
+            if ([_detailModel.oid integerValue] == 375) {
+                BondTimeLabel.text = @"随时提现";
+                
+            }else{
+                BondTimeLabel.text = [NSString stringWithFormat:@"%@天期限",_detailModel.investmentHorizon];
+                
+            }
+            
+            PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.tenThousandIncome];
+            
+            
+            NSString *totalStr = [NSString stringWithFormat:@"%@",_detailModel.aggregateAmount];
+            double totalDouble = [totalStr doubleValue];
+            
+            NSString *sellStr = [NSString stringWithFormat:@"%@",_detailModel.sellTotal];
+            double sellDouble = [sellStr doubleValue];
+            
+            LeftMoneyLabel.text = [NSString stringWithFormat:@"%.2f元",totalDouble - sellDouble];
         }else{
-            BondTimeLabel.text = [NSString stringWithFormat:@"%@天期限",_detailModel.investmentHorizon];
-  
+            TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
+            NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
+            ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
+            BondLabel.text = [NSString stringWithFormat:@"%@元起购",_detailModel.minimumInvestmentAmount];
+            if ([_detailModel.oid integerValue] == 375) {
+                BondTimeLabel.text = @"随时提现";
+                
+            }else{
+                BondTimeLabel.text = [NSString stringWithFormat:@"%@天期限",_detailModel.investmentHorizon];
+                
+            }
+            
+            PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.tenThousandIncome];
+            NSString *totalStr = [NSString stringWithFormat:@"%@",_detailModel.aggregateAmount];
+            double totalDouble = [totalStr doubleValue];
+            
+            NSString *sellStr = [NSString stringWithFormat:@"%@",_detailModel.sellTotal];
+            double sellDouble = [sellStr doubleValue];
+            
+            LeftMoneyLabel.text = [NSString stringWithFormat:@"%.2f元",totalDouble - sellDouble];
         }
-        
-        PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.modeOfRepayment];
-        NSString *totalStr = [NSString stringWithFormat:@"%@",_detailModel.aggregateAmount];
-        double totalDouble = [totalStr doubleValue];
-        
-        NSString *sellStr = [NSString stringWithFormat:@"%@",_detailModel.sellTotal];
-        double sellDouble = [sellStr doubleValue];
-        
-        LeftMoneyLabel.text = [NSString stringWithFormat:@"%.2f元",totalDouble - sellDouble];
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

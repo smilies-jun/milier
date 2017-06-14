@@ -9,11 +9,11 @@
 #import "FYLCityPickView.h"
 #import "FYLCityModel.h"
 
-#define kHeaderHeight 40
+#define kHeaderHeight 44
 #define kPickViewHeight 220
-#define kSureBtnColor [UIColor colorWithRed:147/255.f green:196/255.f blue:246/255.f alpha:1.0]
-#define kCancleBtnColor [UIColor colorWithRed:120/255.f green:120/255.f blue:120/255.f alpha:1.0]
-#define kHeaderViewColor [UIColor greenColor]
+#define kSureBtnColor [UIColor whiteColor]
+#define kCancleBtnColor [UIColor whiteColor]
+#define kHeaderViewColor colorWithRGB(0.95, 0.6, 0.11)
 
 
 @interface FYLCityPickView()<UIPickerViewDataSource,UIPickerViewDelegate>

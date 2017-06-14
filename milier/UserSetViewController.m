@@ -63,6 +63,8 @@
     url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         MyDic = [result objectForKey:@"data"];
+        NSLog(@"bank = %@",MyDic);
+
         [self ConfigUI];
     }];
     NSString *bankID = NSuserUse(@"bankId");
@@ -97,7 +99,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(self.view.mas_top).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     
@@ -114,7 +116,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(ImageSetView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     SailSetView = [[UserSetView alloc]init];
     SailSetView.StaticImageView.image = [UIImage imageNamed:@"cardpassword"];
@@ -138,16 +140,15 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(PassSetView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     BundSetView = [[UserSetView alloc]init];
     BundSetView.StaticImageView.image = [UIImage imageNamed:@"creditcard"];
     BundSetView.NameLabel.text  = @"绑定银行卡";
     BundSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
     NSString *bankCardID = NSuserUse(@"bankCardExist");
-
     if ([bankCardID integerValue] ==1) {
-        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"已认证绑定 %@",[MyDic objectForKey:@"bankCardNumberSuffix"]];
+        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"已认证绑定 %@",[BankDic objectForKey:@"bankCardNumberSuffix"]];
 
     }else{
         BundSetView.DetailLabel.text = @"未绑定银行卡";
@@ -172,7 +173,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(SailSetView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"退出账号";
@@ -185,9 +186,9 @@
     SaleLabel.layer.masksToBounds = YES;
     [self.view addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(40);
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(BundSetView.mas_bottom).offset(20);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
     
@@ -199,7 +200,7 @@
     NSString *bankCardID = NSuserUse(@"bankCardExist");
 
     if ([bankCardID integerValue] ==1) {
-        BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+       // BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
         [self ShowBank];
         
     }else{
@@ -430,6 +431,10 @@
 - (void)SetBackBtn{
     NSuserRemove(@"userId");
     NSuserRemove(@"Authorization");
+    NSuserRemove(@"bankCardExist");
+    NSuserRemove(@"bankCardId");
+    NSuserRemove(@"bankCardNumberSuffix");
+    NSuserRemove(@"noneReceivedPropsCount");
     [self.navigationController popToRootViewControllerAnimated:NO];
 
 }

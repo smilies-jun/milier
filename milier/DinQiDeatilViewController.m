@@ -15,6 +15,8 @@
 #import "DinQiDetailTableViewCell.h"
 #import "ChangeSailDetailViewController.h"
 #import "DinQiModel.h"
+#import "BundProfileViewController.h"
+
 
 @interface DinQiDeatilViewController ()<UITableViewDataSource,UITableViewDelegate,ZFPieChartDelegate,ZFPieChartDataSource>{
     ProfilView *MoneyView;
@@ -78,7 +80,8 @@
     Bottomurl = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=0",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         CircleDinQiDic = [result objectForKey:@"data"];
-                CircleArray = [[NSArray alloc]initWithObjects:[result objectForKey:@"p2pLoanInvestmentAmount"],[result objectForKey:@"noviceExclusiveInvestmentAmount"],[result objectForKey:@"enterpriseLoanInvestmentAmount"],[result objectForKey:@"personalLoanInvestmentAmount"],[result objectForKey:@"carLoanInvestmentAmount"],[result objectForKey:@"debentureTransferInvestmentAmount"], nil];
+                CircleArray = [[NSArray alloc]initWithObjects:[CircleDinQiDic objectForKey:@"p2pLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"noviceExclusiveInvestmentAmount"],[CircleDinQiDic objectForKey:@"enterpriseLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"personalLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"carLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"debentureTransferInvestmentAmount"], nil];
+        
         [self reloadData];
 
     }];
@@ -759,8 +762,11 @@
 }
 - (void)LookClick:(UIButton *)btn{
     DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 200];
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"米粒儿金融借款协议";
+    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toProtocol?productinfoOrderId=%@",model.oid];
+    [self.navigationController pushViewController:vc animated:NO];
 
-    NSLog(@"1212");
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
@@ -791,6 +797,7 @@
 #pragma mark - ZFPieChartDataSource
 
 - (NSArray *)valueArrayInPieChart:(ZFPieChart *)chart{
+    NSLog(@" == %@",CircleArray);
     if (CircleArray.count) {
         return CircleArray;
     }else{

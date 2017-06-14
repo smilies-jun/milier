@@ -32,7 +32,6 @@
     
 }
 - (void)loadoneMore{
-    NSLog(@"more");
     [self getNetworkData:NO];
     
 }

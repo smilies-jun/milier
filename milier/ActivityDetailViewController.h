@@ -11,6 +11,10 @@
 @interface ActivityDetailViewController : UIViewController
 
 
-@property(nonatomic, assign)NSString *WebStr;
+@property(nonatomic, strong)NSString *WebStr;
+
+@property(nonatomic, strong)NSString *TitleStr;
+
+
 
 @end

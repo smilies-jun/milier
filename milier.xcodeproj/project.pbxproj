@@ -473,6 +473,14 @@
 		2755DA8B1E5BD45500C75656 /* third_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA771E5BD45500C75656 /* third_selected.png */; };
 		2755DA8C1E5BD45500C75656 /* third_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA781E5BD45500C75656 /* third_selected@2x.png */; };
 		2755DA901E5C144700C75656 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA8F1E5C144700C75656 /* loginViewController.m */; };
+		27C70BB21EEE77F500120AEE /* MoreMoreHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */; };
+		27C70BB51EEE7C6A00120AEE /* NewPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB41EEE7C6A00120AEE /* NewPersonViewController.m */; };
+		27C70BC21EEE898B00120AEE /* FYLCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27C70BB71EEE898B00120AEE /* FYLCity.plist */; };
+		27C70BC31EEE898B00120AEE /* FYLCityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB91EEE898B00120AEE /* FYLCityModel.m */; };
+		27C70BC41EEE898B00120AEE /* FYLCityPickView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BBB1EEE898B00120AEE /* FYLCityPickView.m */; };
+		27C70BC51EEE898B00120AEE /* NSObject+YYModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BBE1EEE898B00120AEE /* NSObject+YYModel.m */; };
+		27C70BC61EEE898B00120AEE /* YYClassInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BC01EEE898B00120AEE /* YYClassInfo.m */; };
+		27C70BC91EEE9EAD00120AEE /* ProCatiiDpROViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BC81EEE9EAD00120AEE /* ProCatiiDpROViewController.m */; };
 		27C7C34F1EEA8673008CDDD2 /* THDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C34E1EEA8673008CDDD2 /* THDatePickerView.m */; };
 		27C7C3521EEA88C1008CDDD2 /* DataChoseView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C7C3511EEA88C1008CDDD2 /* DataChoseView.m */; };
 		27C7C3551EEA8D97008CDDD2 /* icon_revocation1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27C7C3531EEA8D97008CDDD2 /* icon_revocation1@2x.png */; };
@@ -1271,6 +1279,22 @@
 		2755DA781E5BD45500C75656 /* third_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third_selected@2x.png"; sourceTree = "<group>"; };
 		2755DA8E1E5C144700C75656 /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
 		2755DA8F1E5C144700C75656 /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
+		27C70BB01EEE77F500120AEE /* MoreMoreHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreMoreHelpViewController.h; sourceTree = "<group>"; };
+		27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreMoreHelpViewController.m; sourceTree = "<group>"; };
+		27C70BB31EEE7C6A00120AEE /* NewPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPersonViewController.h; sourceTree = "<group>"; };
+		27C70BB41EEE7C6A00120AEE /* NewPersonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPersonViewController.m; sourceTree = "<group>"; };
+		27C70BB71EEE898B00120AEE /* FYLCity.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = FYLCity.plist; sourceTree = "<group>"; };
+		27C70BB81EEE898B00120AEE /* FYLCityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FYLCityModel.h; sourceTree = "<group>"; };
+		27C70BB91EEE898B00120AEE /* FYLCityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FYLCityModel.m; sourceTree = "<group>"; };
+		27C70BBA1EEE898B00120AEE /* FYLCityPickView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FYLCityPickView.h; sourceTree = "<group>"; };
+		27C70BBB1EEE898B00120AEE /* FYLCityPickView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FYLCityPickView.m; sourceTree = "<group>"; };
+		27C70BBD1EEE898B00120AEE /* NSObject+YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+YYModel.h"; sourceTree = "<group>"; };
+		27C70BBE1EEE898B00120AEE /* NSObject+YYModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+YYModel.m"; sourceTree = "<group>"; };
+		27C70BBF1EEE898B00120AEE /* YYClassInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYClassInfo.h; sourceTree = "<group>"; };
+		27C70BC01EEE898B00120AEE /* YYClassInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YYClassInfo.m; sourceTree = "<group>"; };
+		27C70BC11EEE898B00120AEE /* YYModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YYModel.h; sourceTree = "<group>"; };
+		27C70BC71EEE9EAD00120AEE /* ProCatiiDpROViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProCatiiDpROViewController.h; sourceTree = "<group>"; };
+		27C70BC81EEE9EAD00120AEE /* ProCatiiDpROViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProCatiiDpROViewController.m; sourceTree = "<group>"; };
 		27C7C34D1EEA8673008CDDD2 /* THDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = THDatePickerView.h; sourceTree = "<group>"; };
 		27C7C34E1EEA8673008CDDD2 /* THDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = THDatePickerView.m; sourceTree = "<group>"; };
 		27C7C3501EEA88C1008CDDD2 /* DataChoseView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataChoseView.h; sourceTree = "<group>"; };
@@ -1912,6 +1936,7 @@
 		27032F421EB03B1600A4233B /* 绑卡交易密码 */ = {
 			isa = PBXGroup;
 			children = (
+				27C70BB61EEE898B00120AEE /* FYLCityPickView */,
 				27404DB41EA7634D00DAFFC2 /* SalePassWordViewController.h */,
 				27404DB51EA7634D00DAFFC2 /* SalePassWordViewController.m */,
 				27404DB71EA7698700DAFFC2 /* BundCardViewController.h */,
@@ -2689,6 +2714,8 @@
 				2752137E1EA4A3A200A36B0F /* ProductHistoryViewController.m */,
 				27032F831EB821E000A4233B /* ProductDetailNewViewController.h */,
 				27032F841EB821E000A4233B /* ProductDetailNewViewController.m */,
+				27C70BC71EEE9EAD00120AEE /* ProCatiiDpROViewController.h */,
+				27C70BC81EEE9EAD00120AEE /* ProCatiiDpROViewController.m */,
 			);
 			name = DetailVC;
 			sourceTree = "<group>";
@@ -2832,6 +2859,31 @@
 				27404D641EA7564E00DAFFC2 /* ProtocalViewController.m */,
 			);
 			name = home;
+			sourceTree = "<group>";
+		};
+		27C70BB61EEE898B00120AEE /* FYLCityPickView */ = {
+			isa = PBXGroup;
+			children = (
+				27C70BB71EEE898B00120AEE /* FYLCity.plist */,
+				27C70BB81EEE898B00120AEE /* FYLCityModel.h */,
+				27C70BB91EEE898B00120AEE /* FYLCityModel.m */,
+				27C70BBA1EEE898B00120AEE /* FYLCityPickView.h */,
+				27C70BBB1EEE898B00120AEE /* FYLCityPickView.m */,
+				27C70BBC1EEE898B00120AEE /* YYModel */,
+			);
+			path = FYLCityPickView;
+			sourceTree = "<group>";
+		};
+		27C70BBC1EEE898B00120AEE /* YYModel */ = {
+			isa = PBXGroup;
+			children = (
+				27C70BBD1EEE898B00120AEE /* NSObject+YYModel.h */,
+				27C70BBE1EEE898B00120AEE /* NSObject+YYModel.m */,
+				27C70BBF1EEE898B00120AEE /* YYClassInfo.h */,
+				27C70BC01EEE898B00120AEE /* YYClassInfo.m */,
+				27C70BC11EEE898B00120AEE /* YYModel.h */,
+			);
+			path = YYModel;
 			sourceTree = "<group>";
 		};
 		27C7C34C1EEA8663008CDDD2 /* dataChose */ = {
@@ -3126,6 +3178,10 @@
 				27E229FC1ECEE47500B1034D /* MoreHelpViewController.m */,
 				272A0EA71EE0032400E36B40 /* ApplyAllMoneyViewController.h */,
 				272A0EA81EE0032400E36B40 /* ApplyAllMoneyViewController.m */,
+				27C70BB01EEE77F500120AEE /* MoreMoreHelpViewController.h */,
+				27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */,
+				27C70BB31EEE7C6A00120AEE /* NewPersonViewController.h */,
+				27C70BB41EEE7C6A00120AEE /* NewPersonViewController.m */,
 			);
 			name = vc;
 			sourceTree = "<group>";
@@ -3584,6 +3640,7 @@
 				27032E591EA89E5700A4233B /* fund@3x.png in Resources */,
 				274A85431EBC26E0002B7069 /* xmq_03@3x.png in Resources */,
 				274A85961EBC2704002B7069 /* smallarrow@3x.png in Resources */,
+				27C70BC21EEE898B00120AEE /* FYLCity.plist in Resources */,
 				274A85501EBC26EB002B7069 /* loginbg@3x.png in Resources */,
 				27D296651EEE3EB2001DAB5F /* manbiaojl@2x.png in Resources */,
 				274A85921EBC2704002B7069 /* news@3x.png in Resources */,
@@ -3787,6 +3844,7 @@
 				274A86111EC06E99002B7069 /* CostViewController.m in Sources */,
 				27032ED71EA8B41C00A4233B /* ZFWave.m in Sources */,
 				27DFC8571E9E33B9008E6098 /* UntilViewController.m in Sources */,
+				27C70BB21EEE77F500120AEE /* MoreMoreHelpViewController.m in Sources */,
 				27032EDE1EA9A7E000A4233B /* UserSetView.m in Sources */,
 				27032ECB1EA8B41C00A4233B /* ZFHorizontalAxis.m in Sources */,
 				27404D7E1EA7567C00DAFFC2 /* YWDAlertView.m in Sources */,
@@ -3807,6 +3865,7 @@
 				27404D741EA7564E00DAFFC2 /* YWDReginViewController.m in Sources */,
 				27E229BB1ECA926E00B1034D /* ShareDetailViewController.m in Sources */,
 				2752134A1EA0AC0E00A36B0F /* SnailAlertView.m in Sources */,
+				27C70BB51EEE7C6A00120AEE /* NewPersonViewController.m in Sources */,
 				27DFC8191E9CD858008E6098 /* UIScrollView+TWRefresh.m in Sources */,
 				27032EBD1EA8B41C00A4233B /* ZFLabel.m in Sources */,
 				2705AF481E9F12AE008C20CA /* YNTestThreeViewController.m in Sources */,
@@ -3814,6 +3873,7 @@
 				27E22A0D1ED6C13E00B1034D /* CHANGELOG.md in Sources */,
 				27032E3E1EA7B98B00A4233B /* TouUpViewController.m in Sources */,
 				275213501EA0AC0E00A36B0F /* SnailSheetViewConfig.m in Sources */,
+				27C70BC31EEE898B00120AEE /* FYLCityModel.m in Sources */,
 				27032F8B1EB8276000A4233B /* SecondDetailMainTableViewCell.m in Sources */,
 				27FB50BE1E5D872B0090AB69 /* MD5Encrpt.m in Sources */,
 				274A86041EC05E41002B7069 /* ZJContentView.m in Sources */,
@@ -3841,6 +3901,7 @@
 				27032F851EB821E000A4233B /* ProductDetailNewViewController.m in Sources */,
 				27032ECC1EA8B41C00A4233B /* ZFHorizontalBar.m in Sources */,
 				27DFC8011E9CD29F008E6098 /* SelectCollectionViewCell.m in Sources */,
+				27C70BC41EEE898B00120AEE /* FYLCityPickView.m in Sources */,
 				2705AF601E9F7971008C20CA /* YNPageScrollView.m in Sources */,
 				27404D701EA7564E00DAFFC2 /* ReginAndLoginViewController.m in Sources */,
 				275213321EA0AAFB00A36B0F /* UIAlertController+Extend.m in Sources */,
@@ -3851,6 +3912,7 @@
 				27DFC81C1E9CD858008E6098 /* TWRefreshIndicatorView.m in Sources */,
 				275213791EA4A35800A36B0F /* ProductViewController.m in Sources */,
 				272A0EB31EE114EC00E36B40 /* MyLeftModel.m in Sources */,
+				27C70BC51EEE898B00120AEE /* NSObject+YYModel.m in Sources */,
 				27DFC81A1E9CD858008E6098 /* TWRefreshCollectionView.m in Sources */,
 				27032EC11EA8B41C00A4233B /* ZFCurveAttribute.m in Sources */,
 				27032F301EAF3ED400A4233B /* BuyCarViewController.m in Sources */,
@@ -3903,6 +3965,7 @@
 				27D296621EED711D001DAB5F /* BundProfileViewController.m in Sources */,
 				2705AF461E9F12AE008C20CA /* YNTestFourViewController.m in Sources */,
 				275213751EA4699000A36B0F /* UINavigationBar+Awesome.m in Sources */,
+				27C70BC91EEE9EAD00120AEE /* ProCatiiDpROViewController.m in Sources */,
 				272A0EA51EDFF63D00E36B40 /* LZCityPickerView.m in Sources */,
 				271288D71E5A9FBC00DCB546 /* main.m in Sources */,
 				27FB50BC1E5D872B0090AB69 /* DateSource.m in Sources */,
@@ -3925,6 +3988,7 @@
 				27032EFB1EADAD8F00A4233B /* OldProfileTableViewCell.m in Sources */,
 				27404DB91EA7698700DAFFC2 /* BundCardViewController.m in Sources */,
 				275213341EA0AAFB00A36B0F /* UIImage+Color.m in Sources */,
+				27C70BC61EEE898B00120AEE /* YYClassInfo.m in Sources */,
 				2752137C1EA4A38300A36B0F /* DetailViewController.m in Sources */,
 				274A86071EC05E41002B7069 /* ZJSegmentStyle.m in Sources */,
 				274A85EA1EBC845F002B7069 /* SecondTypeTableViewCell.m in Sources */,

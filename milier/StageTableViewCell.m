@@ -177,6 +177,15 @@
         make.height.mas_equalTo(20);
     }];
 }
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
+}
+
 - (void)setStageModel:(StageModel *)stageModel{
     if (stageModel != _stageModel) {
         _stageModel = stageModel;
@@ -219,8 +228,10 @@
             _UseTimeTitleLable.hidden = YES;
 
         }else if ([_stageModel.state integerValue] ==2){
-            _UseTitleLable.text = @"使用";
-            _UseTimeTitleLable.text = [NSString stringWithFormat:@"剩余%@天过期",_stageModel.expireTime];
+            _UseTitleLable.text = @"立即使用";
+            NSString *timeStr = [self getTimeStr:_stageModel.expireTime withForMat:@"yyyy-MM-dd"];
+
+            _UseTimeTitleLable.text = [NSString stringWithFormat:@"%@过期",timeStr];
         }
         
         else{

@@ -44,6 +44,6 @@
 
 @property(nonatomic,strong)NSString *fullScaleReward;//
 
-
+@property(nonatomic,strong)NSString *bondTotal;//
 
 @end

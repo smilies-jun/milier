@@ -213,26 +213,44 @@
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
 }
 - (void)LeftBtnClick{
+    NSString *url;
+    NSString *BankUrl;
     NSString *userID = NSuserUse(@"userId");
-    if ([userID integerValue] > 0) {
-        NSString *tokenIsOrNo = NSuserUse(@"tokenIDisOraNo");
-        if ([tokenIsOrNo integerValue] ==1) {
+    NSString *tokenID = NSuserUse(@"Authorization");
+    
+    url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *state = [result objectForKey:@"statusCode"];
+        if ([state integerValue] == 200) {
+            UserViewController *NserVC = [[UserViewController alloc]init];
+            [self.navigationController  pushViewController:NserVC animated:NO];
+        }else{
             YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
             UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
             loginNagition.navigationBarHidden = YES;
             [self presentViewController:loginNagition animated:NO completion:nil];
-        }else{
-            UserViewController *NserVC = [[UserViewController alloc]init];
-            [self.navigationController  pushViewController:NserVC animated:NO];
+ 
         }
-        
-       
-    }else{
-        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-        loginNagition.navigationBarHidden = YES;
-        [self presentViewController:loginNagition animated:NO completion:nil];
-    }
+    }];
+    
+    
+//    if ([userID integerValue] > 0) {
+//        NSString *tokenIsOrNo = NSuserUse(@"tokenIDisOraNo");
+//        
+//        
+//        
+//        if ([tokenIsOrNo integerValue] ==1) {
+//                   }else{
+//           
+//        }
+//        
+//       
+//    }else{
+//        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+//        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+//        loginNagition.navigationBarHidden = YES;
+//        [self presentViewController:loginNagition animated:NO completion:nil];
+//    }
    
     
 

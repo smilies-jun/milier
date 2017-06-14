@@ -167,7 +167,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ActivityDetailViewController *vc = [[ActivityDetailViewController alloc]init];
     ActivityModel *model = [DataArray objectAtIndex:indexPath.row];
-    //vc.WebStr = model.
+    vc.WebStr = model.url;
+    vc.TitleStr = model.name;
     [self.navigationController   pushViewController:vc animated:NO];
 }
 - (void)didReceiveMemoryWarning {

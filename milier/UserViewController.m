@@ -153,7 +153,7 @@
     UserImageView = [[UIImageView alloc]init];
     UserImageView.layer.cornerRadius = 15;
     UserImageView.layer.masksToBounds = YES;
-    UserImageView.image = [UIImage imageNamed:@"head"];
+    UserImageView.image = [UIImage imageNamed:@"headpicUser"];
     NSString *userImageStr = NSuserUse(@"avatar");
     [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userImageStr]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
     
@@ -188,6 +188,27 @@
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(10);
     }];
+   UIImageView *GorrowView = [[UIImageView alloc]init];
+    GorrowView.image = [UIImage imageNamed:@"goarrow"];
+    [TopView addSubview:GorrowView];
+    [GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(TopView.mas_right).offset(-20);
+        make.centerY.mas_equalTo(TopView.mas_centerY);
+        make.width.mas_equalTo(10);
+        make.height.mas_equalTo(10);
+    }];
+    UIView *lineUSerView = [[UIView alloc]init];
+    lineUSerView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    [TopView addSubview:lineUSerView];
+    [lineUSerView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(TopView.mas_left);
+        make.top.mas_equalTo(PhoneLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(0.5);
+    }];
+    
+    
+    
     self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
     self.cirqueChart.dataSource = self;
     self.cirqueChart.delegate = self;
@@ -558,7 +579,7 @@
     MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     float   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]floatValue];
     float DinQiCircle = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue];
-    float CircleSet = DinQiCircle/circleTotal *10000;
+    float CircleSet = DinQiCircle/circleTotal;
     NSString *CircleStr = [NSString stringWithFormat:@"%f",CircleSet];
     cirleArray  = [[NSArray alloc]initWithObjects:CircleStr, nil];
     [self.cirqueChart strokePath];

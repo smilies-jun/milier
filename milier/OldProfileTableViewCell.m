@@ -43,7 +43,7 @@
 - (void)setProfileModel:(ProfileModel *)ProfileModel{
     if (ProfileModel != _ProfileModel) {
         _ProfileModel = ProfileModel;
-        NSString *timeStr = [self getTimeStr:_ProfileModel.createTime withForMat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *timeStr = [self getTimeStr:_ProfileModel.createTime withForMat:@"yyyy-MM-dd"];
         _NameLabel.text =[NSString stringWithFormat:@"%@",timeStr];
         _DetailLabel.text =[NSString stringWithFormat:@"+%.2f",[_ProfileModel.interest floatValue]];
         

@@ -20,7 +20,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"活动列表";
+    self.navigationItem.title = _TitleStr;
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -55,6 +55,8 @@
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [webView sizeToFit];
+
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     // NSLog(@"webview fail load");

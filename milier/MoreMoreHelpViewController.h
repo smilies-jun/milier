@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface MoreMoreHelpViewController : UIViewController
+@property(nonatomic, strong)NSString *WebStr;
+
+@property(nonatomic, strong)NSString *TitleStr;
 
 @end

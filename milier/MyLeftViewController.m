@@ -120,7 +120,7 @@
         make.left.mas_equalTo(_BottomView.mas_left).offset(10);
         make.centerY.mas_equalTo(_BottomView.mas_centerY);
         make.width.mas_equalTo(SCREEN_WIDTH/2-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
     UILabel *CashLabel =[[UILabel alloc]init];
     CashLabel.text = @"提现";
@@ -137,7 +137,7 @@
         make.right.mas_equalTo(_BottomView.mas_right).offset(-10);
         make.centerY.mas_equalTo(_BottomView.mas_centerY);
         make.width.mas_equalTo(SCREEN_WIDTH/2-30);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
 }
 - (void)payClick{
@@ -191,7 +191,6 @@
     if (page ==1) {
         [MyLeftArray removeAllObjects];
     }
-    NSLog(@"url = %@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *array = [result objectForKey:@"items"];
         for (NSDictionary *dic in array) {
@@ -233,7 +232,10 @@
             cell = [[MyLeftTopViewTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        cell.NameLabel.text = [NSString stringWithFormat:@"¥%@",[MyMoneyDic objectForKey:@"assets"]];;
+        if (MyLeftArray.count) {
+            cell.NameLabel.text = [NSString stringWithFormat:@"¥%@",[MyMoneyDic objectForKey:@"assets"]];;
+
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         

@@ -99,6 +99,7 @@
     
     
     ComeBackMoneyView = [[ProfilView alloc]init];
+    ComeBackMoneyView.GorrowView.hidden = YES;
     ComeBackMoneyView.NameLabel.text = @"回款金额";
     [self.view addSubview:ComeBackMoneyView];
     [ComeBackMoneyView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -108,6 +109,8 @@
         make.height.mas_equalTo(40);
     }];
     OneDayView = [[ProfilView alloc]init];
+    OneDayView.GorrowView.hidden = YES;
+
     OneDayView.NameLabel.text = @"当日转让率";
     OneDayView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:OneDayView];
@@ -120,6 +123,8 @@
     
     RateView = [[ProfilView alloc]init];
     RateView.NameLabel.text = @"手续费";
+    RateView.GorrowView.hidden = YES;
+
     RateView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:RateView];
     [RateView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -172,15 +177,15 @@
     
     
     UILabel *MyLabel = [[UILabel alloc]init];
-    MyLabel.text = @"改日期零点无人购买，自动取消转让";
+    MyLabel.text = @"该日期零点前无人购买，自动取消转让";
     MyLabel.font = [UIFont systemFontOfSize:11];
     MyLabel.textAlignment = NSTextAlignmentCenter;
-    MyLabel.textColor = [UIColor whiteColor];
+    MyLabel.textColor = [UIColor blackColor];
     [self.view addSubview:MyLabel];
     [MyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
         make.top.mas_equalTo(DealPassWordView.mas_bottom).offset(10);
-        make.width.mas_equalTo(200);
+        make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(20);
     }];
     

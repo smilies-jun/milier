@@ -25,6 +25,8 @@
 @interface ShareViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate>{
     AwAlertView *alertView;
     NSDictionary *UserDic;
+    NSDictionary *ShareDic;
+
 
 }
 
@@ -39,7 +41,16 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"分享邀请";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    
+    NSString *Shareurl;
+    Shareurl = [NSString stringWithFormat:@"%@/tools/shareMessage",USER_URL];
+    [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:Shareurl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *State = [result objectForKey:@"statusCode"];
+        if ([State integerValue] == 200) {
+            ShareDic = [result objectForKey:@"data"];
+            [self ConFigUI];
+        }
+    }];
+
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -59,7 +70,7 @@
         
         UIView *saleView = [[UIView alloc]init];
         saleView.backgroundColor = [UIColor whiteColor];
-        saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
+        saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64 - 44-10, SCREEN_WIDTH, 64);
         [self.view addSubview:saleView];
         
         UILabel *SaleLbel =  [[UILabel alloc]init];
@@ -75,7 +86,7 @@
             make.left.mas_equalTo(saleView.mas_left).offset(10);
             make.centerY.mas_equalTo(saleView.mas_centerY);
             make.width.mas_equalTo(SCREEN_WIDTH/2-20);
-            make.height.mas_equalTo(30);
+            make.height.mas_equalTo(40);
         }];
         
         UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseBtnClick
@@ -98,7 +109,7 @@
             make.right.mas_equalTo(saleView.mas_right).offset(-10);
             make.centerY.mas_equalTo(saleView.mas_centerY);
             make.width.mas_equalTo(SCREEN_WIDTH/2-20);
-            make.height.mas_equalTo(30);
+            make.height.mas_equalTo(40);
         }];
         
         UITapGestureRecognizer *GetTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(GetBtnClick
@@ -107,9 +118,7 @@
         
     }];
 
-    
-  
-}
+   }
 
 - (void)ConFigUI{
     [self.loadingView startAnimating];
@@ -359,8 +368,21 @@
 }
 
 - (void)UseNowBtnClick{
-    MyStageViewController *StageVC= [[MyStageViewController alloc]init];
-    [self.navigationController pushViewController:StageVC animated:NO];
+    NSString *url;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    url = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
+    [[DateSource  sharedInstance]requestHomeWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *state = [result objectForKey:@"statusCode"];
+        if ([state integerValue] == 201) {
+            normal_alert(@"提示", @"领取成功", @"确定");
+        }else{
+            normal_alert(@"提示", @"领取成功", @"确定");
+   
+        }
+    }];
+//    MyStageViewController *StageVC= [[MyStageViewController alloc]init];
+//    [self.navigationController pushViewController:StageVC animated:NO];
 }
 - (void)CancelClick{
     [alertView dismissAnimated:NO];
@@ -374,11 +396,20 @@
 
 - (void)GetBtnClick{
     //先构造分享参数：
+    NSString *userID = NSuserUse(@"userId");
+    NSString *Url;
+    if ([userID integerValue] >0) {
+        Url = [NSString stringWithFormat:@"%@?userId=%@",[ShareDic objectForKey:@"url"],userID];
+    }else{
+        Url = [NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"url"]];
+    }
+    
+    
     NSMutableDictionary *shareParams = [NSMutableDictionary dictionary];
-    [shareParams SSDKSetupShareParamsByText:@"分享内容"
-                                     images:@[[UIImage imageNamed:@"erweima"]]
-                                        url:[NSURL URLWithString:@"http://mob.com"]
-                                      title:@"分享标题"
+    [shareParams SSDKSetupShareParamsByText:[ShareDic objectForKey:@"content"]
+                                     images:@[[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[ShareDic objectForKey:@"image"]]]]]]
+                                        url:[NSURL URLWithString:Url]
+                                      title:[ShareDic objectForKey:@"title"]
                                        type:SSDKContentTypeAuto];
     //有的平台要客户端分享需要加此方法，例如微博
     [shareParams SSDKEnableUseClientShare];

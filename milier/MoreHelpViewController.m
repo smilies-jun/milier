@@ -7,6 +7,9 @@
 //
 
 #import "MoreHelpViewController.h"
+#import "MoreMoreHelpViewController.h"
+#import "NewPersonViewController.h"
+
 
 @interface MoreHelpViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSArray *HelpArray;
@@ -40,10 +43,10 @@
         url = [NSString stringWithFormat:@"%@/menus/security",HOST_URL];
 
     }else if (_type == 3){
-        url = [NSString stringWithFormat:@"%@/menus/guide",HOST_URL];
+        url = [NSString stringWithFormat:@"%@/menus/noviceGuide",HOST_URL];
 
     }else {
-        url = [NSString stringWithFormat:@"%@/menus/guide",HOST_URL];
+        url = [NSString stringWithFormat:@"%@/menus/guides",HOST_URL];
 
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
@@ -57,7 +60,7 @@
     HelpTableView.dataSource = self;
     HelpTableView.delegate = self;
     HelpTableView.tableFooterView = [UIView new];
-    HelpTableView.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    HelpTableView.frame = CGRectMake(0,64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     [self.view addSubview:HelpTableView];
     
     
@@ -129,6 +132,17 @@
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (_type == 4) {
+        NewPersonViewController *vc= [[NewPersonViewController alloc]init];
+        vc.TitleStr =[NSString stringWithFormat:@"%@",[[HelpArray objectAtIndex:indexPath.row]objectForKey:@"title"]];
+        vc.OidStr   = [NSString stringWithFormat:@"%@",[[HelpArray objectAtIndex:indexPath.row]objectForKey:@"oid"]];
+        [self.navigationController pushViewController:vc animated:NO];
+    }else{
+        MoreMoreHelpViewController *vc= [[MoreMoreHelpViewController alloc]init];
+        vc.TitleStr =[NSString stringWithFormat:@"%@",[[HelpArray objectAtIndex:indexPath.row]objectForKey:@"title"]];
+        vc.WebStr = [NSString stringWithFormat:@"%@/%@",HOST_URL,[[HelpArray objectAtIndex:indexPath.row] objectForKey:@"url"]];
+        [self.navigationController pushViewController:vc animated:NO];
+    }
     
 }
 -(void)BackTap{
@@ -139,7 +153,9 @@
     // Dispose of any resources that can be recreated.
 }
 - (void)viewWillAppear:(BOOL)animated {
+    　[self  ConfigUI];
     [super viewWillAppear:animated];
+
     
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }

@@ -99,8 +99,8 @@
                                        appSecret:@"a5ee45d86f6dd7b2b39f80df70a29b90"];
                  break;
              case SSDKPlatformTypeQQ:
-                 [appInfo SSDKSetupQQByAppId:@"1105554685"
-                                      appKey:@"KENIPIhHVL5F60CB"
+                 [appInfo SSDKSetupQQByAppId:@"101396839"
+                                      appKey:@"375e0dc792b1dad4d1fa64925c87161f"
                                     authType:SSDKAuthTypeBoth];
                  break;
              default:

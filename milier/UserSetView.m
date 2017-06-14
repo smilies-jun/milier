@@ -41,25 +41,25 @@
     
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"短信验证码:";
-    _NameLabel.font = [UIFont systemFontOfSize:10];
+    _NameLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right).offset(10);
-        make.top.mas_equalTo(self.mas_top).offset(10);
+        make.top.mas_equalTo(self.mas_top).offset(5);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(10);
+        make.height.mas_equalTo(15);
     }];
 
     _DetailLabel = [[UILabel alloc]init];
     _DetailLabel.text = @"登录米粒儿账户时需要密码";
-    _DetailLabel.font = [UIFont systemFontOfSize:10];
+    _DetailLabel.font = [UIFont systemFontOfSize:12];
     _DetailLabel.textColor = [UIColor orangeColor];
     [self addSubview:_DetailLabel];
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right).offset(10);
         make.top.mas_equalTo(_NameLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(300);
-        make.height.mas_equalTo(10);
+        make.height.mas_equalTo(15);
     }];
     
     _GorrowView = [[UIImageView alloc]init];

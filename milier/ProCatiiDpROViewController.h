@@ -10,4 +10,8 @@
 
 @interface ProCatiiDpROViewController : UIViewController
 
+@property(nonatomic, strong)NSString *WebStr;
+
+@property(nonatomic, strong)NSString *TitleStr;
+
 @end

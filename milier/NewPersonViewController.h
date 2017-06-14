@@ -10,4 +10,7 @@
 
 @interface NewPersonViewController : UIViewController
 
+@property (nonatomic,retain)NSString *TitleStr;
+@property (nonatomic,retain)NSString *OidStr;
+
 @end

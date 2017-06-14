@@ -84,7 +84,6 @@
     url = [NSString stringWithFormat:@"%@/earnings/%@/details?productCategoryId=0",HOST_URL,_OidStr];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
-        NSLog(@"result = %@",result);
         isJuhua = NO;
         [self endRefresh];
         [AddArray removeAllObjects];

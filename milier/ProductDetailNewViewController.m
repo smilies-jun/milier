@@ -17,8 +17,9 @@
 #import "SaleViewController.h"
 #import "ProductDetailNewViewController.m"
 #import "JinMiDetdailViewController.h"
-
-
+#import "BundProfileViewController.h"
+#import "ProCatiiDpROViewController.h"
+#import "YWDLoginViewController.h"
 
 @interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic,strong)UITableView *tableView;
@@ -41,8 +42,13 @@
     [leftBtn addTarget:self action:@selector(newDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news"] style:UIBarButtonItemStylePlain target:self action:@selector(DetailRightClick)];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (_productCateID == 2) {
+        
+    }else{
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(DetailRightClick)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    
 
     _DataArray = [[NSMutableArray alloc]init];
     _count = 150;
@@ -57,7 +63,6 @@
     url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         [_DataArray removeAllObjects];
-        
             NSDictionary *dic = [result objectForKey:@"data"];
             ProductDetailModel *model = [[ProductDetailModel alloc]init];
             model.dataDictionary = dic;
@@ -75,7 +80,26 @@
 }
 
 - (void)DetailRightClick{
-    
+    ProCatiiDpROViewController *vc= [[ProCatiiDpROViewController alloc]init];
+    vc.TitleStr = @"产品介绍";
+    if (_productCateID == 1) {
+        vc.WebStr = [NSString stringWithFormat:@"%@/productCategory/introduction/p2p.html",HOST_URL];
+    }else if (_productCateID == 2){
+        
+    }else if (_productCateID == 3){
+        vc.WebStr = [NSString stringWithFormat:@"%@/productCategory/introduction/enterprise.html",HOST_URL];
+
+    }else if (_productCateID == 4){
+        vc.WebStr = [NSString stringWithFormat:@"%@/productCategory/introduction/personal.html",HOST_URL];
+
+    }else if (_productCateID == 5){
+        vc.WebStr = [NSString stringWithFormat:@"%@/productCategory/introduction/debenture.html",HOST_URL];
+
+    }else if (_productCateID == 6){
+        vc.WebStr = [NSString stringWithFormat:@"%@/productCategory/introduction/car.html",HOST_URL];
+
+    }
+    [self.navigationController pushViewController:vc animated:NO];
 }
 -(void)ConfigUI{
     
@@ -142,20 +166,42 @@
 
 }
 - (void)SaleBtnClick{
-    SaleViewController *SaleVC = [[SaleViewController alloc]init];
-    ProductDetailModel *model = [_DataArray objectAtIndex:0];
-    SaleVC.productID = [NSString stringWithFormat:@"%d",_productCateID];
-    SaleVC.NameStr = model.name;
-    SaleVC.TotalStr = model.aggregateAmount;
-    SaleVC.SellStr = model.sellTotal;
-    SaleVC.PercentStr = model.interestRate;
-    SaleVC.investmentHorizonStr = model.investmentHorizon;
-    SaleVC.isFullScaleReward = model.isFullScaleReward;
-    SaleVC.fullScaleReward = model.fullScaleReward;
-    SaleVC.riskLevelStr = model.riskLevel;
-    SaleVC.minBuyStr = model.minimumInvestmentAmount;
-    SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
-    [self.navigationController pushViewController:SaleVC animated:NO];
+    NSString *url;
+    NSString *BankUrl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    
+    url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *state = [result objectForKey:@"statusCode"];
+        if ([state integerValue] == 200) {
+            SaleViewController *SaleVC = [[SaleViewController alloc]init];
+            ProductDetailModel *model = [_DataArray objectAtIndex:0];
+            SaleVC.productID = [NSString stringWithFormat:@"%d",_productCateID];
+            SaleVC.NameStr = model.name;
+            SaleVC.TotalStr = model.aggregateAmount;
+            SaleVC.SellStr = model.sellTotal;
+            SaleVC.PercentStr = model.interestRate;
+            SaleVC.investmentHorizonStr = model.investmentHorizon;
+            SaleVC.isFullScaleReward = model.isFullScaleReward;
+            SaleVC.fullScaleReward = model.fullScaleReward;
+            SaleVC.riskLevelStr = model.riskLevel;
+            SaleVC.minBuyStr = model.minimumInvestmentAmount;
+            SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
+            [self.navigationController pushViewController:SaleVC animated:NO];
+        }else{
+            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+            loginNagition.navigationBarHidden = YES;
+            loginVC.Type = 2;
+            [self presentViewController:loginNagition animated:NO completion:nil];
+           
+            
+        }
+    }];
+    
+    
+    
 }
 - (void)newDetailTap{
     if (_Type == 1) {
@@ -289,6 +335,28 @@
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.row == 2) {
+        BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+        vc.TitleStr = @"产品介绍";
+        vc.WebTypeStr = @"1";
+        vc.WebStr = [NSString stringWithFormat:@"%@/product/introduction/index.html?productId=%d",HOST_URL,_productID];
+        [self.navigationController pushViewController:vc animated:NO];
+ 
+    }else if (indexPath.row == 3){
+        BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+        vc.TitleStr = @"产品详情";
+        vc.WebTypeStr = @"1";
+        vc.WebStr = [NSString stringWithFormat:@"%@/index.html#/product/%d/productCategory/%d/desc",HOST_URL,_productID,_productCateID];
+        [self.navigationController pushViewController:vc animated:NO];
+
+    }else if (indexPath.row == 4){
+        BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+        vc.TitleStr = @"投资记录";
+        vc.WebTypeStr = @"1";
+        vc.WebStr = [NSString stringWithFormat:@"%@/order/list/index.html?productId=%D",HOST_URL,_productID];
+        [self.navigationController pushViewController:vc animated:NO];
+
+    }
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];
