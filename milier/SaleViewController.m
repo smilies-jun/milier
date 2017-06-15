@@ -673,6 +673,22 @@
         default:
             break;
     }
+    AddMoneyLabel = [[UILabel alloc]init];
+    AddMoneyLabel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
+    AddMoneyLabel.textColor = [UIColor whiteColor];
+    AddMoneyLabel.font = [UIFont systemFontOfSize:12];
+    //CGSize size =CGSizeMake(400,20);
+    AddMoneyLabel.hidden = YES;
+    AddMoneyLabel.text = @"";
+//    AddMoneyLabel.text =[NSString stringWithFormat:@"+%@",AddStr];
+//    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
+//    CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+//    AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
+    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+60, 50, 100, 15);
+    [TopView addSubview:AddMoneyLabel];
+    
+    
+    
 
 }
 - (void)SaleConnectClick{
@@ -700,35 +716,26 @@
     }
 }
 - (void)ConfigInverest{
-    AddMoneyLabel = [[UILabel alloc]init];
-    AddMoneyLabel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
-    AddMoneyLabel.textColor = [UIColor whiteColor];
-    AddMoneyLabel.font = [UIFont systemFontOfSize:12];
+//    AddMoneyLabel = [[UILabel alloc]init];
+//    AddMoneyLabel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
+//    AddMoneyLabel.textColor = [UIColor whiteColor];
+//    AddMoneyLabel.font = [UIFont systemFontOfSize:12];
     CGSize size =CGSizeMake(400,20);
+//    AddMoneyLabel.text = @"";
+    AddMoneyLabel.text =[NSString stringWithFormat:@"+%@",AddStr];
+    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
+    CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
+    AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
+    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+60, 50, actualsize.width, 15);
+    [TopView addSubview:AddMoneyLabel];
+
     if (AddStr.length) {
         AddMoneyLabel.hidden = NO;
-        AddMoneyLabel.text =[NSString stringWithFormat:@"+%@",AddStr];
-        NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
-        CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-        AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
-        [TopView addSubview:AddMoneyLabel];
-
-        [AddMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MoneyPercentLabel.mas_right);
-            make.top.mas_equalTo(TitleLabel.mas_bottom);
-            make.width.mas_equalTo(actualsize.width+40);
-            make.height.mas_equalTo(20);
-        }];
-    }else{
-        AddMoneyLabel.hidden = YES;
-        [TopView addSubview:AddMoneyLabel];
-        [AddMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MoneyPercentLabel.mas_right);
-            make.top.mas_equalTo(TitleLabel.mas_bottom);
-            make.width.mas_equalTo(200);
-            make.height.mas_equalTo(20);
-        }];
         
+    }else{
+
+        AddMoneyLabel.hidden = YES;
+       
     }
    
   

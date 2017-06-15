@@ -38,7 +38,7 @@
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(HistoryOnTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -75,10 +75,9 @@
         url = [NSString stringWithFormat:@"%@/messages?page=1&rows=10",HOST_URL];
         
     }else{
-        url = [NSString stringWithFormat:@"%@/messages?page=%d&rows=10",HOST_URL ,page];
+        url = [NSString stringWithFormat:@"%@/messages?page=1&rows=%d",HOST_URL ,page*10];
         
     }
-    
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         _MessageArray = [result objectForKey:@"items"];

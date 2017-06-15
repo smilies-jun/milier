@@ -80,7 +80,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -89,7 +89,7 @@
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -102,10 +102,14 @@
         url = [NSString stringWithFormat:@"%@?page=%d&rows=10",ACTIVITIES_URL,page];
 
     }
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+    if (page == 1) {
+        [DataArray removeAllObjects];
+    }
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         [self endRefresh];
         isJuhua = NO;
-               if (page == 0) {
+               if (page == 1) {
             [DataArray removeAllObjects];
         }
         if (isJuhua) {

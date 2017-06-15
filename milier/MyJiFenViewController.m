@@ -14,7 +14,7 @@
 #import "ConvertViewController.h"
 #import "ZJScrollPageView.h"
 #import "ZJPageTableViewController.h"
-
+#import "BundProfileViewController.h"
 
 static CGFloat const segmentViewHeight = 44.0;
 static CGFloat const naviBarHeight = 64.0;
@@ -222,19 +222,42 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
 - (UIView *)headView {
     if (!_headView) {
         _headView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, headViewHeight)];
-        UILabel *label = [[UILabel alloc] initWithFrame:_headView.bounds];
+        UILabel *label = [[UILabel alloc] init];
+        label.frame = CGRectMake(0, 40, SCREEN_WIDTH, 40);
         label.text =_JiFenStr;
         label.font = [UIFont systemFontOfSize:26];
         label.textAlignment = NSTextAlignmentCenter;
-        label.textAlignment = NSTextAlignmentCenter;
         label.textColor = [UIColor orangeColor];
         [_headView addSubview:label];
+        UILabel *jifenlabel = [[UILabel alloc]init];
+        jifenlabel.text = @"积分规则>>";
+        jifenlabel.userInteractionEnabled = YES;
+        UITapGestureRecognizer *jifenTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JifenProTap)];
+        [jifenlabel addGestureRecognizer:jifenTap];
+        jifenlabel.font = [UIFont systemFontOfSize:13];
+        jifenlabel.textAlignment = NSTextAlignmentCenter;
+        jifenlabel.frame = CGRectMake(0, 90, SCREEN_WIDTH, 20);
+        jifenlabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+        [_headView addSubview:jifenlabel];
+//        [jifenlabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.top.mas_equalTo(label.mas_bottom);
+//            make.left.mas_equalTo(label.mas_left);
+//            make.width.mas_equalTo(200);
+//            make.height.mas_equalTo(20);
+//        }];
+        
         _headView.backgroundColor = [UIColor whiteColor];
     }
     
     return _headView;
 }
-
+- (void)JifenProTap{
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"积分规则";
+    vc.WebStr = [NSString stringWithFormat:@"%@/score/rules.html",HOST_URL];
+    [self.navigationController pushViewController:vc animated:NO];
+  
+}
 - (UITableView *)tableView {
     if (!_tableView) {
         CGRect frame = CGRectMake(0.0f, 0, self.view.bounds.size.width, self.view.bounds.size.height - 44-64);

@@ -81,8 +81,11 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         CircleDinQiDic = [result objectForKey:@"data"];
                 CircleArray = [[NSArray alloc]initWithObjects:[CircleDinQiDic objectForKey:@"p2pLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"noviceExclusiveInvestmentAmount"],[CircleDinQiDic objectForKey:@"enterpriseLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"personalLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"carLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"debentureTransferInvestmentAmount"], nil];
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self reloadData];
+        });
         
-        [self reloadData];
 
     }];
     
@@ -95,25 +98,21 @@
         page++;
     }
       if (isFirstCome) {
-        url = [NSString stringWithFormat:@"%@?page=1&rows=10&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,userID];
+        url = [NSString stringWithFormat:@"%@?page=1&rows=20&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,userID];
 
     }else{
-        url = [NSString stringWithFormat:@"%@?page=%d&rows=10&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,page,userID];
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=20&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,page,userID];
 
     }
-    
-    
+
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        if (page == 1) {
+            [DinQiArray removeAllObjects];
+            [_MutableArray removeAllObjects];
+        }
         NSArray *myArray = [result objectForKey:@"items"];
         _mysectionArray = myArray;
         isJuhua = NO;
-        [self endRefresh];
-        if (page == 1) {
-            [DinQiArray removeAllObjects];
-        }
-        if (isJuhua) {
-            [self endRefresh];
-        }
         for (NSDictionary *JinMidic in myArray) {
             
             DinQiModel *model = [[DinQiModel alloc]init];
@@ -127,8 +126,14 @@
             [_MutableArray addObject:[NSString stringWithFormat:@"%d",rows]];
 
         }
-        [self reloadData];
-        isFirstCome = NO;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            [self reloadData];
+ 
+        });
+        [self makeData];
+        [_tableView reloadData];
+        [self endRefresh];
 
     }];
     
@@ -184,11 +189,13 @@
  *  处理数据  _sectionArray里面存储数组
  */
 - (void)makeData{
+    
+  
     //有利息＋1  利息计算＋1
     //_MutableArray = [[NSMutableArray alloc]initWithObjects:@"2",@"1",@"5",@"2", nil];
     _sectionArray = [NSMutableArray array];
     _flagArray  = [NSMutableArray array];
-    NSInteger num = [_mysectionArray count];
+    NSInteger num = [_MutableArray count];
     for (int i = 0; i < num+1; i ++) {
         NSMutableArray *rowArray = [NSMutableArray array];
         for (int j = 0; j < 1; j ++) {
@@ -197,6 +204,10 @@
         [_sectionArray addObject:rowArray];
         [_flagArray addObject:@"0"];
     }
+    
+
+
+
 }
 //设置组数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -656,7 +667,7 @@
         
         if (DinQiArray.count) {
             DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
-            DinQiLabel.text = [NSString stringWithFormat:@"%@",model.name];
+            DinQiLabel.text = [NSString stringWithFormat:@"%@(%@)",model.name,model.nameSuffix];
             DinQiDetailLabel.text =  [NSString stringWithFormat:@"预计年化收益 %@",model.subname];
             [processView setProgress:[model.progress doubleValue]/10000 animated:YES];
 
@@ -799,7 +810,6 @@
 #pragma mark - ZFPieChartDataSource
 
 - (NSArray *)valueArrayInPieChart:(ZFPieChart *)chart{
-    NSLog(@" == %@",CircleArray);
     if (CircleArray.count) {
         return CircleArray;
     }else{

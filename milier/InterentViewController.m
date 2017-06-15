@@ -48,7 +48,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -71,7 +71,9 @@
         url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=1",HOST_URL,page];
         
     }
-    
+    if (page ==1) {
+        [DataArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             StageModel *model = [[StageModel alloc]init];
@@ -79,6 +81,8 @@
             [DataArray addObject:model];
         }
         [self.tableView reloadData];
+        [self endRefresh];
+
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];

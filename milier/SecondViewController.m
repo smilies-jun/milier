@@ -300,7 +300,6 @@
     configration.itemLeftAndRightMargin = 20;
     configration.lineColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineHeight = 2;
-    configration.itemFont = [UIFont systemFontOfSize:13];
     configration.itemFont = [UIFont systemFontOfSize:12];
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineBottomMargin = 0;
@@ -493,7 +492,8 @@
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     vc.placeHoderView = footerView;
-    
+    [vc setPageScrollViewMenuSelectPageIndex:0 animated:NO];
+
     
     //头部headerView
     UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170)];

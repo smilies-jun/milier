@@ -37,5 +37,6 @@
 
 @property(nonatomic,strong)NSString *orderNo;
 
+@property(nonatomic,strong)NSString *nameSuffix;
 
 @end

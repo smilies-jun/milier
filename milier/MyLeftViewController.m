@@ -199,8 +199,9 @@
             [MyLeftArray addObject:model];
             
         }
-        [self endRefresh];
         [self.tableView reloadData];
+        [self endRefresh];
+
     }];
 }
 //设置行数
