@@ -10,7 +10,7 @@
 #import "UserViewController.h"
 #import "MHRadioButton.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
-
+#import "SaleViewController.h"
 
 @interface RiskViewController ()<MHRadioButtonDelegate,UIScrollViewDelegate>{
     UIImageView *FirstView;
@@ -68,7 +68,6 @@ static NSString * const ID = @"CollectionCell";
 
 - (void)reloadData{
     NSString *url;
-    NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
     
     url = [NSString stringWithFormat:@"%@/questions",HOST_URL];
@@ -803,6 +802,12 @@ static NSString * const ID = @"CollectionCell";
 - (void)RiskTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[SaleViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

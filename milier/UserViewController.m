@@ -116,7 +116,7 @@
         NSuserSave([UserDic objectForKey:@"noneReceivedPropsCount"], @"noneReceivedPropsCount");
         NSuserSave([UserDic objectForKey:@"customersCount"], @"customersCount");
         NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
-        
+        NSuserSave([UserDic objectForKey:@"riskLevel"], @"riskLevel");
         [self reloadData];
     }];
     

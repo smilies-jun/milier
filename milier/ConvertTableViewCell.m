@@ -17,7 +17,7 @@
 - (void)configUI:(NSIndexPath *)indexPath{
     
     _NameImageView = [[UIImageView alloc]init];
-    _NameImageView.backgroundColor = [UIColor greenColor];
+    _NameImageView.backgroundColor = [UIColor clearColor];
     [self addSubview:_NameImageView];
     [_NameImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
@@ -27,7 +27,7 @@
     }];
     
     _NameLabel = [[UILabel alloc]init];
-    _NameLabel.text =@"苏泊尔双层电动锅";
+    _NameLabel.text =@"";
     _NameLabel.textAlignment = NSTextAlignmentLeft;
     _NameLabel.textColor = [UIColor blackColor];
     _NameLabel.font = [UIFont systemFontOfSize:10];
@@ -40,7 +40,7 @@
     }];
     
     _NameDetailLabel = [[UILabel alloc]init];
-    _NameDetailLabel.text = @"的，什么烦恼吗可能都撒到那时你的安克林斯曼的";
+    _NameDetailLabel.text = @"";
     _NameDetailLabel.numberOfLines = 0;
     _NameDetailLabel.lineBreakMode = NSLineBreakByCharWrapping;
     _NameDetailLabel.font = [UIFont systemFontOfSize:10];
@@ -53,7 +53,7 @@
     }];
     
     _MyJiFenLabel = [[UILabel alloc]init];
-    _MyJiFenLabel.text= @"积分：232232";
+    _MyJiFenLabel.text= @"积分：";
     NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
     NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:_MyJiFenLabel.text attributes:attribtDic];
     _MyJiFenLabel.attributedText = attribtStr;
@@ -83,7 +83,7 @@
 - (void)setGiftModel:(giftModel *)GiftModel{
     if (GiftModel != _GiftModel) {
         _GiftModel = GiftModel;
-        [_NameImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_GiftModel.image]] placeholderImage:[UIImage imageNamed:@""]];
+        [_NameImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_GiftModel.image]] placeholderImage:[UIImage imageNamed:@"jifenpic"]];
         _NameLabel.text =[NSString stringWithFormat:@"%@",_GiftModel.name];
         _NameDetailLabel.text =[NSString stringWithFormat:@"%@",_GiftModel.desc];
         _MyJiFenLabel.text= [NSString stringWithFormat:@"积分:%@",_GiftModel.score];

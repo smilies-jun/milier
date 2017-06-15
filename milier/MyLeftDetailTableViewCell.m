@@ -89,9 +89,22 @@
         _NameLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.orderNumber];
         _DetailLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.desc];
         NSString *timeStr = [self getTimeStr:_LeftModel.createTime withForMat:@"yyyy-MM-dd"];
+        if ([_LeftModel.type integerValue] == 2) {
+            _NumberlLabel.text = [NSString stringWithFormat:@"-%@",_LeftModel.amount];
 
+        }else if ([_LeftModel.type integerValue] == 7){
+            _NumberlLabel.text = [NSString stringWithFormat:@"-%@",_LeftModel.amount];
+
+        }else if ([_LeftModel.type integerValue] == 17){
+            _NumberlLabel.text = [NSString stringWithFormat:@"-%@",_LeftModel.amount];
+
+        }else{
+            _NumberlLabel.text = [NSString stringWithFormat:@"+%@",_LeftModel.amount];
+
+        }
+        
         _TimeLabel.text = [NSString stringWithFormat:@"%@",timeStr];
-        _NumberlLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.amount];
+
         if ([_LeftModel.state integerValue] == 1) {
             _StatelLabel.text = @"处理中";
             _StatelLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);

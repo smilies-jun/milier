@@ -118,7 +118,7 @@
     }];
     _OutLabel = [[UILabel alloc]init];
     _OutLabel.text = @"下架时间:2015-23-12";
-    _OutLabel.font = [UIFont systemFontOfSize:10];
+    _OutLabel.font = [UIFont systemFontOfSize:12];
     _OutLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_OutLabel];
     [_OutLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -129,7 +129,7 @@
     }];
     _OutSailLabel = [[UILabel alloc]init];
     _OutSailLabel.text = @"手续费:10";
-    _OutSailLabel.font = [UIFont systemFontOfSize:10];
+    _OutSailLabel.font = [UIFont systemFontOfSize:12];
     _OutSailLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_OutSailLabel];
     [_OutSailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -140,6 +140,7 @@
     }];
     _IsOrNoLabel = [[UIButton alloc]init];
     _IsOrNoLabel.tag = indexPath.row + 100;
+    _IsOrNoLabel.titleLabel.font = [UIFont systemFontOfSize:12];
     [_IsOrNoLabel setTitle:@"取消转让" forState:UIControlStateNormal];
     [_IsOrNoLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     [self addSubview:_IsOrNoLabel];

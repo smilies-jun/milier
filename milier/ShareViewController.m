@@ -84,7 +84,7 @@
         [saleView addSubview:SaleLbel];
         [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(saleView.mas_left).offset(10);
-            make.centerY.mas_equalTo(saleView.mas_centerY);
+            make.centerY.mas_equalTo(saleView.mas_centerY).offset(-5);
             make.width.mas_equalTo(SCREEN_WIDTH/2-20);
             make.height.mas_equalTo(40);
         }];
@@ -107,7 +107,7 @@
         [saleView addSubview:getLabel];
         [getLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(saleView.mas_right).offset(-10);
-            make.centerY.mas_equalTo(saleView.mas_centerY);
+            make.centerY.mas_equalTo(saleView.mas_centerY).offset(-5);
             make.width.mas_equalTo(SCREEN_WIDTH/2-20);
             make.height.mas_equalTo(40);
         }];
@@ -369,8 +369,6 @@
 
 - (void)UseNowBtnClick{
     NSString *url;
-    NSString *userID = NSuserUse(@"userId");
-    NSString *tokenID = NSuserUse(@"Authorization");
     url = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {

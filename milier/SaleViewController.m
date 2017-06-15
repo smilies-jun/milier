@@ -18,7 +18,7 @@
 #import "BundCardViewController.h"
 #import "TouUpViewController.h"
 #import "BundProfileViewController.h"
-
+#import "RiskViewController.h"
 
 
 
@@ -737,6 +737,8 @@
     
     if (ClickBtn.selected) {
         NSString *userID = NSuserUse(@"userId");
+        NSString *riskID = NSuserUse(@"riskLevel");
+        
         if ([userID integerValue] > 0) {
             if ([BankStatus integerValue] ==1) {
                 if ([PassWordStr integerValue] == 1) {
@@ -751,24 +753,32 @@
                         if ([BuyTextField.text doubleValue] > [_minBuyStr doubleValue]) {
                             if ([BuyTextField.text doubleValue] < [MyMoneyStr doubleValue]) {
                                 //购 买
-                                if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
-                                    
-                                    if (riskOrNo == 1) {
-                                        [self popAlertView];
+                                if ([riskID integerValue] >0) {
+                                    if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
+                                        
+                                        if (riskOrNo == 1) {
+                                            [self popAlertView];
+                                            
+                                        }else{
+                                            //购买
+                                            [self WriteSailPassWord];
+                                            
+                                            
+                                        }
+                                        
                                         
                                     }else{
-                                        //购买
-                                        [self WriteSailPassWord];
-                                        
+                                        //弹出提示框
+                                        [self popAlertView];
                                         
                                     }
-                                    
-                                    
+
                                 }else{
-                                    //弹出提示框
-                                    [self popAlertView];
-                                    
+                                    //风险测试
+                                    RiskViewController *RiskVC = [[RiskViewController alloc]init];
+                                    [self.navigationController   pushViewController:RiskVC animated:NO];
                                 }
+                                
                                 
                                 
                             }else{

@@ -680,7 +680,7 @@
 
                     break;
                 case 5:
-                    StateImageView.image = [UIImage imageNamed:@"transferred"];//已转让
+                    StateImageView.image = [UIImage imageNamed:@"assignment"];//转让
 
                     break;
                 default:
