@@ -51,6 +51,8 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"定期投资";
     self.view.backgroundColor = [UIColor grayColor];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
+
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
@@ -82,9 +84,8 @@
         CircleDinQiDic = [result objectForKey:@"data"];
                 CircleArray = [[NSArray alloc]initWithObjects:[CircleDinQiDic objectForKey:@"p2pLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"noviceExclusiveInvestmentAmount"],[CircleDinQiDic objectForKey:@"enterpriseLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"personalLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"carLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"debentureTransferInvestmentAmount"], nil];
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
             [self reloadData];
-        });
+      
         
 
     }];
@@ -127,10 +128,8 @@
 
         }
         static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
             [self reloadData];
  
-        });
         [self makeData];
         [_tableView reloadData];
         [self endRefresh];
@@ -501,7 +500,7 @@
         OldDetailLabel.layer.borderColor = colorWithRGB(0.95, 0.6, 0.11).CGColor;
         OldDetailLabel.layer.borderWidth = 0.5f;
         OldDetailLabel.layer.masksToBounds = YES;
-        OldDetailLabel.layer.cornerRadius = 5;
+        OldDetailLabel.layer.cornerRadius = 10;
         OldDetailLabel.textAlignment = NSTextAlignmentCenter;
         OldDetailLabel.textColor = [UIColor orangeColor];
         OldDetailLabel.font = [UIFont systemFontOfSize:14];
@@ -558,7 +557,7 @@
         AddDetailLabel.layer.borderColor = ZFOrange.CGColor;
         AddDetailLabel.layer.borderWidth = 0.5f;
         AddDetailLabel.layer.masksToBounds = YES;
-        AddDetailLabel.layer.cornerRadius = 5;
+        AddDetailLabel.layer.cornerRadius = 10;
         AddDetailLabel.textAlignment = NSTextAlignmentCenter;
         AddDetailLabel.textColor = [UIColor orangeColor];
         AddDetailLabel.font = [UIFont systemFontOfSize:14];
@@ -667,6 +666,36 @@
         
         if (DinQiArray.count) {
             DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
+            switch ([model.productCategoryId integerValue]) {
+                case 1:
+                    ImageView.backgroundColor =  colorWithRGB(0.62, 0.80, 0.09);
+    
+                    break;
+                case 2:
+                    ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+ 
+                    break;
+                case 3:
+                    ImageView.backgroundColor =  colorWithRGB(0.99, 0.52, 0.18);
+
+                    break;
+                case 4:
+                    ImageView.backgroundColor =colorWithRGB(0.27, 0.78, 0.96);
+
+                    break;
+                case 5:
+                    ImageView.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+
+                    break;
+                case 6:
+                    ImageView.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+            
             DinQiLabel.text = [NSString stringWithFormat:@"%@(%@)",model.name,model.nameSuffix];
             DinQiDetailLabel.text =  [NSString stringWithFormat:@"预计年化收益 %@",model.subname];
             [processView setProgress:[model.progress doubleValue]/10000 animated:YES];

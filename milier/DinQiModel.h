@@ -39,4 +39,6 @@
 
 @property(nonatomic,strong)NSString *nameSuffix;
 
+@property(nonatomic,strong)NSString *productCategoryId;
+
 @end

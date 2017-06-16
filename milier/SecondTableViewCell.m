@@ -65,7 +65,7 @@
     _limitTimeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [self addSubview:_limitTimeLabel];
     [_limitTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(30);
+        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
         make.centerY.mas_equalTo(_ProfitLabel.mas_centerY);
         make.width.mas_equalTo(250);
         make.height.mas_equalTo(15);
@@ -77,7 +77,7 @@
     _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [self addSubview:_ChangeLabel];
     [_ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(30);
+        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
         make.top.mas_equalTo(_limitTimeLabel.mas_bottom).offset(3);
         make.width.mas_equalTo(250);
         make.height.mas_equalTo(15);
@@ -98,7 +98,7 @@
     
     _BageLayer = [CAShapeLayer layer];
     _BageLayer.position = self.contentView.center;
-    _BageLayer.frame = CGRectMake(300, 40, 60, 60);//设置shapeLayer的尺寸和位置
+    _BageLayer.frame = CGRectMake(SCREEN_WIDTH- 80, 40, 60, 60);//设置shapeLayer的尺寸和位置
     
     _BageLayer.fillColor = [UIColor clearColor].CGColor;//填充颜色为ClearColor
     _BageLayer.strokeStart = 0;
@@ -120,7 +120,7 @@
     
     _shapeLayer = [CAShapeLayer layer];
    _shapeLayer.position = self.contentView.center;
-    _shapeLayer.frame = CGRectMake(300, 40, 60, 60);//设置shapeLayer的尺寸和位置
+    _shapeLayer.frame = CGRectMake(SCREEN_WIDTH- 80, 40, 60, 60);//设置shapeLayer的尺寸和位置
 
     _shapeLayer.fillColor = [UIColor clearColor].CGColor;//填充颜色为ClearColor
     _shapeLayer.strokeStart = 0;
@@ -144,7 +144,7 @@
     _PercentLabel.font = [UIFont systemFontOfSize:13];
     _PercentLabel.textAlignment = NSTextAlignmentCenter;
     _PercentLabel.textColor = [UIColor greenColor];
-    _PercentLabel.frame =   CGRectMake(300,60, 60, 20);
+    _PercentLabel.frame =   CGRectMake(SCREEN_WIDTH- 80,60, 60, 20);
     [self.contentView addSubview:_PercentLabel];
   
     
@@ -191,6 +191,54 @@
         }
         
     }
+    switch ([_productMoel.productCategoryId integerValue]) {
+        case 1:
+            _MoneyLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+            _PercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+
+            _shapeLayer.strokeColor =colorWithRGB(0.62, 0.80, 0.09).CGColor;
+
+            break;
+        case 2:
+            _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+
+            _shapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
+            
+            break;
+        case 3:
+            _MoneyLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
+            _PercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
+
+            _shapeLayer.strokeColor = colorWithRGB(0.99, 0.52, 0.18).CGColor;
+            
+            break;
+        case 4:
+            _MoneyLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
+            _PercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
+
+            _shapeLayer.strokeColor = colorWithRGB(0.27, 0.78, 0.96).CGColor;
+            
+            break;
+        case 5:
+            _MoneyLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
+            _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
+
+            _shapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 0.10).CGColor;
+            
+            break;
+        case 6:
+            _MoneyLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
+            _PercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
+
+            _shapeLayer.strokeColor = colorWithRGB(0.19, 0.39, 0.9).CGColor;
+            
+            break;
+            
+        default:
+            break;
+    }
+    
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

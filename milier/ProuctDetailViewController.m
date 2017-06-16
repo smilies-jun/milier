@@ -54,8 +54,8 @@
     [super viewDidLoad];
 
     self.navigationItem.title = @"产品详情";
-    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
+
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];

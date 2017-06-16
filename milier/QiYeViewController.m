@@ -72,9 +72,9 @@
     if (page ==1) {
         [DataArray removeAllObjects];
     }
+
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
-            
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;
             [DataArray addObject:model];
@@ -135,7 +135,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
     if (indexPath.row == 0) {
-        static NSString *identifier = @"StageTotalidentifier";
+        static NSString *identifier = @"QiyeStageTotalidentifier";
         
         StageTotalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
@@ -146,7 +146,7 @@
         return cell;
  
     }else{
-        static NSString *identifier = @"Stageidentifier";
+        static NSString *identifier = @"qiyeStageidentifier";
         
         StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

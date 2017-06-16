@@ -42,6 +42,8 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"金米宝";
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
+
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -212,7 +214,7 @@
     ComeLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer*comeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(comeCliCk)];
     [ComeLabel addGestureRecognizer:comeTap];
-    ComeLabel.frame = CGRectMake(0, SCREEN_HEIGHT -64-40, SCREEN_WIDTH/2+0.5, 40);
+    ComeLabel.frame = CGRectMake(0, SCREEN_HEIGHT -64-44, SCREEN_WIDTH/2+0.5, 44);
     ComeLabel.textAlignment = NSTextAlignmentCenter;
     ComeLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
     [self.view addSubview:ComeLabel];
@@ -222,7 +224,7 @@
     OutLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer*OutTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(outCliCk)];
     [OutLabel addGestureRecognizer:OutTap];
-    OutLabel.frame = CGRectMake(SCREEN_WIDTH/2+1, SCREEN_HEIGHT -64-40, SCREEN_WIDTH/2+0.5, 40);
+    OutLabel.frame = CGRectMake(SCREEN_WIDTH/2+1, SCREEN_HEIGHT -64-44, SCREEN_WIDTH/2+0.5, 44);
     OutLabel.text = @"转出";
     OutLabel.textAlignment = NSTextAlignmentCenter;
     OutLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);

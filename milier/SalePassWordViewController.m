@@ -26,6 +26,8 @@
     // Do any additional setup after loading the view.
 
     self.navigationItem.title = @"设置交易密码";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
+
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -70,7 +72,7 @@
     SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.cornerRadius = 20;
     SaleLbel.layer.masksToBounds = YES;
     [self.view addSubview:SaleLbel];
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -110,12 +110,13 @@
     [intro showInView:rootView animateDuration:0.3];
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
+    self.navigationItem.title = @"米粒儿金融";
+
     // 导航栏标题字体颜色
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     // 导航栏左右按钮字体颜色
     //self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
 
-    self.navigationItem.title = @"米粒儿金融";
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
    
@@ -128,7 +129,9 @@
 }
 - (void)refreshData{
     UIButton *LeftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    LeftBtn.frame = CGRectMake(0, 0, 29, 29);
+    LeftBtn.frame = CGRectMake(0, 0, 28, 28);
+    LeftBtn.layer.masksToBounds = YES;
+    LeftBtn.layer.cornerRadius = 14;
     [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"] forState:UIControlStateNormal];
     [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
@@ -214,7 +217,6 @@
 }
 - (void)LeftBtnClick{
     NSString *url;
-    NSString *BankUrl;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
     
@@ -264,7 +266,6 @@
     //根据tag查找label
     //    UILabel *label = (UILabel *)[self.view viewWithTag:102];
     //    label.text = text;
-    NSLog(@"text = %@",text);
 }
 - (void)viewWillLayoutSubviews{
     
@@ -300,7 +301,7 @@
     configration.itemLeftAndRightMargin = 20;
     configration.lineColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineHeight = 2;
-    configration.itemFont = [UIFont systemFontOfSize:12];
+    configration.itemFont = [UIFont systemFontOfSize:14];
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineBottomMargin = 0;
     configration.aligmentModeCenter = NO;
@@ -310,7 +311,7 @@
     //configration.addButtonHightImageName = @"menu@2x";
     configration.addButtonNormalImageName = @"menu@2x";
     configration.showTabbar = NO;//设置显示tabbar
-    configration.itemMaxScale = 1.2;
+    configration.itemMaxScale = 1.05;
     
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
     
@@ -492,7 +493,6 @@
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     vc.placeHoderView = footerView;
-    [vc setPageScrollViewMenuSelectPageIndex:0 animated:NO];
 
     
     //头部headerView

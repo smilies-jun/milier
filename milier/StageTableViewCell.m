@@ -69,15 +69,15 @@
     [MiddleImageView addSubview:_TitleLable];
     [_TitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MiddleImageView.mas_left).offset(5);
-        make.top.mas_equalTo(MiddleImageView.mas_top).offset(10);
+        make.top.mas_equalTo(MiddleImageView.mas_top).offset(15);
         make.width.mas_equalTo(120);
         make.height.mas_equalTo(20);
     }];
     _SaileTimeLable = [[UILabel alloc]init];
     _SaileTimeLable.textColor = colorWithRGB(0.27, 0.27, 0.27);
-    _SaileTimeLable.text = @"投资时间：3月以上";
+    _SaileTimeLable.text = @"投资时间 3月以上";
     _SaileTimeLable.textAlignment = NSTextAlignmentLeft;
-    _SaileTimeLable.font = [UIFont systemFontOfSize:11];
+    _SaileTimeLable.font = [UIFont systemFontOfSize:13];
     [MiddleImageView addSubview:_SaileTimeLable];
     [_SaileTimeLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TitleLable.mas_left);
@@ -89,8 +89,8 @@
     _SailMoneyLable = [[UILabel alloc]init];
     _SailMoneyLable.textColor = colorWithRGB(0.27, 0.27, 0.27);
     _SailMoneyLable.textAlignment = NSTextAlignmentLeft;
-    _SailMoneyLable.text = @"投资金额：3月以上";
-    _SailMoneyLable.font = [UIFont systemFontOfSize:11];
+    _SailMoneyLable.text = @"投资金额 3月以上";
+    _SailMoneyLable.font = [UIFont systemFontOfSize:13];
     [MiddleImageView addSubview:_SailMoneyLable];
     [_SailMoneyLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TitleLable.mas_left);
@@ -98,68 +98,146 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
        }];
-    _BuyTitleLable = [[UILabel alloc]init];
-    _BuyTitleLable.text = @"车贷";
-    _BuyTitleLable.textColor = [UIColor whiteColor];
-    _BuyTitleLable.textAlignment = NSTextAlignmentCenter;
-    _BuyTitleLable.backgroundColor = [UIColor whiteColor];
-    _BuyTitleLable.font = [UIFont systemFontOfSize:11];
-    [MiddleImageView addSubview:_BuyTitleLable];
-    [_BuyTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_TitleLable.mas_left);
-        make.top.mas_equalTo(_SailMoneyLable.mas_bottom).offset(5);
-        make.width.mas_equalTo(35);
-        make.height.mas_equalTo(18);
-    }];
-    _InterentTitleLable = [[UILabel alloc]init];
-    _InterentTitleLable.text = @"网贷";
-    _InterentTitleLable.textAlignment = NSTextAlignmentCenter;
-    _InterentTitleLable.backgroundColor = [UIColor whiteColor];
-    _InterentTitleLable.textColor = [UIColor whiteColor];
-    _InterentTitleLable.font = [UIFont systemFontOfSize:11];
-    [MiddleImageView addSubview:_InterentTitleLable];
-    [_InterentTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_BuyTitleLable.mas_right).offset(2);
-        make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
-        make.width.mas_equalTo(35);
-        make.height.mas_equalTo(18);
-    }];
-    _QiYeTitleLable = [[UILabel alloc]init];
-    _QiYeTitleLable.textColor = [UIColor whiteColor];
-    _QiYeTitleLable.text = @"企业贷";
-    _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
-    _QiYeTitleLable.textAlignment = NSTextAlignmentCenter;
-    _QiYeTitleLable.font = [UIFont systemFontOfSize:11];
-    [MiddleImageView addSubview:_QiYeTitleLable];
-    [_QiYeTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_InterentTitleLable.mas_right).offset(2);
-        make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
-        make.width.mas_equalTo(35);
-        make.height.mas_equalTo(18);
-    }];
-    _PersonTitleLable = [[UILabel alloc]init];
-    _PersonTitleLable.textColor = [UIColor whiteColor];
-    _PersonTitleLable.backgroundColor = [UIColor whiteColor];
-    _PersonTitleLable.textAlignment = NSTextAlignmentCenter;
-    _PersonTitleLable.text = @"个人贷";
-    _PersonTitleLable.font = [UIFont systemFontOfSize:11];
-    [MiddleImageView addSubview:_PersonTitleLable];
-    [_PersonTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_QiYeTitleLable.mas_right).offset(2);
-        make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
-        make.width.mas_equalTo(35);
-        make.height.mas_equalTo(18);
-    }];
-
+    
+    if (SCREEN_HEIGHT < 667) {
+        _BuyTitleLable = [[UILabel alloc]init];
+        _BuyTitleLable.text = @"车贷";
+        _BuyTitleLable.layer.cornerRadius = 1;
+        _BuyTitleLable.layer.masksToBounds = YES;
+        _BuyTitleLable.textColor = [UIColor whiteColor];
+        _BuyTitleLable.textAlignment = NSTextAlignmentCenter;
+        _BuyTitleLable.backgroundColor = [UIColor whiteColor];
+        _BuyTitleLable.font = [UIFont systemFontOfSize:10];
+        [MiddleImageView addSubview:_BuyTitleLable];
+        [_BuyTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_TitleLable.mas_left);
+            make.top.mas_equalTo(_SailMoneyLable.mas_bottom).offset(5);
+            make.width.mas_equalTo(31);
+            make.height.mas_equalTo(18);
+        }];
+        _InterentTitleLable = [[UILabel alloc]init];
+        _InterentTitleLable.text = @"网贷";
+        _InterentTitleLable.layer.cornerRadius = 1;
+        _InterentTitleLable.layer.masksToBounds = YES;
+        _InterentTitleLable.textAlignment = NSTextAlignmentCenter;
+        _InterentTitleLable.backgroundColor = [UIColor whiteColor];
+        _InterentTitleLable.textColor = [UIColor whiteColor];
+        
+        
+        
+        _InterentTitleLable.font = [UIFont systemFontOfSize:9];
+        [MiddleImageView addSubview:_InterentTitleLable];
+        [_InterentTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_BuyTitleLable.mas_right).offset(2);
+            make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
+            make.width.mas_equalTo(31);
+            make.height.mas_equalTo(18);
+        }];
+        _QiYeTitleLable = [[UILabel alloc]init];
+        _QiYeTitleLable.textColor = [UIColor whiteColor];
+        _QiYeTitleLable.text = @"企业贷";
+        _QiYeTitleLable.layer.cornerRadius = 1;
+        _QiYeTitleLable.layer.masksToBounds = YES;
+        _QiYeTitleLable.backgroundColor = [UIColor redColor];
+        _QiYeTitleLable.textAlignment = NSTextAlignmentCenter;
+        _QiYeTitleLable.font = [UIFont systemFontOfSize:9];
+        [MiddleImageView addSubview:_QiYeTitleLable];
+        [_QiYeTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_InterentTitleLable.mas_right).offset(2);
+            make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
+            make.width.mas_equalTo(31);
+            make.height.mas_equalTo(18);
+        }];
+        _PersonTitleLable = [[UILabel alloc]init];
+        _PersonTitleLable.textColor = [UIColor whiteColor];
+        _PersonTitleLable.backgroundColor = [UIColor redColor];
+        _PersonTitleLable.textAlignment = NSTextAlignmentCenter;
+        _PersonTitleLable.text = @"个人贷";
+        _PersonTitleLable.layer.cornerRadius = 1;
+        _PersonTitleLable.layer.masksToBounds = YES;
+        _PersonTitleLable.font = [UIFont systemFontOfSize:9];
+        [MiddleImageView addSubview:_PersonTitleLable];
+        [_PersonTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_QiYeTitleLable.mas_right).offset(2);
+            make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
+            make.width.mas_equalTo(31);
+            make.height.mas_equalTo(18);
+        }];
+  
+    }else{
+        _BuyTitleLable = [[UILabel alloc]init];
+        _BuyTitleLable.text = @"车贷";
+        _BuyTitleLable.layer.cornerRadius = 1;
+        _BuyTitleLable.layer.masksToBounds = YES;
+        _BuyTitleLable.textColor = [UIColor whiteColor];
+        _BuyTitleLable.textAlignment = NSTextAlignmentCenter;
+        _BuyTitleLable.backgroundColor = [UIColor whiteColor];
+        _BuyTitleLable.font = [UIFont systemFontOfSize:11];
+        [MiddleImageView addSubview:_BuyTitleLable];
+        [_BuyTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_TitleLable.mas_left);
+            make.top.mas_equalTo(_SailMoneyLable.mas_bottom).offset(5);
+            make.width.mas_equalTo(37);
+            make.height.mas_equalTo(18);
+        }];
+        _InterentTitleLable = [[UILabel alloc]init];
+        _InterentTitleLable.text = @"网贷";
+        _InterentTitleLable.layer.cornerRadius = 1;
+        _InterentTitleLable.layer.masksToBounds = YES;
+        _InterentTitleLable.textAlignment = NSTextAlignmentCenter;
+        _InterentTitleLable.backgroundColor = [UIColor whiteColor];
+        _InterentTitleLable.textColor = [UIColor whiteColor];
+        
+        _InterentTitleLable.font = [UIFont systemFontOfSize:11];
+        [MiddleImageView addSubview:_InterentTitleLable];
+        [_InterentTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_BuyTitleLable.mas_right).offset(2);
+            make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
+            make.width.mas_equalTo(37);
+            make.height.mas_equalTo(18);
+        }];
+        _QiYeTitleLable = [[UILabel alloc]init];
+        _QiYeTitleLable.textColor = [UIColor whiteColor];
+        _QiYeTitleLable.text = @"企业贷";
+        _QiYeTitleLable.layer.cornerRadius = 1;
+        _QiYeTitleLable.layer.masksToBounds = YES;
+        _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
+        _QiYeTitleLable.textAlignment = NSTextAlignmentCenter;
+        _QiYeTitleLable.font = [UIFont systemFontOfSize:11];
+        [MiddleImageView addSubview:_QiYeTitleLable];
+        [_QiYeTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_InterentTitleLable.mas_right).offset(2);
+            make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
+            make.width.mas_equalTo(37);
+            make.height.mas_equalTo(18);
+        }];
+        _PersonTitleLable = [[UILabel alloc]init];
+        _PersonTitleLable.textColor = [UIColor whiteColor];
+        _PersonTitleLable.backgroundColor = [UIColor whiteColor];
+        _PersonTitleLable.textAlignment = NSTextAlignmentCenter;
+        _PersonTitleLable.text = @"个人贷";
+        _PersonTitleLable.layer.cornerRadius = 1;
+        _PersonTitleLable.layer.masksToBounds = YES;
+        _PersonTitleLable.font = [UIFont systemFontOfSize:11];
+        [MiddleImageView addSubview:_PersonTitleLable];
+        [_PersonTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_QiYeTitleLable.mas_right).offset(2);
+            make.centerY.mas_equalTo(_BuyTitleLable.mas_centerY);
+            make.width.mas_equalTo(37);
+            make.height.mas_equalTo(18);
+        }];
+   
+    }
+    
     _UseTitleLable = [[UILabel alloc]init];
     _UseTitleLable.text = @"立即使用";
     _UseTitleLable.font = [UIFont systemFontOfSize:15];
-    _UseTitleLable.textAlignment = NSTextAlignmentCenter;
+    _UseTitleLable.textAlignment = NSTextAlignmentRight;
     _UseTitleLable.textColor = [UIColor whiteColor];
     [_RightImageView addSubview:_UseTitleLable];
     [_UseTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(_RightImageView.mas_centerX);
-        make.centerY.mas_equalTo(_RightImageView.mas_centerY).offset(-10);
+        make.right.mas_equalTo(_RightImageView.mas_right).offset(-20);
+        make.top.mas_equalTo(_RightImageView.mas_top).offset(38);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(20);
     }];
@@ -171,8 +249,8 @@
     _UseTimeTitleLable.textColor = [UIColor whiteColor];
     [_RightImageView addSubview:_UseTimeTitleLable];
     [_UseTimeTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(_UseTitleLable.mas_centerX);
-        make.top.mas_equalTo(_UseTitleLable.mas_bottom);
+        make.right.mas_equalTo(_RightImageView.mas_right);
+        make.top.mas_equalTo(_UseTitleLable.mas_bottom).offset(7);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);
     }];
@@ -192,24 +270,24 @@
         NSString *stageType = [NSString stringWithFormat:@"%@",_stageModel.type];
         switch ([stageType integerValue]) {
             case 1:
-                _TitleStateLable.text = @"加 息 卷";
-                _RightImageView.image = [UIImage imageNamed:@"wangdai_xmq_03"];
-                _TypeImageView.image = [UIImage imageNamed:@"wangdai_xmq_01"];
+                _TitleStateLable.text = @"加 息 券";
+                _RightImageView.image = [UIImage imageNamed:@"jxq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"jxq_01"];
                 break;
             case 2:
-                _TitleStateLable.text = @"小 米 卷";
-                _RightImageView.image = [UIImage imageNamed:@"gold_xmq_03"];
-                _TypeImageView.image = [UIImage imageNamed:@"gold_xmq_01"];
+                _TitleStateLable.text = @"小 米 券";
+                _RightImageView.image = [UIImage imageNamed:@"xmq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"xmq_01"];
                 break;
             case 3:
-                _TitleStateLable.text = @"新 手 卷";
+                _TitleStateLable.text = @"新手小米券";
                 _RightImageView.image = [UIImage imageNamed:@"new_xmq_03"];
                 _TypeImageView.image = [UIImage imageNamed:@"new_xmq_01"];
                 break;
             case 4:
-                _TitleStateLable.text = @"金 米 卷";
-                _RightImageView.image = [UIImage imageNamed:@"qiye_xmq_03"];
-                _TypeImageView.image = [UIImage imageNamed:@"qiye_xmq_01"];
+                _TitleStateLable.text = @"金 米 券";
+                _RightImageView.image = [UIImage imageNamed:@"gold_xmq_03"];
+                _TypeImageView.image = [UIImage imageNamed:@"gold_xmq_01"];
                 break;
                 
             default:
@@ -219,18 +297,23 @@
         
         
         _TitleLable.text = [NSString stringWithFormat:@"¥%@元",_stageModel.value];
-
-        _SailMoneyLable.text =[NSString stringWithFormat:@"投资金额：%@月以上",_stageModel.value];
-
         
-        if ([_stageModel.state integerValue] ==1) {
+        _SaileTimeLable.text =[NSString stringWithFormat:@"投资期限 %ld个月以上",[_stageModel.minimumInvestmentDays integerValue]/30];
+
+        _SailMoneyLable.text =[NSString stringWithFormat:@"投资金额 %@元以上",_stageModel.minimumInvestmentAmount];
+        NSLog(@"== %@",_stageModel.state);
+        if ([_stageModel.state integerValue] == 1) {
             _UseTitleLable.text = @"已使用";
+            [_UseTitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.mas_equalTo(_RightImageView.mas_right).offset(-40);
+                make.top.mas_equalTo(_RightImageView.mas_top).offset(58);
+            }];
             _UseTimeTitleLable.hidden = YES;
 
-        }else if ([_stageModel.state integerValue] ==2){
+        }else if ([_stageModel.state integerValue] == 2){
             _UseTitleLable.text = @"立即使用";
-            NSString *timeStr = [self getTimeStr:_stageModel.expireTime withForMat:@"yyyy-MM-dd"];
-
+            NSString *timeStr = [self getTimeStr:_stageModel.expireTime withForMat:@"yyyy.MM.dd"];
+            
             _UseTimeTitleLable.text = [NSString stringWithFormat:@"%@过期",timeStr];
         }
         
@@ -239,9 +322,14 @@
             _UseTimeTitleLable.hidden = YES;
             _RightImageView.image = [UIImage imageNamed:@"gray_quan_03"];
             _TypeImageView.image = [UIImage imageNamed:@"gray_quan_01"];
-
+            [_UseTitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.right.mas_equalTo(_RightImageView.mas_right).offset(-30);
+                make.top.mas_equalTo(_RightImageView.mas_top).offset(48);
+            }];
 
         }
+        
+        
         
         for (int i = 0; i < _stageModel.productCategoryIds.count; i++) {
             NSString *MyStageType = [_stageModel.productCategoryIds objectAtIndex:i];

@@ -83,6 +83,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"我的";
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
+
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -151,7 +153,7 @@
         make.height.mas_equalTo(64);
     }];
     UserImageView = [[UIImageView alloc]init];
-    UserImageView.layer.cornerRadius = 15;
+    UserImageView.layer.cornerRadius = 20;
     UserImageView.layer.masksToBounds = YES;
     UserImageView.image = [UIImage imageNamed:@"headpicUser"];
     NSString *userImageStr = NSuserUse(@"avatar");
@@ -162,8 +164,8 @@
     [UserImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(10);
         make.centerY.mas_equalTo(TopView.mas_centerY);
-        make.width.mas_equalTo(28);
-        make.height.mas_equalTo(28);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(40);
     }];
     
     UserLabel = [[UILabel alloc]init];
@@ -194,18 +196,18 @@
     [GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(TopView.mas_right).offset(-20);
         make.centerY.mas_equalTo(TopView.mas_centerY);
-        make.width.mas_equalTo(10);
-        make.height.mas_equalTo(10);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
-    UIView *lineUSerView = [[UIView alloc]init];
-    lineUSerView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-    [TopView addSubview:lineUSerView];
-    [lineUSerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_left);
-        make.top.mas_equalTo(PhoneLabel.mas_bottom).offset(5);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(0.5);
-    }];
+//    UIView *lineUSerView = [[UIView alloc]init];
+//    lineUSerView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+//    [TopView addSubview:lineUSerView];
+//    [lineUSerView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(TopView.mas_left);
+//        make.top.mas_equalTo(UserImageView.mas_bottom).offset(10);
+//        make.width.mas_equalTo(SCREEN_WIDTH);
+//        make.height.mas_equalTo(0.5);
+//    }];
     
     
     
@@ -231,7 +233,7 @@
     [MyScrollView addSubview:MoneyLabel];
     [MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(MyScrollView.mas_centerX);
-        make.top.mas_equalTo(TopView.mas_bottom).offset(60);
+        make.top.mas_equalTo(TopView.mas_bottom).offset(70);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(20);
     }];
@@ -251,18 +253,18 @@
     }];
     
     JinMiImageView = [[UIImageView alloc]init];
-    JinMiImageView.backgroundColor = colorWithRGB(0.99, 0.78, 0.03);
+    JinMiImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
     [MyScrollView addSubview:JinMiImageView];
     [JinMiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(50);
         make.top.mas_equalTo(TopView.mas_bottom).offset(250);
-        make.width.mas_equalTo(5);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(6);
+        make.height.mas_equalTo(14);
     }];
     
     JinMiLabel = [[UILabel alloc]init];
     JinMiLabel.text = @"金米宝";
-    JinMiLabel.textColor = colorWithRGB(0.99, 0.78, 0.03);
+    JinMiLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
     JinMiLabel.font = [UIFont systemFontOfSize:15];
     [MyScrollView addSubview:JinMiLabel];
     [JinMiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -303,7 +305,7 @@
     JinMiDetailLabel.layer.borderColor = ZFOrange.CGColor;
     JinMiDetailLabel.layer.borderWidth = 0.5f;
     JinMiDetailLabel.layer.masksToBounds = YES;
-    JinMiDetailLabel.layer.cornerRadius = 5;
+    JinMiDetailLabel.layer.cornerRadius = 10;
     JinMiDetailLabel.textAlignment = NSTextAlignmentCenter;
     JinMiDetailLabel.textColor = [UIColor orangeColor];
     JinMiDetailLabel.font = [UIFont systemFontOfSize:14];
@@ -316,18 +318,18 @@
     }];
     
     DinQiImageView = [[UIImageView alloc]init];
-    DinQiImageView.backgroundColor = colorWithRGB(0.96, 0.59, 0);
+    DinQiImageView.backgroundColor =colorWithRGB(0.96, 0.60, 0.12) ;
     [MyScrollView addSubview:DinQiImageView];
     [DinQiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_right).offset(-150);
         make.top.mas_equalTo(TopView.mas_bottom).offset(250);
-        make.width.mas_equalTo(5);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(6);
+        make.height.mas_equalTo(14);
     }];
     
     DinQiLabel = [[UILabel alloc]init];
     DinQiLabel.text = @"定期投资";
-    DinQiLabel.textColor = colorWithRGB(0.96, 0.59, 0);
+    DinQiLabel.textColor = colorWithRGB(0.96, 0.60, 0.12);
     DinQiLabel.font = [UIFont systemFontOfSize:15];
     [MyScrollView addSubview:DinQiLabel];
     [DinQiLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -368,7 +370,7 @@
     DinQiDetailLabel.layer.borderColor = ZFOrange.CGColor;
     DinQiDetailLabel.layer.borderWidth = 0.5f;
     DinQiDetailLabel.layer.masksToBounds = YES;
-    DinQiDetailLabel.layer.cornerRadius = 5;
+    DinQiDetailLabel.layer.cornerRadius = 10;
     DinQiDetailLabel.textAlignment = NSTextAlignmentCenter;
     DinQiDetailLabel.textColor = [UIColor orangeColor];
     DinQiDetailLabel.font = [UIFont systemFontOfSize:14];
@@ -395,7 +397,7 @@
     MyLeftMoneyImageView.image = [UIImage imageNamed:@"portfolio"];
     [MyScrollView addSubview:MyLeftMoneyImageView];
     [MyLeftMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
+        make.left.mas_equalTo(MyScrollView.mas_left).offset(55);
         make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(60);
@@ -497,7 +499,7 @@
     MyStageImageView.image = [UIImage imageNamed:@"diamond"];
     [MyScrollView addSubview:MyStageImageView];
     [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
+        make.left.mas_equalTo(MyScrollView.mas_left).offset(55);
         make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(60);

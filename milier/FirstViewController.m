@@ -35,7 +35,7 @@
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     // 导航栏标题字体颜色
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
@@ -140,7 +140,7 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    
-    return 270;
+    return 310;
 
     
 }

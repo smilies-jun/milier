@@ -46,17 +46,21 @@
 }
 
 - (void)initUIView{
-//    _TitleLabel = [[UILabel alloc]init];
-//    _TitleLabel.text = @"登录";
-//    [_TitleLabel setFont:[UIFont systemFontOfSize:18]];
-//    _TitleLabel.textAlignment = NSTextAlignmentCenter;
-//    [self.view addSubview:_TitleLabel];
-//    [_TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.centerX.mas_equalTo(self.view.mas_centerX);
-//        make.top.mas_equalTo(self.view.mas_top).offset(20);
-//        make.width.mas_equalTo(40);
-//        make.height.mas_equalTo(30);
-//    }];
+    _TitleLabel = [[UILabel alloc]init];
+    _TitleLabel.text = @"取消";
+    [_TitleLabel setFont:[UIFont systemFontOfSize:15]];
+    _TitleLabel.textColor = [UIColor whiteColor];
+    _TitleLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *titleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(CancelClick)];
+    [_TitleLabel addGestureRecognizer:titleTap];
+    _TitleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_TitleLabel];
+    [_TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.view.mas_right).offset(-10);
+        make.top.mas_equalTo(self.view.mas_top).offset(20);
+        make.width.mas_equalTo(40);
+        make.height.mas_equalTo(30);
+    }];
   //    _YWDImageView = [[UIImageView alloc]init];
 //    _YWDImageView.image = [UIImage imageNamed:@"login_logo"];
 //    [_bagView addSubview:_YWDImageView];
@@ -77,14 +81,14 @@
     [_userNameBackImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_bagView.mas_left).offset(20);
         make.right.mas_equalTo(_bagView.mas_right).offset(-20);
-        make.centerY.mas_equalTo(_bagView.mas_centerY);
-        make.height.mas_equalTo(45);
+        make.centerY.mas_equalTo(_bagView.mas_centerY).offset(50);
+        make.height.mas_equalTo(44);
     }];
     _PhoneIconImageView = [[UIImageView alloc]init];
     _PhoneIconImageView.image = [UIImage imageNamed:@"phone"];
     [_userNameBackImageView addSubview:_PhoneIconImageView];
     [_PhoneIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_userNameBackImageView.mas_left).offset(5);
+        make.left.mas_equalTo(_userNameBackImageView.mas_left).offset(15);
         make.centerY.mas_equalTo(_userNameBackImageView.mas_centerY);
         make.width.mas_equalTo(18);
         make.height.mas_equalTo(18);
@@ -111,15 +115,15 @@
     [_PassWordBackImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_bagView.mas_left).offset(20);
         make.right.mas_equalTo(_bagView.mas_right).offset(-20);
-        make.top.mas_equalTo(_userNameBackImageView.mas_bottom).offset(10);
-        make.height.mas_equalTo(45);
+        make.top.mas_equalTo(_userNameBackImageView.mas_bottom).offset(15);
+        make.height.mas_equalTo(44);
     }];
    
     _PassWordIconImageView= [[UIImageView alloc]init];
     _PassWordIconImageView.image = [UIImage imageNamed:@"key"];
     [_PassWordBackImageView addSubview:_PassWordIconImageView];
     [_PassWordIconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_PassWordBackImageView.mas_left).offset(5);
+        make.left.mas_equalTo(_PassWordBackImageView.mas_left).offset(15);
         make.centerY.mas_equalTo(_PassWordBackImageView.mas_centerY);
         make.width.mas_equalTo(18);
         make.height.mas_equalTo(18);
@@ -150,7 +154,7 @@
     [_LoginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.right.mas_equalTo(self.view.mas_right).offset(-20);
-        make.top.mas_equalTo(_PassWordBackImageView.mas_bottom).offset(10);
+        make.top.mas_equalTo(_PassWordBackImageView.mas_bottom).offset(15);
         make.height.mas_equalTo(40);
     }];
     
@@ -188,7 +192,9 @@
 
 }
 
-
+- (void)CancelClick{
+    [self.navigationController dismissViewControllerAnimated:NO completion:nil];
+}
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{
     for (UIView *KeyView in self.view.subviews) {

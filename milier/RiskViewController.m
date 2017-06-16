@@ -50,7 +50,7 @@ static NSString * const ID = @"CollectionCell";
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(RiskTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -354,6 +354,24 @@ static NSString * const ID = @"CollectionCell";
     [MHRadioButton addObserver:self forFroupId:@"group9"];
     [MHRadioButton addObserver:self forFroupId:@"group10"];
     
+//    RiskBtn   = [UIButton buttonWithType:UIButtonTypeCustom];
+//    RiskBtn.hidden = NO;
+//    [RiskBtn setTitle:@"下一题" forState:UIControlStateNormal];
+//    RiskBtn.layer.masksToBounds = YES;
+//    RiskBtn.layer.cornerRadius = 10;
+//    [RiskBtn addTarget:self action:@selector(NextClick) forControlEvents:UIControlEventTouchUpInside];
+//    RiskBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+//    RiskBtn.backgroundColor = [UIColor orangeColor];
+//    RiskBtn.tintColor = [UIColor whiteColor];
+//    [self.view addSubview:RiskBtn];
+//    [RiskBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.centerX.mas_equalTo(self.view.mas_centerX);
+//        make.centerY.mas_equalTo(self.view.mas_centerY).offset(50);
+//        make.width.mas_equalTo(SCREEN_WIDTH - 100);
+//        make.height.mas_equalTo(40);
+//    }];
+    
+    
     
     
     ResultBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -405,7 +423,7 @@ static NSString * const ID = @"CollectionCell";
     complyLabel.textColor = [UIColor whiteColor];
     complyLabel.font = [UIFont systemFontOfSize:15];
     complyLabel.layer.masksToBounds = YES;
-    complyLabel.layer.cornerRadius = 10;
+    complyLabel.layer.cornerRadius = 15;
     complyLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *ComPlayTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BeginClick)];
     [complyLabel addGestureRecognizer:ComPlayTap];
@@ -430,7 +448,7 @@ static NSString * const ID = @"CollectionCell";
     int page = floor((RiskScroview.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
     
     for (int i = page; i < 9; i++) {
-        RiskScroview.contentOffset = CGPointMake(SCREEN_WIDTH*(page+1), 0);
+        RiskScroview.contentOffset = CGPointMake((SCREEN_WIDTH -i*40)*(page+1), 0);
         TitleLabel.text = [NSString stringWithFormat:@"风险能力测试题（%d/10）",page+1];
         RiskBtn.hidden = NO;
         ResultBtn.hidden = YES;
@@ -652,7 +670,6 @@ static NSString * const ID = @"CollectionCell";
     int a = a1+a2+a3+a4+a5+a6+a7+a8+a9+a10;
     
     
-    NSLog(@"ssss = %d",a);
     
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
     view.backgroundColor=[UIColor whiteColor];

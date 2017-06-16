@@ -34,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"产品详情";
-    [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -51,7 +51,7 @@
     
 
     _DataArray = [[NSMutableArray alloc]init];
-    _count = 150;
+    _count = 190;
     [self getNetworkData:YES];
     [self ConfigUI];
 }
@@ -67,9 +67,9 @@
             ProductDetailModel *model = [[ProductDetailModel alloc]init];
             model.dataDictionary = dic;
         if ([model.isFullScaleReward integerValue] == 1) {
-            _count = 230;
+            _count = 280;
         }else{
-            _count = 160;
+            _count = 190;
         }
         
             [_DataArray addObject:model];
@@ -117,7 +117,8 @@
     
     UIView *saleView = [[UIView alloc]init];
     saleView.backgroundColor = [UIColor whiteColor];
-    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
+    saleView.alpha = 0.9;
+    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
     [self.view addSubview:saleView];
     
     UILabel *SaleLbel =  [[UILabel alloc]init];
@@ -150,13 +151,13 @@
     
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.cornerRadius = 20;
     SaleLbel.layer.masksToBounds = YES;
     [saleView addSubview:SaleLbel];
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(saleView.mas_centerX);
         make.centerY.mas_equalTo(saleView.mas_centerY);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.width.mas_equalTo(SCREEN_WIDTH - 50);
         make.height.mas_equalTo(40);
     }];
     
@@ -346,14 +347,18 @@
         BundProfileViewController *vc= [[BundProfileViewController alloc]init];
         vc.TitleStr = @"产品详情";
         vc.WebTypeStr = @"1";
-        vc.WebStr = [NSString stringWithFormat:@"%@/index.html#/product/%d/productCategory/%d/desc",HOST_URL,_productID,_productCateID];
-        [self.navigationController pushViewController:vc animated:NO];
+  
+            ProductDetailModel *model = [_DataArray objectAtIndex:0];
+
+            vc.WebStr = [NSString stringWithFormat:@"%@/index.html#/product/%d/productCategory/%@/desc",HOST_URL,_productID,model.productCategoryId];
+
+            [self.navigationController pushViewController:vc animated:NO];
 
     }else if (indexPath.row == 4){
         BundProfileViewController *vc= [[BundProfileViewController alloc]init];
         vc.TitleStr = @"投资记录";
         vc.WebTypeStr = @"1";
-        vc.WebStr = [NSString stringWithFormat:@"%@/order/list/index.html?productId=%D",HOST_URL,_productID];
+        vc.WebStr = [NSString stringWithFormat:@"%@/order/list/index.html?productId=%d",HOST_URL,_productID];
         [self.navigationController pushViewController:vc animated:NO];
 
     }

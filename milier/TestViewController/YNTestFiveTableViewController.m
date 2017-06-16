@@ -39,7 +39,6 @@
     
 }
 - (void)loadoneMore{
-    NSLog(@"more");
     [self getNetworkData:NO];
     
 }
@@ -90,9 +89,7 @@
 
 //header-height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    
-    
-    return 1;
+    return 5;
     
 }
 //header-secion
@@ -108,14 +105,13 @@
 
 //footer-section
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
-    
     return [UIView new];
 }
 
 
 //sections-tableView
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 4;
+    return 1;
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

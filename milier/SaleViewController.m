@@ -200,7 +200,7 @@
     
     LeftLabel = [[UILabel alloc]init];
     LeftLabel.text = @"剩余额度";
-    LeftLabel.textColor = colorWithRGB(0.93, 0.93, 0.93);
+    LeftLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     LeftLabel.font = [UIFont systemFontOfSize:15];
     [TopView addSubview:LeftLabel];
     [LeftLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -218,7 +218,7 @@
         MoneyLeftLbel.text = [NSString stringWithFormat:@"%.2f元",totalDouble - sellDouble];
     MoneyLeftLbel.textColor = colorWithRGB(0.67, 0.87, 0.1);
     MoneyLeftLbel.textAlignment = NSTextAlignmentRight;
-    MoneyLeftLbel.font = [UIFont systemFontOfSize:12];
+    MoneyLeftLbel.font = [UIFont systemFontOfSize:15];
     [TopView addSubview:MoneyLeftLbel];
     [MoneyLeftLbel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(TopView.mas_right).offset(-20);
@@ -238,7 +238,7 @@
         make.top.mas_equalTo(TopView.mas_bottom);
         make.left.mas_equalTo(self.view.mas_left);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(SCREEN_HEIGHT-240);
+        make.height.mas_equalTo(SCREEN_HEIGHT);
     }];
     
     ExplainLabel = [[UILabel alloc]init];
@@ -317,7 +317,7 @@
             make.left.mas_equalTo(BootmView.mas_left);
             make.top.mas_equalTo(ExplainLabel.mas_bottom).offset(10);
             make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(44);
         }];
         UIImageView *BuyImageView = [[UIImageView alloc]init];
         BuyImageView.image = [UIImage imageNamed:@"buy"];
@@ -325,11 +325,12 @@
         [BuyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(SaleView.mas_left).offset(10);
-            make.width.mas_equalTo(15);
-            make.height.mas_equalTo(15);
+            make.width.mas_equalTo(22);
+            make.height.mas_equalTo(22);
         }];
         UILabel *buyLabel = [[UILabel alloc]init];
         buyLabel.text  = @"购买金额";
+        buyLabel.textColor= colorWithRGB(0.27, 0.27, 0.27);
         buyLabel.font = [UIFont systemFontOfSize:15];
         [SaleView addSubview:buyLabel];
         [buyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -341,7 +342,7 @@
         
         BuyTextField = [[UITextField alloc]init];
         BuyTextField.backgroundColor = [UIColor whiteColor];
-        BuyTextField.font = [UIFont systemFontOfSize:13];
+        BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.delegate = self;
@@ -361,7 +362,7 @@
             make.left.mas_equalTo(BootmView.mas_left);
             make.top.mas_equalTo(SaleView.mas_bottom).offset(0.5);
             make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(44);
         }];
 
     }else{
@@ -375,7 +376,7 @@
             make.left.mas_equalTo(BootmView.mas_left);
             make.top.mas_equalTo(ExplainLabel.mas_bottom).offset(10);
             make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(44);
         }];
         UIImageView *ChoceImageView = [[UIImageView alloc]init];
         ChoceImageView.image = [UIImage imageNamed:@"tool"];
@@ -383,12 +384,13 @@
         [ChoceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
             make.left.mas_equalTo(ChoceStageView.mas_left).offset(10);
-            make.width.mas_equalTo(15);
-            make.height.mas_equalTo(15);
+            make.width.mas_equalTo(22);
+            make.height.mas_equalTo(22);
         }];
         
         UILabel *choceLabel = [[UILabel alloc]init];
         choceLabel.text  = @"选择道具";
+        choceLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
         choceLabel.font = [UIFont systemFontOfSize:15];
         [ChoceStageView addSubview:choceLabel];
         [choceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -398,7 +400,7 @@
             make.height.mas_equalTo(20);
         }];
         StageLabel = [[UILabel alloc]init];
-        StageLabel.textColor = colorWithRGB(0.80, 0.80, 0.80);
+        StageLabel.textColor = [UIColor blackColor];
         if (AddStr.length) {
             StageLabel.text = AddStr;
             
@@ -406,7 +408,7 @@
             StageLabel.text = @"请选择道具";
             
         }
-        StageLabel.font = [UIFont systemFontOfSize:13];
+        StageLabel.font = [UIFont systemFontOfSize:15];
         [ChoceStageView addSubview:StageLabel];
         [StageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
@@ -416,7 +418,15 @@
             
         }];
         
-        
+        UIImageView *sorrowView = [[UIImageView alloc]init];
+        sorrowView.image = [UIImage imageNamed:@"goarrow"];
+        [ChoceStageView addSubview:sorrowView];
+        [sorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(ChoceStageView.mas_right).offset(-10);
+            make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
+            make.width.mas_equalTo(18);
+            make.height.mas_equalTo(18);
+        }];
         
         SaleView = [[UIView alloc]init];
         SaleView.backgroundColor = [UIColor whiteColor];
@@ -425,7 +435,7 @@
             make.left.mas_equalTo(BootmView.mas_left);
             make.top.mas_equalTo(ChoceStageView.mas_bottom).offset(0.5);
             make.width.mas_equalTo(SCREEN_WIDTH );
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(44);
         }];
         UIImageView *BuyImageView = [[UIImageView alloc]init];
         BuyImageView.image = [UIImage imageNamed:@"buy"];
@@ -433,11 +443,12 @@
         [BuyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(SaleView.mas_left).offset(10);
-            make.width.mas_equalTo(15);
-            make.height.mas_equalTo(15);
+            make.width.mas_equalTo(22);
+            make.height.mas_equalTo(22);
         }];
         UILabel *buyLabel = [[UILabel alloc]init];
         buyLabel.text  = @"购买金额";
+        buyLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
         buyLabel.font = [UIFont systemFontOfSize:15];
         [SaleView addSubview:buyLabel];
         [buyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -449,7 +460,7 @@
         
         BuyTextField = [[UITextField alloc]init];
         BuyTextField.backgroundColor = [UIColor whiteColor];
-        BuyTextField.font = [UIFont systemFontOfSize:13];
+        BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.delegate = self;
@@ -458,7 +469,7 @@
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(buyLabel.mas_right);
-            make.width.mas_equalTo(100);
+            make.width.mas_equalTo(130);
             make.height.mas_equalTo(20);
         }];
         
@@ -469,7 +480,7 @@
             make.left.mas_equalTo(BootmView.mas_left);
             make.top.mas_equalTo(SaleView.mas_bottom).offset(0.5);
             make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(40);
+            make.height.mas_equalTo(44);
         }];
 
     }
@@ -481,12 +492,13 @@
     [InterestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(InterestView.mas_centerY);
         make.left.mas_equalTo(InterestView.mas_left).offset(10);
-        make.width.mas_equalTo(15);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(22);
+        make.height.mas_equalTo(22);
     }];
     
     UILabel *InterestLabel = [[UILabel alloc]init];
     InterestLabel.text  = @"预计本息";
+    InterestLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     InterestLabel.font = [UIFont systemFontOfSize:15];
     [InterestView addSubview:InterestLabel];
     [InterestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -497,7 +509,7 @@
     }];
     InterestMoneyLabel = [[UILabel alloc]init];
     InterestMoneyLabel.text = @"0.00";
-    InterestMoneyLabel.font = [UIFont systemFontOfSize:12];
+    InterestMoneyLabel.font = [UIFont systemFontOfSize:15];
     [InterestView addSubview:InterestMoneyLabel];
     [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(InterestView.mas_centerY);
@@ -515,7 +527,7 @@
         make.left.mas_equalTo(BootmView.mas_left);
         make.top.mas_equalTo(InterestView.mas_bottom).offset(0.5);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     UIImageView *PassWordImageView = [[UIImageView alloc]init];
     PassWordImageView.image = [UIImage imageNamed:@"password"];
@@ -523,10 +535,11 @@
     [PassWordImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(PassWordView.mas_centerY);
         make.left.mas_equalTo(PassWordView.mas_left).offset(10);
-        make.width.mas_equalTo(15);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(22);
+        make.height.mas_equalTo(22);
     }];
     UILabel *passWordLabel = [[UILabel alloc]init];
+    passWordLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     passWordLabel.text  = @"交易密码";
     passWordLabel.font = [UIFont systemFontOfSize:15];
     [PassWordView addSubview:passWordLabel];
@@ -539,7 +552,7 @@
     
     PassWordTextField = [[UITextField alloc]init];
     PassWordTextField.backgroundColor = [UIColor whiteColor];
-    PassWordTextField.font = [UIFont systemFontOfSize:13];
+    PassWordTextField.font = [UIFont systemFontOfSize:15];
     PassWordTextField.textAlignment = NSTextAlignmentLeft;
     PassWordTextField.keyboardType = UIKeyboardTypeNumberPad;
     PassWordTextField.secureTextEntry = YES;
@@ -549,7 +562,7 @@
     [PassWordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(PassWordView.mas_centerY);
         make.left.mas_equalTo(passWordLabel.mas_right);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(130);
         make.height.mas_equalTo(20);
     }];
     
@@ -605,14 +618,14 @@
     SaleLabel.backgroundColor = colorWithRGB(0.28, 0.46, 0.91);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
-    SaleLabel.layer.cornerRadius = 10;
+    SaleLabel.layer.cornerRadius = 22;
     SaleLabel.layer.masksToBounds = YES;
     [BootmView addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(BootmView.mas_left).offset(20);
+        make.left.mas_equalTo(BootmView.mas_left).offset(25);
         make.top.mas_equalTo(PassWordView.mas_bottom).offset(50);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(40);
+        make.width.mas_equalTo(SCREEN_WIDTH - 50);
+        make.height.mas_equalTo(44);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleBtn
@@ -623,7 +636,6 @@
         case 1:
             TitleLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
             MoneyPercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
-            LeftLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
             MoneyLeftLbel.textColor = colorWithRGB(0.62, 0.80, 0.09);
             ExplainLabel.textColor =  colorWithRGB(0.62, 0.80, 0.09);
             SaleLabel.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
@@ -632,7 +644,6 @@
         case 2:
             TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-            LeftLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             MoneyLeftLbel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             ExplainLabel.textColor =  colorWithRGB(0.99, 0.79, 0.09);
             SaleLabel.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
@@ -640,7 +651,6 @@
         case 3:
             TitleLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
             MoneyPercentLabel.textColor =  colorWithRGB(0.99, 0.52, 0.18);
-            LeftLabel.textColor =  colorWithRGB(0.99, 0.52, 0.18);
             MoneyLeftLbel.textColor =  colorWithRGB(0.99, 0.52, 0.18);
             ExplainLabel.textColor =   colorWithRGB(0.99, 0.52, 0.18);
             SaleLabel.backgroundColor =  colorWithRGB(0.99, 0.52, 0.18);
@@ -648,7 +658,6 @@
         case 4:
             TitleLabel.textColor =colorWithRGB(0.27, 0.78, 0.96);
             MoneyPercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
-            LeftLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
             MoneyLeftLbel.textColor = colorWithRGB(0.27, 0.78, 0.96);
             ExplainLabel.textColor =  colorWithRGB(0.27, 0.78, 0.96);
             SaleLabel.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
@@ -656,7 +665,6 @@
         case 5:
             TitleLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
             MoneyPercentLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
-            LeftLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
             MoneyLeftLbel.textColor = colorWithRGB(0.31, 0.69, 0.10);
             ExplainLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
             SaleLabel.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
@@ -664,7 +672,6 @@
         case 6:
             TitleLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
             MoneyPercentLabel.textColor =  colorWithRGB(0.19, 0.39, 0.9);
-            LeftLabel.textColor =  colorWithRGB(0.19, 0.39, 0.9);
             MoneyLeftLbel.textColor =  colorWithRGB(0.19, 0.39, 0.9);
             ExplainLabel.textColor =   colorWithRGB(0.19, 0.39, 0.9);
             SaleLabel.backgroundColor =  colorWithRGB(0.19, 0.39, 0.9);
@@ -757,8 +764,8 @@
                     double leftMoney = totalDouble - sellDouble;
                     if ([BuyTextField.text doubleValue] < leftMoney) {
                         
-                        if ([BuyTextField.text doubleValue] > [_minBuyStr doubleValue]) {
-                            if ([BuyTextField.text doubleValue] < [MyMoneyStr doubleValue]) {
+                        if ([BuyTextField.text doubleValue] >= [_minBuyStr doubleValue]) {
+                            if ([BuyTextField.text doubleValue] <= [MyMoneyStr doubleValue]) {
                                 //购 买
                                 if ([riskID integerValue] >0) {
                                     if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
@@ -854,7 +861,12 @@
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             normal_alert(@"提示", @"购买成功　", @"确定");
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                [self.navigationController popToRootViewControllerAnimated:NO];
+                //  返回指定页面
+                for (UIViewController *controller in self.navigationController.viewControllers) {
+                    if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
+                        [self.navigationController popToViewController:controller animated:YES];
+                    }
+                }
             });
 
         }else{
@@ -912,13 +924,13 @@
     
     UILabel *goonLabel = [[UILabel alloc]init];
     goonLabel.text = @"如果继续购买，请先打勾认可风险";
-    goonLabel.font = [UIFont systemFontOfSize:11];
+    goonLabel.font = [UIFont systemFontOfSize:12];
     goonLabel.numberOfLines = 0;
     [view addSubview:goonLabel];
     [goonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(UseImageView.mas_right).offset(40);
         make.top.mas_equalTo(alertLabel.mas_bottom);
-        make.width.mas_equalTo(170);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(20);
     }];
     
@@ -1052,12 +1064,15 @@
 
                         isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
                         if (isfull.length) {
-                            InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%.2f+%@+%@)+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],AddStr,
-                                                 isfull,_investmentHorizonStr] ;
+                            double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr integerValue]+[isfull integerValue])+[_investmentHorizonStr doubleValue]/365.0f;
+                            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",text];
                         }
                     }else{
+                        double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr integerValue])+[_investmentHorizonStr doubleValue]/365.0f;
 
-                        InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%.2f+%@)+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],AddStr,_investmentHorizonStr] ;
+                        InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",text];
+
+                       // InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%.2f+%@)+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],AddStr,_investmentHorizonStr] ;
                     }
                     
                     
@@ -1065,9 +1080,16 @@
             }else{
 
                 if (AddStr.length) {
-                    InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%.2f+%@)+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],AddStr,_investmentHorizonStr] ;
+                    double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr integerValue])+[_investmentHorizonStr doubleValue]/365.0f;
+
+                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",text];
+                    //InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%.2f+%@)+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],AddStr,_investmentHorizonStr] ;
                 }else{
-                  InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*%.2f+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],_investmentHorizonStr] ;
+                    double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue])+[_investmentHorizonStr doubleValue]/365.0f;
+           
+
+                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",text/100];
+                  //InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*%.2f+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],_investmentHorizonStr] ;
                 }
                 
               
@@ -1077,7 +1099,9 @@
 
             
         }else{
-             InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*%.2f+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],_investmentHorizonStr] ;
+            double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*[_PercentStr doubleValue]+[_investmentHorizonStr doubleValue]/365.00f;
+            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",text/100 ];
+            // InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*%.2f+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],_investmentHorizonStr] ;
  
         }
      
