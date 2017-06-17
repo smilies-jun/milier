@@ -35,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"债券转让";
+    self.navigationItem.title = @"债权转让";
     self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -84,7 +84,7 @@
     }];
     
     UILabel *DetailLabel = [[UILabel alloc]init];
-    DetailLabel.text = @"(债券包价值)";
+    DetailLabel.text = @"(债权包价值)";
     DetailLabel.textAlignment = NSTextAlignmentCenter;
     DetailLabel.font = [UIFont systemFontOfSize:9];
     DetailLabel.textColor = [UIColor blackColor];
@@ -310,7 +310,7 @@
             
 
       }else{
-            normal_alert(@"提示", @"转出金额不能大于债券包价值", @"确定");
+            normal_alert(@"提示", @"转出金额不能大于债权包价值", @"确定");
  
         }
         

@@ -43,7 +43,9 @@
     [self setupViewControllers];
     //启动动画延迟时间
     [NSThread sleepForTimeInterval:3.0];
- 
+    [[UINavigationBar appearance] setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    
+    [[UINavigationBar appearance] setShadowImage:[[UIImage alloc] init]];
     int i = 4;
     //判断是否登陆，服务器获取
     if ( i >= 5) {

@@ -158,11 +158,16 @@ static NSString * const cellId = @"CovertcellID";
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-        NSLog(@"self = %@",[SectionArray objectAtIndex:indexPath.section] );
+        if (SectionArray.count) {
+            NSLog(@"self = %@",[SectionArray objectAtIndex:indexPath.section] );
+            
+            CGFloat statuesFloat = [DuiHuanTableViewCell tableView:tableView rowHeightForObject:[SectionArray objectAtIndex:indexPath.section]];
+            
+            return statuesFloat;
+        }else{
+            return 100;
+        }
     
-    CGFloat statuesFloat = [DuiHuanTableViewCell tableView:tableView rowHeightForObject:[SectionArray objectAtIndex:indexPath.section]];
-    
-    return statuesFloat;
 }
 
 - (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
@@ -192,7 +197,7 @@ static NSString * const cellId = @"CovertcellID";
         //®´    NameImageView.backgroundColor = [UIColor grayColor];
         [sectionLabel addSubview:NameImageView];
         [NameImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(sectionLabel.mas_left).offset(10);
+            make.left.mas_equalTo(sectionLabel.mas_left).offset(14);
             make.centerY.mas_equalTo(sectionLabel.mas_centerY);
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(60);
@@ -202,7 +207,7 @@ static NSString * const cellId = @"CovertcellID";
         NameLabel.text =[NSString stringWithFormat:@"%@",model.commodityName];
         NameLabel.textAlignment = NSTextAlignmentLeft;
         NameLabel.textColor = [UIColor blackColor];
-        NameLabel.font = [UIFont systemFontOfSize:10];
+        NameLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel addSubview:NameLabel];
         [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(NameImageView.mas_right).offset(10);
@@ -215,7 +220,7 @@ static NSString * const cellId = @"CovertcellID";
         NameDetailLabel.text = [NSString stringWithFormat:@"积分:%@",model.commodityScore];
         NameDetailLabel.numberOfLines = 0;
         NameDetailLabel.lineBreakMode = NSLineBreakByCharWrapping;
-        NameDetailLabel.font = [UIFont systemFontOfSize:10];
+        NameDetailLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel addSubview:NameDetailLabel];
         [NameDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(NameImageView.mas_right).offset(10);
@@ -304,7 +309,6 @@ static NSString * const cellId = @"CovertcellID";
 }
 - (void)sectionClick:(UITapGestureRecognizer *)tap{
     int index = tap.view.tag % 100;
-    
     NSMutableArray *indexArray = [[NSMutableArray alloc]init];
     NSArray *arr = _sectionArray[index];
     for (int i = 0; i < arr.count; i ++) {

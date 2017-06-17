@@ -715,7 +715,6 @@
     _isAfterLoadData = isAfterLoadData;
     _isAsChildViewController = YES;
     [self addChildVCWithFromVC:self toVC:parentViewControler];
-    NSLog(@"self.view.f = %f",self.view.frame.size.height);
 }
 
 - (void)reloadPlaceHoderViewFrame{

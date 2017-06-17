@@ -26,7 +26,7 @@ static NSString * const cellId = @"cellID";
     [super viewDidLoad];
     UIView *saleView = [[UIView alloc]init];
     saleView.backgroundColor = [UIColor whiteColor];
-    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
+    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
     [self.view addSubview:saleView];
     MyArray = [[NSMutableArray alloc]init];
     UILabel *SaleLbel =  [[UILabel alloc]init];
@@ -35,14 +35,14 @@ static NSString * const cellId = @"cellID";
     SaleLbel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.cornerRadius = 20;
     SaleLbel.layer.masksToBounds = YES;
     [saleView addSubview:SaleLbel];
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(saleView.mas_centerX);
         make.centerY.mas_equalTo(saleView.mas_centerY);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenBtnClick
@@ -116,7 +116,7 @@ static NSString * const cellId = @"cellID";
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self.tableView setTableFooterView:[UIView new]];
+   // [self.tableView setTableFooterView:[UIView new]];
     [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellId];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
@@ -142,17 +142,14 @@ static NSString * const cellId = @"cellID";
 }
 #pragma mark- ZJScrollPageViewChildVcDelegate
 
-#pragma mark- UITableViewDelegate, UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return MyArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"StageTotalidentifier";
+    static NSString *identifier = @"JifenJilvTotalidentifier";
     
     JiFenRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
@@ -165,7 +162,12 @@ static NSString * const cellId = @"cellID";
     }
     return cell;
 }
-
+//cell的高度
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 64;
+    
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     NSLog(@"点击了%ld行----", indexPath.row);

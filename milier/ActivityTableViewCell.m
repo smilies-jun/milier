@@ -22,7 +22,7 @@
         make.left.mas_equalTo(self.mas_left).offset(10);
         make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH- 20);
-        make.height.mas_equalTo(300);
+        make.height.mas_equalTo(320);
     }];
     _TitleLabel = [[UILabel alloc]init];
     _TitleLabel.font = [UIFont systemFontOfSize:16];
@@ -61,7 +61,7 @@
         make.left.mas_equalTo(_BagView.mas_left).offset(10);
         make.top.mas_equalTo(_DetailLabel.mas_bottom).offset(10);
         make.right.mas_equalTo(_BagView.mas_right).offset(-10);
-        make.height.mas_equalTo(140);
+        make.height.mas_equalTo(160);
     }];
 
     _ActivityLabel = [[UILabel alloc]init];

@@ -29,7 +29,7 @@
         
     }];
     _ChangeValueLabel = [[UILabel alloc]init];
-    _ChangeValueLabel.text = @"债券包价值";
+    _ChangeValueLabel.text = @"债权包价值";
     _ChangeValueLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
 
     _ChangeValueLabel.textAlignment = NSTextAlignmentCenter;

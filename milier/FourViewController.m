@@ -21,6 +21,9 @@
 @property (nonatomic,strong)NSArray *MessageArray;
 
 
+@property (nonatomic,strong)NSMutableArray *NoteArray;
+
+
 @end
 
 @implementation FourViewController
@@ -43,9 +46,10 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     _MessageArray = [[NSArray alloc]init];
+    _NoteArray = [[NSMutableArray alloc]init];
      [self getNetworkData:YES];
     [self makeData];
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [_tableView setTableFooterView:[UIView new]];
@@ -138,7 +142,7 @@
 }
 //组头高度
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44;
+    return 62;
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -150,7 +154,7 @@
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     UIView *sectionLabel = [[UIView alloc] init];
-    sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 42);
+    sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 61);
     //sectionLabel.textColor = [UIColor orangeColor];
     //sectionLabel.text = [NSString stringWithFormat:@"组%ld",(long)section];
     //sectionLabel.textAlignment = NSTextAlignmentCenter;
@@ -169,12 +173,21 @@
     }else{
         leftView.hidden = NO;
     }
+    for (NSString *myStr in _NoteArray) {
+        if ([myStr integerValue]) {
+            if ([myStr integerValue] == section) {
+                leftView.hidden = YES;
+  
+            }
+        }
+    }
+   
     leftView.frame = CGRectMake(15, 15, 8, 8);
     [sectionLabel addSubview:leftView];
     UILabel *NameLabel = [[UILabel alloc]init];
     NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
     NameLabel.textAlignment = NSTextAlignmentLeft;
-    NameLabel.font = [UIFont systemFontOfSize:13];
+    NameLabel.font = [UIFont systemFontOfSize:14];
     [sectionLabel addSubview:NameLabel];
     [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(leftView.mas_right);
@@ -183,21 +196,22 @@
         make.height.mas_equalTo(15);
     }];
     UILabel *timeLabel = [[UILabel alloc]init];
-    NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd´"];
+    NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
 
     timeLabel.text = timeStr;
-    timeLabel.textColor = colorWithRGB(0.94, 0.94, 0.94);
-    timeLabel.font = [UIFont systemFontOfSize:12];
+    timeLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+    timeLabel.font = [UIFont systemFontOfSize:14];
     [sectionLabel addSubview:timeLabel];
     [timeLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(leftView.mas_right);
-        make.top.mas_equalTo(NameLabel.mas_bottom);
+        make.top.mas_equalTo(NameLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(15);    }];
+        make.height.mas_equalTo(15);
+    }];
     
     UIView *lineView = [[UIView alloc]init];
     lineView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-    lineView.frame = CGRectMake(0, 43, SCREEN_WIDTH, 0.5);
+    lineView.frame = CGRectMake(0, 60, SCREEN_WIDTH, 0.5);
     [sectionLabel addSubview:lineView];
  
     return sectionLabel;
@@ -231,7 +245,10 @@
 }
 - (void)sectionClick:(UITapGestureRecognizer *)tap{
     int index = tap.view.tag % 100;
-    
+    [_NoteArray addObject:[NSString stringWithFormat:@"%d",index]];
+
+    [_tableView reloadData];
+
     NSString *oidStr = [[_MessageArray objectAtIndex:index]objectForKey:@"oid"];
     NSString *url;
     NSString *tokenID = NSuserUse(@"Authorization");
@@ -239,14 +256,15 @@
     [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         [_tableView reloadData];
     }];
-
+    
+    
     NSMutableArray *indexArray = [[NSMutableArray alloc]init];
     NSArray *arr = _sectionArray[index];
     for (int i = 0; i < arr.count; i ++) {
         NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:index];
         [indexArray addObject:path];
     }
-    
+
     //展开
     if ([_flagArray[index] isEqualToString:@"0"]) {
         _flagArray[index] = @"1";

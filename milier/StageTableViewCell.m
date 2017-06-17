@@ -304,6 +304,8 @@
         NSLog(@"== %@",_stageModel.state);
         if ([_stageModel.state integerValue] == 1) {
             _UseTitleLable.text = @"已使用";
+            _RightImageView.image = [UIImage imageNamed:@"gray_quan_03"];
+            _TypeImageView.image = [UIImage imageNamed:@"gray_quan_01"];
             [_UseTitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.right.mas_equalTo(_RightImageView.mas_right).offset(-40);
                 make.top.mas_equalTo(_RightImageView.mas_top).offset(58);
@@ -313,7 +315,8 @@
         }else if ([_stageModel.state integerValue] == 2){
             _UseTitleLable.text = @"立即使用";
             NSString *timeStr = [self getTimeStr:_stageModel.expireTime withForMat:@"yyyy.MM.dd"];
-            
+            _UseTimeTitleLable.hidden = NO;
+
             _UseTimeTitleLable.text = [NSString stringWithFormat:@"%@过期",timeStr];
         }
         

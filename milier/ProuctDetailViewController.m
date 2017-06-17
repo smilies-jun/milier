@@ -194,7 +194,7 @@
     }];
     
     BondLabel = [[UILabel alloc]init];
-    BondLabel.text = @"39999.0债券";
+    BondLabel.text = @"39999.0债权";
     BondLabel.font = [UIFont systemFontOfSize:12];
     BondLabel.textAlignment = NSTextAlignmentRight;
     [imageView addSubview:BondLabel];

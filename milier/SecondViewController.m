@@ -136,7 +136,9 @@
     [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
+    
+    UIImage *rightImage = [[UIImage imageNamed:@"news"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:rightImage style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     NSString *userID = NSuserUse(@"userId");
     if ([userID integerValue]>0) {
         NSString *url;
@@ -190,7 +192,9 @@
 }
 
 - (void)refreshUI{
-     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"news_dot"] style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
+    UIImage *rightImage = [[UIImage imageNamed:@"news_dot"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
+     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:rightImage style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
     self.navigationItem.rightBarButtonItem = rightItem;
 
 }
@@ -503,6 +507,7 @@
     
     [headerView2 addSubview:autoScrollView];
     vc.headerView = headerView2;
+
     vc.IsTab = YES;
     return vc;
 }
@@ -604,6 +609,7 @@
     [super viewWillAppear:animated];
     [self refreshData];
     NSString *typeStr =  NSuserUse(@"qiye");
+    NSLog(@"type = %@",typeStr);
     switch ([typeStr integerValue]) {
         case 1:
             [self ProClick];

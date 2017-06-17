@@ -79,16 +79,18 @@
     NSString *tokenID = NSuserUse(@"Authorization");
 
     //定期 0 活期 8
-    Bottomurl = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=0",USER_URL,userID];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        CircleDinQiDic = [result objectForKey:@"data"];
-                CircleArray = [[NSArray alloc]initWithObjects:[CircleDinQiDic objectForKey:@"p2pLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"noviceExclusiveInvestmentAmount"],[CircleDinQiDic objectForKey:@"enterpriseLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"personalLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"carLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"debentureTransferInvestmentAmount"], nil];
-        static dispatch_once_t onceToken;
+    if (isRefresh) {
+        Bottomurl = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=0",USER_URL,userID];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            CircleDinQiDic = [result objectForKey:@"data"];
+            CircleArray = [[NSArray alloc]initWithObjects:[CircleDinQiDic objectForKey:@"p2pLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"noviceExclusiveInvestmentAmount"],[CircleDinQiDic objectForKey:@"enterpriseLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"personalLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"carLoanInvestmentAmount"],[CircleDinQiDic objectForKey:@"debentureTransferInvestmentAmount"], nil];
             [self reloadData];
-      
-        
-
-    }];
+            
+            
+            
+        }];
+    }
+    
     
     
     NSString *url;
@@ -127,8 +129,7 @@
             [_MutableArray addObject:[NSString stringWithFormat:@"%d",rows]];
 
         }
-        static dispatch_once_t onceToken;
-            [self reloadData];
+        //[self reloadData];
  
         [self makeData];
         [_tableView reloadData];
@@ -775,7 +776,7 @@
 }
 //债券转让
 - (void)LimitClick:(UIButton *)btn{
-    if ([btn.titleLabel.text isEqualToString:@"债券转让"]) {
+    if ([btn.titleLabel.text isEqualToString:@"债权转让"]) {
         ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
         DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
         ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];

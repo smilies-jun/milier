@@ -21,29 +21,29 @@
     _NameLabel.text =@"苏泊尔双层电动锅";
     _NameLabel.textAlignment = NSTextAlignmentLeft;
     _NameLabel.textColor = [UIColor blackColor];
-    _NameLabel.font = [UIFont systemFontOfSize:10];
+    _NameLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
-        make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(200);
+        make.top.mas_equalTo(self.mas_top).offset(20);
+        make.width.mas_equalTo(300);
         make.height.mas_equalTo(15);
     }];
     
     _NameDetailLabel = [[UILabel alloc]init];
     _NameDetailLabel.text = @"2016:23:30";
-    _NameDetailLabel.font = [UIFont systemFontOfSize:10];
+    _NameDetailLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_NameDetailLabel];
     [_NameDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
-        make.top.mas_equalTo(_NameLabel.mas_bottom);
+        make.top.mas_equalTo(_NameLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(25);
+        make.height.mas_equalTo(15);
     }];
     
     _MyJiFenLabel = [[UILabel alloc]init];
     _MyJiFenLabel.text= @"232232";
-    _MyJiFenLabel.font = [UIFont systemFontOfSize:10];
+    _MyJiFenLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_MyJiFenLabel];
     [_MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(10);

@@ -68,8 +68,8 @@
     [_GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(-20);
         make.centerY.mas_equalTo(self.mas_centerY);
-        make.width.mas_equalTo(10);
-        make.height.mas_equalTo(10);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
 
 }

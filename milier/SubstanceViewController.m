@@ -9,7 +9,7 @@
 #import "SubstanceViewController.h"
 #import "CustomChooseView.h"
 #import "CustomView.h"
-#import "MyJiFenViewController.h"
+#import "ConvertViewController.h"
 #import "LZCityPickerView.h"
 #import "LZCityPickerController.h"
 #import "FYLCityPickView.h"
@@ -220,7 +220,7 @@
 
 - (void)SubstanceTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[MyJiFenViewController class]]) {
+        if ([controller isKindOfClass:[ConvertViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

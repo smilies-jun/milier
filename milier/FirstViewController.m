@@ -140,7 +140,7 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
    
-    return 310;
+    return 330;
 
     
 }

@@ -16,6 +16,7 @@
     [super awakeFromNib];
     // Initialization code
 }
+
 - (void)configUI:(NSIndexPath *)indexPath{
     _TitleLabel  = [[UILabel alloc]init];
     _TitleLabel.text= @"投米宝－优选中期";
@@ -159,7 +160,7 @@
         NSInteger limitTime = [[NSString stringWithFormat:@"%@",_productMoel.investmentHorizon] integerValue];
         if ([_productMoel.productCategoryId integerValue] == 6) {
             _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld天",(long)limitTime];
-            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债券包价值 %@元",_productMoel.bondTotal];
+            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债权包价值 %@元",_productMoel.bondTotal];
             _ChangeLabel.text =[NSString stringWithFormat:@"购买金额 %@元",_productMoel.aggregateAmount];
 
         }else{
@@ -239,6 +240,23 @@
             break;
     }
     
+}
+
+- (void)drawRect:(CGRect)rect {
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    
+    CGContextSetFillColorWithColor(context, [UIColor clearColor].CGColor);
+    
+    CGContextFillRect(context, rect);
+    
+    //上分割线，
+    //CGContextSetStrokeColorWithColor(context, COLORWHITE.CGColor);
+    //CGContextStrokeRect(context, CGRectMake(5, -1, rect.size.width - 10, 1));
+    
+    //下分割线
+    CGContextSetStrokeColorWithColor(context,colorWithRGB(0.83, 0.83, 0.83).CGColor);
+    CGContextStrokeRect(context,CGRectMake(0, rect.size.height-0.5, SCREEN_WIDTH,0.5));
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

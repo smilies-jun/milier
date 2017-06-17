@@ -392,7 +392,7 @@ static NSString * const ID = @"CollectionCell";
     }];
 }
 - (void)ShowAlert{
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 300)];
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 500)];
     view.backgroundColor=[UIColor whiteColor];
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 5.0f;
@@ -404,16 +404,16 @@ static NSString * const ID = @"CollectionCell";
     UILabel *label = [[UILabel alloc]init];
     label.text = @"风险承受能力测试问卷";
     label.textAlignment = NSTextAlignmentCenter;
-    label.font = [UIFont systemFontOfSize:12];
+    label.font = [UIFont systemFontOfSize:15];
     label.frame = CGRectMake(10, 20, SCREEN_WIDTH - 20, 20);
     [view addSubview:label];
     
     UILabel *ScroLabel = [[UILabel alloc]init];
-    ScroLabel.frame = CGRectMake(10, 30, SCREEN_WIDTH-20, 240);
+    ScroLabel.frame = CGRectMake(10, 30, SCREEN_WIDTH-20, 420);
     ScroLabel.numberOfLines = 0;
     
     ScroLabel.text = @"尊敬的客户：您好！\n为了给您提供更优质的服务，请您花费几分钟的时间，如实填写以下调查问卷，本表可协助评估您对互联网金融及投资目标相关风险的态度，确定您对投资风险的适应力，进而为您挑选更适合投资的产品。衷心感谢您的支持与信任。\n重要提示：\n1、请投资者认真阅读问卷内容，了解评分规则，并确认所填写内容表达真实。\n2、本公司根据投资者的风险承受能力等级，对投资者的投资行为作出是否匹配的检查和提示。本次调查结果不构成对投资者的投资建议，或对投资者的投资决策形成实质影响。\n3、投资有风险，可能导致投资者产生亏损，请投资者在购买过程中注意根据调查结果核对自己的风险承受能力和互联网金融风险匹配情况。无论投资者是否根据调查结果进行投资，均属投资者的独立行为，相应的风险亦由投资者独立承担。\n4、本问卷共设计了10道问题，\n每题5个备选答案，得分依次为2、4、6、8、10。投资人得分越高，说明投资者的风险承受能力越强。\n5、所有题目均为单选。 ";
-    ScroLabel.font = [UIFont systemFontOfSize:10];
+    ScroLabel.font = [UIFont systemFontOfSize:14];
     [view addSubview:ScroLabel];
     
     UILabel *complyLabel = [[UILabel alloc]init];
@@ -421,7 +421,7 @@ static NSString * const ID = @"CollectionCell";
     complyLabel.textAlignment = NSTextAlignmentCenter;
     complyLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     complyLabel.textColor = [UIColor whiteColor];
-    complyLabel.font = [UIFont systemFontOfSize:15];
+    complyLabel.font = [UIFont systemFontOfSize:20];
     complyLabel.layer.masksToBounds = YES;
     complyLabel.layer.cornerRadius = 15;
     complyLabel.userInteractionEnabled = YES;
@@ -433,8 +433,8 @@ static NSString * const ID = @"CollectionCell";
     [complyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(view.mas_centerX);
         make.bottom.mas_equalTo(view.mas_bottom).offset(-10);
-        make.width.mas_equalTo(140);
-        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(240);
+        make.height.mas_equalTo(40);
         
     }];
 

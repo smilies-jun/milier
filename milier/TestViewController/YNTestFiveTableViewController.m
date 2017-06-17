@@ -27,18 +27,20 @@
     [super viewDidLoad];
     
     self.tableView.backgroundColor = [UIColor whiteColor];
+    NSLog(@"two - viewDidLoad");
     dataArray = [[NSMutableArray alloc]init];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
-    
 }
+
 - (void)loadoneNew{
     [self getNetworkData:YES];
     
 }
 - (void)loadoneMore{
+    NSLog(@"more");
     [self getNetworkData:NO];
     
 }
@@ -84,6 +86,7 @@
     [self.tableView.mj_footer endRefreshing];
     
 }
+
 
 #pragma mark - UITableViewDelegate  UITableViewDataSource
 
@@ -144,14 +147,16 @@
     return cell;
     
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
     vc.productCateID = 5;
-
+    
     [self.navigationController pushViewController:vc animated:NO];
 }
+
 
 
 /*

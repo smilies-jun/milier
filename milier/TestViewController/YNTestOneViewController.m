@@ -70,6 +70,7 @@
             [dataArray addObject:model];
         }
         [self.tableView reloadData];
+        [self scrollTableToFoot:YES];
         isFirstCome = NO;
     }];
     
@@ -143,7 +144,16 @@
     //cell.textLabel.text = @"11111111";
     return cell;
 }
-
+#pragma mark  - 滑到最底部
+- (void)scrollTableToFoot:(BOOL)animated
+{
+    NSInteger s = [self.tableView numberOfSections];  //有多少组
+    if (s<1) return;  //无数据时不执行 要不会crash
+    NSInteger r = [self.tableView numberOfRowsInSection:s-1]; //最后一组有多少行
+    if (r<1) return;
+    NSIndexPath *ip = [NSIndexPath indexPathForRow:r-1 inSection:s-1];  //取最后一行数据
+    [self.tableView scrollToRowAtIndexPath:ip atScrollPosition:UITableViewScrollPositionBottom animated:animated]; //滚动到最后一行
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];

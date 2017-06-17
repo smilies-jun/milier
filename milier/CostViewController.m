@@ -9,7 +9,7 @@
 #import "CostViewController.h"
 #import "CustomChooseView.h"
 #import "CustomView.h"
-#import "MyJiFenViewController.h"
+#import "ConvertViewController.h"
 #import "giftModel.h"
 
 
@@ -116,7 +116,7 @@
 }
 - (void)PhoneTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[MyJiFenViewController class]]) {
+        if ([controller isKindOfClass:[ConvertViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

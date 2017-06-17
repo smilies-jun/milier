@@ -437,6 +437,7 @@
     NSuserRemove(@"bankCardId");
     NSuserRemove(@"bankCardNumberSuffix");
     NSuserRemove(@"noneReceivedPropsCount");
+    NSuserRemove(@"qiye");
     [self.navigationController popToRootViewControllerAnimated:NO];
 
 }
