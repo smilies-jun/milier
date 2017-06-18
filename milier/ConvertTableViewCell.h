@@ -21,6 +21,9 @@
 
 @property (nonatomic , retain) UILabel *ProductLabel;
 
+@property (nonatomic , retain) UIImageView *GorrowView;
+
+
 @property(nonatomic, retain)giftModel *GiftModel;
 
 - (void)setGiftModel:(giftModel *)GiftModel;

@@ -65,7 +65,6 @@
     url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         MyDic = [result objectForKey:@"data"];
-        NSLog(@"bank = %@",MyDic);
 
         [self ConfigUI];
     }];

@@ -235,7 +235,7 @@ static NSString * const cellId = @"CovertcellID";
         //    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
         //    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:MyJiFenLabel.text attributes:attribtDic];
         //    MyJiFenLabel.attributedText = attribtStr;
-        MyJiFenLabel.font = [UIFont systemFontOfSize:10];
+        MyJiFenLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel   addSubview:MyJiFenLabel];
         [MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(NameImageView.mas_right).offset(10);
@@ -262,7 +262,7 @@ static NSString * const cellId = @"CovertcellID";
             default:
                 break;
         }
-        ProductLabel.font = [UIFont systemFontOfSize:10];
+        ProductLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel   addSubview:ProductLabel];
         [ProductLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(NameImageView.mas_right).offset(10);

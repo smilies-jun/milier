@@ -20,7 +20,7 @@
     _NameImageView.backgroundColor = [UIColor clearColor];
     [self addSubview:_NameImageView];
     [_NameImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).offset(10);
+        make.left.mas_equalTo(self.mas_left).offset(14);
         make.centerY.mas_equalTo(self.mas_centerY);
         make.width.mas_equalTo(60);
         make.height.mas_equalTo(60);
@@ -30,7 +30,7 @@
     _NameLabel.text =@"";
     _NameLabel.textAlignment = NSTextAlignmentLeft;
     _NameLabel.textColor = [UIColor blackColor];
-    _NameLabel.font = [UIFont systemFontOfSize:10];
+    _NameLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
@@ -43,11 +43,11 @@
     _NameDetailLabel.text = @"";
     _NameDetailLabel.numberOfLines = 0;
     _NameDetailLabel.lineBreakMode = NSLineBreakByCharWrapping;
-    _NameDetailLabel.font = [UIFont systemFontOfSize:10];
+    _NameDetailLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_NameDetailLabel];
     [_NameDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
-        make.top.mas_equalTo(_NameLabel.mas_bottom);
+        make.top.mas_equalTo(_NameLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(25);
     }];
@@ -57,16 +57,24 @@
     NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
     NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:_MyJiFenLabel.text attributes:attribtDic];
     _MyJiFenLabel.attributedText = attribtStr;
-    _MyJiFenLabel.font = [UIFont systemFontOfSize:10];
+    _MyJiFenLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_MyJiFenLabel];
     [_MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
-        make.top.mas_equalTo(_NameDetailLabel.mas_bottom);
+        make.top.mas_equalTo(_NameDetailLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(15);
     }];
     
-    
+    _GorrowView = [[UIImageView alloc]init];
+    _GorrowView.image = [UIImage imageNamed:@"goarrow"];
+    [self addSubview:_GorrowView];
+    [_GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.mas_right).offset(-20);
+        make.centerY.mas_equalTo(self.mas_centerY);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
+    }];
     
 
     

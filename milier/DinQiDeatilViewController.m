@@ -840,16 +840,30 @@
 #pragma mark - ZFPieChartDataSource
 
 - (NSArray *)valueArrayInPieChart:(ZFPieChart *)chart{
-    if (CircleArray.count) {
-        return CircleArray;
+    if ([[CircleArray objectAtIndex:0]integerValue] == [[CircleArray objectAtIndex:1]integerValue]== [[CircleArray objectAtIndex:2]integerValue]== [[CircleArray objectAtIndex:3]integerValue]== [[CircleArray objectAtIndex:4]integerValue]== [[CircleArray objectAtIndex:5]integerValue]) {
+        return @[@"100"];
     }else{
-        return @[@"100", @"100", @"100", @"100", @"100", @"100"];
+        return CircleArray;
   
     }
+    
+//      if (CircleArray.count) {
+//        NSLog(@"1 = %@",CircleArray);
+//    }else{
+//        NSLog(@"3");
+//
+//        return @[@"100", @"100", @"100", @"100", @"100", @"100"];
+//
+//    }
 }
 
 - (NSArray *)colorArrayInPieChart:(ZFPieChart *)chart{
-    return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.79, 0.09), colorWithRGB(0.99, 0.52, 0.18), colorWithRGB(0.27, 0.78, 0.96), colorWithRGB(0.31, 0.69, 1), colorWithRGB(0.19, 0.39, 0.9)];
+    if ([[CircleArray objectAtIndex:0]integerValue] == [[CircleArray objectAtIndex:1]integerValue]== [[CircleArray objectAtIndex:2]integerValue]== [[CircleArray objectAtIndex:3]integerValue]== [[CircleArray objectAtIndex:4]integerValue]== [[CircleArray objectAtIndex:5]integerValue]) {
+         return @[colorWithRGB(0.83, 0.83, 0.83)];
+    }else{
+         return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.79, 0.09), colorWithRGB(0.99, 0.52, 0.18), colorWithRGB(0.27, 0.78, 0.96), colorWithRGB(0.31, 0.69, 1), colorWithRGB(0.19, 0.39, 0.9)];
+    }
+    
 }
 
 #pragma mark - ZFPieChartDelegate

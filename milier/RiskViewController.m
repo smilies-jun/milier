@@ -84,11 +84,36 @@ static NSString * const ID = @"CollectionCell";
     }];
 }
 - (void)ConfigUI{
+    
+    UIImageView*   _TotalImageView = [[UIImageView alloc]init];
+    _TotalImageView.image = [UIImage imageNamed:@"tip_orange"];
+    [self.view addSubview:_TotalImageView];
+    [_TotalImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(80);
+        make.top.mas_equalTo(self.view.mas_top).offset(10);
+        make.width.mas_equalTo(13);
+        make.height.mas_equalTo(13);
+    }];
+    
+    UILabel *_TitleLable = [[UILabel alloc]init];
+    _TitleLable.text = @"左右滑动屏幕跳转到上一题／下一题";
+    _TitleLable.font = [UIFont systemFontOfSize:13];
+    _TitleLable.textColor = colorWithRGB(0.96, 0.6, 0.11);
+    [self.view addSubview:_TitleLable];
+    [_TitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_TotalImageView.mas_right).offset(5);
+        make.centerY.mas_equalTo(_TotalImageView.mas_centerY);
+        make.width.mas_equalTo(280);
+        make.height.mas_equalTo(20);
+    }];
+    
+
+    
     RiskScroview = [[UIScrollView alloc]init];
     RiskScroview.backgroundColor = [UIColor whiteColor];
     RiskScroview.layer.masksToBounds = YES;
     RiskScroview.layer.cornerRadius = 10;
-    RiskScroview.frame = CGRectMake(20, 20, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 64 - 40);
+    RiskScroview.frame = CGRectMake(20, 40, SCREEN_WIDTH - 40, SCREEN_HEIGHT - 64 - 40-40);
     RiskScroview.contentOffset = CGPointMake(0, 100);
     RiskScroview.contentSize = CGSizeMake(SCREEN_WIDTH*9-40, 400);
     RiskScroview.bounces = NO;
@@ -177,7 +202,7 @@ static NSString * const ID = @"CollectionCell";
     [self.view addSubview:TitleLabel];
     [TitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
-        make.top.mas_equalTo(self.view.mas_top).offset(40);
+        make.top.mas_equalTo(self.view.mas_top).offset(60);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
