@@ -14,7 +14,7 @@
 @interface JiFenRecordViewController ()<UITableViewDelegate, UITableViewDataSource>{
     NSMutableArray *MyArray;
 }
-@property(strong, nonatomic)UITableView *tableView;
+@property(strong, nonatomic)MyTableView *tableView;
 
 @end
 
@@ -49,7 +49,10 @@ static NSString * const cellId = @"cellID";
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
 
-    
+    self.tableView.noContentViewTapedBlock = ^{
+        [self getNetworkData:YES];
+    };
+
     
 }
 
@@ -101,8 +104,14 @@ static NSString * const cellId = @"cellID";
             model.dataDictionary = dic;
             [MyArray addObject:model];
         }
-        [self.tableView reloadData];
-        [self endRefresh];
+        if (MyArray.count) {
+            [self.tableView reloadData];
+            [self endRefresh];
+        }else{
+            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+ 
+        }
+       
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
@@ -113,7 +122,7 @@ static NSString * const cellId = @"cellID";
 }
 - (void)zj_viewDidLoadForIndex:(NSInteger)index {
     
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView = [[MyTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
    // [self.tableView setTableFooterView:[UIView new]];

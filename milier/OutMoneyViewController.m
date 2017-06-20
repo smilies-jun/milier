@@ -50,7 +50,7 @@
     titleLabel.text = @"预计3个工作日内到账";
     titleLabel.font = [UIFont systemFontOfSize:10];
     titleLabel.textAlignment = NSTextAlignmentCenter;
-    titleLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    titleLabel.hidden = YES;
     [self.view addSubview:titleLabel];
     [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
@@ -60,7 +60,7 @@
     }];
     payView = [[CustomView alloc]init];
     payView.NameLabel.text = @"转出金额:";
-    payView.NameTextField.placeholder = @"请输入提现金额";
+    payView.NameTextField.placeholder = [NSString stringWithFormat:@"最多可提现%@元",_moneyStr];;
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -71,6 +71,7 @@
     
     passWordView = [[CustomView alloc]init];
     passWordView.NameLabel.text = @"交易密码:";
+    passWordView.NameTextField.secureTextEntry = YES;
     passWordView.NameTextField.placeholder = @"请输入交易密码";
     [self.view addSubview:passWordView];
     [passWordView mas_makeConstraints:^(MASConstraintMaker *make) {

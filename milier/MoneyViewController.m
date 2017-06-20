@@ -58,7 +58,7 @@
     }];
     payView = [[CustomView alloc]init];
     payView.NameLabel.text = @"输入金额:";
-    payView.NameTextField.placeholder = @"请输入提现金额";
+    payView.NameTextField.placeholder = [NSString stringWithFormat:@"最多可提现%@元",_moneyStr];
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -69,6 +69,7 @@
     
     passWordView = [[CustomView alloc]init];
     passWordView.NameLabel.text = @"交易密码:";
+    passWordView.NameTextField.secureTextEntry = YES;
     passWordView.NameTextField.placeholder = @"请输入交易密码";
     [self.view addSubview:passWordView];
     [passWordView mas_makeConstraints:^(MASConstraintMaker *make) {

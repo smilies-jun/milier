@@ -30,6 +30,9 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
      self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+    self.tableView.noContentViewTapedBlock = ^{
+        [self getNetworkData:YES];
+    };
 
     
 }
@@ -79,9 +82,15 @@
             model.dataDictionary = dic;
             [DataArray addObject:model];
         }
-        [self.tableView reloadData];
-        [self endRefresh];
-        // UserDic = [result objectForKey:@"data"];
+        if (DataArray.count) {
+            [self.tableView reloadData];
+            [self endRefresh];
+   
+        }else{
+            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+   
+        }
+               // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
 }

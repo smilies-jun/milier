@@ -22,6 +22,8 @@
 
 @property (nonatomic) int Type;
 
+
+@property (nonatomic, strong)NSString *State;
 @property(nonatomic,strong)NSMutableArray *pictures;
 /** maxtime */
 @property(nonatomic,copy)NSString *maxtime;

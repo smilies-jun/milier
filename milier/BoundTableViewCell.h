@@ -20,7 +20,7 @@
 
 @property (nonatomic , retain) UILabel *TypeLabel;
 
-@property (nonatomic , retain) UILabel *AlertLabel;
+@property (nonatomic , retain) UIButton *AlertBtn;
 
 - (void)configUI:(NSIndexPath *)indexPath;
 

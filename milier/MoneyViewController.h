@@ -10,5 +10,5 @@
 
 @interface MoneyViewController : UIViewController
 @property(assign)int type;
-
+@property (nonatomic ,strong)NSString *moneyStr;
 @end

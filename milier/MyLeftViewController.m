@@ -157,6 +157,7 @@
 }
 - (void)cashClick{
     MoneyViewController *vc = [[MoneyViewController alloc]init];
+    vc.moneyStr = [MyMoneyDic objectForKey:@"assets"];
     [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)MyLeftClick{

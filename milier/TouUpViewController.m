@@ -108,7 +108,7 @@ static LLPayType payType = LLPayTypeVerify;
     
     ForgetPayLabel.textColor = [UIColor orangeColor];
     ForgetPayLabel.textAlignment = NSTextAlignmentLeft;
-    ForgetPayLabel.font = [UIFont systemFontOfSize:12];
+    ForgetPayLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:ForgetPayLabel];
     [ForgetPayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -299,7 +299,6 @@ static LLPayType payType = LLPayTypeVerify;
     
     NSString *showMsg =
     [msg stringByAppendingString:[LLPayUtil jsonStringOfObj:dic]];
-    NSLog(@"message == %@",showMsg);
     
 }
 

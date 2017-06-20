@@ -10,4 +10,6 @@
 
 @interface OutMoneyViewController : UIViewController
 
+@property (nonatomic,strong) NSString *moneyStr;
+
 @end

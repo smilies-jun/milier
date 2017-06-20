@@ -9,6 +9,7 @@
 #import "ModifySailViewController.h"
 #import "UserSetViewController.h"
 #import "customWithStatic.h"
+#import "YJForgetDealPassWordViewController.h"
 
 @interface ModifySailViewController (){
 customWithStatic *OldSailView;
@@ -39,6 +40,7 @@ UILabel *SaleLabel;
     OldSailView = [[customWithStatic alloc]init];
     OldSailView.NameLabel.text = @"原交易密码";
     OldSailView.NameTextField.placeholder = @"请输入原交易密码";
+     OldSailView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:OldSailView];
     [OldSailView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -50,6 +52,7 @@ UILabel *SaleLabel;
     NewSailView = [[customWithStatic alloc]init];
     NewSailView.NameLabel.text = @"新交易密码";
     NewSailView.NameTextField.placeholder = @"请输入新交易密码";
+    NewSailView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:NewSailView];
     [NewSailView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -61,6 +64,7 @@ UILabel *SaleLabel;
     
     SureSailView = [[customWithStatic alloc]init];
     SureSailView.NameLabel.text = @"确认交易密码";
+    SureSailView.NameTextField.secureTextEntry = YES;
     SureSailView.NameTextField.placeholder = @"请再次确认交易密码";
     [self.view addSubview:SureSailView];
     [SureSailView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -70,6 +74,25 @@ UILabel *SaleLabel;
         make.height.mas_equalTo(40);
         
     }];
+    
+    UILabel *  ForgetPayLabel = [[UILabel alloc]init];
+    ForgetPayLabel.text = @"忘记交易密码？";
+    ForgetPayLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *forgetSaleWordTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ForgetClick)];
+    [ForgetPayLabel addGestureRecognizer:forgetSaleWordTap];
+    
+    ForgetPayLabel.textColor = [UIColor orangeColor];
+    ForgetPayLabel.textAlignment = NSTextAlignmentLeft;
+    ForgetPayLabel.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:ForgetPayLabel];
+    [ForgetPayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(SureSailView.mas_bottom).offset(5);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
+    }];
+
+    
     
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"提交";
@@ -82,7 +105,7 @@ UILabel *SaleLabel;
     [self.view addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
-        make.top.mas_equalTo(SureSailView.mas_bottom).offset(20);
+        make.top.mas_equalTo(ForgetPayLabel.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
         make.height.mas_equalTo(40);
     }];
@@ -90,6 +113,12 @@ UILabel *SaleLabel;
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SailBackBtn
                                                                                                           )];
     [SaleLabel addGestureRecognizer:SaleTap];
+}
+
+- (void)ForgetClick{
+    YJForgetDealPassWordViewController  *vc = [[YJForgetDealPassWordViewController alloc]init];
+    vc.TypeStr = @"2";
+    [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)SailBackBtn{
     

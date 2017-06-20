@@ -28,7 +28,8 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     self.tableView.backgroundColor = colorWithRGB(1, 0.89, 0.53);
-    
+ 
+
     [self getNetworkData:YES];
 }
 - (void)loadoneNew{
@@ -77,8 +78,9 @@
             model.dataDictionary = dic;
             [dataArray addObject:model];
         }
-        [self.tableView reloadData];
-        [self endRefresh];
+            [self.tableView reloadData];
+            
+       
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
@@ -124,7 +126,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 50;
+    return 84;
 }
 
 //cell-tableview

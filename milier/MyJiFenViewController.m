@@ -193,8 +193,8 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
         //标题选中状态颜色 --- 注意一定要使用RGB空间的颜色值
         style.selectedTitleColor = [UIColor orangeColor];
         style.autoAdjustTitlesWidth = YES;
-        self.titles = @[@"积分纪录",
-                        @"兑换纪录",
+        self.titles = @[@"积分记录",
+                        @"兑换记录",
                         ];
         
         // 注意: 一定要避免循环引用!!

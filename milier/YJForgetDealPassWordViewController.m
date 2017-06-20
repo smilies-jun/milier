@@ -9,7 +9,7 @@
 #import "YJForgetDealPassWordViewController.h"
 #import "CustomView.h"
 #import "TouUpViewController.h"
-
+#import "ModifySailViewController.h"
 
 @interface YJForgetDealPassWordViewController (){
     CustomView *phoneNumView;
@@ -42,7 +42,19 @@
     
 }
 - (void)ForgetBackClick{
-    [self.navigationController popToRootViewControllerAnimated:NO];
+    if ([_TypeStr integerValue] == 1) {
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[TouUpViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }else if ([_TypeStr integerValue] == 2){
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[ModifySailViewController   class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+    }
 }
 - (void)initUI{
     phoneNumView = [[CustomView alloc]init];

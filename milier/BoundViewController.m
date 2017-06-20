@@ -28,7 +28,10 @@
     self.tableView.backgroundColor = colorWithRGB(1, 0.89, 0.53);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    
+
+    [self getNetworkData:YES];
+
+
 }
 - (void)loadoneNew{
     [self getNetworkData:YES];
@@ -76,8 +79,12 @@
             model.dataDictionary = dic;
             [dataArray addObject:model];
         }
-        [self.tableView reloadData];
-        [self endRefresh];
+            [self.tableView reloadData];
+            [self endRefresh];
+            
+
+            
+
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
@@ -123,7 +130,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 50;
+    return 84;
 }
 
 //cell-tableview
@@ -142,14 +149,44 @@
         ShareModel *model = [dataArray objectAtIndex:indexPath.row];
         cell.ShareModel = model;
     }
-    
+    [cell.AlertBtn addTarget:self action:@selector(AlertClick:) forControlEvents:UIControlEventTouchUpInside];
+
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
     return cell;
     
 }
 
+- (void)AlertClick:(UIButton *)btn{
+    ShareModel *model = [dataArray objectAtIndex:btn.tag - 100];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提醒好友绑卡"
+                                                                             message:nil
+                                                                      preferredStyle:UIAlertControllerStyleActionSheet];
+    //取消:style:UIAlertActionStyleCancel
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:cancelAction];
+    //了解更多:style:UIAlertActionStyleDestructive
+    UIAlertAction *moreAction = [UIAlertAction actionWithTitle:@"电话" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        [self sendPhone:model.phoneNumber];
+    }];
+    [alertController addAction:moreAction];
+    //原来如此:style:UIAlertActionStyleDefault
+    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"短信" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self sendMessage:model.phoneNumber];
+    }];
+    [alertController addAction:OKAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+}
 
+- (void)sendPhone:(NSString *)phoneStr{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"tel://%@",phoneStr]]];
+    
 
+}
 
+- (void)sendMessage:(NSString *)MessageStr{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[NSString stringWithFormat:@"sms://%@",MessageStr]]];
+
+}
 @end

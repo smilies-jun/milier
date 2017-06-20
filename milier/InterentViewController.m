@@ -32,7 +32,10 @@
     self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
-    
+    self.tableView.noContentViewTapedBlock = ^{
+        [self getNetworkData:YES];
+    };
+
     
 }
 - (void)loadoneNew{
@@ -81,8 +84,14 @@
             model.dataDictionary = dic;
             [DataArray addObject:model];
         }
-        [self.tableView reloadData];
-        [self endRefresh];
+         if (DataArray.count) {
+             [self.tableView reloadData];
+             [self endRefresh];
+             
+         }else{
+             [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+             
+         }
 
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];

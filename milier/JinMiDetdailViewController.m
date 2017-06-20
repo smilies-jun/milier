@@ -62,6 +62,7 @@
     url = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=8",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         jinmiDic = [result objectForKey:@"data"];
+        NSLog(@"dic = %@",jinmiDic);
         [self reloadData];
     }];
     
@@ -171,6 +172,20 @@
 //        
 //    }];
     
+    
+    AddProfileView = [[ProfilView alloc]init];
+    AddProfileView.GorrowView.hidden = YES;
+    AddProfileView.NameLabel.text = @"昨日收益";
+    AddProfileView.NameLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+    [self.view addSubview:AddProfileView];
+    [AddProfileView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(TopView.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
+    }];
+    
+    
     OldProfdilView = [[ProfilView alloc]init];
     OldProfdilView.NameLabel.text = @"累计收益";
     OldProfdilView.userInteractionEnabled = YES;
@@ -180,22 +195,11 @@
     [self.view addSubview:OldProfdilView];
     [OldProfdilView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(TopView.mas_bottom).offset(10);
+        make.top.mas_equalTo(AddProfileView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
-    
-    AddProfileView = [[ProfilView alloc]init];
-    AddProfileView.GorrowView.hidden = YES;
-    AddProfileView.NameLabel.text = @"昨日收益";
-    AddProfileView.NameLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-    [self.view addSubview:AddProfileView];
-    [AddProfileView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(OldProfdilView.mas_bottom).offset(1);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
-    }];
+
     PercentProfileView = [[ProfilView alloc]init];
     PercentProfileView.GorrowView.hidden = YES;
     PercentProfileView.NameLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
@@ -203,7 +207,7 @@
     [self.view addSubview:PercentProfileView];
     [PercentProfileView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(AddProfileView.mas_bottom).offset(1);
+        make.top.mas_equalTo(OldProfdilView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
@@ -238,6 +242,7 @@
     vc.Type = 1;
     vc.productCateID = 2;
     vc.productID = 375;;
+    vc.State = @"2";
     [self.navigationController pushViewController:vc animated:NO];
 }
 -(void)reloadData{
@@ -256,6 +261,7 @@
 
 - (void)outCliCk{
     OutMoneyViewController *addVC = [[OutMoneyViewController alloc]init];
+    addVC.moneyStr = [jinmiDic objectForKey:@"investmentAmount"];
     [self.navigationController pushViewController:addVC animated:NO];
 }
 - (void)JinMiClick{

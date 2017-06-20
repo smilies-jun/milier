@@ -136,8 +136,9 @@
         if ([staues integerValue] == 201) {
             NSuserRemove(@"userId");
             NSuserRemove(@"Authorization");
-
             //提交
+            normal_alert(@"提示",@"密码修改成功", @"确定");
+
             [self.navigationController popToRootViewControllerAnimated:NO];
         }else{
             NSString *message = [result objectForKey:@"message"];

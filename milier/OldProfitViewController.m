@@ -17,7 +17,7 @@
     NSMutableArray *AddArray;
 
 }
-@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)MyTableView *tableView;
 @end
 
 @implementation OldProfitViewController
@@ -35,7 +35,9 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     AddArray = [[NSMutableArray alloc]init];
     [self getNetworkData:YES];
-
+    self.tableView.noContentViewTapedBlock = ^{
+        [self loadoneNew];
+    };
     [self ConfigUI];
 }
 
@@ -45,7 +47,7 @@
     isFirstCome = YES;
     isJuhua = NO;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
@@ -107,16 +109,21 @@
         if (isJuhua) {
             [self endRefresh];
         }
-        
-        
-        for (NSDictionary *NewDic in myArray) {
-            ProfileModel *model = [[ProfileModel alloc]init];
-            model.dataDictionary = NewDic;
-            [AddArray addObject:model];
+        if (AddArray.count) {
+            for (NSDictionary *NewDic in myArray) {
+                ProfileModel *model = [[ProfileModel alloc]init];
+                model.dataDictionary = NewDic;
+                [AddArray addObject:model];
+            }
+            [self endRefresh];
+            [self.tableView reloadData];
+            isFirstCome = NO;
+        }else{
+            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+
         }
-        [self endRefresh];
-        [self.tableView reloadData];
-        isFirstCome = NO;
+        
+       
     }];
 }
 //设置行数

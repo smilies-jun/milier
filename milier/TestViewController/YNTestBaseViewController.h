@@ -12,7 +12,7 @@ extern NSInteger viewcontroller_type;
 
 @interface YNTestBaseViewController : UIViewController<UITableViewDataSource , UITableViewDelegate>
 
-@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) MyTableView *tableView;
 
 
 @end

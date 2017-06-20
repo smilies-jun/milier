@@ -62,7 +62,28 @@
         _NameLabel.text =[NSString stringWithFormat:@"%@",_JiFenModel.desc];
         NSString *timeStr = [self getTimeStr:_JiFenModel.createTime withForMat:@"yyyy-MM-dd"];
         _NameDetailLabel.text = [NSString stringWithFormat:@"%@",timeStr];
-        _MyJiFenLabel.text=  [NSString stringWithFormat:@"%@",_JiFenModel.point];
+        switch ([_JiFenModel.type integerValue]) {
+            case 1:
+                _MyJiFenLabel.text=  [NSString stringWithFormat:@"+%@",_JiFenModel.point];
+  
+                break;
+            case 2:
+                _MyJiFenLabel.text=  [NSString stringWithFormat:@"+%@",_JiFenModel.point];
+
+                break;
+            case 3:
+                _MyJiFenLabel.text=  [NSString stringWithFormat:@"-%@",_JiFenModel.point];
+
+                break;
+            case 4:
+                _MyJiFenLabel.text=  [NSString stringWithFormat:@"-%@",_JiFenModel.point];
+
+                break;
+      
+            default:
+                break;
+        }
+        
 
         
         

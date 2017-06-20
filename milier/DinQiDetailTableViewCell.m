@@ -52,7 +52,7 @@
     [_LookLimitLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     _LookLimitLabel.hidden = YES;
     _LookLimitLabel.tag = 100 + indexPath.section-1;
-    _LookLimitLabel.titleLabel.text = @"债权转让";
+    _LookLimitLabel.titleLabel.text = @"债权转让>>";
     _LookLimitLabel.titleLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_LookLimitLabel];
     [_LookLimitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -262,10 +262,10 @@
         if ([_DinQiModel.transferable integerValue] == 1) {
             _LookLimitLabel.hidden = NO;
             if ([_DinQiModel.state integerValue]  == 5) {
-                [_LookLimitLabel setTitle:@"取消转让" forState:UIControlStateNormal];
+                [_LookLimitLabel setTitle:@"取消转让>>" forState:UIControlStateNormal];
 
             }else{
-                [_LookLimitLabel setTitle:@"债权转让" forState:UIControlStateNormal];
+                [_LookLimitLabel setTitle:@"债权转让>>" forState:UIControlStateNormal];
 
 
             }

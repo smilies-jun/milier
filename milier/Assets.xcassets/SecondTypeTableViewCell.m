@@ -82,7 +82,7 @@
     [_DaoQiTypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_DaoQiTypeImageView.mas_right).offset(5);
         make.centerY.mas_equalTo(_DaoQiTypeImageView.mas_centerY);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     UIView *DaoQilineView = [[UIView alloc]init];
@@ -125,13 +125,13 @@
         make.height.mas_equalTo(16);
     }];
     _IsFullLabel = [[UILabel alloc]init];
-    _IsFullLabel.text = @"到期还本付息";
+    _IsFullLabel.text = @"满标奖励";
     _IsFullLabel.font = [UIFont systemFontOfSize:15];
     [self.contentView addSubview:_IsFullLabel];
     [_IsFullLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_IsFullImageView.mas_right).offset(5);
         make.centerY.mas_equalTo(_IsFullImageView.mas_centerY);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     _IsFulllineView = [[UIView alloc]init];
@@ -195,37 +195,32 @@
         
         switch ([_detailModel.modeOfRepayment integerValue]) {
             case 0:
-                _DaoQiTypeLabel.text = @"买入即起息";
-                _DaoQiTypeDetailLabel.text = @"购买成功即开始计算收益";
+                _DaoQiTypeLabel.text = @"到期还本付息";
+                _DaoQiTypeDetailLabel.text = @"项目到期后一次性支付本金及收益";
  
                 break;
             case 1:
-                _DaoQiTypeLabel.text = @"到期还本付息";
-                _DaoQiTypeDetailLabel.text = @"项目到期后一次性支付本金及收益";
-
-                break;
-            case 2:
                 _DaoQiTypeLabel.text = @"按月付息到期还本";
                 _DaoQiTypeDetailLabel.text = @"每个月支付该阶段收益";
 
                 break;
-            case 3:
+            case 2:
                 _DaoQiTypeLabel.text = @"按季付息到期还本";
                 _DaoQiTypeDetailLabel.text = @"每三个月支付该阶段收益";
 
                 break;
-            case 4:
+            case 3:
                 _DaoQiTypeLabel.text = @"按半年付息到期还本";
                 _DaoQiTypeDetailLabel.text = @"每半年支付该阶段收益";
 
                 break;
-            case 5:
+            case 4:
                 _DaoQiTypeLabel.text = @"按年付息到期还本";
                 _DaoQiTypeDetailLabel.text = @"每年月支付该阶段收益";
-                
                 break;
                 
             default:
+
                 break;
         }
        

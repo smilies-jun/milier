@@ -26,8 +26,7 @@
     AwAlertView *alertView;
     NSDictionary *UserDic;
     NSDictionary *ShareDic;
-
-
+    int Type;
 }
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
@@ -200,7 +199,10 @@
         make.width.mas_equalTo(SCREEN_WIDTH - 52);
         make.height.mas_equalTo(40);
     }];
-    
+    if ([[UserDic objectForKey:@"noneReceivedPropsCount"]integerValue]==0) {
+        SaleLbel.text = @"立即使用";
+        Type =1;
+    }
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseNowBtnClick
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
@@ -217,7 +219,7 @@
         make.height.mas_equalTo(60);
     }];
     UIImageView *userImageView = [[UIImageView alloc]init];
-    [userImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"head"]];;
+    [userImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];;
     userImageView.layer.cornerRadius = 20;
     userImageView.layer.masksToBounds = YES;
     [UserInviteView addSubview:userImageView];
@@ -340,12 +342,24 @@
     UIImageView *imageView = [[UIImageView alloc] init];
     CGFloat imageViewW = 200;
     CGFloat imageViewH = imageViewW;
-    CGFloat imageViewX = 65;
-    CGFloat imageViewY = 40;
-    imageView.frame =CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
-    [view addSubview:imageView];
-    
-    CGFloat scale = 0.2;
+    if (SCREEN_WIDTH == 375) {
+        CGFloat imageViewX = 65;
+        
+        CGFloat imageViewY = 40;
+        imageView.frame =CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
+        [view addSubview:imageView];
+        
+ 
+    }else{
+        CGFloat imageViewX = 85;
+        
+        CGFloat imageViewY = 40;
+        imageView.frame =CGRectMake(imageViewX, imageViewY, imageViewW, imageViewH);
+        [view addSubview:imageView];
+        
+ 
+    }
+       CGFloat scale = 0.2;
     NSString *userID = NSuserUse(@"userId");
     
     // 2、将最终合得的图片显示在UIImageView上
@@ -368,18 +382,27 @@
 }
 
 - (void)UseNowBtnClick{
-    NSString *url;
-    url = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
+    if (Type == 1) {
+        MyStageViewController *StageVC= [[MyStageViewController alloc]init];
+        StageVC.Type = 1;
+        [self.navigationController pushViewController:StageVC animated:NO];
+    }else{
+        NSString *url;
+        url = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
+        
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+            NSString *state = [result objectForKey:@"statusCode"];
+            if ([state integerValue] == 201) {
+                normal_alert(@"提示", @"领取成功", @"确定");
+            }else{
+                normal_alert(@"提示", @"领取成功", @"确定");
+                
+            }
+        }];
+        
+    }
     
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSString *state = [result objectForKey:@"statusCode"];
-        if ([state integerValue] == 201) {
-            normal_alert(@"提示", @"领取成功", @"确定");
-        }else{
-            normal_alert(@"提示", @"领取成功", @"确定");
-            
-        }
-    }];
+    
     
 //    MyStageViewController *StageVC= [[MyStageViewController alloc]init];
 //    [self.navigationController pushViewController:StageVC animated:NO];
@@ -473,7 +496,6 @@
     MyStageViewController *StageVC= [[MyStageViewController alloc]init];
     StageVC.Type = 1;
     [self.navigationController pushViewController:StageVC animated:NO];
-    NSLog(@"使用");
 }
 - (NSArray *)getViewController{
     

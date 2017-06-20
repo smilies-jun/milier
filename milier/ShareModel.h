@@ -20,4 +20,9 @@
 
 @property(nonatomic,strong)NSString *phoneNumber;
 
+@property(nonatomic,strong)NSString *propType;
+
+@property(nonatomic,strong)NSString *propValue;
+
+
 @end

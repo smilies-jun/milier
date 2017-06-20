@@ -35,7 +35,7 @@
     NSArray *CircleArray;
     
 }
-@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)MyTableView *tableView;
 @property (nonatomic,strong)NSArray *mysectionArray;
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
@@ -66,11 +66,7 @@
     CircleDinQiDic = [[NSDictionary alloc]init];
     CircleArray = [[NSArray alloc]init];
     [self getNetworkData:YES];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        [self ConfigUI];
-//
-//    });
-
+ 
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
@@ -100,40 +96,43 @@
     }else{
         page++;
     }
-      if (isFirstCome) {
+      if (isRefresh) {
         url = [NSString stringWithFormat:@"%@?page=1&rows=20&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,userID];
 
     }else{
         url = [NSString stringWithFormat:@"%@?page=%d&rows=20&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,page,userID];
 
     }
-
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         if (page == 1) {
             [DinQiArray removeAllObjects];
             [_MutableArray removeAllObjects];
+            _mysectionArray = nil;
         }
         NSArray *myArray = [result objectForKey:@"items"];
-        _mysectionArray = myArray;
-        isJuhua = NO;
-        for (NSDictionary *JinMidic in myArray) {
-            
-            DinQiModel *model = [[DinQiModel alloc]init];
-            model.dataDictionary = JinMidic;
-            [DinQiArray addObject:model];;
-            int  rows = 2;
-            NSArray *ChangeArray = [JinMidic objectForKey:@"InstallmentInterestList"];
-            if (ChangeArray.count) {
-                rows = rows + (int)ChangeArray.count;
+        
+            _mysectionArray = myArray;
+            isJuhua = NO;
+            for (NSDictionary *JinMidic in myArray) {
+                
+                DinQiModel *model = [[DinQiModel alloc]init];
+                model.dataDictionary = JinMidic;
+                [DinQiArray addObject:model];;
+                int  rows = 2;
+                NSArray *ChangeArray = [JinMidic objectForKey:@"InstallmentInterestList"];
+                if (ChangeArray.count) {
+                    rows = rows + (int)ChangeArray.count;
+                }
+                [_MutableArray addObject:[NSString stringWithFormat:@"%d",rows]];
+                
             }
-            [_MutableArray addObject:[NSString stringWithFormat:@"%d",rows]];
-
-        }
-        //[self reloadData];
- 
-        [self makeData];
-        [_tableView reloadData];
-        [self endRefresh];
+            //[self reloadData];
+            
+            [self makeData];
+            [_tableView reloadData];
+            [self endRefresh];
+        
+       
 
     }];
     
@@ -155,7 +154,7 @@
 //:@"yyyy-MM-dd HH:mm:ss.SSS"
 - (void)ConfigUI{
     [self makeData];
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
+    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
@@ -205,7 +204,8 @@
         [_flagArray addObject:@"0"];
     }
     
-
+    NSLog(@"_flagArray = %@",_flagArray);
+    NSLog(@"sec == %@",_sectionArray);
 
 
 }
@@ -229,14 +229,20 @@
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([_flagArray[indexPath.section] isEqualToString:@"0"])
+if (_flagArray.count == _MutableArray.count+1) {
+        if ([_flagArray[indexPath.section] isEqualToString:@"0"])
+            return 0;
+        else
+            NSLog(@"self = %@",[_MutableArray objectAtIndex:indexPath.section-1]);
+        
+        CGFloat statuesFloat = [DinQiDetailTableViewCell tableView:tableView rowHeightForObject:[_MutableArray objectAtIndex:indexPath.section-1]];
+        
+        return statuesFloat;
+    }else{
         return 0;
-    else
-        NSLog(@"self = %@",[_MutableArray objectAtIndex:indexPath.section] );
-  
-    CGFloat statuesFloat = [DinQiDetailTableViewCell tableView:tableView rowHeightForObject:[_MutableArray objectAtIndex:indexPath.section]];
+    }
     
-    return statuesFloat;
+   
 
        
 }
@@ -776,7 +782,7 @@
 }
 //债券转让
 - (void)LimitClick:(UIButton *)btn{
-    if ([btn.titleLabel.text isEqualToString:@"债权转让"]) {
+    if ([btn.titleLabel.text isEqualToString:@"债权转让>>"]) {
         ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
         DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
         ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];

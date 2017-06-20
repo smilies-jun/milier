@@ -69,10 +69,9 @@
         [self ConfigUI];
     }];
     NSString *bankID = NSuserUse(@"bankId");
-
     BankUrl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,bankID];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        BankDic = [result objectForKey:@"data"];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:BankUrl withTokenStr:nil  usingBlock:^(NSDictionary *result, NSError *error) {
+        BankDic = [result objectForKey:@"items"];
         [self ConfigUI];
     }];
 
@@ -278,25 +277,25 @@
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(30);
     }];
-    
-//    YinHangImageView = [[UIImageView alloc]init];
-//    [YinHangImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[BankDic objectForKey:@"icon"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
-//    [view addSubview:YinHangImageView];
-//    [YinHangImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(KeFuLabel.mas_left);
-//        make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
-//        make.width.mas_equalTo(30);
-//        make.height.mas_equalTo(30);
-//        
-//    }];
+    NSLog(@"bankdic = %@",BankDic);
+    YinHangImageView = [[UIImageView alloc]init];
+    [YinHangImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[BankDic objectForKey:@"icon"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
+    [view addSubview:YinHangImageView];
+    [YinHangImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(KeFuLabel.mas_left);
+        make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(30);
+        make.height.mas_equalTo(30);
+        
+    }];
     YinHangLabel = [[UILabel alloc]init];
     YinHangLabel.text = [NSString stringWithFormat:@"%@(%@)",[MyDic objectForKey:@"bankName"],[MyDic objectForKey:@"bankCardNumberSuffix"]];
     YinHangLabel.textColor = [UIColor blackColor];
     YinHangLabel.textAlignment = NSTextAlignmentLeft;
-    YinHangLabel.font = [UIFont systemFontOfSize:13];
+    YinHangLabel.font = [UIFont systemFontOfSize:14];
     [view addSubview:YinHangLabel];
     [YinHangLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(KeFuLabel.mas_left);
+        make.left.mas_equalTo(YinHangImageView.mas_right).offset(10);
         make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(130);
         make.height.mas_equalTo(30);
@@ -437,6 +436,9 @@
     NSuserRemove(@"bankCardNumberSuffix");
     NSuserRemove(@"noneReceivedPropsCount");
     NSuserRemove(@"qiye");
+    NSuserRemove(@"type");
+    NSuserRemove(@"activityOid");
+
     [self.navigationController popToRootViewControllerAnimated:NO];
 
 }

@@ -164,7 +164,7 @@
     DealPassWordView = [[customWithStatic alloc]init];
     DealPassWordView.NameLabel.text = @"交易金额";
     DealPassWordView.NameTextField.secureTextEntry = YES;
-    DealPassWordView.NameTextField.placeholder = @"请输入交易密码";
+    DealPassWordView.NameTextField.placeholder = @"请输入交易金额";
     DealPassWordView.NameTextField.delegate = self;
     DealPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:DealPassWordView];
@@ -291,7 +291,7 @@
                         NSString *state = [result objectForKey:@"statusCode"];
                         if ([state integerValue] == 201) {
                             normal_alert(@"提示", @"提交成功", @"确定");
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                 [self.navigationController popToRootViewControllerAnimated:NO];
                             });
                         }else{

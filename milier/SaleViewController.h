@@ -36,4 +36,9 @@
 
 @property (nonatomic,strong)NSString *productID;
 
+
+@property (nonatomic,strong)NSString *aggregateAmount;
+
+@property (nonatomic,strong)NSString *productCatiID;
+
 @end

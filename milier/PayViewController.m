@@ -128,6 +128,7 @@
     }];
     PayMoneyView = [[CustomView alloc]init];
     PayMoneyView.NameLabel.text = @"交易密码:";
+    PayMoneyView.NameTextField.secureTextEntry = YES;
     PayMoneyView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     PayMoneyView.NameTextField.delegate = self;
     [self.view addSubview:PayMoneyView];
@@ -163,7 +164,7 @@
     ForgetPayLabel.text = @"忘记交易密码？";
     ForgetPayLabel.textColor = [UIColor orangeColor];
     ForgetPayLabel.textAlignment = NSTextAlignmentLeft;
-    ForgetPayLabel.font = [UIFont systemFontOfSize:12];
+    ForgetPayLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:ForgetPayLabel];
     [ForgetPayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);

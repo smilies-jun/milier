@@ -16,7 +16,7 @@
 
 @property (nonatomic,strong)NSMutableArray *sectionArray;
 @property (nonatomic,strong)NSMutableArray *flagArray;
-@property(strong, nonatomic)UITableView *tableView;
+@property(strong, nonatomic)MyTableView *tableView;
 
 @end
 
@@ -38,14 +38,17 @@ static NSString * const cellId = @"CovertcellID";
     
     SectionArray = [[NSMutableArray alloc]init];
     DuiHuanArray = [[NSMutableArray alloc]init];
-    
+    self.tableView.noContentViewTapedBlock = ^{
+        [self getNetworkData:YES];
+    };
+
     [self getNetworkData:YES];
     [self makeData];
 }
 
 - (void)zj_viewDidLoadForIndex:(NSInteger)index {
     
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
+    self.tableView = [[MyTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setTableFooterView:[UIView new]];
@@ -113,9 +116,16 @@ static NSString * const cellId = @"CovertcellID";
             [SectionArray addObject:[NSString stringWithFormat:@"%d",rows]];
 
         }
-        [self makeData];
-        [self.tableView reloadData];
-        [self endRefresh];
+        if (DuiHuanArray.count) {
+            [self makeData];
+            [self.tableView reloadData];
+            [self endRefresh];
+        }else{
+            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+ 
+        }
+        
+       
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];

@@ -8,6 +8,8 @@
 
 #import "ActivityDetailViewController.h"
 #import "FirstViewController.h"
+#import "ProductDetailNewViewController.h"
+#import "YWDLoginViewController.h"
 
 @interface ActivityDetailViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
@@ -44,6 +46,18 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
      NSLog(@"REQUEST.URL = %@",request.URL);
+    NSString *urlStr = [NSString stringWithFormat:@"%@",request.URL];
+    NSString *strRegin = @"http://weixin.milibanking.com/weixin/weixin/login/toRegister";
+    NSString *strSale = @"http://weixin.milibanking.com/weixin/weixin/product/productList";
+    if ([urlStr containsString:strRegin]) {
+        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+        loginNagition.navigationBarHidden = YES;
+        [self presentViewController:loginNagition animated:NO completion:nil];
+    }else if ([urlStr containsString:strSale]){
+        
+    }
+    
     return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
@@ -61,10 +75,16 @@
 }
 - (void)ActivityDetailTap{
     
-    [self.navigationController popToRootViewControllerAnimated:NO];
+   // [self.navigationController popToRootViewControllerAnimated:NO];
     //  返回指定页面
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[FirstViewController  class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[ProductDetailNewViewController   class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

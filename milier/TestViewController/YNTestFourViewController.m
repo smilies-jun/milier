@@ -146,6 +146,7 @@
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
     vc.productCateID = 4;
+    vc.State = model.state;
 
     [self.navigationController pushViewController:vc animated:NO];
 }

@@ -13,12 +13,12 @@
 #import "JinMiDetdailViewController.h"
 #import "ProfileModel.h"
 #import "AddOneDayViewController.h"
-
+#import "UIView+frameAdjust.h"
 
 @interface AddProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *AddArray;
 }
-@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)MyTableView *tableView;
 
 
 @end
@@ -41,13 +41,16 @@
    
     [self getNetworkData:YES];
     [self ConfigUI];
+    self.tableView.noContentViewTapedBlock = ^{
+        [self loadoneNew];
+    };
 
 }
 -(void)ConfigUI{
     page = 0;
     isFirstCome = YES;
     isJuhua = NO;
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
+    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
@@ -119,15 +122,20 @@
                     [self endRefresh];
                 }
 
-        
-        for (NSDictionary *NewDic in myArray) {
-            ProfileModel *model = [[ProfileModel alloc]init];
-            model.dataDictionary = NewDic;
-            [AddArray addObject:model];
+        if (myArray.count) {
+            for (NSDictionary *NewDic in myArray) {
+                ProfileModel *model = [[ProfileModel alloc]init];
+                model.dataDictionary = NewDic;
+                [AddArray addObject:model];
+            }
+            [self endRefresh];
+            [self.tableView reloadData];
+            isFirstCome = NO;
+        }else{
+            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+
         }
-         [self endRefresh];
-        [self.tableView reloadData];
-        isFirstCome = NO;
+        
     }];
     
 

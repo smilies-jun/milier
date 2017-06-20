@@ -16,7 +16,7 @@
 @interface ChangeSailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *MyChangeArray;
 }
-@property (nonatomic,strong)UITableView *tableView;
+@property (nonatomic,strong)MyTableView *tableView;
 @property (nonatomic,strong)UIView *BottomView;
 
 @end
@@ -44,7 +44,7 @@
     isFirstCome = YES;
     isJuhua = NO;
 
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- 64) style:UITableViewStylePlain];
+    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- 64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
@@ -53,7 +53,9 @@
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
-    
+    self.tableView.noContentViewTapedBlock = ^{
+        [self getNetworkData:YES];
+    };
     
 }
 /**
@@ -114,8 +116,15 @@
             [MyChangeArray addObject:model];
             
         }
-        [self.tableView reloadData];
-        [self endRefresh];
+        if (MyChangeArray.count) {
+            [self.tableView reloadData];
+            [self endRefresh];
+        }else{
+            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+ 
+        }
+        
+     
 
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];

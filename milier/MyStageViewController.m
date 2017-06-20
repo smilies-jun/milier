@@ -49,17 +49,23 @@
    
 }
 - (void)SatgeTap{
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[UserViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
+    if (_Type == 1) {
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[ShareViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
         }
+    }else{
+        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[UserViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+ 
     }
     
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[ShareViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
 
 }
 - (YNJianShuDemoViewController *)getJianShuDemoViewController{

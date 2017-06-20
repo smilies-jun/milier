@@ -119,6 +119,9 @@
         NSuserSave([UserDic objectForKey:@"customersCount"], @"customersCount");
         NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
         NSuserSave([UserDic objectForKey:@"riskLevel"], @"riskLevel");
+        NSLog(@"userdic = %@",UserDic);
+        [self ConfigUI];
+
         [self reloadData];
     }];
     
@@ -128,6 +131,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         StaticUserDic = [result objectForKey:@"data"];
         [self reloadData];
+        
     }];
     
 }
@@ -155,9 +159,9 @@
     UserImageView = [[UIImageView alloc]init];
     UserImageView.layer.cornerRadius = 20;
     UserImageView.layer.masksToBounds = YES;
-    UserImageView.image = [UIImage imageNamed:@"headpicUser"];
-    NSString *userImageStr = NSuserUse(@"avatar");
-    [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userImageStr]] placeholderImage:[UIImage imageNamed:@"headpicUser"]];
+    //NSString *userImageStr = NSuserUse(@"avatar");
+   // NSLog(@"url = %@",userImageStr);
+   // [UserImageView sd_setImageWithURL:userImageStr placeholderImage:[UIImage imageNamed:@"headpicUser"]];
     
     
     [TopView addSubview:UserImageView];
@@ -568,8 +572,7 @@
 }
 //刷新数据
 - (void)reloadData{
-    
-   // [UserImageView sd_setImageWithURL:[NSURL URLWithString:[UserDic objectForKey:@"avatar"]] placeholderImage:[UIImage imageNamed:@"head"]];;
+    [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
     UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"username"]];
     PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
     MoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"investmentAmount"]];
@@ -713,7 +716,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self getNetworkData:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 
 }

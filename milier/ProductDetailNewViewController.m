@@ -20,8 +20,16 @@
 #import "BundProfileViewController.h"
 #import "ProCatiiDpROViewController.h"
 #import "YWDLoginViewController.h"
+#import <AwAlertViewlib/AwAlertViewlib.h>
+#import "ActivityDetailViewController.h"
 
-@interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate>
+
+@interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>{
+        AwAlertView *RiskAlertView;
+        UIWebView *ActivityWebView;
+        NSDictionary *ActivityDic;
+        int type;
+}
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *DataArray;
 
@@ -35,7 +43,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"产品详情";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-    
+    type = 0;
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -48,14 +56,49 @@
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(DetailRightClick)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
-    
+    [self reloadData];
 
     _DataArray = [[NSMutableArray alloc]init];
     _count = 190;
     [self getNetworkData:YES];
     [self ConfigUI];
 }
+- (void)reloadData{
+    NSString *url;
+    
+    url = [NSString stringWithFormat:@"%@/activities?type=2",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *status = [result objectForKey:@"statusCode"];
+        if ([status integerValue] == 200) {
+            ActivityDic = [[result objectForKey:@"items"]objectAtIndex:0];
+            NSArray *myArray = [result objectForKey:@"items"];
+            if (myArray.count) {
+                NSString *TypeID = NSuserUse(@"type");
+                NSString *ActiID = NSuserUse(@"activityOid");
 
+                if ([TypeID integerValue] == 1) {
+                    NSString *oid = [ActivityDic objectForKey:@"oid"];
+                    if ([ActiID integerValue] == [oid integerValue]) {
+                        
+                    }else{
+                        [self showActivityView];
+  
+                    }
+                    
+                    
+                }else{
+                    [self showActivityView];
+
+                }
+            }else{
+                
+            }
+            
+        }else{
+            
+        }
+    }];
+}
 -(void)getNetworkData:(BOOL)isRefresh
 {
     NSString *url;
@@ -78,7 +121,50 @@
     }];
     
 }
+- (void)showActivityView{
+    NSString *oidStr = [ActivityDic objectForKey:@"oid"];
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"活动提醒"
+                                                                             message:[ActivityDic objectForKey:@"desc"]
+                                                                      preferredStyle:UIAlertControllerStyleAlert ];
+    
+    //添加取消到UIAlertController中
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"忽略" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        NSuserSave(@"1", @"type");
+        NSuserSave([ActivityDic objectForKey:@"oid"], @"activityOid");
+        
+    }];
+    [alertController addAction:cancelAction];
+    
+    //添加确定到UIAlertController中
+    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"查看活动详情" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        ActivityDetailViewController *vc = [[ActivityDetailViewController alloc]init];
+        vc.WebStr = [NSString stringWithFormat:@"%@/activity/introduction/index.html?activityId=%@",HOST_URL,oidStr];
+        vc.TitleStr = @"";
+        [self.navigationController   pushViewController:vc animated:NO];
+    }];
+    [alertController addAction:OKAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
 
+}
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSLog(@"REQUEST.URL = %@",request.URL);
+    return YES;
+}
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    // NSLog(@"webView start load");
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    // NSLog(@"webview fail load");
+}
+- (void)RiskCancelClick{
+    [RiskAlertView dismissAnimated:NO];
+}
 - (void)DetailRightClick{
     ProCatiiDpROViewController *vc= [[ProCatiiDpROViewController alloc]init];
     vc.TitleStr = @"产品介绍";
@@ -164,42 +250,65 @@
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleBtnClick
                                                                                                     )];
     [SaleLbel addGestureRecognizer:SaleTap];
+    switch ([_State integerValue]) {
+        case 4:
+            SaleLbel.text = @"售罄";
+            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
 
+            break;
+         
+        case 8:
+            SaleLbel.text = @"计息";
+            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+
+            break;
+        default:
+            break;
+    }
+    
+    
 }
 - (void)SaleBtnClick{
-    NSString *url;
-    NSString *BankUrl;
-    NSString *userID = NSuserUse(@"userId");
-    NSString *tokenID = NSuserUse(@"Authorization");
+    if ([_State integerValue] == 2) {
+        NSString *url;
+        NSString *userID = NSuserUse(@"userId");
+        NSString *tokenID = NSuserUse(@"Authorization");
+        
+        url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+            NSString *state = [result objectForKey:@"statusCode"];
+            if ([state integerValue] == 200) {
+                SaleViewController *SaleVC = [[SaleViewController alloc]init];
+                ProductDetailModel *model = [_DataArray objectAtIndex:0];
+                SaleVC.productID = [NSString stringWithFormat:@"%d",_productCateID];
+                SaleVC.NameStr = model.name;
+                SaleVC.TotalStr = model.aggregateAmount;
+                SaleVC.SellStr = model.sellTotal;
+                SaleVC.PercentStr = model.interestRate;
+                SaleVC.investmentHorizonStr = model.investmentHorizon;
+                SaleVC.isFullScaleReward = model.isFullScaleReward;
+                SaleVC.fullScaleReward = model.fullScaleReward;
+                SaleVC.riskLevelStr = model.riskLevel;
+                SaleVC.minBuyStr = model.minimumInvestmentAmount;
+                SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
+                SaleVC.aggregateAmount = model.aggregateAmount;
+                SaleVC.productCatiID = [NSString stringWithFormat:@"%d",_productCateID];
+                [self.navigationController pushViewController:SaleVC animated:NO];
+            }else{
+                YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+                UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+                loginNagition.navigationBarHidden = YES;
+                loginVC.Type = 2;
+                [self presentViewController:loginNagition animated:NO completion:nil];
+                
+                
+            }
+        }];
+ 
+    }else{
+        
+    }
     
-    url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        NSString *state = [result objectForKey:@"statusCode"];
-        if ([state integerValue] == 200) {
-            SaleViewController *SaleVC = [[SaleViewController alloc]init];
-            ProductDetailModel *model = [_DataArray objectAtIndex:0];
-            SaleVC.productID = [NSString stringWithFormat:@"%d",_productCateID];
-            SaleVC.NameStr = model.name;
-            SaleVC.TotalStr = model.aggregateAmount;
-            SaleVC.SellStr = model.sellTotal;
-            SaleVC.PercentStr = model.interestRate;
-            SaleVC.investmentHorizonStr = model.investmentHorizon;
-            SaleVC.isFullScaleReward = model.isFullScaleReward;
-            SaleVC.fullScaleReward = model.fullScaleReward;
-            SaleVC.riskLevelStr = model.riskLevel;
-            SaleVC.minBuyStr = model.minimumInvestmentAmount;
-            SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
-            [self.navigationController pushViewController:SaleVC animated:NO];
-        }else{
-            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-            loginNagition.navigationBarHidden = YES;
-            loginVC.Type = 2;
-            [self presentViewController:loginNagition animated:NO completion:nil];
-           
-            
-        }
-    }];
     
     
     
@@ -345,8 +454,8 @@
  
     }else if (indexPath.row == 3){
         BundProfileViewController *vc= [[BundProfileViewController alloc]init];
-        vc.TitleStr = @"产品详情";
-        vc.WebTypeStr = @"1";
+            vc.TitleStr = @"产品详情";
+            vc.WebTypeStr = @"1";
   
             ProductDetailModel *model = [_DataArray objectAtIndex:0];
 

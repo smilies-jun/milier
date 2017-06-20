@@ -33,6 +33,9 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
+    self.tableView.noContentViewTapedBlock = ^{
+        [self getNetworkData:YES];
+    };
 }
 
 - (void)loadoneNew{
@@ -76,8 +79,10 @@
             model.dataDictionary = NewDic;
             [dataArray addObject:model];
         }
-        [self.tableView reloadData];
-        isFirstCome = NO;
+            [self.tableView reloadData];
+            isFirstCome = NO;
+       
+       
     }];
     
 }
@@ -153,7 +158,8 @@
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
     vc.productCateID = 5;
-    
+    vc.State = model.state;
+
     [self.navigationController pushViewController:vc animated:NO];
 }
 

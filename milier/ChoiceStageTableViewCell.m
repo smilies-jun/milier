@@ -50,30 +50,58 @@
 - (void)setStageModel:(ChooseStageModel *)stageModel{
     if (stageModel != _stageModel) {
         _stageModel = stageModel;
-        switch ([_stageModel.type integerValue]) {
-            case 0:
-                _TotalImageView.image = [UIImage imageNamed:@"icon_none"];
-                _TitleLable.text = @"无道具";
-                _DetailLable.text =@"";
+    if ([_stageModel.type integerValue] == -1) {
+        _TotalImageView.image = [UIImage imageNamed:@"icon_none"];
+        _TitleLable.text = @"无道具";
+        [_TitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(15);
+        }];
+        _TitleLable.textColor =  colorWithRGB(0.63, 0.63, 0.63);
+        _DetailLable.hidden = YES;
+    }else if([_stageModel.type integerValue] == 1) {
+        _TotalImageView.image = [UIImage imageNamed:@"icon_jx"];
+        _TitleLable.text =[NSString stringWithFormat:@"%@%%%@",_stageModel.value,_stageModel.name];
+        _TitleLable.textColor =  colorWithRGB(0.95, 0.6, 0.11);
+        [_TitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(10);
+        }];
+        _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+        _DetailLable.hidden = NO;
 
-                break;
-            case 1:
-                _TotalImageView.image = [UIImage imageNamed:@"icon_jx"];
-                _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
-                _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+    }else if([_stageModel.type integerValue] == 2) {
+        _TotalImageView.image = [UIImage imageNamed:@"icon_xm"];
+        _TitleLable.textColor =  colorWithRGB(0.95, 0.6, 0.11);
+        [_TitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(10);
+        }];
+        _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
+        _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+        _DetailLable.hidden = NO;
 
-                break;
-            case 2:
-                _TotalImageView.image = [UIImage imageNamed:@"icon_xm"];
-                _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
-                _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
-
-                break;
-            default:
-                break;
-        }
- 
     }
+    else if([_stageModel.type integerValue] == 3) {
+        _TotalImageView.image = [UIImage imageNamed:@"icon_xm"];
+        _TitleLable.textColor =  colorWithRGB(0.95, 0.6, 0.11);
+        [_TitleLable mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.mas_top).offset(10);
+        }];
+        _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
+        _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+        _DetailLable.hidden = NO;
+
+    }
+    else if([_stageModel.type integerValue] == 4) {
+        _TotalImageView.image = [UIImage imageNamed:@"icon_xm"];
+        _TitleLable.textColor =  colorWithRGB(0.95, 0.6, 0.11);
+
+        _TitleLable.text =[NSString stringWithFormat:@"%@元%@",_stageModel.value,_stageModel.name];
+        _DetailLable.text =[NSString stringWithFormat:@"投资%@元以上可用",_stageModel.minimumInvestmentAmount];
+        _DetailLable.hidden = NO;
+
+    }
+
+    
+}
 }
 - (void)awakeFromNib {
     [super awakeFromNib];

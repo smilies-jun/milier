@@ -46,4 +46,5 @@
 
 @property(nonatomic,strong)NSString *bondTotal;//
 
+
 @end

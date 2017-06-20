@@ -128,12 +128,14 @@
 
 }
 - (void)refreshData{
-    UIButton *LeftBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    UIImageView *LeftBtn = [[UIImageView alloc]init];
     LeftBtn.frame = CGRectMake(0, 0, 28, 28);
     LeftBtn.layer.masksToBounds = YES;
     LeftBtn.layer.cornerRadius = 14;
-    [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"] forState:UIControlStateNormal];
-    [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    LeftBtn.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftBtnClick)];
+    [LeftBtn addGestureRecognizer:tap];
+   // [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *leftItem = [[UIBarButtonItem alloc]initWithCustomView:LeftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     
@@ -159,9 +161,9 @@
             NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
             NSString *userImageStr = NSuserUse(@"avatar");
             if (userImageStr.length) {
-                [LeftBtn setImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",userImageStr]]]]   forState:UIControlStateNormal];
+                [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
             }else{
-                 [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"]   forState:UIControlStateNormal];
+                LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
             }
            
             
@@ -170,7 +172,8 @@
         }];
       
     }else{
-        [LeftBtn setImage:[UIImage imageNamed:@"headpicUser"] forState:UIControlStateNormal];
+        LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
+
 
         self.navigationItem.rightBarButtonItem = nil;
         
@@ -327,7 +330,7 @@
     //按钮点击
     vc.addButtonAtion = ^(UIButton *btn, YNPageScrollViewController *vc) {
        // NSLog(@"%f",btn.frame.size.height);
-        
+        NSLog(@"%f",SCREEN_WIDTH);
         
         UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
         view.backgroundColor=[UIColor whiteColor];
@@ -352,7 +355,13 @@
         [NetImageView addGestureRecognizer:NetTap];
         [view addSubview:NetImageView];
         [NetImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(view.mas_left).offset(20);
+            if (SCREEN_WIDTH == 375) {
+                make.left.mas_equalTo(view.mas_left).offset(30);
+
+            }else{
+                make.left.mas_equalTo(view.mas_left).offset(45);
+
+            }
             make.top.mas_equalTo(view.mas_top).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -375,7 +384,7 @@
         [ProuctImageView addGestureRecognizer:ProTap];
         [view addSubview:ProuctImageView];
         [ProuctImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(NetImageView.mas_right).offset(60);
+            make.left.mas_equalTo(NetImageView.mas_right).offset(55);
             make.top.mas_equalTo(view.mas_top).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -398,7 +407,7 @@
         BussinessImageView.image = [UIImage imageNamed:@"businessloans"];
         [view addSubview:BussinessImageView];
         [BussinessImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ProuctImageView.mas_right).offset(60);
+            make.left.mas_equalTo(ProuctImageView.mas_right).offset(55);
             make.top.mas_equalTo(view.mas_top).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -422,7 +431,14 @@
         PersonImageView.image = [UIImage imageNamed:@"personalloan"];
         [view addSubview:PersonImageView];
         [PersonImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(view.mas_left).offset(20);
+            
+            if (SCREEN_WIDTH == 375) {
+                make.left.mas_equalTo(view.mas_left).offset(30);
+                
+            }else{
+                make.left.mas_equalTo(view.mas_left).offset(45);
+                
+            }
             make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -445,7 +461,7 @@
         BuyCarImageView.image = [UIImage imageNamed:@"carloan"];
         [view addSubview:BuyCarImageView];
         [BuyCarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(PersonImageView.mas_right).offset(60);
+            make.left.mas_equalTo(PersonImageView.mas_right).offset(55);
             make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -468,7 +484,7 @@
         ChangeImageView.image = [UIImage imageNamed:@"creditor"];
         [view addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(BuyCarImageView.mas_right).offset(60);
+            make.left.mas_equalTo(BuyCarImageView.mas_right).offset(55);
             make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -609,7 +625,6 @@
     [super viewWillAppear:animated];
     [self refreshData];
     NSString *typeStr =  NSuserUse(@"qiye");
-    NSLog(@"type = %@",typeStr);
     switch ([typeStr integerValue]) {
         case 1:
             [self ProClick];

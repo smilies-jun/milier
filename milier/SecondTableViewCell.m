@@ -170,26 +170,7 @@
         }
         
      
-        if ([_productMoel.state intValue] == 2) {
-            _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-            _PercentLabel.text = [NSString stringWithFormat:@"%@%%",_productMoel.progressMessage];
-          _shapeLayer.strokeEnd = [_productMoel.progress floatValue]/100;
-
-        }else if ([_productMoel.state intValue]   == 4){
-            _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-             _PercentLabel.text = @"售罄";
-            _shapeLayer.strokeEnd = 1.0f;
-            _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
-
-
-        }else{
-             _PercentLabel.text = @"计息";
-            _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-            _shapeLayer.strokeEnd = 1.0f;
-            _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
-
-
-        }
+        
         
     }
     switch ([_productMoel.productCategoryId integerValue]) {
@@ -238,6 +219,27 @@
             
         default:
             break;
+    }
+    
+    if ([_productMoel.state intValue] == 2) {
+        _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+        _PercentLabel.text = [NSString stringWithFormat:@"%@%%",_productMoel.progressMessage];
+        _shapeLayer.strokeEnd = [_productMoel.progress floatValue]/100;
+        
+    }else if ([_productMoel.state intValue]   == 4){
+        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        _PercentLabel.text = @"售罄";
+        _shapeLayer.strokeEnd = 1.0f;
+        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
+        
+        
+    }else{
+        _PercentLabel.text = @"计息";
+        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        _shapeLayer.strokeEnd = 1.0f;
+        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
+        
+        
     }
     
 }
