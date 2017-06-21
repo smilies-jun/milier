@@ -332,7 +332,7 @@
        // NSLog(@"%f",btn.frame.size.height);
         NSLog(@"%f",SCREEN_WIDTH);
         
-        UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
+        UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         view.backgroundColor=[UIColor whiteColor];
         view.layer.masksToBounds = YES;
         view.layer.cornerRadius = 5.0f;
@@ -344,7 +344,7 @@
         CancelImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(CancelClick)];
         [CancelImageView addGestureRecognizer:CancelTap];
-        CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
+        CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 30, 20, 20);
         [view addSubview:CancelImageView];
     
         NetImageView = [[UIImageView alloc]init];
@@ -362,7 +362,7 @@
                 make.left.mas_equalTo(view.mas_left).offset(45);
 
             }
-            make.top.mas_equalTo(view.mas_top).offset(50);
+            make.top.mas_equalTo(view.mas_top).offset(70);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
         }];
@@ -385,7 +385,7 @@
         [view addSubview:ProuctImageView];
         [ProuctImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(NetImageView.mas_right).offset(55);
-            make.top.mas_equalTo(view.mas_top).offset(50);
+            make.top.mas_equalTo(view.mas_top).offset(70);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
         }];
@@ -408,7 +408,7 @@
         [view addSubview:BussinessImageView];
         [BussinessImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(ProuctImageView.mas_right).offset(55);
-            make.top.mas_equalTo(view.mas_top).offset(50);
+            make.top.mas_equalTo(view.mas_top).offset(70);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
         }];

@@ -60,16 +60,16 @@
     [scrollView addSubview:label];
     
     ClickBtn = [[UIButton alloc]init];
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck_box"] forState:UIControlStateNormal];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
     ClickBtn.selected = YES;
-    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check_box"] forState:UIControlStateSelected];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
     [ClickBtn addTarget:self action:@selector(clicked:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:ClickBtn];
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.bottom.mas_equalTo(self.view.mas_bottom).offset(-30);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
     
     UILabel *nameLabel =[[UILabel alloc]init];
@@ -103,30 +103,36 @@
 
 }
 - (void)agreeClicked{
-    NSString *userID = NSuserUse(@"userId");
-    if ([userID integerValue] > 0) {
-        NSString *url = [NSString stringWithFormat:@"%@/brokers",HOST_URL];
-        
-        NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:userID, @"userId",nil];
-        NSString *tokenID = NSuserUse(@"Authorization");
-        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-                MyDic = [result objectForKey:@"data"];
-                UIViewController *allvc = nil;
-                allvc = [self getAllMoneyViewController];
-                [self.navigationController   pushViewController:allvc animated:NO];
-            }else{
-                NSString *message = [result objectForKey:@"message"];
-                normal_alert(@"提示", message, @"确定");
-            }
+    if (ClickBtn.selected) {
+        NSString *userID = NSuserUse(@"userId");
+        if ([userID integerValue] > 0) {
+            NSString *url = [NSString stringWithFormat:@"%@/brokers",HOST_URL];
             
-        }];
-
+            NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:userID, @"userId",nil];
+            NSString *tokenID = NSuserUse(@"Authorization");
+            [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                    MyDic = [result objectForKey:@"data"];
+                    UIViewController *allvc = nil;
+                    allvc = [self getAllMoneyViewController];
+                    [self.navigationController   pushViewController:allvc animated:NO];
+                }else{
+                    NSString *message = [result objectForKey:@"message"];
+                    normal_alert(@"提示", message, @"确定");
+                }
+                
+            }];
+            
+        }else{
+            normal_alert(@"提示", @"请登陆", @"确定");
+            
+        }
+ 
     }else{
-        normal_alert(@"提示", @"请登陆", @"确定");
-
+        normal_alert(@"提示", @"请先同意协议", @"确定");
     }
-   }
+    
+}
 - (void)clicked:(UIButton *)btn{
     if (btn.selected) {
         btn.selected = NO;

@@ -116,7 +116,6 @@
             _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
             _MyJiFenLabel.text=[NSString stringWithFormat:@"%@",_DuiHuanModel.logisticsName];
 
-
         }
         
         

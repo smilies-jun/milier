@@ -97,6 +97,7 @@
     stageArray = [[NSMutableArray alloc]init];
     agreeOrNo = 0;
     riskOrNo = 0;
+    AddStr = @"";
     [self reloadMyMoney];
     [self reloadMyStage];
     [self ConfigUI];
@@ -520,6 +521,7 @@
         BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
+        BuyTextField.tag = 100;
         BuyTextField.delegate = self;
         BuyTextField.placeholder = @"请输入购买金额";
         [SaleView addSubview:BuyTextField];
@@ -746,7 +748,7 @@
     AddMoneyLabel = [[UILabel alloc]init];
     AddMoneyLabel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
     AddMoneyLabel.textColor = [UIColor whiteColor];
-    AddMoneyLabel.font = [UIFont systemFontOfSize:12];
+    AddMoneyLabel.font = [UIFont systemFontOfSize:14];
     AddMoneyLabel.layer.cornerRadius = 2;
     AddMoneyLabel.layer.masksToBounds = YES;
     //mCGSize size =CGSizeMake(400,20);
@@ -756,7 +758,7 @@
 //    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
 //    CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
 //    AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
-    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, 100, 15);
+    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, 100, 20);
     [TopView addSubview:AddMoneyLabel];
     
     
@@ -801,7 +803,7 @@
         AddMoneyLabel.text =[NSString stringWithFormat:@"+%@元",AddStr];
  
     }
-    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
+    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14],NSFontAttributeName,nil];
     CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
     AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
     AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, actualsize.width, 15);
@@ -833,8 +835,9 @@
                     NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
                     double sellDouble = [sellStr doubleValue];
                     double leftMoney = totalDouble - sellDouble;
-                    if ([BuyTextField.text doubleValue] < leftMoney) {
-                        
+                    NSLog(@"left = %f",leftMoney);
+                    if ([BuyTextField.text doubleValue] <= leftMoney) {
+                        NSLog(@"min = %@",_minBuyStr);
                         if ([BuyTextField.text doubleValue] >= [_minBuyStr doubleValue]) {
                             if ([BuyTextField.text doubleValue] <= [MyMoneyStr doubleValue]) {
                                 //购 买
@@ -1148,118 +1151,114 @@
     [alertView showAnimated:YES];
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
-    if ([textField.text doubleValue] >= [_minBuyStr doubleValue]){
-        [self refreshInvest];
-
-    }else{
-        normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
-    };
-    
-}
-
-
-- (void)refreshInvest{
-
-    
-    if (BuyTextField.text.length) {
-        if (AddStr.length) {
-            NSString *  isfull;
-            
-            if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
-
-                if ([_isFullScaleReward integerValue] == 1) {
-                    if ([_fullScaleReward doubleValue]) {
-
-                        isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
-                        if (isfull.length) {
-                            if (Type == 1) {
-                               double text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue]+[isfull integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
-                                InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
-
-                            }else if(Type ==2){
-                                double text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
-                                InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
- 
-                            }else{
-                                 double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
-                                double jifen = [BuyTextField.text integerValue]/[_investmentHorizonStr doubleValue]/3000;
-                                InterestMoneyLabel.text = [NSString stringWithFormat:@"%.2f(积分:%.2f)",text,jifen];
-                            }
-                        
-                            
-                        }
-                    }else{
-                        if (Type ==1) {
-                            double text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue]*[_investmentHorizonStr doubleValue]/365.0f);
-                            
-                            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
-                        }else if (Type ==2){
-                            double text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
-                            
-                            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
-                        }else{
-                               double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
-                            double jifen = [BuyTextField.text integerValue]/[_investmentHorizonStr doubleValue]/3000;
-                            InterestMoneyLabel.text = [NSString stringWithFormat:@"%.2f(积分:%.2f)",text,jifen];
-
-                        }
-                      
-
-                      
-                    }
-                    
-                    
-                }
-            }else{
-
-                if (AddStr.length) {
-                    if (Type ==1) {
-                        double text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue]*[_investmentHorizonStr doubleValue]/365.0f);
-                        
-                        InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
-                    }else if (Type ==2){
-                        double text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
-                        
-                        InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
-                    }else{
-                         double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
-                        double jifen = [BuyTextField.text integerValue]/[_investmentHorizonStr doubleValue]/3000;
-                        InterestMoneyLabel.text = [NSString stringWithFormat:@"%.2f(积分:%.2f)",text,jifen];
-                    }
-                 
-                    //InterestMoneyLabel.text =[NSString stringWithFormat:@"%@+%@*(%.2f+%@)+%@/365",BuyTextField.text,BuyTextField.text,[_PercentStr doubleValue],AddStr,_investmentHorizonStr] ;
-                }else{
-                    double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
-           
-
-                    double jifen = [BuyTextField.text integerValue]/[_investmentHorizonStr doubleValue]/3000;
-                    InterestMoneyLabel.text = [NSString stringWithFormat:@"%.2f(积分:%.2f)",text,jifen];
-                  
-                }
-                
-              
-            }
-            
-            
-
+    if (BuyTextField.tag ==100) {
+        if ([textField.text doubleValue] >= [_minBuyStr doubleValue]){
+            [self refreshInvest];
             
         }else{
-            double text =[BuyTextField.text integerValue]*[_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.00f;
-            if ([_productCatiID integerValue] == 2) {
-                InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],text];
+            normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
+        };
+    }
+   
+    
+}
+- (void)MyIsFull{
+    
+    NSString *  isfull;
+    isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
+    if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
+        if ([_isFullScaleReward integerValue] == 1  ) {
+            if ([_fullScaleReward doubleValue]) {
+                if (Type == 1) {
+                    float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue]+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+                }else if(Type ==2){
+                    float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+                    
+                }else{
+//                    float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
+//                    float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
+//                    InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+                    
+                }
             }else{
-                double jifen = [BuyTextField.text integerValue]/[_investmentHorizonStr doubleValue]/3000;
-                InterestMoneyLabel.text = [NSString stringWithFormat:@"%.2f(积分:%.2f)",text,jifen];
+                
             }
+        }else{
             
-        
- 
         }
-       
+    }else{
+        if (Type == 1) {
+            float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
+            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+        }else if(Type ==2){
+            float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+            
+        }else{
+//            float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+//            float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
+//            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+            
+        }
+    }
+    
 
+    
+    
+    
+
+
+}
+- (void)emptyStage{
+    NSString *  isfull;
+    isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
+    if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
+        if ([_isFullScaleReward integerValue] == 1  ) {
+            if ([_fullScaleReward doubleValue]) {
+                
+                float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+                float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
+                InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+                
+                
+            }
+        }
+    }else{
+        float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
         
+        
+        float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
+        InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+    }
+
+}
+- (void)refreshInvest{
+    if ([_productCatiID integerValue] == 8) {
+        float text = [BuyTextField.text integerValue]*[_PercentStr doubleValue]/100/365;
+        InterestMoneyLabel.text  = [NSString stringWithFormat:@"预计每日收益%.2f",(text*100)/100];
+        
+    }else{
+        if (BuyTextField.text.length) {
+            if (AddStr.length) {
+                [self MyIsFull];
+            }else{
+                
+                [self emptyStage];
+    
+    }
+    
+    
+    
+    
+    
+        }
     }
 }
+    
+
+
 - (void)SaleCancelClick{
     [alertView dismissAnimated:NO];
 
@@ -1366,7 +1365,6 @@
                 break;
         }
         StageOid =  [NSString stringWithFormat:@"%@",model.oid];
-        NSLog(@"===%@",AddStr);
         StageLabel.text = StageStr;
     }
     

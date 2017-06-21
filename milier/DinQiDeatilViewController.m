@@ -33,6 +33,7 @@
     NSMutableArray *DinQiArray;
     NSDictionary *CircleDinQiDic;
     NSArray *CircleArray;
+    UIButton *OldDetailLabel;
     
 }
 @property (nonatomic,strong)MyTableView *tableView;
@@ -204,8 +205,6 @@
         [_flagArray addObject:@"0"];
     }
     
-    NSLog(@"_flagArray = %@",_flagArray);
-    NSLog(@"sec == %@",_sectionArray);
 
 
 }
@@ -252,6 +251,7 @@ if (_flagArray.count == _MutableArray.count+1) {
         UIView *topView = [[UIView alloc]init];
         topView.backgroundColor = [UIColor whiteColor];
         topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 250);
+        topView.userInteractionEnabled = YES;
         
         self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(40, 20, 120, 120)];
         self.pieChart.userInteractionEnabled = NO;
@@ -499,18 +499,15 @@ if (_flagArray.count == _MutableArray.count+1) {
             make.width.mas_equalTo(SCREEN_WIDTH/2);
             make.height.mas_equalTo(30);
         }];
-        UILabel *OldDetailLabel = [[UILabel alloc]init];
-        OldDetailLabel.text = @"详情";
-        OldDetailLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *OldLabelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(OldTap)];
-        [OldDetailLabel addGestureRecognizer:OldLabelTap];
+        OldDetailLabel = [UIButton buttonWithType:UIButtonTypeCustom];
+        [OldDetailLabel setTitle:@"详情" forState:UIControlStateNormal];
+        [OldDetailLabel addTarget:self action:@selector(OldTapClick) forControlEvents:UIControlEventTouchUpInside];
         OldDetailLabel.layer.borderColor = colorWithRGB(0.95, 0.6, 0.11).CGColor;
         OldDetailLabel.layer.borderWidth = 0.5f;
         OldDetailLabel.layer.masksToBounds = YES;
         OldDetailLabel.layer.cornerRadius = 10;
-        OldDetailLabel.textAlignment = NSTextAlignmentCenter;
-        OldDetailLabel.textColor = [UIColor orangeColor];
-        OldDetailLabel.font = [UIFont systemFontOfSize:14];
+        [OldDetailLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
+        OldDetailLabel.titleLabel.font = [UIFont systemFontOfSize:14];
         [OldView addSubview:OldDetailLabel];
         [OldDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(OldLabel.mas_centerX);
@@ -556,11 +553,11 @@ if (_flagArray.count == _MutableArray.count+1) {
             make.width.mas_equalTo(SCREEN_WIDTH/2);
             make.height.mas_equalTo(30);
         }];
-       UILabel *AddDetailLabel = [[UILabel alloc]init];
+        UILabel *AddDetailLabel = [[UILabel alloc]init];
         AddDetailLabel.text = @"详情";
         AddDetailLabel.userInteractionEnabled = YES;
-        UITapGestureRecognizer *AddLabelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AddTap)];
-        [AddDetailLabel addGestureRecognizer:AddLabelTap];
+        UITapGestureRecognizer *AddDetailLabelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(AddTapDetail)];
+        [AddDetailLabel addGestureRecognizer:AddDetailLabelTap];
         AddDetailLabel.layer.borderColor = ZFOrange.CGColor;
         AddDetailLabel.layer.borderWidth = 0.5f;
         AddDetailLabel.layer.masksToBounds = YES;
@@ -598,62 +595,71 @@ if (_flagArray.count == _MutableArray.count+1) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ImageClick:)];
         [HeaderView addGestureRecognizer:tap];
         HeaderView.tag = 100 + section;
-
         
+        UIView *SpaceView = [[UIView alloc]init];
+        SpaceView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+        [HeaderView addSubview:SpaceView];
+        [SpaceView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(HeaderView.mas_left);
+            make.top.mas_equalTo(HeaderView.mas_top);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            make.height.mas_equalTo(10);
+        }];
+
         UIView *ImageView = [[UIView alloc]init];
         ImageView.backgroundColor = [UIColor orangeColor];
         ImageView.frame = CGRectMake(0, 5, 2, 60);
         [HeaderView addSubview:ImageView];
 
         UILabel *DinQiLabel = [[UILabel alloc]init];
-        DinQiLabel.text = @"投米宝－优选中期（100000元＋100元小米卷）";
+        DinQiLabel.text = @"";
         DinQiLabel.font = [UIFont systemFontOfSize:14];
-        DinQiLabel.frame = CGRectMake(10, 5, SCREEN_WIDTH-20, 20);
+        DinQiLabel.frame = CGRectMake(10, 15, SCREEN_WIDTH-20, 20);
         [HeaderView addSubview:DinQiLabel];
         
         UILabel *DinQiDetailLabel = [[UILabel alloc]init];
-        DinQiDetailLabel.text = @"预计年化收益";
+        DinQiDetailLabel.text = @"";
         DinQiDetailLabel.textColor = colorWithRGB(0.83, 0.83, 0.83);
-        DinQiDetailLabel.font = [UIFont systemFontOfSize:11];
-        DinQiDetailLabel.frame = CGRectMake(10, 25, SCREEN_WIDTH-20, 20);
+        DinQiDetailLabel.font = [UIFont systemFontOfSize:12];
+        DinQiDetailLabel.frame = CGRectMake(10, 35, SCREEN_WIDTH-20, 18);
         [HeaderView addSubview:DinQiDetailLabel];
         
         UILabel *DinQiNameLabel = [[UILabel alloc]init];
         DinQiNameLabel.text = @"当前资产";
-        DinQiNameLabel.font = [UIFont systemFontOfSize:10];
-        DinQiNameLabel.frame = CGRectMake(10, 45, 200, 15);
+        DinQiNameLabel.font = [UIFont systemFontOfSize:12];
+        DinQiNameLabel.frame = CGRectMake(10, 55, 200, 18);
         [HeaderView addSubview:DinQiNameLabel];
         
         UILabel *DinQiNnumberLabel = [[UILabel alloc]init];
-        DinQiNnumberLabel.text = @"200000000";
+        DinQiNnumberLabel.text = @"";
         DinQiNnumberLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
         DinQiNnumberLabel.textAlignment = NSTextAlignmentRight;
-        DinQiNnumberLabel.font = [UIFont systemFontOfSize:10];
-        DinQiNnumberLabel.frame = CGRectMake(200, 45, 100, 15);
+        DinQiNnumberLabel.font = [UIFont systemFontOfSize:12];
+        DinQiNnumberLabel.frame = CGRectMake(200, 55, 100, 18);
         [HeaderView addSubview:DinQiNnumberLabel];
         
         UILabel *DinQiTotalNnumberLabel = [[UILabel alloc]init];
-        DinQiTotalNnumberLabel.text = @"/2000000000";
+        DinQiTotalNnumberLabel.text = @"";
         DinQiTotalNnumberLabel.textColor = [UIColor blackColor];
         DinQiTotalNnumberLabel.textAlignment = NSTextAlignmentLeft;
-        DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:10];
-        DinQiTotalNnumberLabel.frame = CGRectMake(300, 45, 100, 15);
+        DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:12];
+        DinQiTotalNnumberLabel.frame = CGRectMake(300, 55, 100, 18);
         [HeaderView addSubview:DinQiTotalNnumberLabel];
         
         
         UIImageView *StateImageView = [[UIImageView alloc]init];
         StateImageView.image = [UIImage imageNamed:@"assignment"];
-        StateImageView.frame = CGRectMake(SCREEN_WIDTH - 40, 0, 40, 40);
+        StateImageView.frame = CGRectMake(SCREEN_WIDTH - 40, 10, 40, 40);
         [HeaderView addSubview:StateImageView];
         
         UIImageView *RowImageView = [[UIImageView alloc]init];
         RowImageView.image = [UIImage imageNamed:@"down_arrow_gray"];
-        RowImageView.frame = CGRectMake(SCREEN_WIDTH - 60, 20, 10, 10);
+        RowImageView.frame = CGRectMake(SCREEN_WIDTH - 60, 30, 18, 18);
         [HeaderView addSubview:RowImageView];
         
         
         UIProgressView *processView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-        processView.frame = CGRectMake(10, 65,SCREEN_WIDTH-20, 2);
+        processView.frame = CGRectMake(10, 77,SCREEN_WIDTH-20, 4);
         processView.transform = CGAffineTransformMakeScale(1.0f, 2.0f);
         processView.progressTintColor = colorWithRGB(0.96, 0.6, 0.12);
         
@@ -661,15 +667,6 @@ if (_flagArray.count == _MutableArray.count+1) {
         processView.trackTintColor = colorWithRGB(0.93, 0.93, 0.93);
         [HeaderView addSubview:processView];
 
-        UIView *SpaceView = [[UIView alloc]init];
-        SpaceView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
-        [HeaderView addSubview:SpaceView];
-        [SpaceView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(HeaderView.mas_left);
-            make.top.mas_equalTo(processView.mas_bottom).offset(10);
-            make.width.mas_equalTo(SCREEN_WIDTH);
-            make.height.mas_equalTo(10);
-        }];
         
         if (DinQiArray.count) {
             DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
@@ -741,6 +738,14 @@ if (_flagArray.count == _MutableArray.count+1) {
     
 }
 
+- (void)OldTapClick{
+    OldProfitViewController * oldVC  = [[OldProfitViewController alloc]init];
+    [self.navigationController pushViewController:oldVC animated:NO];
+}
+- (void)AddTapDetail{
+    AddProfitViewController * oldVC  = [[AddProfitViewController alloc]init];
+    [self.navigationController pushViewController:oldVC animated:NO];
+}
 //昨日收益
 - (void)OldTap{
     OldProfitViewController * oldVC  = [[OldProfitViewController alloc]init];
@@ -846,7 +851,10 @@ if (_flagArray.count == _MutableArray.count+1) {
 #pragma mark - ZFPieChartDataSource
 
 - (NSArray *)valueArrayInPieChart:(ZFPieChart *)chart{
-    if ([[CircleArray objectAtIndex:0]integerValue] == [[CircleArray objectAtIndex:1]integerValue]== [[CircleArray objectAtIndex:2]integerValue]== [[CircleArray objectAtIndex:3]integerValue]== [[CircleArray objectAtIndex:4]integerValue]== [[CircleArray objectAtIndex:5]integerValue]) {
+    
+    
+    if ([[CircleArray objectAtIndex:0]integerValue]==0 && [[CircleArray objectAtIndex:1]integerValue]==0 && [[CircleArray objectAtIndex:2]integerValue]==0 && [[CircleArray objectAtIndex:3]integerValue]==0 &&[[CircleArray objectAtIndex:4]integerValue]==0 &&[[CircleArray objectAtIndex:5]integerValue]==0) {
+
         return @[@"100"];
     }else{
         return CircleArray;
@@ -864,7 +872,7 @@ if (_flagArray.count == _MutableArray.count+1) {
 }
 
 - (NSArray *)colorArrayInPieChart:(ZFPieChart *)chart{
-    if ([[CircleArray objectAtIndex:0]integerValue] == [[CircleArray objectAtIndex:1]integerValue]== [[CircleArray objectAtIndex:2]integerValue]== [[CircleArray objectAtIndex:3]integerValue]== [[CircleArray objectAtIndex:4]integerValue]== [[CircleArray objectAtIndex:5]integerValue]) {
+    if ([[CircleArray objectAtIndex:0]integerValue]==0 && [[CircleArray objectAtIndex:1]integerValue]==0 && [[CircleArray objectAtIndex:2]integerValue]==0 && [[CircleArray objectAtIndex:3]integerValue]==0 &&[[CircleArray objectAtIndex:4]integerValue]==0 &&[[CircleArray objectAtIndex:5]integerValue]==0) {
          return @[colorWithRGB(0.83, 0.83, 0.83)];
     }else{
          return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.79, 0.09), colorWithRGB(0.99, 0.52, 0.18), colorWithRGB(0.27, 0.78, 0.96), colorWithRGB(0.31, 0.69, 1), colorWithRGB(0.19, 0.39, 0.9)];

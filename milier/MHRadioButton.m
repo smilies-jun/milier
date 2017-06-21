@@ -138,10 +138,10 @@ static NSMutableArray<NSString *> *groupIdsRecord;
     if (self) {
         _groupId = groupId;
         _index = index;
-        
-        if (!groupIdsRecord) {
-            groupIdsRecord = [[NSMutableArray alloc] init];
-        }
+//
+//        if (!groupIdsRecord) {
+//            groupIdsRecord = [[NSMutableArray alloc] init];
+//        }
         
         [self defaultInit];
     }

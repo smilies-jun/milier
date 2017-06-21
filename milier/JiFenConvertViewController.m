@@ -52,6 +52,7 @@ static NSString * const cellId = @"CovertcellID";
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     [self.tableView setTableFooterView:[UIView new]];
+    self.tableView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
 
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
@@ -193,7 +194,7 @@ static NSString * const cellId = @"CovertcellID";
     if (DuiHuanArray.count) {
         DuiHuanModel *model = [DuiHuanArray objectAtIndex:section];
         UIView *sectionLabel = [[UIView alloc] init];
-        sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 100);
+        sectionLabel.frame = CGRectMake(0, 0, self.view.frame.size.width, 105);
         //sectionLabel.textColor = [UIColor orangeColor];
         //sectionLabel.text = [NSString stringWithFormat:@"组%ld",(long)section];
         //sectionLabel.textAlignment = NSTextAlignmentCenter;
@@ -207,51 +208,54 @@ static NSString * const cellId = @"CovertcellID";
         //®´    NameImageView.backgroundColor = [UIColor grayColor];
         [sectionLabel addSubview:NameImageView];
         [NameImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(sectionLabel.mas_left).offset(14);
+            make.left.mas_equalTo(sectionLabel.mas_left).offset(12);
             make.centerY.mas_equalTo(sectionLabel.mas_centerY);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(90);
+            make.height.mas_equalTo(90);
         }];
         
         UILabel *NameLabel = [[UILabel alloc]init];
         NameLabel.text =[NSString stringWithFormat:@"%@",model.commodityName];
         NameLabel.textAlignment = NSTextAlignmentLeft;
-        NameLabel.textColor = [UIColor blackColor];
-        NameLabel.font = [UIFont systemFontOfSize:14];
+        NameLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+        NameLabel.numberOfLines = 0;
+        NameLabel.font = [UIFont systemFontOfSize:15];
         [sectionLabel addSubview:NameLabel];
         [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(NameImageView.mas_right).offset(10);
-            make.top.mas_equalTo(sectionLabel.mas_top).offset(20);
-            make.width.mas_equalTo(200);
-            make.height.mas_equalTo(15);
+            make.left.mas_equalTo(NameImageView.mas_right).offset(15);
+            make.top.mas_equalTo(sectionLabel.mas_top).offset(12);
+            make.width.mas_equalTo(SCREEN_WIDTH- 120);
+            make.height.mas_equalTo(20);
         }];
         
         UILabel *NameDetailLabel = [[UILabel alloc]init];
         NameDetailLabel.text = [NSString stringWithFormat:@"积分:%@",model.commodityScore];
         NameDetailLabel.numberOfLines = 0;
+        NameDetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
         NameDetailLabel.lineBreakMode = NSLineBreakByCharWrapping;
-        NameDetailLabel.font = [UIFont systemFontOfSize:14];
+        NameDetailLabel.font = [UIFont systemFontOfSize:15];
         [sectionLabel addSubview:NameDetailLabel];
         [NameDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(NameImageView.mas_right).offset(10);
+            make.left.mas_equalTo(NameImageView.mas_right).offset(15);
             make.top.mas_equalTo(NameLabel.mas_bottom);
             make.width.mas_equalTo(200);
-            make.height.mas_equalTo(25);
+            make.height.mas_equalTo(20);
         }];
         
         UILabel *MyJiFenLabel = [[UILabel alloc]init];
         NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
         MyJiFenLabel.text=[NSString stringWithFormat:@"%@",timeStr];
+        MyJiFenLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
         //    NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
         //    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:MyJiFenLabel.text attributes:attribtDic];
         //    MyJiFenLabel.attributedText = attribtStr;
         MyJiFenLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel   addSubview:MyJiFenLabel];
         [MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(NameImageView.mas_right).offset(10);
+            make.left.mas_equalTo(NameImageView.mas_right).offset(15);
             make.top.mas_equalTo(NameDetailLabel.mas_bottom);
             make.width.mas_equalTo(100);
-            make.height.mas_equalTo(15);
+            make.height.mas_equalTo(20);
         }];
         
         
@@ -275,12 +279,17 @@ static NSString * const cellId = @"CovertcellID";
         ProductLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel   addSubview:ProductLabel];
         [ProductLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(NameImageView.mas_right).offset(10);
+            make.left.mas_equalTo(NameImageView.mas_right).offset(15);
             make.top.mas_equalTo(MyJiFenLabel.mas_bottom);
             make.width.mas_equalTo(100);
             make.height.mas_equalTo(15);
         }];
         
+        
+        UIImageView *RowImageView = [[UIImageView alloc]init];
+        RowImageView.image = [UIImage imageNamed:@"down_arrow_gray"];
+        RowImageView.frame = CGRectMake(SCREEN_WIDTH - 60, 45, 18, 18);
+        [sectionLabel addSubview:RowImageView];
         
         
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(sectionClick:)];

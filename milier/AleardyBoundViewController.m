@@ -126,7 +126,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 84;
+    return 60;
 }
 
 //cell-tableview

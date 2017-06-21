@@ -10,7 +10,7 @@
 #import "FirstViewController.h"
 #import "ProductDetailNewViewController.h"
 #import "YWDLoginViewController.h"
-
+#import "SecondViewController.h"
 @interface ActivityDetailViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
 }
@@ -83,6 +83,11 @@
         }
     }
     
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[SecondViewController  class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[ProductDetailNewViewController   class]]) {
             [self.navigationController popToViewController:controller animated:YES];

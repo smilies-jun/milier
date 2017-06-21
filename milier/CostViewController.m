@@ -77,14 +77,14 @@
     SaleLbel.backgroundColor =colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.cornerRadius = 20;
     SaleLbel.layer.masksToBounds = YES;
     [self.view addSubview:SaleLbel];
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(PhoneView.mas_bottom).offset(15);
         make.width.mas_equalTo(SCREEN_WIDTH-40);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(40);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QuerenBtnClick

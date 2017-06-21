@@ -63,7 +63,8 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
 //    
     UIView *saleView = [[UIView alloc]init];
     saleView.backgroundColor = [UIColor whiteColor];
-    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-44, SCREEN_WIDTH, 44);
+    saleView.alpha = 0.9;
+    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
     [self.view addSubview:saleView];
     
     UILabel *SaleLbel =  [[UILabel alloc]init];
@@ -72,13 +73,13 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
     SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.cornerRadius = 20;
     SaleLbel.layer.masksToBounds = YES;
     [saleView addSubview:SaleLbel];
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(saleView.mas_centerX);
         make.centerY.mas_equalTo(saleView.mas_centerY);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
     
@@ -196,7 +197,7 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
         self.titles = @[@"积分记录",
                         @"兑换记录",
                         ];
-        
+        style.titleFont = [UIFont systemFontOfSize:15];
         // 注意: 一定要避免循环引用!!
         __weak typeof(self) weakSelf = self;
         ZJScrollSegmentView *segment = [[ZJScrollSegmentView alloc] initWithFrame:CGRectMake(0, naviBarHeight + headViewHeight, self.view.bounds.size.width, segmentViewHeight) segmentStyle:style delegate:self titles:self.titles titleDidClick:^(ZJTitleView *titleView, NSInteger index) {
@@ -247,6 +248,12 @@ NSString *const ZJParentTableViewDidLeaveFromTopNotification = @"ZJParentTableVi
 //        }];
         
         _headView.backgroundColor = [UIColor whiteColor];
+        
+        UIView *bottomView = [[UIView alloc]init];
+        bottomView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+        bottomView.frame = CGRectMake(0, 140, SCREEN_WIDTH, 10);
+        [_headView addSubview:bottomView];
+        
     }
     
     return _headView;

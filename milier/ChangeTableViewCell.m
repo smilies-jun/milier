@@ -18,12 +18,12 @@
     
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"绑定银行卡";
-    _NameLabel.font = [UIFont systemFontOfSize:12];
+    _NameLabel.font = [UIFont systemFontOfSize:14];
     _NameLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
-        make.top.mas_equalTo(self.mas_top).offset(5);
+        make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
         
@@ -33,7 +33,7 @@
     _ChangeValueLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
 
     _ChangeValueLabel.textAlignment = NSTextAlignmentCenter;
-    _ChangeValueLabel.font = [UIFont systemFontOfSize:13];
+    _ChangeValueLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_ChangeValueLabel];
     [_ChangeValueLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
@@ -46,7 +46,7 @@
     _ChangeValueNumberLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
 
     _ChangeValueNumberLabel.textAlignment = NSTextAlignmentCenter;
-    _ChangeValueNumberLabel.font = [UIFont systemFontOfSize:13];
+    _ChangeValueNumberLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_ChangeValueNumberLabel];
     [_ChangeValueNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(_ChangeValueLabel.mas_centerX);
@@ -60,7 +60,7 @@
     _OneDayChangeLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
 
     _OneDayChangeLabel.textAlignment = NSTextAlignmentCenter;
-    _OneDayChangeLabel.font = [UIFont systemFontOfSize:13];
+    _OneDayChangeLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_OneDayChangeLabel];
     [_OneDayChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_ChangeValueLabel.mas_right).offset(20);
@@ -73,7 +73,7 @@
     _OneDayChangeNumberLabel.textColor = colorWithRGB(0.95, 0.60, 0.11);
 
     _OneDayChangeNumberLabel.textAlignment = NSTextAlignmentCenter;
-    _OneDayChangeNumberLabel.font = [UIFont systemFontOfSize:13];
+    _OneDayChangeNumberLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_OneDayChangeNumberLabel];
     [_OneDayChangeNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(_OneDayChangeLabel.mas_centerX);
@@ -83,10 +83,10 @@
     }];
 
     _ReguarLabel = [[UILabel alloc]init];
-    _ReguarLabel.text = @"回款金额（元）";
+    _ReguarLabel.text = @"回款金额(元)";
     _ReguarLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     _ReguarLabel.textAlignment = NSTextAlignmentCenter;
-    _ReguarLabel.font = [UIFont systemFontOfSize:13];
+    _ReguarLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_ReguarLabel];
     [_ReguarLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_OneDayChangeLabel.mas_right).offset(20);
@@ -99,7 +99,7 @@
 
     _RegularNumberLabel.text = @"121212121";
     _RegularNumberLabel.textAlignment = NSTextAlignmentCenter;
-    _RegularNumberLabel.font = [UIFont systemFontOfSize:13];
+    _RegularNumberLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_RegularNumberLabel];
     [_RegularNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(_ReguarLabel.mas_centerX);
@@ -112,7 +112,7 @@
     [self addSubview:LineView];
     [LineView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left);
-        make.top.mas_equalTo(_RegularNumberLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(_RegularNumberLabel.mas_bottom).offset(15);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(0.5);
     }];
@@ -125,7 +125,7 @@
     [_OutLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(_ChangeValueNumberLabel.mas_bottom).offset(20);
-        make.width.mas_equalTo(140);
+        make.width.mas_equalTo(160);
         make.height.mas_equalTo(30);
     }];
     _OutSailLabel = [[UILabel alloc]init];
@@ -135,7 +135,7 @@
     _OutSailLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_OutSailLabel];
     [_OutSailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_OutLabel.mas_right).offset(20);
+        make.left.mas_equalTo(_OutLabel.mas_right);
         make.top.mas_equalTo(_ChangeValueNumberLabel.mas_bottom).offset(20);
         make.width.mas_equalTo(120);
         make.height.mas_equalTo(30);
@@ -143,7 +143,7 @@
     _IsOrNoLabel = [[UIButton alloc]init];
     _IsOrNoLabel.tag = indexPath.row + 100;
     _IsOrNoLabel.titleLabel.font = [UIFont systemFontOfSize:14];
-    [_IsOrNoLabel setTitle:@"取消转让" forState:UIControlStateNormal];
+    [_IsOrNoLabel setTitle:@"取消转让>>" forState:UIControlStateNormal];
     [_IsOrNoLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     [self addSubview:_IsOrNoLabel];
     [_IsOrNoLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -170,7 +170,7 @@
         make.left.mas_equalTo(self.mas_left);
         make.top.mas_equalTo(LineView.mas_bottom).offset(40);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(5);
+        make.height.mas_equalTo(10);
     }];
 }
 

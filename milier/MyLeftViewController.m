@@ -98,12 +98,13 @@
     
     _BottomView = [[UIView alloc]init];
     _BottomView.backgroundColor = [UIColor whiteColor];
+    _BottomView.alpha = 0.9;
     [self.view addSubview:_BottomView];
     [_BottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.bottom.mas_equalTo(self.view.mas_bottom);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(60);
     }];
     UILabel *PayLabel =[[UILabel alloc]init];
     PayLabel.text = @"充值";
@@ -113,7 +114,7 @@
     [PayLabel addGestureRecognizer:PayTap];
     PayLabel.textAlignment = NSTextAlignmentCenter;
     PayLabel.backgroundColor = [UIColor orangeColor];
-    PayLabel.layer.cornerRadius = 10;
+    PayLabel.layer.cornerRadius = 20;
     PayLabel.layer.masksToBounds = YES;
     [self.view addSubview:PayLabel];
     [PayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -130,7 +131,7 @@
     CashLabel.textColor = [UIColor whiteColor];
     CashLabel.textAlignment = NSTextAlignmentCenter;
     CashLabel.backgroundColor = [UIColor orangeColor];
-    CashLabel.layer.cornerRadius = 10;
+    CashLabel.layer.cornerRadius = 20;
     CashLabel.layer.masksToBounds = YES;
     [self.view addSubview:CashLabel];
     [CashLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -220,7 +221,7 @@
     if (indexPath.row == 0) {
         return 120;
     }
-    return 70;
+    return 80;
     
 }
 

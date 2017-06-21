@@ -32,7 +32,7 @@
         make.left.mas_equalTo(_userImageView.mas_right).offset(5);
         make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(100);
-        make.height.mas_equalTo(15);
+        make.height.mas_equalTo(20);
     }];
     
     _DetailLabel = [[UILabel alloc]init];
@@ -41,9 +41,9 @@
     [self addSubview:_DetailLabel];
     [_DetailLabel  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_userImageView.mas_right).offset(5);
-        make.top.mas_equalTo(_NameLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(_NameLabel.mas_bottom);
         make.width.mas_equalTo(200);
-        make.height.mas_equalTo(15);
+        make.height.mas_equalTo(20);
     }];
     
     _TypeLabel = [[UILabel alloc]init];
@@ -52,7 +52,7 @@
     [self addSubview:_TypeLabel];
     [_TypeLabel  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_userImageView.mas_right).offset(5);
-        make.top.mas_equalTo(_DetailLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(_DetailLabel.mas_bottom);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(15);
     }];

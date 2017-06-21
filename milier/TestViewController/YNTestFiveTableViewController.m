@@ -29,7 +29,8 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     NSLog(@"two - viewDidLoad");
     dataArray = [[NSMutableArray alloc]init];
-    
+    self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 150-100);
+
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];

@@ -136,13 +136,13 @@
     TestLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     TestLabel.textAlignment = NSTextAlignmentCenter;
     TestLabel.textColor = [UIColor whiteColor];
-    TestLabel.layer.cornerRadius = 10;
+    TestLabel.layer.cornerRadius = 20;
     TestLabel.layer.masksToBounds = YES;
     [self.view addSubview:TestLabel];
     [TestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(RiskBootmView.mas_bottom).offset(20);
-        make.width.mas_equalTo(SCREEN_WIDTH - 80);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(40);
     }];
     

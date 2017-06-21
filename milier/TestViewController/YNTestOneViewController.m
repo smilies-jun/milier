@@ -23,7 +23,6 @@
     [super viewDidLoad];
     [self.tableView setSeparatorColor:colorWithRGB(0.87, 0.87, 0.87)];
     dataArray = [[NSMutableArray alloc]init];
-    
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];

@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 
 // 按钮点击宽度 可根据实际更改
-static const NSUInteger kRadioButtonWidth = 22;
+static const NSUInteger kRadioButtonWidth = 32;
 // 按钮点击高度 可根据实际更改
-static const NSUInteger kRadioButtonHeight = 22;
+static const NSUInteger kRadioButtonHeight = 32;
 
 /*!
  *  @author Macro, 14-11-09

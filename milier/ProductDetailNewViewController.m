@@ -87,8 +87,7 @@
                     
                     
                 }else{
-                    [self showActivityView];
-
+  
                 }
             }else{
                 

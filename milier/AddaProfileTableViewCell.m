@@ -34,11 +34,22 @@
     _DetailLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_DetailLabel];
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.mas_right).offset(-20);
+        make.right.mas_equalTo(self.mas_right).offset(-40);
         make.centerY.mas_equalTo(self.mas_centerY);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
+    UIImageView *GorrowView = [[UIImageView alloc]init];
+    GorrowView.image = [UIImage imageNamed:@"goarrow"];
+    [self addSubview:GorrowView];
+    [GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.mas_right).offset(-20);
+        make.centerY.mas_equalTo(self.mas_centerY);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
+    }];
+
+    
 }
 - (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
     NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;

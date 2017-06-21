@@ -15,6 +15,7 @@
 
 @property (nonatomic , retain) UILabel *DetailLabel;
 
+@property (nonatomic, retain)UIImageView *typeImagewView;
 
 @property(nonatomic, retain)ProfileModel *ProfileModel;
 

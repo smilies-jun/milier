@@ -99,7 +99,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(self.view.mas_top).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(65);
     }];
     
     
@@ -116,7 +116,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(ImageSetView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(65);
     }];
     SailSetView = [[UserSetView alloc]init];
     SailSetView.StaticImageView.image = [UIImage imageNamed:@"cardpassword"];
@@ -140,7 +140,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(PassSetView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(65);
     }];
     BundSetView = [[UserSetView alloc]init];
     BundSetView.StaticImageView.image = [UIImage imageNamed:@"creditcard"];
@@ -173,7 +173,7 @@
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(SailSetView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(44);
+        make.height.mas_equalTo(65);
     }];
     SaleLabel = [[UILabel alloc]init];
     SaleLabel.text = @"退出账号";
@@ -438,6 +438,7 @@
     NSuserRemove(@"qiye");
     NSuserRemove(@"type");
     NSuserRemove(@"activityOid");
+    NSuserRemove(@"Risk");
 
     [self.navigationController popToRootViewControllerAnimated:NO];
 

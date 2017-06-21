@@ -48,7 +48,7 @@ static NSString * const cellId = @"cellID";
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenBtnClick
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
-
+    self.tableView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
     self.tableView.noContentViewTapedBlock = ^{
         [self getNetworkData:YES];
     };
@@ -174,7 +174,7 @@ static NSString * const cellId = @"cellID";
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 64;
+    return 60;
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

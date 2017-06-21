@@ -84,7 +84,7 @@
     TestLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     TestLabel.textAlignment = NSTextAlignmentCenter;
     TestLabel.textColor = [UIColor whiteColor];
-    TestLabel.layer.cornerRadius = 10;
+    TestLabel.layer.cornerRadius = 20;
     TestLabel.layer.masksToBounds = YES;
     [self.view addSubview:TestLabel];
     [TestLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -67,7 +67,7 @@
     [self addSubview:_BageView];
     [_BageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
-        make.top.mas_equalTo(_LookLimitLabel.mas_bottom).offset(6);
+        make.top.mas_equalTo(_LookLimitLabel.mas_bottom).offset(15);
         make.width.mas_equalTo(SCREEN_WIDTH - 20);
         make.height.mas_equalTo(25);
     }];
@@ -81,7 +81,7 @@
         make.height.mas_equalTo(10);
     }];
     _FirstNameLabel = [[UILabel alloc]init];
-    _FirstNameLabel.font = [UIFont systemFontOfSize:11];
+    _FirstNameLabel.font = [UIFont systemFontOfSize:12];
     _FirstNameLabel.text = @"第一次付息：2015:12:12";
     [_BageView addSubview:_FirstNameLabel];
     [_FirstNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -92,7 +92,7 @@
     }];
     _FirstSailLabel = [[UILabel alloc]init];
     _FirstSailLabel.text = @"30000元";
-    _FirstSailLabel.font = [UIFont systemFontOfSize:11];
+    _FirstSailLabel.font = [UIFont systemFontOfSize:12];
     _FirstSailLabel.textAlignment = NSTextAlignmentRight;
     _FirstSailLabel.textColor = [UIColor orangeColor];
     [_BageView addSubview:_FirstSailLabel];
@@ -122,7 +122,7 @@
         make.height.mas_equalTo(10);
     }];
     _SecondNameLabel = [[UILabel alloc]init];
-    _SecondNameLabel.font = [UIFont systemFontOfSize:11];
+    _SecondNameLabel.font = [UIFont systemFontOfSize:12];
     _SecondNameLabel.text = @"第2次付息：2015:12:12";
     [_SecondBageView addSubview:_SecondNameLabel];
     [_SecondNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -133,7 +133,7 @@
     }];
     _SecondSailLabel = [[UILabel alloc]init];
     _SecondSailLabel.text = @"30000元";
-    _SecondSailLabel.font = [UIFont systemFontOfSize:11];
+    _SecondSailLabel.font = [UIFont systemFontOfSize:12];
     _SecondSailLabel.textAlignment = NSTextAlignmentRight;
     _SecondSailLabel.textColor = [UIColor orangeColor];
     [_SecondBageView addSubview:_SecondSailLabel];
@@ -163,7 +163,7 @@
         make.height.mas_equalTo(10);
     }];
     _ThirdNameLabel = [[UILabel alloc]init];
-    _ThirdNameLabel.font = [UIFont systemFontOfSize:11];
+    _ThirdNameLabel.font = [UIFont systemFontOfSize:12];
     _ThirdNameLabel.text = @"第3次付息：2015:12:12";
     [_ThirdBageView addSubview:_ThirdNameLabel];
     [_ThirdNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -172,13 +172,13 @@
         make.width.mas_equalTo(150);
         make.height.mas_equalTo(10);
     }];
-    _FirstSailLabel = [[UILabel alloc]init];
-    _FirstSailLabel.text = @"30000元";
-    _FirstSailLabel.font = [UIFont systemFontOfSize:11];
-    _FirstSailLabel.textAlignment = NSTextAlignmentRight;
-    _FirstSailLabel.textColor = [UIColor orangeColor];
-    [_ThirdBageView addSubview:_FirstSailLabel];
-    [_FirstSailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+    _ThirdSailLabel = [[UILabel alloc]init];
+    _ThirdSailLabel.text = @"30000元";
+    _ThirdSailLabel.font = [UIFont systemFontOfSize:12];
+    _ThirdSailLabel.textAlignment = NSTextAlignmentRight;
+    _ThirdSailLabel.textColor = [UIColor orangeColor];
+    [_ThirdBageView addSubview:_ThirdSailLabel];
+    [_ThirdSailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(_ThirdBageView.mas_right).offset(-5);
         make.centerY.mas_equalTo(_ThirdBageView.mas_centerY);
         make.width.mas_equalTo(100);
@@ -286,8 +286,9 @@
                         _FirstImageView.hidden = YES;
  
                     }
-                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     _FirstNameLabel.text = [NSString stringWithFormat:@"第一次付息：%@",TimeStr];
+                    _FirstSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
                 }
                 if (i == 1) {
                     NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:1];
@@ -299,8 +300,10 @@
                         _SecondImageView.hidden = YES;
  
                     }
-                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     _SecondNameLabel.text = [NSString stringWithFormat:@"第二次付息：%@",TimeStr];
+                    _SecondSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+
                 }
                 if (i ==2) {
                     NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:2];
@@ -311,9 +314,11 @@
                         _ThirdImageView.hidden = YES;
  
                     }
-                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     
                     _ThirdNameLabel.text = [NSString stringWithFormat:@"第三次付息：%@",TimeStr];
+                    _ThirdSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+
                 }
                 if (i == 3) {
                     NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:3];
@@ -324,9 +329,11 @@
                         _FourImageView.hidden = YES;
   
                     }
-                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+                    NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     
                     _FourNameLabel.text = [NSString stringWithFormat:@"第四次付息：%@",TimeStr];
+                    _FourSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+
                 }
             }
             
@@ -348,7 +355,7 @@
     
 }
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object{
-    CGFloat statuesHeight =  25 *[object integerValue];
+    CGFloat statuesHeight =  28 *[object integerValue];
     return statuesHeight;
 }
 

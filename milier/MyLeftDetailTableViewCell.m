@@ -18,12 +18,12 @@
     
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"";
-    _NameLabel.font = [UIFont systemFontOfSize:12];
+    _NameLabel.font = [UIFont systemFontOfSize:14];
     _NameLabel.textAlignment = NSTextAlignmentLeft;
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
-        make.top.mas_equalTo(self.mas_top).offset(5);
+        make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     
@@ -31,7 +31,7 @@
     _DetailLabel = [[UILabel alloc]init];
     _DetailLabel.text = @"";
     _DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
-    _DetailLabel.font = [UIFont systemFontOfSize:12];
+    _DetailLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_DetailLabel];
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
@@ -42,7 +42,7 @@
     _TimeLabel = [[UILabel alloc]init];
     _TimeLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     _TimeLabel.text = @"";
-    _TimeLabel.font = [UIFont systemFontOfSize:12];
+    _TimeLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_TimeLabel];
     [_TimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
@@ -55,18 +55,18 @@
     _NumberlLabel.textColor = [UIColor orangeColor];
     _NumberlLabel.textAlignment = NSTextAlignmentRight;
     _NumberlLabel.text = @"";
-    _NumberlLabel.font = [UIFont systemFontOfSize:12];
+    _NumberlLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_NumberlLabel];
     [_NumberlLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(-20);
-        make.top.mas_equalTo(self.mas_top).offset(10);
+        make.top.mas_equalTo(self.mas_top).offset(20);
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(20);
     }];
     _StatelLabel = [[UILabel alloc]init];
     _StatelLabel.textAlignment = NSTextAlignmentRight;
     _StatelLabel.text = @"支付成功";
-    _StatelLabel.font = [UIFont systemFontOfSize:12];
+    _StatelLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_StatelLabel];
     [_StatelLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(-20);
