@@ -164,7 +164,7 @@
         
         return cell;
     }else{
-        static NSString *identifier = @"productidentifier";
+        static NSString *identifier = @"Nodataproductidentifier";
         
         NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

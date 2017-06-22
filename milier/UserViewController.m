@@ -98,6 +98,7 @@
     cirleArray = [[NSArray alloc]init];
     [self getNetworkData:YES];
     [self ConfigUI];
+    NSLog(@"sc = %f",SCREEN_WIDTH);
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
@@ -569,6 +570,183 @@
             make.height.mas_equalTo(20);
         }];
 
+    }else if(SCREEN_WIDTH == 320){
+        MyLeftMoneyImageView = [[UIImageView alloc]init];
+        MyLeftMoneyImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *YueTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftClick)];
+        [MyLeftMoneyImageView addGestureRecognizer:YueTap];
+        MyLeftMoneyImageView.image = [UIImage imageNamed:@"portfolio"];
+        [MyScrollView addSubview:MyLeftMoneyImageView];
+        [MyLeftMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(28);
+            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        MyLeftMoneyLabel = [[UILabel alloc]init];
+        MyLeftMoneyLabel.text =  @"我的余额";
+        MyLeftMoneyLabel.textAlignment = NSTextAlignmentCenter;
+        MyLeftMoneyLabel.textColor = [UIColor grayColor];
+        MyLeftMoneyLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:MyLeftMoneyLabel];
+        [MyLeftMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyLeftMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        MyLeftMoneyNumberLabel = [[UILabel alloc]init];
+        MyLeftMoneyNumberLabel.text = @"";
+        MyLeftMoneyNumberLabel.textColor = [UIColor orangeColor];
+        MyLeftMoneyNumberLabel.font = [UIFont systemFontOfSize:12];
+        MyLeftMoneyNumberLabel.textAlignment = NSTextAlignmentCenter;
+        [MyScrollView addSubview:MyLeftMoneyNumberLabel];
+        [MyLeftMoneyNumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyLeftMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyLeftMoneyLabel.mas_bottom);
+            make.width.mas_equalTo(160);
+            make.height.mas_equalTo(15);
+        }];
+        
+        
+        MyJiFenImageView = [[UIImageView alloc]init];
+        MyJiFenImageView.image = [UIImage imageNamed:@"star"];
+        MyJiFenImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *JiFenTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenClick)];
+        [MyJiFenImageView addGestureRecognizer:JiFenTap];
+        [MyScrollView addSubview:MyJiFenImageView];
+        [MyJiFenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(56);
+            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        MyJiFenLabel   = [[UILabel alloc]init];
+        MyJiFenLabel.text =  @"我的积分";
+        MyJiFenLabel.textAlignment = NSTextAlignmentCenter;
+        MyJiFenLabel.textColor = [UIColor grayColor];
+        MyJiFenLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:MyJiFenLabel];
+        [MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyJiFenImageView.mas_centerX);
+            make.top.mas_equalTo(MyJiFenImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        
+        MyJifenNmberLabel = [[UILabel alloc]init];
+        MyJifenNmberLabel.text = @"";
+        MyJifenNmberLabel.textColor = [UIColor orangeColor];
+        MyJifenNmberLabel.font = [UIFont systemFontOfSize:12];
+        MyJifenNmberLabel.textAlignment = NSTextAlignmentCenter;
+        [MyScrollView addSubview:MyJifenNmberLabel];
+        [MyJifenNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyJiFenImageView.mas_centerX);
+            make.top.mas_equalTo(MyJiFenLabel.mas_bottom);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(15);
+        }];
+        
+        
+        ChangeImageView = [[UIImageView alloc]init];
+        ChangeImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *ChangeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(changeClick)];
+        [ChangeImageView addGestureRecognizer:ChangeTap];
+        ChangeImageView.image = [UIImage imageNamed:@"attorn"];
+        [MyScrollView addSubview:ChangeImageView];
+        [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(56);
+            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        ChangeLabel = [[UILabel alloc]init];
+        ChangeLabel.text =  @"债权转让";
+        ChangeLabel.textAlignment = NSTextAlignmentCenter;
+        ChangeLabel.textColor = [UIColor grayColor];
+        ChangeLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:ChangeLabel];
+        [ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(ChangeImageView.mas_centerX);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        
+        MyStageImageView = [[UIImageView alloc]init];
+        MyStageImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *StageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(StageClick)];
+        [MyStageImageView addGestureRecognizer:StageTap];
+        MyStageImageView.image = [UIImage imageNamed:@"diamond"];
+        [MyScrollView addSubview:MyStageImageView];
+        [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(28);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        MyStageLabel = [[UILabel alloc]init];
+        MyStageLabel.text =  @"我的道具";
+        MyStageLabel.textAlignment = NSTextAlignmentCenter;
+        MyStageLabel.textColor = [UIColor grayColor];
+        MyStageLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:MyStageLabel];
+        [MyStageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyStageImageView.mas_centerX);
+            make.top.mas_equalTo(MyStageImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        ShareImageView = [[UIImageView alloc]init];
+        ShareImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *ShareTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShareClick)];
+        [ShareImageView addGestureRecognizer:ShareTap];
+        ShareImageView.image = [UIImage imageNamed:@"shareUse"];
+        [MyScrollView addSubview:ShareImageView];
+        [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyStageImageView.mas_right).offset(56);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        ShareLabel = [[UILabel alloc]init];
+        ShareLabel.text =  @"分享邀请";
+        ShareLabel.textAlignment = NSTextAlignmentCenter;
+        ShareLabel.textColor = [UIColor grayColor];
+        ShareLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:ShareLabel];
+        [ShareLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(ShareImageView.mas_centerX);
+            make.top.mas_equalTo(ShareImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        DangerTestImageView = [[UIImageView alloc]init];
+        DangerTestImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *DangerTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DangerClick)];
+        [DangerTestImageView addGestureRecognizer:DangerTap];
+        
+        DangerTestImageView.image = [UIImage imageNamed:@"security"];
+        [MyScrollView addSubview:DangerTestImageView];
+        [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(ShareImageView.mas_right).offset(56);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        DangerTestLabel = [[UILabel alloc]init];
+        DangerTestLabel.text =  @"风险评估";
+        DangerTestLabel.textAlignment = NSTextAlignmentCenter;
+        DangerTestLabel.textColor = [UIColor grayColor];
+        DangerTestLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:DangerTestLabel];
+        [DangerTestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(DangerTestImageView.mas_centerX);
+            make.top.mas_equalTo(DangerTestImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+ 
     }else{
         MyLeftMoneyImageView = [[UIImageView alloc]init];
         MyLeftMoneyImageView.userInteractionEnabled = YES;
@@ -745,7 +923,6 @@
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
- 
     }
     
     }
@@ -790,7 +967,13 @@
     }
     UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"username"]];
     PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
-    MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];
+    if ([[StaticUserDic objectForKey:@"assets"] doubleValue]) {
+        MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];
+ 
+    }else{
+        MyLeftMoneyNumberLabel.text = @"0";
+    }
+    
     MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     float   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]floatValue];
     float DinQiCircle = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue];

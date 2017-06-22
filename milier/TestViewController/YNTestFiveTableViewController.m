@@ -126,7 +126,7 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (!dataArray.count) {
+    if (dataArray.count) {
         return [dataArray count];
 
     }else{
@@ -136,7 +136,7 @@
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!dataArray.count) {
+    if (dataArray.count) {
         return 120;
  
     }
@@ -146,7 +146,7 @@
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (!dataArray.count) {
+    if (dataArray.count) {
         static NSString *identifier = @"identifier";
         
         SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -162,7 +162,7 @@
         //cell.textLabel.text = @"11111111";
         return cell;
     }else{
-        static NSString *identifier = @"identifier";
+        static NSString *identifier = @"DDeidentifier";
         
         DeveloperTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

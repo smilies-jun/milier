@@ -183,7 +183,7 @@
         
         return cell;
     }else{
-        static NSString *identifier = @"Addidentifier";
+        static NSString *identifier = @"NodateAddidentifier";
         
         NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

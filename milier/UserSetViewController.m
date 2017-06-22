@@ -131,7 +131,9 @@
     
     SailSetView.DetailLabel.text = @"保证您在米粒儿平台的交易安全，请妥善保管";
     SailSetView.DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
-
+    if (SCREEN_WIDTH == 320) {
+        SailSetView.DetailLabel.font = [UIFont systemFontOfSize:13];
+    }
     SailSetView.userInteractionEnabled = YES;
     UITapGestureRecognizer *SailTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SailSetClick)];
     [SailSetView addGestureRecognizer:SailTap];

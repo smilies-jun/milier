@@ -156,7 +156,7 @@
         return cell;
  
     }else{
-        static NSString *identifier = @"productidentifier";
+        static NSString *identifier = @"NodatBundproductidentifier";
         
         NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

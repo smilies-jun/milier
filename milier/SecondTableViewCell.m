@@ -60,42 +60,85 @@
         make.height.mas_equalTo(30);
     }];
     
-    _limitTimeLabel = [[UILabel alloc]init];
-    _limitTimeLabel.text = @"投资期限 6个月";
-    _limitTimeLabel.font = [UIFont systemFontOfSize:15];
-    _limitTimeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-    [self addSubview:_limitTimeLabel];
-    [_limitTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
-        make.centerY.mas_equalTo(_ProfitLabel.mas_centerY);
-        make.width.mas_equalTo(250);
-        make.height.mas_equalTo(15);
-    }];
-    _ChangeLabel = [[UILabel alloc]init];
-    _ChangeLabel.text = @"投资期限 6个月";
+        if (SCREEN_WIDTH == 320) {
+            _limitTimeLabel = [[UILabel alloc]init];
+            _limitTimeLabel.text = @"投资期限 6个月";
+            _limitTimeLabel.font = [UIFont systemFontOfSize:15];
+            _limitTimeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+            [self addSubview:_limitTimeLabel];
+            [_limitTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.mas_equalTo(_ProfitLabel.mas_right);
+                make.centerY.mas_equalTo(_ProfitLabel.mas_centerY);
+                make.width.mas_equalTo(250);
+                make.height.mas_equalTo(15);
+            }];
 
-    _ChangeLabel.font = [UIFont systemFontOfSize:15];
-    _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-    [self addSubview:_ChangeLabel];
-    [_ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
-        make.top.mas_equalTo(_limitTimeLabel.mas_bottom).offset(3);
-        make.width.mas_equalTo(250);
-        make.height.mas_equalTo(15);
-    }];
+        _ChangeLabel = [[UILabel alloc]init];
+        _ChangeLabel.text = @"投资期限 6个月";
+        
+        _ChangeLabel.font = [UIFont systemFontOfSize:15];
+        _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        [self addSubview:_ChangeLabel];
+        [_ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_ProfitLabel.mas_right);
+            make.top.mas_equalTo(_limitTimeLabel.mas_bottom).offset(3);
+            make.width.mas_equalTo(250);
+            make.height.mas_equalTo(15);
+        }];
+        
+        
+        _BeginMoneyLabel = [[UILabel alloc]init];
+        _BeginMoneyLabel.text = @"起购金额 10000元";
+        _BeginMoneyLabel.font = [UIFont systemFontOfSize:15];
+        _BeginMoneyLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        [self addSubview:_BeginMoneyLabel];
+        [_BeginMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_limitTimeLabel.mas_left);
+            make.bottom.mas_equalTo(_MoneyLabel.mas_bottom);
+            make.width.mas_equalTo(250);
+            make.height.mas_equalTo(20);
+        }];
+    }else{
+        _limitTimeLabel = [[UILabel alloc]init];
+        _limitTimeLabel.text = @"投资期限 6个月";
+        _limitTimeLabel.font = [UIFont systemFontOfSize:15];
+        _limitTimeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        [self addSubview:_limitTimeLabel];
+        [_limitTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
+            make.centerY.mas_equalTo(_ProfitLabel.mas_centerY);
+            make.width.mas_equalTo(250);
+            make.height.mas_equalTo(15);
+        }];
 
+        _ChangeLabel = [[UILabel alloc]init];
+        _ChangeLabel.text = @"投资期限 6个月";
+        
+        _ChangeLabel.font = [UIFont systemFontOfSize:15];
+        _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        [self addSubview:_ChangeLabel];
+        [_ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
+            make.top.mas_equalTo(_limitTimeLabel.mas_bottom).offset(3);
+            make.width.mas_equalTo(250);
+            make.height.mas_equalTo(15);
+        }];
+        
+        
+        _BeginMoneyLabel = [[UILabel alloc]init];
+        _BeginMoneyLabel.text = @"起购金额 10000元";
+        _BeginMoneyLabel.font = [UIFont systemFontOfSize:15];
+        _BeginMoneyLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        [self addSubview:_BeginMoneyLabel];
+        [_BeginMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(_limitTimeLabel.mas_left);
+            make.bottom.mas_equalTo(_MoneyLabel.mas_bottom);
+            make.width.mas_equalTo(250);
+            make.height.mas_equalTo(20);
+        }];
+
+    }
     
-    _BeginMoneyLabel = [[UILabel alloc]init];
-    _BeginMoneyLabel.text = @"起购金额 10000元";
-    _BeginMoneyLabel.font = [UIFont systemFontOfSize:15];
-    _BeginMoneyLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-    [self addSubview:_BeginMoneyLabel];
-    [_BeginMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(_limitTimeLabel.mas_left);
-        make.bottom.mas_equalTo(_MoneyLabel.mas_bottom);
-        make.width.mas_equalTo(250);
-        make.height.mas_equalTo(20);
-    }];
     
     _BageLayer = [CAShapeLayer layer];
     _BageLayer.position = self.contentView.center;

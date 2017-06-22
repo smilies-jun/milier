@@ -266,11 +266,18 @@
         topView.backgroundColor = [UIColor whiteColor];
         topView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 250);
         topView.userInteractionEnabled = YES;
-        
-        self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(40, 20, 120, 120)];
-        self.pieChart.userInteractionEnabled = NO;
-        self.pieChart.dataSource= self;
-        self.pieChart.delegate = self;
+        if (SCREEN_WIDTH == 320) {
+            self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(20, 30, 100, 100)];
+            self.pieChart.userInteractionEnabled = NO;
+            self.pieChart.dataSource= self;
+            self.pieChart.delegate = self;
+        }else{
+            self.pieChart = [[ZFPieChart alloc] initWithFrame:CGRectMake(40, 20, 120, 120)];
+            self.pieChart.userInteractionEnabled = NO;
+            self.pieChart.dataSource= self;
+            self.pieChart.delegate = self;
+        }
+   
         
         self.pieChart.piePatternType = kPieChartPatternTypeForCirque;
         //    self.pieChart.percentType = kPercentTypeInteger;

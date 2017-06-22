@@ -115,7 +115,8 @@
         if (isJuhua) {
             [self endRefresh];
         }
-        NSArray *myArray = [result objectForKey:@"items"];
+        NSLog(@"re = %@",result);
+            NSArray *myArray = [result objectForKey:@"items"];
         for (NSDictionary *NewArray in myArray) {
             Model = [[ActivityModel alloc]init];
             Model.dataDictionary = NewArray;
