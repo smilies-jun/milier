@@ -86,8 +86,8 @@
 - (void)setLeftModel:(MyLeftModel *)LeftModel{
     if (LeftModel != _LeftModel) {
         _LeftModel = LeftModel;
-        _NameLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.orderNumber];
-        _DetailLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.desc];
+        _DetailLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.orderNumber];
+      _NameLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.desc];
         NSString *timeStr = [self getTimeStr:_LeftModel.createTime withForMat:@"yyyy-MM-dd"];
         if ([_LeftModel.type integerValue] == 2) {
             _NumberlLabel.text = [NSString stringWithFormat:@"-%@",_LeftModel.amount];

@@ -25,7 +25,7 @@
 #import "BaseTableView.h"
 #import "NoContentView.h"
 #import "MyTableView.h"
-
+#import "NoDateTableViewCell.h"
 // Categories
 #import "NSDate+Extend.h"
 #import "NSObject+AssociatedObject.h"

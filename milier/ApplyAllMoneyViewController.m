@@ -177,8 +177,14 @@
     [imageView addSubview:TopImageView];
     
     UILabel *MyScorLabel = [[UILabel alloc]init];
-    MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%@元", [MyDic objectForKey:@"totalIncome"]];
-    MyScorLabel.font = [UIFont systemFontOfSize:12];
+    if ([[MyDic objectForKey:@"totalIncome"]doubleValue]) {
+        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%@元", [MyDic objectForKey:@"totalIncome"]];
+
+    }else{
+        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
+
+    }
+    MyScorLabel.font = [UIFont systemFontOfSize:14];
     [imageView addSubview:MyScorLabel];
     [MyScorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(imageView.mas_left).offset(10);
@@ -188,23 +194,29 @@
     }];
     UILabel *DetailLabel = [[UILabel alloc]init];
     DetailLabel.text = @"全民理财师，躺着把钱赚";
-    DetailLabel.font = [UIFont systemFontOfSize:12];
+    DetailLabel.font = [UIFont systemFontOfSize:14];
     DetailLabel.textAlignment = NSTextAlignmentRight;
     [imageView addSubview:DetailLabel];
     [DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(imageView.mas_right).offset(-10);
         make.top.mas_equalTo(TopImageView.mas_bottom).offset(10);
-        make.width.mas_equalTo(140);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     UILabel *myMoneyLabel = [[UILabel alloc]init];
-    myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%@元", [MyDic objectForKey:@"assets"]];
+    if ([[MyDic objectForKey:@"assets"]doubleValue]) {
+        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%@元", [MyDic objectForKey:@"assets"]];
+ 
+    }else{
+        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:0元"];
+  
+    }
     myMoneyLabel.font = [UIFont systemFontOfSize:14];
     [imageView addSubview:myMoneyLabel];
     [myMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(imageView.mas_left).offset(10);
         make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(120);
+        make.width.mas_equalTo(170);
         make.height.mas_equalTo(20);
     }];
     
@@ -253,6 +265,7 @@
     
     [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:urlType withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+            [self agreeClicked];
             normal_alert(@"提示", @"转入成功", @"确定");
         }else{
             NSString *message = [result objectForKey:@"message"];

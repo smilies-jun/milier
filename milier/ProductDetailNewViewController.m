@@ -57,7 +57,6 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     [self reloadData];
-
     _DataArray = [[NSMutableArray alloc]init];
     _count = 190;
     [self getNetworkData:YES];
@@ -229,7 +228,12 @@
         case 6:
            SaleLbel.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);
             break;
-            
+        case 7:
+            SaleLbel.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+            break;
+        case 8:
+            SaleLbel.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+            break;
         default:
             break;
     }
@@ -279,7 +283,7 @@
             if ([state integerValue] == 200) {
                 SaleViewController *SaleVC = [[SaleViewController alloc]init];
                 ProductDetailModel *model = [_DataArray objectAtIndex:0];
-                SaleVC.productID = [NSString stringWithFormat:@"%d",_productCateID];
+                SaleVC.productID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                 SaleVC.NameStr = model.name;
                 SaleVC.TotalStr = model.aggregateAmount;
                 SaleVC.SellStr = model.sellTotal;
@@ -291,7 +295,7 @@
                 SaleVC.minBuyStr = model.minimumInvestmentAmount;
                 SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
                 SaleVC.aggregateAmount = model.aggregateAmount;
-                SaleVC.productCatiID = [NSString stringWithFormat:@"%d",_productCateID];
+                SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                 [self.navigationController pushViewController:SaleVC animated:NO];
             }else{
                 YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
@@ -380,7 +384,12 @@
                 case 6:
                     cell.ProductcatID = 6;
                     break;
-                    
+                case 7:
+                    cell.ProductcatID = 7;
+                    break;
+                case 8:
+                    cell.ProductcatID = 8;
+                    break;
                     
                 default:
                     break;

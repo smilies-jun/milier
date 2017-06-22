@@ -30,11 +30,7 @@
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
      self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self getNetworkData:YES];
-    };
-
-    
+    [self getNetworkData:YES];
 }
 - (void)loadoneNew{
     [self getNetworkData:YES];

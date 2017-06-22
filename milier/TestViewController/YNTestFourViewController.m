@@ -20,7 +20,8 @@
     [super viewDidLoad];
 
     self.tableView.backgroundColor = [UIColor whiteColor];
-    
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+
     dataArray = [[NSMutableArray alloc]init];
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
@@ -47,7 +48,7 @@
     }
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@?page=1&rows=20&productCategoryId=4",PRODUCTS_URL];
     }else{
         url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=4",PRODUCTS_URL,page];
@@ -56,6 +57,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
+
         if (page == 1) {
             [dataArray removeAllObjects];
         }
@@ -85,7 +87,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     
-    return 5;
+    return 0;
     
 }
 //header-secion

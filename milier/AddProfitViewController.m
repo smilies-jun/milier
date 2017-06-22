@@ -91,7 +91,7 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     if (_ProductType == 1) {
         //活期
-        if (isFirstCome) {
+        if (isRefresh) {
             url = [NSString stringWithFormat:@"%@/earnings?page=1&rows=20&userId=%@&productCategoryId=8",HOST_URL,userID];
  
         }else{
@@ -100,7 +100,7 @@
         }
     }else{
          // 定期
-        if (isFirstCome) {
+        if (isRefresh) {
             url = [NSString stringWithFormat:@"%@/earnings?page=1&rows=20&userId=%@&productCategoryId=0",HOST_URL,userID];
             
         }else{
@@ -143,7 +143,11 @@
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  [AddArray count];
+    if (AddArray.count) {
+        return  [AddArray count];
+ 
+    }
+    return  1;
 }
 
 
@@ -153,29 +157,46 @@
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 44;
+    if (AddArray.count) {
+        return 44;
+    }
+    return SCREEN_HEIGHT;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"Addidentifier";
-    
-    AddaProfileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[AddaProfileTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
-    
     if (AddArray.count) {
-        ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
-        cell.ProfileModel = model;
+        static NSString *identifier = @"Addidentifier";
+        
+        AddaProfileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[AddaProfileTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        
+        if (AddArray.count) {
+            ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
+            cell.ProfileModel = model;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
+        return cell;
+    }else{
+        static NSString *identifier = @"Addidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        
+              cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    
-    return cell;
+   
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    SectionViewController *sVC = [[SectionViewController alloc] init];

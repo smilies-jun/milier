@@ -32,9 +32,8 @@
     self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
-    self.tableView.noContentViewTapedBlock = ^{
         [self getNetworkData:YES];
-    };
+ 
 
     
 }
@@ -77,6 +76,9 @@
     }else{
         url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=1",HOST_URL,page];
         
+    }
+    if (page ==1) {
+        [DataArray removeAllObjects];
     }
      [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {

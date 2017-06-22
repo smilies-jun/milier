@@ -138,13 +138,16 @@
 }
 
 - (void)customizeTabBarForController:(RDVTabBarController *)tabBarController {
-    UIImage *finishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
-    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbar_normal_background"];
+    UIImage *finishedImage = [UIImage imageNamed:@"tabbarbg_normal"];
+    UIImage *unfinishedImage = [UIImage imageNamed:@"tabbarbg_normal"];
     NSArray *tabBarItemImages = @[@"licai", @"huodong", @"more"];
     NSArray *tabBarItemNames = @[@"理财", @"活动", @"更多"];
     NSInteger index = 0;
+    [[tabBarController tabBar] setBackgroundColor:[UIColor whiteColor]];
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {
         [item setBackgroundSelectedImage:finishedImage withUnselectedImage:unfinishedImage];
+        [item setBackgroundColor:[UIColor whiteColor]];
+
         UIImage *selectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_hover",
                                                       [tabBarItemImages objectAtIndex:index]]];
         UIImage *unselectedimage = [UIImage imageNamed:[NSString stringWithFormat:@"%@_empty",
@@ -154,7 +157,7 @@
         NSDictionary *tabBarTitleUnselectedDic = @{NSForegroundColorAttributeName:colorWithRGB(0.53, 0.53, 0.53),NSFontAttributeName:[UIFont systemFontOfSize:10]};
         NSDictionary *tabBarTitleSelectedDic = @{NSForegroundColorAttributeName:colorWithRGB(0.95, 0.6, 0.11),NSFontAttributeName:[UIFont systemFontOfSize:10]};
 
-
+        
         //修改tabberItem的title颜色
         item.selectedTitleAttributes = tabBarTitleSelectedDic;
         item.unselectedTitleAttributes = tabBarTitleUnselectedDic;

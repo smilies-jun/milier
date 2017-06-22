@@ -8,7 +8,7 @@
 
 #import "MoreMoreHelpViewController.h"
 #import "MoreHelpViewController.h"
-
+#import "NewPersonViewController.h"
 
 @interface MoreMoreHelpViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
@@ -55,13 +55,24 @@
     // NSLog(@"webview fail load");
 }
 - (void)BundDetailTap{
-    //  返回指定页面
+    if ([_type integerValue] == 4) {
+        //  返回指定页面
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[NewPersonViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+
+    }else{
+        //  返回指定页面
         for (UIViewController *controller in self.navigationController.viewControllers) {
             if ([controller isKindOfClass:[MoreHelpViewController class]]) {
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }
- 
+  
+    }
+    
     
 }
 - (void)viewWillAppear:(BOOL)animated {

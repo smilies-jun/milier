@@ -45,7 +45,7 @@
     _MyJiFenLabel = [[UILabel alloc]init];
     _MyJiFenLabel.text= @"232232";
     _MyJiFenLabel.font = [UIFont systemFontOfSize:15];
-    _MyJiFenLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+    _MyJiFenLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
     [self addSubview:_MyJiFenLabel];
     [_MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(10);

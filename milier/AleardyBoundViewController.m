@@ -7,7 +7,7 @@
 //
 
 #import "AleardyBoundViewController.h"
-
+#import "NoDateTableViewCell.h"
 #import "AleardyBundTableViewCell.h"
 #import "ShareModel.h"
 
@@ -120,33 +120,59 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return [dataArray count];
+    if (dataArray.count) {
+        return [dataArray count];
+  
+    }else{
+        return 1;
+  
+    }
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 60;
+    if (dataArray.count) {
+        return 60;
+    }
+    return SCREEN_HEIGHT-64-44-44;
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"productidentifier";
-    
-    AleardyBundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[AleardyBundTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-        cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+    if (dataArray.count) {
+        static NSString *identifier = @"productidentifier";
+        
+        AleardyBundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[AleardyBundTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+            
+        }
+        if (dataArray.count) {
+            ShareModel *model = [dataArray objectAtIndex:indexPath.row];
+            cell.ShareModel = model;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+ 
+    }else{
+        static NSString *identifier = @"productidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+
+           // cell.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+            
+        }
+        
+        //  cell.ImageView.image = [UIImage imageNamed:@"nodatas@2x"];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
 
     }
-    if (dataArray.count) {
-        ShareModel *model = [dataArray objectAtIndex:indexPath.row];
-        cell.ShareModel = model;
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
     
 }
 

@@ -35,7 +35,7 @@
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(90);
         make.height.mas_equalTo(20);
     }];
     

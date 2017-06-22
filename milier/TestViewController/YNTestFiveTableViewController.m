@@ -10,7 +10,7 @@
 #import "SecondTableViewCell.h"
 #import "ProductDetailNewViewController.h"
 #import "ProuctModel.h"
-
+#import "DeveloperTableViewCell.h"
 
 @interface YNTestFiveTableViewController (){
     NSMutableArray *dataArray;
@@ -30,6 +30,7 @@
     NSLog(@"two - viewDidLoad");
     dataArray = [[NSMutableArray alloc]init];
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 150-100);
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
 
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
@@ -59,7 +60,7 @@
     }
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@?page=1&rows=20&productCategoryId=5",PRODUCTS_URL];
     }else{
         url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=5",PRODUCTS_URL,page];
@@ -68,6 +69,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
+
         if (page == 1) {
             [dataArray removeAllObjects];
         }
@@ -98,7 +100,7 @@
 
 //header-height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 5;
+    return 0;
     
 }
 //header-secion
@@ -124,33 +126,54 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return [dataArray count];
+    if (!dataArray.count) {
+        return [dataArray count];
+
+    }else{
+        return 1;
+ 
+    }
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 120;
+    if (!dataArray.count) {
+        return 120;
+ 
+    }
+    return SCREEN_HEIGHT-64-44-170;
 }
 
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"identifier";
-    
-    SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        [cell configUI:indexPath];
+    if (!dataArray.count) {
+        static NSString *identifier = @"identifier";
+        
+        SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (dataArray.count) {
+            ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
+            cell.productMoel = model;
+        }
+        //cell.textLabel.text = @"11111111";
+        return cell;
+    }else{
+        static NSString *identifier = @"identifier";
+        
+        DeveloperTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[DeveloperTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    if (dataArray.count) {
-        ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
-        cell.productMoel = model;
-    }
-    //cell.textLabel.text = @"11111111";
-    return cell;
+    
     
 }
 

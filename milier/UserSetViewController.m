@@ -197,20 +197,24 @@
     [SaleLabel addGestureRecognizer:SaleTap];
 }
 -(void)BundClick{
-    NSString *bankCardID = NSuserUse(@"bankCardExist");
-
-    if ([bankCardID integerValue] ==1) {
-       // BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
-        [self ShowBank];
-        
-    }else{
-        BundSetView.DetailLabel.text = @"未绑定银行卡";
-        BundCardViewController *bundVC = [[BundCardViewController alloc]init];
-        bundVC.MoneyType = @"3";
-        [self.navigationController pushViewController:bundVC animated:NO];
-        //
-        
-    }
+    BundSetView.DetailLabel.text = @"未绑定银行卡";
+    BundCardViewController *bundVC = [[BundCardViewController alloc]init];
+    bundVC.MoneyType = @"3";
+    [self.navigationController pushViewController:bundVC animated:NO];
+//    NSString *bankCardID = NSuserUse(@"bankCardExist");
+//
+//    if ([bankCardID integerValue] ==1) {
+//       // BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
+//        [self ShowBank];
+//        
+//    }else{
+//        BundSetView.DetailLabel.text = @"未绑定银行卡";
+//        BundCardViewController *bundVC = [[BundCardViewController alloc]init];
+//        bundVC.MoneyType = @"3";
+//        [self.navigationController pushViewController:bundVC animated:NO];
+//        //
+//        
+//    }
     
     }
 
@@ -277,7 +281,6 @@
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(30);
     }];
-    NSLog(@"bankdic = %@",BankDic);
     YinHangImageView = [[UIImageView alloc]init];
     [YinHangImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[BankDic objectForKey:@"icon"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
     [view addSubview:YinHangImageView];
@@ -387,42 +390,49 @@
     UIImage *newPhoto = [info objectForKey:@"UIImagePickerControllerEditedImage"];
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
-    NSData *imageData = UIImageJPEGRepresentation(newPhoto, 0.5);
-    __block NSMutableDictionary* parameter = [[NSMutableDictionary alloc] init];
-    parameter = [[NSMutableDictionary alloc]initWithObjectsAndKeys:tokenID,@"tokenID", nil];
- 
-    //1。创建管理者对象
-    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    manager = [AFHTTPSessionManager manager];
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];
-    manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
-    manager.securityPolicy.allowInvalidCertificates = YES;
-    [manager.securityPolicy setValidatesDomainName:NO];
-
-    //2.上传文件
+    dispatch_async(dispatch_get_main_queue(), ^{
+        
+        NSLog(@"image = %@",newPhoto    );
+        NSData *imageData = UIImageJPEGRepresentation(newPhoto, 0.5);
+        
+        __block NSMutableDictionary* parameter = [[NSMutableDictionary alloc] init];
+        parameter = [[NSMutableDictionary alloc]initWithObjectsAndKeys:tokenID,@"tokenID", nil];
+        
+        //1。创建管理者对象
+        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+        manager = [AFHTTPSessionManager manager];
+        manager.requestSerializer = [AFJSONRequestSerializer serializer];
+        manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
+        manager.securityPolicy.allowInvalidCertificates = YES;
+        [manager.securityPolicy setValidatesDomainName:NO];
+        
+        //2.上传文件
+        
+        NSString *urlString = [NSString stringWithFormat:@"%@/users/%@/avatar",HOST_URL,userID];
+        NSDictionary *dict = @{@"Authorization":tokenID};
+        
+        [manager POST:urlString parameters:dict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+            //这个就是参数
+            [formData appendPartWithFileData:imageData name:@"avatarFile" fileName:[NSString stringWithFormat:@"%@.png",userID] mimeType:@"image/png"];
+            
+        } progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+            //打印下上传进度
+            NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSuserSave([responseObject objectForKey:@"avatar"], @"avatar");
+            //请求成功
+            NSLog(@"请求成功：%@",responseObject);
+            
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+            //请求失败
+            NSLog(@"请求失败：%@",error);
+        }];
+        [self dismissViewControllerAnimated:YES completion:nil];
+    });
     
-    NSString *urlString = [NSString stringWithFormat:@"%@/users/%@/avatar",Text_URL,userID];
-    NSDictionary *dict = @{@"Authorization":tokenID};
-
-    [manager POST:urlString parameters:dict constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        //这个就是参数
-        [formData appendPartWithFileData:imageData name:@"avatarFile" fileName:[NSString stringWithFormat:@"%@.png",userID] mimeType:@"image/png"];
-        
-    } progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        //打印下上传进度
-        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSuserSave([responseObject objectForKey:@"avatar"], @"avatar");
-        //请求成功
-        NSLog(@"请求成功：%@",responseObject);
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        //请求失败
-        NSLog(@"请求失败：%@",error);
-    }];
-    [self dismissViewControllerAnimated:YES completion:nil];
+   
 }
 
 

@@ -65,13 +65,15 @@
     NSString *userID = NSuserUse(@"userId");
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/users/%@/customers?page=1&rows=20&bankCardExist=0",HOST_URL,userID];
     }else{
         url = [NSString stringWithFormat:@"%@/users/%@/customers?page=%d&rows=20&bankCardExist=0",HOST_URL,userID,page];
         
     }
-    
+    if (page==1) {
+        [dataArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             
@@ -124,36 +126,60 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return [dataArray count];
+    if (dataArray.count) {
+        return [dataArray count];
+ 
+    }else{
+        return 1;
+ 
+    }
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 80;
+    if (dataArray.count) {
+         return 80;
+    }
+    return SCREEN_HEIGHT-64-60-44;
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"productidentifier";
-    
-    BoundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[BoundTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-        cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
-
-    }
     if (dataArray.count) {
-        ShareModel *model = [dataArray objectAtIndex:indexPath.row];
-        cell.ShareModel = model;
+        static NSString *identifier = @"productidentifier";
+        
+        BoundTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[BoundTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+            
+        }
+        if (dataArray.count) {
+            ShareModel *model = [dataArray objectAtIndex:indexPath.row];
+            cell.ShareModel = model;
+        }
+        [cell.AlertBtn addTarget:self action:@selector(AlertClick:) forControlEvents:UIControlEventTouchUpInside];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }else{
+        static NSString *identifier = @"productidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+            
+        }
+
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
     }
-    [cell.AlertBtn addTarget:self action:@selector(AlertClick:) forControlEvents:UIControlEventTouchUpInside];
-
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-    return cell;
+    
     
 }
 

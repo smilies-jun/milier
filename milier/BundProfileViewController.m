@@ -12,7 +12,9 @@
 #import "SaleViewController.h"
 #import "MoreHelpViewController.h"
 #import "DinQiDeatilViewController.h"
-#import "MyJiFenViewController.h"
+#import "MyJiFenNewViewController.h"
+#import "JinMiDetdailViewController.h"
+
 
 @interface BundProfileViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
@@ -104,7 +106,7 @@
             }
         }
         for (UIViewController *controller in self.navigationController.viewControllers) {
-            if ([controller isKindOfClass:[MyJiFenViewController  class]]) {
+            if ([controller isKindOfClass:[MyJiFenNewViewController     class]]) {
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }

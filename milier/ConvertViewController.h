@@ -23,5 +23,5 @@
  */
 -(void)getNetworkData:(BOOL)isRefresh;
 
-
+@property(nonatomic,strong)NSString *JifenStr;
 @end

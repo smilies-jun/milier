@@ -48,6 +48,9 @@
 }
 - (void)ConfigUI{
     TopView = [[UIView alloc]init];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
+    TopView.userInteractionEnabled = YES;
+    [TopView addGestureRecognizer:tap];
     TopView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:TopView];
     [TopView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -162,9 +165,9 @@
     }];
     
     DealPassWordView = [[customWithStatic alloc]init];
-    DealPassWordView.NameLabel.text = @"交易金额";
+    DealPassWordView.NameLabel.text = @"交易密码";
     DealPassWordView.NameTextField.secureTextEntry = YES;
-    DealPassWordView.NameTextField.placeholder = @"请输入交易金额";
+    DealPassWordView.NameTextField.placeholder = @"请输入交易密码";
     DealPassWordView.NameTextField.delegate = self;
     DealPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:DealPassWordView];
@@ -228,7 +231,11 @@
    
 
 }
+- (void)tapClick{
+    [self HideKeyBoardClick];
+    [self relreshUI];
 
+}
 - (void)choseClick{
     [self HideKeyBoardClick];
     WSDatePickerView *datepicker = [[WSDatePickerView alloc] initWithDateStyle:DateStyleShowYearMonthDay CompleteBlock:^(NSDate *startDate) {
@@ -286,7 +293,7 @@
                     //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
                     url = [NSString stringWithFormat:@"%@/products/action/addDebentureTransferProduct",HOST_URL];
                     
-                    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_MoneyName,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
+                    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:ChangeView.NameTextField.text,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
                     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
                         NSString *state = [result objectForKey:@"statusCode"];
                         if ([state integerValue] == 201) {
@@ -336,15 +343,15 @@
         NSInteger time = [_TimeName integerValue] - [timeString integerValue];
         NSInteger days = time/3600/24/1000;
         
-        NSInteger myPercent = ([_MoneyName integerValue] - [ChangeView.NameTextField.text integerValue])*365*100/ [ChangeView.NameTextField.text integerValue]/days;
+        double myPercent = ([_MoneyName integerValue] - [ChangeView.NameTextField.text doubleValue])*365*100/ [ChangeView.NameTextField.text doubleValue]/days;
         
-        OneDayView.DetailLabel.text = [NSString stringWithFormat:@"%ld%%",(long)myPercent];
+        OneDayView.DetailLabel.text = [NSString stringWithFormat:@"%.2f%%",myPercent];
         
-        NSInteger rate = [ChangeView.NameTextField.text integerValue]*myPercent/100*0.02;
-        RateView.DetailLabel.text = [NSString stringWithFormat:@"%ld",(long)rate];
+        double rate = [ChangeView.NameTextField.text integerValue]*myPercent/100*0.02;
+        RateView.DetailLabel.text = [NSString stringWithFormat:@"%.2f元",rate];
         
-        NSInteger comeBack = [ChangeView.NameTextField.text integerValue] - rate;
-        ComeBackMoneyView.DetailLabel.text = [NSString stringWithFormat:@"%ld",(long)comeBack];
+        double comeBack = [ChangeView.NameTextField.text doubleValue] - rate;
+        ComeBackMoneyView.DetailLabel.text = [NSString stringWithFormat:@"%.2f元",comeBack];
     }
     
     

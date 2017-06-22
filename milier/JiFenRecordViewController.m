@@ -9,7 +9,7 @@
 #import "JiFenRecordViewController.h"
 #import "JiFenRecordTableViewCell.h"
 #import "JiFenModel.h"
-
+#import "NoDateTableViewCell.h"
 
 @interface JiFenRecordViewController ()<UITableViewDelegate, UITableViewDataSource>{
     NSMutableArray *MyArray;
@@ -48,12 +48,13 @@ static NSString * const cellId = @"cellID";
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenBtnClick
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
-    self.tableView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-    self.tableView.noContentViewTapedBlock = ^{
-        [self getNetworkData:YES];
-    };
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+ 
 
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     
+    [self getNetworkData:YES];
 }
 
 - (void)loadoneNew{
@@ -97,6 +98,7 @@ static NSString * const cellId = @"cellID";
     if (page ==1) {
         [MyArray removeAllObjects];
     }
+    NSLog(@"url =%@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
       //  NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
@@ -107,9 +109,6 @@ static NSString * const cellId = @"cellID";
         if (MyArray.count) {
             [self.tableView reloadData];
             [self endRefresh];
-        }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
- 
         }
        
         // UserDic = [result objectForKey:@"data"];
@@ -120,61 +119,58 @@ static NSString * const cellId = @"cellID";
 - (void)JiFenBtnClick{
     
 }
-- (void)zj_viewDidLoadForIndex:(NSInteger)index {
-    
-    self.tableView = [[MyTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-   // [self.tableView setTableFooterView:[UIView new]];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellId];
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
 
-    [self.view addSubview:self.tableView];
-}
-- (void)zj_viewDidAppearForIndex:(NSInteger)index {
-//    self.index = index;
-//    NSLog(@"已经出现   标题: --- %@  index: -- %ld", self.title, index);
-//    
-//    if (index%2==0) {
-//        self.view.backgroundColor = [UIColor blueColor];
-//    } else {
-//        self.view.backgroundColor = [UIColor greenColor];
-//        
-//    }
-//    // 加载数据
-//    //    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//    self.data = @[@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa",@"sfa"];
-    [self getNetworkData:YES];
-    [self.tableView reloadData];
-    //    });
-}
 #pragma mark- ZJScrollPageViewChildVcDelegate
 
 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return MyArray.count;
+    if (MyArray.count) {
+        return MyArray.count;
+    }
+    return 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *identifier = @"JifenJilvTotalidentifier";
+    if (MyArray.count) {
+        static NSString *identifier = @"JifenJilvTotalidentifier";
+        
+        JiFenRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[JiFenRecordTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        if ([MyArray count]) {
+            JiFenModel *model = [MyArray objectAtIndex:indexPath.row];
+            cell.JiFenModel = model;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }else{
+        static NSString *identifier = @"NodataTotalidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        return cell;
+    }
     
-    JiFenRecordTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[JiFenRecordTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
-    if ([MyArray count]) {
-        JiFenModel *model = [MyArray objectAtIndex:indexPath.row];
-        cell.JiFenModel = model;
-    }
-    return cell;
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (MyArray.count) {
+        return 60;
+    }else{
+        return SCREEN_HEIGHT-64-49-60-150;
+    }
     
-    return 60;
+    
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {

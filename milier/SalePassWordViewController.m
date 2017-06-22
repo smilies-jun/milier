@@ -10,6 +10,7 @@
 #import "customWithStatic.h"
 #import "SaleViewController.h"
 #import "BundCardViewController.h"
+#import "UserSetViewController.h"
 
 @interface SalePassWordViewController (){
     customWithStatic *SaleNewPassWordView;
@@ -150,6 +151,13 @@
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[UserSetViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+
 }
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{

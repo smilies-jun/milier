@@ -7,7 +7,7 @@
 //
 
 #import "ConvertViewController.h"
-#import "MyJiFenViewController.h"
+#import "MyJiFenNewViewController.h"
 #import "MJRefresh.h"
 #import "OldProfileTableViewCell.h"
 #import "ConvertTableViewCell.h"
@@ -44,7 +44,7 @@
 }
 - (void)ConvertClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[MyJiFenViewController class]]) {
+        if ([controller isKindOfClass:[MyJiFenNewViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
@@ -103,13 +103,15 @@
         url = [NSString stringWithFormat:@"%@/commodities?page=%d&rows=20",HOST_URL,page];
         
     }
+    if (page == 1) {
+        [JiFenArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic  in [result objectForKey:@"items"]) {
             giftModel *model = [[giftModel alloc]init];
             model.dataDictionary = dic;
             [JiFenArray addObject:model];
         }
-        
         [self.tableView reloadData];
         
         [self endRefresh];
@@ -156,22 +158,26 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     giftModel *model = [JiFenArray objectAtIndex:indexPath.row];
-    if ([model.type integerValue] == 1) {
-        CostViewController *vc = [[CostViewController alloc]init];
-        vc.NameStr = model.name;
-        vc.ProductID = model.oid;
-        vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
-        [self.navigationController   pushViewController:vc animated:NO];
+    if ([_JifenStr integerValue]<[model.score integerValue]) {
+        normal_alert(@"提示", @"您的积分不足", @"确定");
     }else{
-        SubstanceViewController *vc = [[SubstanceViewController alloc]init];
-        vc.NameStr = model.name;
-        vc.ProductID = model.oid;
-        vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
-        [self.navigationController   pushViewController:vc animated:NO];
-
+        if ([model.type integerValue] == 1) {
+            CostViewController *vc = [[CostViewController alloc]init];
+            vc.NameStr = model.name;
+            vc.ProductID = model.oid;
+            vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+            [self.navigationController   pushViewController:vc animated:NO];
+        }else{
+            SubstanceViewController *vc = [[SubstanceViewController alloc]init];
+            vc.NameStr = model.name;
+            vc.ProductID = model.oid;
+            vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+            [self.navigationController   pushViewController:vc animated:NO];
+            
+        }
     }
     
-
+    
     
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];

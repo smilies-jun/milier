@@ -208,7 +208,11 @@
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  MyLeftArray.count + 1;
+    if (MyLeftArray.count) {
+        return  MyLeftArray.count + 1;
+  
+    }
+    return  1 + 1;
 }
 
 
@@ -221,7 +225,11 @@
     if (indexPath.row == 0) {
         return 120;
     }
-    return 80;
+    if (MyLeftArray.count) {
+        return 80;
+ 
+    }
+    return SCREEN_HEIGHT-64-60-150;
     
 }
 
@@ -238,27 +246,46 @@
         if (MyLeftArray.count) {
             cell.NameLabel.text = [NSString stringWithFormat:@"¥%@",[MyMoneyDic objectForKey:@"assets"]];;
 
+        }else{
+            cell.NameLabel.text= @"¥0";
         }
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         
         return cell;
     }else{
-        static NSString *identifier = @"myleftdetailidentifier";
-        
-        MyLeftDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[MyLeftDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            [cell configUI:indexPath];
-        }
         if (MyLeftArray.count) {
-            MyLeftModel *model = [MyLeftArray objectAtIndex:indexPath.row-1];
-            cell.LeftModel = model;
+            static NSString *identifier = @"myleftdetailidentifier";
+            
+            MyLeftDetailTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[MyLeftDetailTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+            }
+            if (MyLeftArray.count) {
+                MyLeftModel *model = [MyLeftArray objectAtIndex:indexPath.row-1];
+                cell.LeftModel = model;
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            
+            return cell;
+        }else{
+            static NSString *identifier = @"myleftNodetailidentifier";
+            
+            NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+            }
+                        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            
+            return cell;
         }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
-        
-        return cell;
+       
     }
     
     

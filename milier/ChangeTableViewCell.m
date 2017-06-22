@@ -179,8 +179,8 @@
         _changeModel = changeModel;
         _NameLabel.text = [NSString stringWithFormat:@"%@",_changeModel.name];;
         _ChangeValueNumberLabel.text = [NSString stringWithFormat:@"%.2f",[_changeModel.bondTotal doubleValue]];
-        _OneDayChangeNumberLabel.text = [NSString stringWithFormat:@"%.2f",[_changeModel.interestRate doubleValue]];
-        _RegularNumberLabel.text = [NSString stringWithFormat:@"%@",_changeModel.aggregateAmount];
+        _OneDayChangeNumberLabel.text = [NSString stringWithFormat:@"%.2f%%",[_changeModel.interestRate doubleValue]];
+        _RegularNumberLabel.text = [NSString stringWithFormat:@"%.2f",[_changeModel.aggregateAmount doubleValue]-[_changeModel.fee doubleValue]];
         NSString *timeStr = [self getTimeStr:_changeModel.expireTime withForMat:@"yyyy-MM-dd"];
         
         

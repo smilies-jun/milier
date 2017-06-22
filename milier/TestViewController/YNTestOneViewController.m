@@ -23,6 +23,7 @@
     [super viewDidLoad];
     [self.tableView setSeparatorColor:colorWithRGB(0.87, 0.87, 0.87)];
     dataArray = [[NSMutableArray alloc]init];
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
@@ -46,7 +47,7 @@
     }
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@?page=1&rows=20&productCategoryId=1",PRODUCTS_URL];
     }else{
         url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=1",PRODUCTS_URL,page];
@@ -61,7 +62,7 @@
         if (isJuhua) {
             [self endRefresh];
         }
-        
+
         NSArray *myArray = [result objectForKey:@"items"];
         for (NSDictionary *NewDic in myArray) {
             ProuctModel *model = [[ProuctModel alloc]init];
@@ -86,7 +87,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     
-    return 5;
+    return 0;
     
 }
 //header-secion
@@ -113,7 +114,7 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
+    NSLog(@"a = %lu",(unsigned long)dataArray.count);
     return [dataArray count];
 }
 //cell-height

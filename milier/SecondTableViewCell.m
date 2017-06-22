@@ -160,7 +160,7 @@
         NSInteger limitTime = [[NSString stringWithFormat:@"%@",_productMoel.investmentHorizon] integerValue];
         if ([_productMoel.productCategoryId integerValue] == 6) {
             _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld天",(long)limitTime];
-            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债权包价值 %@元",_productMoel.bondTotal];
+            _BeginMoneyLabel.text =[NSString stringWithFormat:@"债权包价值 %.2f元",[_productMoel.bondTotal doubleValue]];
             _ChangeLabel.text =[NSString stringWithFormat:@"购买金额 %@元",_productMoel.aggregateAmount];
 
         }else{

@@ -10,7 +10,7 @@
 
 @interface MyChangeModel : NSObject
 
-@property(nonatomic,strong)NSString *aggregateAmount;//汇款金额
+@property(nonatomic,strong)NSString *aggregateAmount;//回款金额
 
 @property(nonatomic,strong)NSString *bondTotal;//价值
 

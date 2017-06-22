@@ -12,7 +12,7 @@
 #import "AddProfitViewController.h"
 #import "ProductDetailNewViewController.h"
 #import "OutMoneyViewController.h"
-
+#import "BundProfileViewController.h"
 
 @interface JinMiDetdailViewController (){
     CAShapeLayer *ShapeLayer;
@@ -62,7 +62,6 @@
     url = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=8",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         jinmiDic = [result objectForKey:@"data"];
-        NSLog(@"dic = %@",jinmiDic);
         [self reloadData];
     }];
     
@@ -131,14 +130,18 @@
     }];
     
     ProfileLabel = [[UILabel alloc]init];
-    ProfileLabel.text = @"查看协议";
-    ProfileLabel.hidden = YES;
-    NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
-    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:ProfileLabel.text attributes:attribtDic];
-    ProfileLabel.attributedText = attribtStr;
+    ProfileLabel.text = @"查看协议>>";
+    ProfileLabel.hidden = NO;
+    ProfileLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+//    NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+//    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:ProfileLabel.text attributes:attribtDic];
+//    ProfileLabel.attributedText = attribtStr;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer  alloc]initWithTarget:self action:@selector(proTap)];
+    [ProfileLabel addGestureRecognizer:tap];
+    ProfileLabel.userInteractionEnabled = YES;
     ProfileLabel.textAlignment = NSTextAlignmentCenter;
     ProfileLabel.textColor = colorWithRGB(0.08, 0.08, 0.08);
-    ProfileLabel.font = [UIFont systemFontOfSize:13];
+    ProfileLabel.font = [UIFont systemFontOfSize:14];
     [TopView addSubview:ProfileLabel];
     [ProfileLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(TopView.mas_centerX);
@@ -237,6 +240,15 @@
     
     
 }
+
+- (void)proTap{
+    NSString *userID = NSuserUse(@"userId");
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"金米宝协议";
+    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toCurrentPop?userId=%@",userID];
+    [self.navigationController pushViewController:vc animated:NO];
+
+}
 - (void)comeCliCk{
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     vc.Type = 1;
@@ -247,9 +259,16 @@
 }
 -(void)reloadData{
     MoneyNumberLabel.text =[NSString stringWithFormat:@"¥%@",[jinmiDic objectForKey:@"investmentAmount"]] ;
-    OldProfdilView.DetailLabel.text =[NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"yesterdayEarnings"]];
+    OldProfdilView.DetailLabel.text =[NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"accumulatedEarnings"]];
     PercentProfileView.DetailLabel.text = [NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"tenThousandIncome"]];
-    AddProfileView.DetailLabel.text = [NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"accumulatedEarnings"]];
+    AddProfileView.DetailLabel.text = [NSString stringWithFormat:@"%@",[jinmiDic objectForKey:@"yesterdayEarnings"]];
+    
+    if ([[jinmiDic objectForKey:@"investmentAmount"]doubleValue]) {
+        ProfileLabel.hidden = NO;
+    }else{
+        ProfileLabel.hidden = YES;
+    }
+    
 
 }
 //累计收益
@@ -274,7 +293,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self getNetworkData:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

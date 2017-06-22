@@ -17,7 +17,7 @@
 @property (nonatomic) int productID;
 
 
-@property (nonatomic) int productCateID;
+@property (nonatomic) NSInteger productCateID;
 
 
 @property (nonatomic) int Type;

@@ -128,7 +128,7 @@
         }
         
     }
-    [_ActivityImageView  sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_ActivityModel.poster]] placeholderImage:[UIImage imageNamed:@"bannerpic"]];
+    [_ActivityImageView  sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_ActivityModel.poster]] placeholderImage:[UIImage imageNamed:@"huodong"]];
     
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

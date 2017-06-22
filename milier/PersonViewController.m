@@ -32,9 +32,8 @@
 
     self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self getNetworkData:YES];
-    };
+    [self getNetworkData:YES];
+
 
     
 }

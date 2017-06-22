@@ -58,6 +58,14 @@
         make.width.mas_equalTo(120);
         make.height.mas_equalTo(20);
     }];
+//    if (indexPath.row == 0) {
+//        _TitleLabel.text= @"时间";
+//        _TypeLabel.text = @"下家存量总金额";
+//        _TimeLabel.text  =@"我的分成";
+//
+//
+//    }
+    
 
 }
 - (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
@@ -74,7 +82,7 @@
         NSString *timeStr = [self getTimeStr:_SepartModel.createTime withForMat:@"yyyy-MM-dd"];
         _TitleLabel.text= [NSString stringWithFormat:@"%@",timeStr];;
         _TimeLabel.text  =[NSString stringWithFormat:@"+%@",_SepartModel.amount];
-        _TypeLabel.text = [NSString stringWithFormat:@"%@",_SepartModel.stock];
+        _TypeLabel.text = [NSString stringWithFormat:@"%.2f",[_SepartModel.stock doubleValue]];
     }
 }
 

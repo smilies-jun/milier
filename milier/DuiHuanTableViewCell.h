@@ -31,6 +31,8 @@
 
 @property(nonatomic, retain)DuiHuanModel *DuiHuanModel;
 
+@property(nonatomic, retain)UIView *bottomView;
+
 - (void)configUI:(NSIndexPath *)indexPath;
 
 - (void)setDuiHuanModel:(DuiHuanModel *)DuiHuanModel;

@@ -142,7 +142,7 @@
     [TestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(RiskBootmView.mas_bottom).offset(20);
-        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+        make.width.mas_equalTo(SCREEN_WIDTH - 80);
         make.height.mas_equalTo(40);
     }];
     

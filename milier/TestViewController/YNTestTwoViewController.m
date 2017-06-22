@@ -24,9 +24,10 @@
     self.tableView.backgroundColor = [UIColor whiteColor];
     NSLog(@"two - viewDidLoad");
     dataArray = [[NSMutableArray alloc]init];
-    
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+   // self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
 }
 
@@ -50,11 +51,14 @@
     }
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@?page=1&rows=20&productCategoryId=2",PRODUCTS_URL];
     }else{
-        url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=2",PRODUCTS_URL,page];
+        url = [NSString stringWithFormat:@"%@?page=1&rows=20&productCategoryId=2",PRODUCTS_URL];
         
+    }
+    if (page ==1) {
+        [dataArray removeAllObjects];
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
@@ -87,7 +91,7 @@
 
 //header-height
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 5;
+    return 0;
     
 }
 //header-secion
@@ -147,7 +151,7 @@
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
     vc.productID = [model.oid intValue];
-    vc.productCateID = 2;
+    vc.productCateID = [model.productCategoryId integerValue];
     vc.State = model.state;
 
     [self.navigationController pushViewController:vc animated:NO];

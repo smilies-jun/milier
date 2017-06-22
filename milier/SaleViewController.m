@@ -102,6 +102,7 @@
     [self reloadMyStage];
     [self ConfigUI];
     //[self ConfigInverest];
+
 }
 
 - (void)reloadMyMoney{
@@ -405,6 +406,7 @@
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.delegate = self;
+        BuyTextField.tag = 100;
         BuyTextField.placeholder = @"请输入购买金额";
         [SaleView addSubview:BuyTextField];
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -423,7 +425,10 @@
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.height.mas_equalTo(44);
         }];
-    }else{
+    }
+    
+    
+    else{
         ChoceStageView = [[UIView alloc]init];
         ChoceStageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *choiceTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(MyChoceClcik)];
@@ -555,28 +560,58 @@
         make.height.mas_equalTo(22);
     }];
     
-    UILabel *InterestLabel = [[UILabel alloc]init];
-    InterestLabel.text  = @"预计本息";
-    InterestLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-    InterestLabel.font = [UIFont systemFontOfSize:15];
-    [InterestView addSubview:InterestLabel];
-    [InterestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(InterestView.mas_centerY);
-        make.left.mas_equalTo(InterestImageView.mas_right).offset(10);
-        make.width.mas_equalTo(80);
-        make.height.mas_equalTo(20);
-    }];
-    InterestMoneyLabel = [[UILabel alloc]init];
-    InterestMoneyLabel.text = @"0.00";
-    InterestMoneyLabel.font = [UIFont systemFontOfSize:15];
-    [InterestView addSubview:InterestMoneyLabel];
-    [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.mas_equalTo(InterestView.mas_centerY);
-        make.left.mas_equalTo(InterestLabel.mas_right);
-        make.width.mas_equalTo(300);
-        make.height.mas_equalTo(20);
-        
-    }];
+   
+    if ([_productCatiID integerValue] == 8) {
+         UILabel *InterestLabel = [[UILabel alloc]init];
+        InterestLabel.text  = @"预计每日收益(元)";
+        InterestLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+        InterestLabel.font = [UIFont systemFontOfSize:15];
+        [InterestView addSubview:InterestLabel];
+        [InterestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(InterestView.mas_centerY);
+            make.left.mas_equalTo(InterestImageView.mas_right).offset(10);
+            make.width.mas_equalTo(140);
+            make.height.mas_equalTo(20);
+        }];
+        InterestMoneyLabel = [[UILabel alloc]init];
+        InterestMoneyLabel.text = @"0.00";
+        InterestMoneyLabel.font = [UIFont systemFontOfSize:15];
+        [InterestView addSubview:InterestMoneyLabel];
+        [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(InterestView.mas_centerY);
+            make.left.mas_equalTo(InterestLabel.mas_right);
+            make.width.mas_equalTo(300);
+            make.height.mas_equalTo(20);
+            
+        }];
+
+    }else{
+        UILabel *InterestLabel = [[UILabel alloc]init];
+
+        InterestLabel.text  = @"预计本息";
+        InterestLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+        InterestLabel.font = [UIFont systemFontOfSize:15];
+        [InterestView addSubview:InterestLabel];
+        [InterestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(InterestView.mas_centerY);
+            make.left.mas_equalTo(InterestImageView.mas_right).offset(10);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(20);
+        }];
+        InterestMoneyLabel = [[UILabel alloc]init];
+        InterestMoneyLabel.text = @"0.00";
+        InterestMoneyLabel.font = [UIFont systemFontOfSize:15];
+        [InterestView addSubview:InterestMoneyLabel];
+        [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(InterestView.mas_centerY);
+            make.left.mas_equalTo(InterestLabel.mas_right);
+            make.width.mas_equalTo(300);
+            make.height.mas_equalTo(20);
+            
+        }];
+
+    }
+    
     
 
     PassWordView = [[UIView alloc]init];
@@ -735,9 +770,9 @@
             ExplainLabel.textColor =   colorWithRGB(0.19, 0.39, 0.9);
             SaleLabel.backgroundColor =  colorWithRGB(0.19, 0.39, 0.9);
             BuyTextField.text = [NSString stringWithFormat:@"%@",_aggregateAmount];
-            double text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr integerValue]/365);
 
-            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",text];
+            float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f",BuyTextField.text,(text*100)/100];
             BuyTextField.enabled = NO;
             
             break;
@@ -776,6 +811,7 @@
 }
 
 - (void)riskClickOrNo{
+    [RiskAlertView dismissAnimated:YES];
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"米粒儿金融风险提示协议";
     vc.WebStr = [NSString stringWithFormat:@"%@/agreement/service.html",HOST_URL];
@@ -835,31 +871,42 @@
                     NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
                     double sellDouble = [sellStr doubleValue];
                     double leftMoney = totalDouble - sellDouble;
-                    NSLog(@"left = %f",leftMoney);
                     if ([BuyTextField.text doubleValue] <= leftMoney) {
-                        NSLog(@"min = %@",_minBuyStr);
                         if ([BuyTextField.text doubleValue] >= [_minBuyStr doubleValue]) {
                             if ([BuyTextField.text doubleValue] <= [MyMoneyStr doubleValue]) {
                                 //购 买
                                 if ([riskID integerValue] >0) {
-                                    if ([userRiskStr integerValue] <= [_riskLevelStr integerValue]) {
-                                        
-                                        if (riskOrNo == 1) {
-                                            [self popAlertView];
-                                            
-                                        }else{
-                                            //购买
-                                            [self WriteSailPassWord];
-                                            
-                                            
-                                        }
-                                        
-                                        
+                                    if ([userRiskStr integerValue] < [_riskLevelStr integerValue]){
+                                         [self popAlertView];
                                     }else{
-                                        //弹出提示框
-                                        [self popAlertView];
-                                        
+                                        if (riskOrNo == 0) {
+                                            [self popAlertView];
+
+                                        }else{
+                                            [self WriteSailPassWord];
+ 
+                                        }
                                     }
+//                                    if (riskOrNo == 1) {
+//                                        
+//                                         [self popAlertView];
+//                                    }else{
+//                                        
+//                                        if ([userRiskStr integerValue] < [_riskLevelStr integerValue]) {
+//
+//                                            [self popAlertView];
+//
+//                                                                                
+//                                        }else{
+//                                            //弹出提示框
+                                    //                                            [self WriteSailPassWord];
+//
+//                                            
+//                                        }
+//
+//                                    }
+
+
 
                                 }else{
                                     //风险测试
@@ -981,7 +1028,7 @@
 }
 - (void)popAlertView{
     
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 240)];
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
     view.backgroundColor=[UIColor whiteColor];
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 5.0f;
@@ -1007,8 +1054,8 @@
     UseImageView.image = [UIImage imageNamed:@"tip"];
     [view addSubview:UseImageView];
     [UseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(view.mas_left).offset(40);
-        make.top.mas_equalTo(view.mas_top).offset(80);
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.top.mas_equalTo(view.mas_top).offset(40);
         make.width.mas_equalTo(40);
         make.height.mas_equalTo(40);
         
@@ -1016,24 +1063,26 @@
     UILabel *alertLabel = [[UILabel alloc]init];
     alertLabel.text = @"您的风险等级不够！";
     alertLabel.font = [UIFont systemFontOfSize:15];
+    alertLabel.textAlignment = NSTextAlignmentCenter;
     alertLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
     [view addSubview:alertLabel];
     [alertLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(UseImageView.mas_right).offset(40);
-        make.top.mas_equalTo(view.mas_top).offset(60);
+        make.centerX.mas_equalTo(UseImageView.mas_centerX);
+        make.top.mas_equalTo(UseImageView.mas_bottom).offset(20);
         make.width.mas_equalTo(140);
         make.height.mas_equalTo(20);
     }];
     
     UILabel *goonLabel = [[UILabel alloc]init];
     goonLabel.text = @"如果继续购买，请先打勾认可风险";
-    goonLabel.font = [UIFont systemFontOfSize:12];
+    goonLabel.font = [UIFont systemFontOfSize:14];
+    goonLabel.textAlignment = NSTextAlignmentCenter;
     goonLabel.numberOfLines = 0;
     [view addSubview:goonLabel];
     [goonLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(UseImageView.mas_right).offset(40);
-        make.top.mas_equalTo(alertLabel.mas_bottom);
-        make.width.mas_equalTo(180);
+        make.centerX.mas_equalTo(UseImageView.mas_centerX).offset(10);
+        make.top.mas_equalTo(alertLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(3000);
         make.height.mas_equalTo(20);
     }];
     
@@ -1044,13 +1093,13 @@
     [RiskClickBtn addTarget:self action:@selector(riskclicked:) forControlEvents:UIControlEventTouchUpInside];
     [view addSubview:RiskClickBtn];
     [RiskClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(UseImageView.mas_right).offset(40);
+        make.left.mas_equalTo(view.mas_left).offset(90);
         make.top.mas_equalTo(goonLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(15);
         make.height.mas_equalTo(15);
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:12];
+    nameLabel.font = [UIFont systemFontOfSize:14];
     NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《风险提示》"]];
    [ConnectStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.62, 0.8, 0.09) range:NSMakeRange(3,6)];
     nameLabel.attributedText = ConnectStr;
@@ -1059,7 +1108,7 @@
     [nameLabel addGestureRecognizer:gesTap];
     [view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(RiskClickBtn.mas_right).offset(10);
+        make.left.mas_equalTo(RiskClickBtn.mas_right);
         make.top.mas_equalTo(goonLabel.mas_bottom).offset(10);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(15);
@@ -1068,10 +1117,10 @@
    UILabel * RiskLabel = [[UILabel alloc]init];
     RiskLabel.text = @"继续购买";
     RiskLabel.userInteractionEnabled = YES;
-    RiskLabel.backgroundColor = colorWithRGB(0.28, 0.46, 0.91);
+    RiskLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     RiskLabel.textAlignment = NSTextAlignmentCenter;
     RiskLabel.textColor = [UIColor whiteColor];
-    RiskLabel.layer.cornerRadius = 10;
+    RiskLabel.layer.cornerRadius = 20;
     RiskLabel.layer.masksToBounds = YES;
     [view addSubview:RiskLabel];
     [RiskLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1091,13 +1140,13 @@
 }
 - (void)RiskBtnTap{
     if (RiskClickBtn.selected) {
-        riskOrNo = 0;
-        [self WriteSailPassWord];
+        riskOrNo = 1;
+       // [self WriteSailPassWord];
         [RiskAlertView dismissAnimated:NO];
 
     }else{
         
-        riskOrNo = 1;
+        riskOrNo = 0;
         [RiskAlertView dismissAnimated:NO];
 
     }
@@ -1151,6 +1200,9 @@
     [alertView showAnimated:YES];
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
+
+    
+    
     if (BuyTextField.tag ==100) {
         if ([textField.text doubleValue] >= [_minBuyStr doubleValue]){
             [self refreshInvest];
@@ -1237,7 +1289,7 @@
 - (void)refreshInvest{
     if ([_productCatiID integerValue] == 8) {
         float text = [BuyTextField.text integerValue]*[_PercentStr doubleValue]/100/365;
-        InterestMoneyLabel.text  = [NSString stringWithFormat:@"预计每日收益%.2f",(text*100)/100];
+        InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",(text*100)/100];
         
     }else{
         if (BuyTextField.text.length) {

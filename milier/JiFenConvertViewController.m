@@ -8,6 +8,7 @@
 
 #import "JiFenConvertViewController.h"
 #import "DuiHuanTableViewCell.h"
+#import "NoDateTableViewCell.h"
 
 @interface JiFenConvertViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *DuiHuanArray;
@@ -38,31 +39,14 @@ static NSString * const cellId = @"CovertcellID";
     
     SectionArray = [[NSMutableArray alloc]init];
     DuiHuanArray = [[NSMutableArray alloc]init];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self getNetworkData:YES];
-    };
-
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
+    
     [self getNetworkData:YES];
     [self makeData];
 }
 
-- (void)zj_viewDidLoadForIndex:(NSInteger)index {
-    
-    self.tableView = [[MyTableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self.tableView setTableFooterView:[UIView new]];
-    self.tableView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:cellId];
-    [self.view addSubview:self.tableView];
-}
-- (void)zj_viewDidAppearForIndex:(NSInteger)index {
-    [self getNetworkData:YES];
-    [self.tableView reloadData];
-}
 - (void)loadoconNew{
     [self getNetworkData:YES];
     
@@ -106,7 +90,7 @@ static NSString * const cellId = @"CovertcellID";
         [SectionArray removeAllObjects];
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-         //é NSLog(@"left result = %@",result);
+         NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             DuiHuanModel *model = [[DuiHuanModel alloc]init];
             model.dataDictionary = dic;
@@ -121,12 +105,9 @@ static NSString * const cellId = @"CovertcellID";
             [self makeData];
             [self.tableView reloadData];
             [self endRefresh];
-        }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
- 
         }
         
-       
+         [self endRefresh];
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
@@ -153,31 +134,53 @@ static NSString * const cellId = @"CovertcellID";
 }
 //设置组数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _sectionArray.count;
+    if (DuiHuanArray.count) {
+        return _sectionArray.count;
+
+    }else{
+        return 1;
+ 
+    }
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSArray *arr = _sectionArray[section];
-    return arr.count;
+    if (DuiHuanArray.count) {
+        NSArray *arr = _sectionArray[section];
+        return arr.count;
+    }else{
+        return 1;
+    }
+  
 }
 //组头高度
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 100;
+    if (DuiHuanArray.count) {
+        return 100;
+    }else{
+        return 0;
+    }
+
+
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if ([_flagArray[indexPath.section] isEqualToString:@"0"])
-        return 0;
-    else
-        if (SectionArray.count) {
-            NSLog(@"self = %@",[SectionArray objectAtIndex:indexPath.section] );
-            
-            CGFloat statuesFloat = [DuiHuanTableViewCell tableView:tableView rowHeightForObject:[SectionArray objectAtIndex:indexPath.section]];
-            
-            return statuesFloat;
-        }else{
-            return 100;
-        }
+    if (DuiHuanArray.count) {
+        if ([_flagArray[indexPath.section] isEqualToString:@"0"])
+            return 0;
+        else
+            if (SectionArray.count) {
+                NSLog(@"self = %@",[SectionArray objectAtIndex:indexPath.section] );
+                
+                CGFloat statuesFloat = [DuiHuanTableViewCell tableView:tableView rowHeightForObject:[SectionArray objectAtIndex:indexPath.section]];
+                
+                return statuesFloat;
+            }else{
+                return 100;
+            }
+    }else{
+        return SCREEN_HEIGHT-64-49-60-150;
+    }
+    
     
 }
 
@@ -306,20 +309,39 @@ static NSString * const cellId = @"CovertcellID";
     }
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"duihuanTotalidentifier";
-    
-    DuiHuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[DuiHuanTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
     if (DuiHuanArray.count) {
-        DuiHuanModel *model = [DuiHuanArray objectAtIndex:indexPath.row];
-        cell.DuiHuanModel = model;
+        static NSString *identifier = @"duihuanTotalidentifier";
+        
+        DuiHuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[DuiHuanTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        if (DuiHuanArray.count) {
+            DuiHuanModel *model = [DuiHuanArray objectAtIndex:indexPath.row];
+            cell.DuiHuanModel = model;
+        }
+        
+        
+        return cell;
+    }else{
+        static NSString *identifier = @"duihuanTotalidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+    
+        
+        return cell;
     }
     
     
-    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    SectionViewController *sVC = [[SectionViewController alloc] init];

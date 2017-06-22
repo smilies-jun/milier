@@ -142,7 +142,13 @@
 }
 //组头高度
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 62;
+    if (section == 0) {
+        return 60;
+  
+    }else{
+        return 70;
+
+    }
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -182,38 +188,76 @@
         }
     }
    
-    leftView.frame = CGRectMake(15, 15, 8, 8);
+    leftView.frame = CGRectMake(15, 35, 8, 8);
     [sectionLabel addSubview:leftView];
-    UILabel *NameLabel = [[UILabel alloc]init];
-    NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
-    NameLabel.textAlignment = NSTextAlignmentLeft;
-    NameLabel.font = [UIFont systemFontOfSize:14];
-    [sectionLabel addSubview:NameLabel];
-    [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(leftView.mas_right);
-        make.top.mas_equalTo(sectionLabel.mas_top).offset(10);
-        make.width.mas_equalTo(200);
-        make.height.mas_equalTo(15);
-    }];
-    UILabel *timeLabel = [[UILabel alloc]init];
-    NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
 
-    timeLabel.text = timeStr;
-    timeLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-    timeLabel.font = [UIFont systemFontOfSize:14];
-    [sectionLabel addSubview:timeLabel];
-    [timeLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(leftView.mas_right);
-        make.top.mas_equalTo(NameLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(200);
-        make.height.mas_equalTo(15);
-    }];
     
-    UIView *lineView = [[UIView alloc]init];
-    lineView.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-    lineView.frame = CGRectMake(0, 60, SCREEN_WIDTH, 0.5);
-    [sectionLabel addSubview:lineView];
- 
+    UIView *BottomlineView = [[UIView alloc]init];
+    BottomlineView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    BottomlineView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 10);
+    [sectionLabel addSubview:BottomlineView];
+    
+    UIImageView *RowImageView = [[UIImageView alloc]init];
+    RowImageView.image = [UIImage imageNamed:@"down_arrow_gray"];
+    RowImageView.frame = CGRectMake(SCREEN_WIDTH - 60, 30, 18, 18);
+    [sectionLabel addSubview:RowImageView];
+
+    if (section ==0) {
+        BottomlineView.hidden = YES;
+        UILabel *NameLabel = [[UILabel alloc]init];
+        NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
+        NameLabel.textAlignment = NSTextAlignmentLeft;
+        NameLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+        NameLabel.font = [UIFont systemFontOfSize:14];
+        [sectionLabel addSubview:NameLabel];
+        [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(leftView.mas_right).offset(10);
+            make.top.mas_equalTo(sectionLabel.mas_top).offset(10);
+            make.width.mas_equalTo(200);
+            make.height.mas_equalTo(20);
+        }];
+        UILabel *timeLabel = [[UILabel alloc]init];
+        NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+        
+        timeLabel.text = timeStr;
+        timeLabel.textColor = colorWithRGB(0.4, 0.4, 0.4);
+        timeLabel.font = [UIFont systemFontOfSize:14];
+        [sectionLabel addSubview:timeLabel];
+        [timeLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(leftView.mas_right).offset(10);
+            make.top.mas_equalTo(NameLabel.mas_bottom);
+            make.width.mas_equalTo(200);
+            make.height.mas_equalTo(20);
+        }];
+    }else{
+        BottomlineView.hidden = NO;
+        UILabel *NameLabel = [[UILabel alloc]init];
+        NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
+        NameLabel.textAlignment = NSTextAlignmentLeft;
+        NameLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
+        NameLabel.font = [UIFont systemFontOfSize:14];
+        [sectionLabel addSubview:NameLabel];
+        [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(leftView.mas_right).offset(10);
+            make.top.mas_equalTo(sectionLabel.mas_top).offset(20);
+            make.width.mas_equalTo(200);
+            make.height.mas_equalTo(20);
+        }];
+        UILabel *timeLabel = [[UILabel alloc]init];
+        NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+        
+        timeLabel.text = timeStr;
+        timeLabel.textColor = colorWithRGB(0.4, 0.4, 0.4);
+        timeLabel.font = [UIFont systemFontOfSize:14];
+        [sectionLabel addSubview:timeLabel];
+        [timeLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(leftView.mas_right).offset(10);
+            make.top.mas_equalTo(NameLabel.mas_bottom);
+            make.width.mas_equalTo(200);
+            make.height.mas_equalTo(20);
+        }];
+    }
+    
     return sectionLabel;
 }
 

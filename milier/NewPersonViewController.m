@@ -128,6 +128,7 @@
     MoreMoreHelpViewController *vc= [[MoreMoreHelpViewController alloc]init];
     vc.TitleStr =[NSString stringWithFormat:@"%@",[[HelpArray objectAtIndex:indexPath.row]objectForKey:@"title"]];
     vc.WebStr = [NSString stringWithFormat:@"%@/%@",HOST_URL,[[HelpArray objectAtIndex:indexPath.row] objectForKey:@"url"]];
+    vc.type = @"4";
     [self.navigationController pushViewController:vc animated:NO];
 
     

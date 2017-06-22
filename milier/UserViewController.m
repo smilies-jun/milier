@@ -19,7 +19,7 @@
 #import "ShareViewController.h"
 #import "RiskViewController.h"
 #import "RiskComplyViewController.h"
-
+#import "MyJiFenNewViewController.h"
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
     
@@ -97,7 +97,6 @@
     StaticUserDic = [[NSDictionary alloc]init];
     cirleArray = [[NSArray alloc]init];
     [self getNetworkData:YES];
-    
     [self ConfigUI];
 }
 -(void)getNetworkData:(BOOL)isRefresh
@@ -141,7 +140,7 @@
     MyScrollView.showsVerticalScrollIndicator = NO;
     MyScrollView.showsHorizontalScrollIndicator = NO;
     MyScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    MyScrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT+160);
+    MyScrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT+130);
     [self.view addSubview:MyScrollView];
     TopView = [[UIView alloc]init];
     TopView.userInteractionEnabled = YES;
@@ -297,7 +296,7 @@
     [JinMiOldNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_left).offset(50);
         make.top.mas_equalTo(JinMiNumber.mas_bottom).offset(10);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     JinMiDetailLabel = [[UILabel alloc]init];
@@ -362,7 +361,7 @@
     [DinQidOldNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(TopView.mas_right).offset(-150);
         make.top.mas_equalTo(DinQiNumber.mas_bottom).offset(10);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     DinQiDetailLabel = [[UILabel alloc]init];
@@ -401,10 +400,10 @@
         MyLeftMoneyImageView.image = [UIImage imageNamed:@"portfolio"];
         [MyScrollView addSubview:MyLeftMoneyImageView];
         [MyLeftMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(45);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(38);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         MyLeftMoneyLabel = [[UILabel alloc]init];
         MyLeftMoneyLabel.text =  @"我的余额";
@@ -439,10 +438,10 @@
         [MyJiFenImageView addGestureRecognizer:JiFenTap];
         [MyScrollView addSubview:MyJiFenImageView];
         [MyJiFenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(50);
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         MyJiFenLabel   = [[UILabel alloc]init];
         MyJiFenLabel.text =  @"我的积分";
@@ -478,10 +477,10 @@
         ChangeImageView.image = [UIImage imageNamed:@"attorn"];
         [MyScrollView addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(50);
+            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(76);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         ChangeLabel = [[UILabel alloc]init];
         ChangeLabel.text =  @"债权转让";
@@ -503,10 +502,10 @@
         MyStageImageView.image = [UIImage imageNamed:@"diamond"];
         [MyScrollView addSubview:MyStageImageView];
         [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(55);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(38);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         MyStageLabel = [[UILabel alloc]init];
         MyStageLabel.text =  @"我的道具";
@@ -527,10 +526,10 @@
         ShareImageView.image = [UIImage imageNamed:@"shareUse"];
         [MyScrollView addSubview:ShareImageView];
         [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyStageImageView.mas_right).offset(50);
+            make.left.mas_equalTo(MyStageImageView.mas_right).offset(76);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         ShareLabel = [[UILabel alloc]init];
         ShareLabel.text =  @"分享邀请";
@@ -552,10 +551,10 @@
         DangerTestImageView.image = [UIImage imageNamed:@"security"];
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ShareImageView.mas_right).offset(50);
+            make.left.mas_equalTo(ShareImageView.mas_right).offset(76);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         DangerTestLabel = [[UILabel alloc]init];
         DangerTestLabel.text =  @"风险评估";
@@ -578,10 +577,10 @@
         MyLeftMoneyImageView.image = [UIImage imageNamed:@"portfolio"];
         [MyScrollView addSubview:MyLeftMoneyImageView];
         [MyLeftMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(55);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(48);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         MyLeftMoneyLabel = [[UILabel alloc]init];
         MyLeftMoneyLabel.text =  @"我的余额";
@@ -616,10 +615,10 @@
         [MyJiFenImageView addGestureRecognizer:JiFenTap];
         [MyScrollView addSubview:MyJiFenImageView];
         [MyJiFenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(60);
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(75);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         MyJiFenLabel   = [[UILabel alloc]init];
         MyJiFenLabel.text =  @"我的积分";
@@ -655,10 +654,10 @@
         ChangeImageView.image = [UIImage imageNamed:@"attorn"];
         [MyScrollView addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(60);
+            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(75);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         ChangeLabel = [[UILabel alloc]init];
         ChangeLabel.text =  @"债权转让";
@@ -680,10 +679,10 @@
         MyStageImageView.image = [UIImage imageNamed:@"diamond"];
         [MyScrollView addSubview:MyStageImageView];
         [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(55);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(48);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         MyStageLabel = [[UILabel alloc]init];
         MyStageLabel.text =  @"我的道具";
@@ -704,10 +703,10 @@
         ShareImageView.image = [UIImage imageNamed:@"shareUse"];
         [MyScrollView addSubview:ShareImageView];
         [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyStageImageView.mas_right).offset(60);
+            make.left.mas_equalTo(MyStageImageView.mas_right).offset(75);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         ShareLabel = [[UILabel alloc]init];
         ShareLabel.text =  @"分享邀请";
@@ -729,10 +728,10 @@
         DangerTestImageView.image = [UIImage imageNamed:@"security"];
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ShareImageView.mas_right).offset(60);
+            make.left.mas_equalTo(ShareImageView.mas_right).offset(75);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(60);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
         }];
         DangerTestLabel = [[UILabel alloc]init];
         DangerTestLabel.text =  @"风险评估";
@@ -753,21 +752,59 @@
 //刷新数据
 - (void)reloadData{
     [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
+    
+    if ([[StaticUserDic objectForKey:@"investmentAmount"]doubleValue]) {
+        MoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"investmentAmount"]];
+
+    }else{
+        MoneyNumberLabel.text = @"0";
+ 
+    }
+    if ([[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]) {
+        JinMiNumber.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"currentInvestmentAmount"]];
+   
+    }else{
+        JinMiNumber.text = @"¥0";
+
+    }
+    if ([[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]) {
+        JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥%@",[StaticUserDic objectForKey:@"currentYesterdayEarnings"]];
+
+    }else{
+        JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥0"];
+
+    }
+    if ([[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]) {
+        DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥%@",[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]];
+
+    }else{
+        DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥0"];
+ 
+    }
+    if ([[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue]) {
+        DinQiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
+
+    }else{
+        DinQiNumber.text = @"¥0";
+ 
+    }
     UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"username"]];
     PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
-    MoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"investmentAmount"]];
-    JinMiNumber.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"currentInvestmentAmount"]];
-    JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥%@",[StaticUserDic objectForKey:@"currentYesterdayEarnings"]];
-    DinQiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
-    DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥%@",[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]];
     MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];
     MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     float   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]floatValue];
     float DinQiCircle = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue];
     float CircleSet = DinQiCircle/circleTotal;
-    NSString *CircleStr = [NSString stringWithFormat:@"¥%f",CircleSet];
-    cirleArray  = [[NSArray alloc]initWithObjects:CircleStr, nil];
-    [self.cirqueChart strokePath];
+    if (CircleSet) {
+        NSString *CircleStr = [NSString stringWithFormat:@"¥%f",CircleSet];
+        cirleArray  = [[NSArray alloc]initWithObjects:CircleStr, nil];
+        [self.cirqueChart strokePath];
+    }else{
+        cirleArray  = [[NSArray alloc]initWithObjects:@"0", nil];
+        [self.cirqueChart strokePath];
+  
+    }
+  
 }
 //金米宝详情
 - (void)jinmiClick{
@@ -786,7 +823,7 @@
 }
 //积分
 -(void)JiFenClick{
-    MyJiFenViewController *JiFenVC = [[MyJiFenViewController alloc]init];
+    MyJiFenNewViewController *JiFenVC = [[MyJiFenNewViewController alloc]init];
     JiFenVC.JiFenStr = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     [self.navigationController   pushViewController:JiFenVC animated:NO];
 }

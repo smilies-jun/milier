@@ -13,4 +13,6 @@
 
 @property(nonatomic, strong)NSString *TitleStr;
 
+@property (nonatomic,strong)NSString *type;
+
 @end

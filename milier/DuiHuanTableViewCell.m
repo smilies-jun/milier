@@ -43,17 +43,18 @@
         make.left.mas_equalTo(self.mas_left).offset(10);
         make.top.mas_equalTo(_BageView.mas_bottom);
         make.width.mas_equalTo(SCREEN_WIDTH - 20);
-        make.height.mas_equalTo(25);
+        make.height.mas_equalTo(35);
     }];
     _NameDetailLabel = [[UILabel alloc]init];
     _NameDetailLabel.text = @"2016:23:30";
+    _NameDetailLabel.numberOfLines = 0;
     _NameDetailLabel.font = [UIFont systemFontOfSize:14];
     [_SecondBageView addSubview:_NameDetailLabel];
     [_NameDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_SecondBageView.mas_left).offset(10);
         make.top.mas_equalTo(_NameLabel.mas_bottom);
-        make.width.mas_equalTo(200);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(SCREEN_WIDTH-40);
+        make.height.mas_equalTo(35);
     }];
     
 
@@ -64,7 +65,7 @@
         make.left.mas_equalTo(self.mas_left).offset(10);
         make.top.mas_equalTo(_SecondBageView.mas_bottom);
         make.width.mas_equalTo(SCREEN_WIDTH - 20);
-        make.height.mas_equalTo(25);
+        make.height.mas_equalTo(15);
     }];
     
         _MyJiFenLabel = [[UILabel alloc]init];
@@ -101,7 +102,15 @@
         make.height.mas_equalTo(18);
     }];
 
-    
+    _bottomView = [[UIView alloc]init];
+    _bottomView.backgroundColor = [UIColor whiteColor];
+    [self addSubview:_bottomView];
+    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.mas_bottom);
+        make.left.mas_equalTo(self.mas_left);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(5);
+    }];
     
     
 }
@@ -124,7 +133,7 @@
 }
 
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object{
-    CGFloat statuesHeight =  25 *[object integerValue];
+    CGFloat statuesHeight =  28 *[object integerValue];
     return statuesHeight;
 }
 

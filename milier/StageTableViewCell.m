@@ -273,21 +273,29 @@
                 _TitleStateLable.text = @"加 息 券";
                 _RightImageView.image = [UIImage imageNamed:@"jxq_03"];
                 _TypeImageView.image = [UIImage imageNamed:@"jxq_01"];
+                _TitleLable.text = [NSString stringWithFormat:@"%@%%",_stageModel.value];
+
                 break;
             case 2:
                 _TitleStateLable.text = @"小 米 券";
                 _RightImageView.image = [UIImage imageNamed:@"xmq_03"];
                 _TypeImageView.image = [UIImage imageNamed:@"xmq_01"];
+                _TitleLable.text = [NSString stringWithFormat:@"¥%@元",_stageModel.value];
+
                 break;
             case 3:
                 _TitleStateLable.text = @"新手小米券";
                 _RightImageView.image = [UIImage imageNamed:@"new_xmq_03"];
                 _TypeImageView.image = [UIImage imageNamed:@"new_xmq_01"];
+                _TitleLable.text = [NSString stringWithFormat:@"¥%@元",_stageModel.value];
+
                 break;
             case 4:
                 _TitleStateLable.text = @"金 米 券";
                 _RightImageView.image = [UIImage imageNamed:@"gold_xmq_03"];
                 _TypeImageView.image = [UIImage imageNamed:@"gold_xmq_01"];
+                _TitleLable.text = [NSString stringWithFormat:@"¥%@元",_stageModel.value];
+
                 break;
                 
             default:
@@ -296,12 +304,10 @@
      
         
         
-        _TitleLable.text = [NSString stringWithFormat:@"¥%@元",_stageModel.value];
         
         _SaileTimeLable.text =[NSString stringWithFormat:@"投资期限 %ld个月以上",[_stageModel.minimumInvestmentDays integerValue]/30];
 
         _SailMoneyLable.text =[NSString stringWithFormat:@"投资金额 %@元以上",_stageModel.minimumInvestmentAmount];
-        NSLog(@"== %@",_stageModel.state);
         if ([_stageModel.state integerValue] == 1) {
             _UseTitleLable.text = @"已使用";
             _RightImageView.image = [UIImage imageNamed:@"gray_quan_03"];
@@ -331,124 +337,142 @@
             }];
 
         }
-        
-        
-        
-        for (int i = 0; i < _stageModel.productCategoryIds.count; i++) {
-            NSString *MyStageType = [_stageModel.productCategoryIds objectAtIndex:i];
-            switch (i) {
-                case 0:
-                    switch ([MyStageType integerValue]) {
-                        case 1:
-                            _BuyTitleLable.text = @"网贷";
-                            _BuyTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+        _BuyTitleLable.backgroundColor =[UIColor whiteColor];
+        _InterentTitleLable.backgroundColor = [UIColor whiteColor];
+        _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
+        _PersonTitleLable.backgroundColor = [UIColor whiteColor];
 
-                            break;
-                        case 3:
-                            _BuyTitleLable.text = @"企业贷";
-                            _BuyTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
-
-                            break;
-                        case 4:
-                            _BuyTitleLable.text = @"车贷";
-                            _BuyTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
-
-                            break;
-                        case 5:
-                            _BuyTitleLable.text = @"个人贷";
-                            _BuyTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
-
-                            break;
-                        default:
-                            break;
-                    }
-                    
-                    break;
-                case 1:
-                    switch ([MyStageType integerValue]) {
-                        case 1:
-                            _InterentTitleLable.text = @"网贷";
-                            _InterentTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
-                            
-                            break;
-                        case 3:
-                            _InterentTitleLable.text = @"企业贷";
-                            _InterentTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
-                            
-                            break;
-                        case 4:
-                            _InterentTitleLable.text = @"车贷";
-                            _InterentTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
-                            
-                            break;
-                        case 5:
-                            _InterentTitleLable.text = @"个人贷";
-                            _InterentTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
-                            
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 2:
-                    switch ([MyStageType integerValue]) {
-                        case 1:
-                            _QiYeTitleLable.text = @"网贷";
-                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
-                            
-                            break;
-                        case 3:
-                            _QiYeTitleLable.text = @"企业贷";
-                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
-                            
-                            break;
-                        case 4:
-                            _QiYeTitleLable.text = @"车贷";
-                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
-                            
-                            break;
-                        case 5:
-                            _QiYeTitleLable.text = @"个人贷";
-                            _QiYeTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
-                            
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                case 3:
-                    switch ([MyStageType integerValue]) {
-                        case 1:
-                            _PersonTitleLable.text = @"网贷";
-                            _PersonTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
-                            
-                            break;
-                        case 3:
-                            _PersonTitleLable.text = @"企业贷";
-                            _PersonTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
-                            
-                            break;
-                        case 4:
-                            _PersonTitleLable.text = @"车贷";
-                            _PersonTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
-                            
-                            break;
-                        case 5:
-                            _PersonTitleLable.text = @"个人贷";
-                            _PersonTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
-                            
-                            break;
-                        default:
-                            break;
-                    }
-
-                    break;
-                default:
-                    break;
+        if (_stageModel.productCategoryIds.count) {
+            NSLog(@" ==== %@",_stageModel.productCategoryIds);
+            for (int i = 0; i < _stageModel.productCategoryIds.count; i++) {
+                NSString *MyStageType = [_stageModel.productCategoryIds objectAtIndex:i];
+                switch (i) {
+                    case 0:
+                        switch ([MyStageType integerValue]) {
+                            case 1:
+                                _BuyTitleLable.text = @"网贷";
+                                _BuyTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                                
+                                break;
+                            case 3:
+                                _BuyTitleLable.text = @"企业贷";
+                                _BuyTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                                
+                                break;
+                            case 4:
+                                _BuyTitleLable.text = @"车贷";
+                                _BuyTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                                
+                                break;
+                            case 5:
+                                _BuyTitleLable.text = @"个人贷";
+                                _BuyTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                                
+                                break;
+                            default:
+                                _BuyTitleLable.backgroundColor =[UIColor whiteColor];
+                                _InterentTitleLable.backgroundColor = [UIColor whiteColor];
+                                _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
+                                _PersonTitleLable.backgroundColor = [UIColor whiteColor];
+                                break;
+                        }
+                        
+                        break;
+                    case 1:
+                        switch ([MyStageType integerValue]) {
+                            case 1:
+                                _InterentTitleLable.text = @"网贷";
+                                _InterentTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                                
+                                break;
+                            case 3:
+                                _InterentTitleLable.text = @"企业贷";
+                                _InterentTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                                
+                                break;
+                            case 4:
+                                _InterentTitleLable.text = @"车贷";
+                                _InterentTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                                
+                                break;
+                            case 5:
+                                _InterentTitleLable.text = @"个人贷";
+                                _InterentTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                                
+                                break;
+                            default:
+                                _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
+                                _PersonTitleLable.backgroundColor = [UIColor whiteColor];
+                                break;
+                        }
+                        
+                        break;
+                    case 2:
+                        switch ([MyStageType integerValue]) {
+                            case 1:
+                                _QiYeTitleLable.text = @"网贷";
+                                _QiYeTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                                
+                                break;
+                            case 3:
+                                _QiYeTitleLable.text = @"企业贷";
+                                _QiYeTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                                
+                                break;
+                            case 4:
+                                _QiYeTitleLable.text = @"车贷";
+                                _QiYeTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                                
+                                break;
+                            case 5:
+                                _QiYeTitleLable.text = @"个人贷";
+                                _QiYeTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                                
+                                break;
+                            default:
+                                _PersonTitleLable.backgroundColor = [UIColor whiteColor];
+                                break;
+                        }
+                        
+                        break;
+                    case 3:
+                        switch ([MyStageType integerValue]) {
+                            case 1:
+                                _PersonTitleLable.text = @"网贷";
+                                _PersonTitleLable.backgroundColor = colorWithRGB(0.62, 0.80, 0.09);
+                                
+                                break;
+                            case 3:
+                                _PersonTitleLable.text = @"企业贷";
+                                _PersonTitleLable.backgroundColor = colorWithRGB(0.99, 0.52, 0.18);
+                                
+                                break;
+                            case 4:
+                                _PersonTitleLable.text = @"车贷";
+                                _PersonTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                                
+                                break;
+                            case 5:
+                                _PersonTitleLable.text = @"个人贷";
+                                _PersonTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
+                                
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                        break;
+                    default:
+                        _BuyTitleLable.backgroundColor =[UIColor whiteColor];
+                        _InterentTitleLable.backgroundColor = [UIColor whiteColor];
+                        _QiYeTitleLable.backgroundColor = [UIColor whiteColor];
+                        _PersonTitleLable.backgroundColor = [UIColor whiteColor];
+                        break;
+                }
             }
         }
+        
+ 
         
 
         

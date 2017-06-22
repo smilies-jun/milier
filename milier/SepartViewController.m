@@ -10,7 +10,7 @@
 #import "AleardyBundTableViewCell.h"
 #import "SepartTableViewCell.h"
 #import "SepartModel.h"
-
+#import "DetailTypeTableViewCell.h"
 
 @interface SepartViewController (){
     NSMutableArray *separtArray;
@@ -42,7 +42,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -51,7 +51,7 @@
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -60,15 +60,16 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/brokers/%@/earningLogs?page=1&rows=20",HOST_URL,userID];
     }else{
         url = [NSString stringWithFormat:@"%@/brokers/%@/earningLogs?page=%d&rows=20",HOST_URL,userID,page];
         
     }
-    
+    if (page == 1) {
+        [separtArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-         NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             SepartModel *model = [[SepartModel alloc]init];
             model.dataDictionary = dic;
@@ -121,36 +122,45 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 40;
+    return 44;
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *identifier = @"productidentifier";
-    
-    SepartTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[SepartTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-        
-    }
     if (indexPath.row == 0) {
-        cell.TitleLabel.text = @"时间";
-        cell.TimeLabel.text = @"我的分成";
-        cell.TypeLabel.text = @"下家存量金额";
+        static NSString *identifier = @"productTypeidentifier";
+        
+        DetailTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[DetailTypeTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+       
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+
     }else{
+        static NSString *identifier = @"productidentifier";
+        
+        SepartTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[SepartTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+        
         if (separtArray.count) {
-            SepartModel *model = [separtArray objectAtIndex:indexPath.row-1];
+            SepartModel *model = [separtArray objectAtIndex:indexPath.row - 1];
             cell.SepartModel = model;
         }
         
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+ 
     }
     
     
-    
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
     
 }
 /*

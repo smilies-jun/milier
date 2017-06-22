@@ -416,8 +416,24 @@
     ShareDetailViewController *vc = [[ShareDetailViewController alloc]init];
     [self.navigationController pushViewController:vc animated:NO];
 }
-
-- (void)GetBtnClick{
+-(void)GetBtnClick{
+    
+    NSString *Shareurl;
+    Shareurl = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:Shareurl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *State = [result objectForKey:@"statusCode"];
+        if ([State integerValue] == 200) {
+            ShareDic = [result objectForKey:@"data"];
+            [self ShareClick];
+        }
+    }];
+    
+}
+- (void)ShareClick{
+    
+    
+    
     //先构造分享参数：
     NSString *userID = NSuserUse(@"userId");
     NSString *Url;
@@ -434,7 +450,7 @@
                                         url:[NSURL URLWithString:Url]
                                       title:[ShareDic objectForKey:@"title"]
                                        type:SSDKContentTypeAuto];
-    //有的平台要客户端分享需要加此方法，例如微博
+    //有的平台要客户端
     [shareParams SSDKEnableUseClientShare];
     //调用分享的方法
     SSUIShareActionSheetController *sheet = [ShareSDK showShareActionSheet:self.view
@@ -458,6 +474,9 @@
     //删除和添加平台示例
     //[sheet.directSharePlatforms removeObject:@(SSDKPlatformTypeWechat)];//(默认微信，QQ，QQ空间都是直接跳客户端分享，加了这个方法之后，可以跳分享编辑界面分享)
     [sheet.directSharePlatforms addObject:@(SSDKPlatformTypeSinaWeibo)];//（加了这个方法之后可以不跳分享编辑界面，直接点击分享菜单里的选项，直接分享）
+
+    
+  
 }
 - (void)dealloc{
     

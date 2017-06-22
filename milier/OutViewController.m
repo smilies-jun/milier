@@ -10,7 +10,7 @@
 #import "AleardyBundTableViewCell.h"
 #import "OutTableViewCell.h"
 #import "OutModel.h"
-
+#import "DetailTypeTableViewCell.h"
 
 @interface OutViewController (){
     NSMutableArray *outArray;
@@ -43,7 +43,7 @@
  */
 -(void)endRefresh{
     
-    if (page == 0) {
+    if (page == 1) {
         [self.tableView.mj_header endRefreshing];
     }
     [self.tableView.mj_footer endRefreshing];
@@ -52,7 +52,7 @@
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
-        page = 0;
+        page = 1;
         isFirstCome = YES;
     }else{
         page++;
@@ -61,13 +61,15 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/brokers/%@/earningLogs?page=1&rows=20",HOST_URL,userID];
     }else{
         url = [NSString stringWithFormat:@"%@/brokers/%@/earningLogs?page=%d&rows=20",HOST_URL,userID,page];
         
     }
-    
+    if (page ==1) {
+        [outArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             OutModel *model = [[OutModel alloc]init];
@@ -126,27 +128,37 @@
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"productidentifier";
-    
-    OutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[OutTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-        
-    }
     if (indexPath.row == 0) {
-        cell.TitleLabel.text = @"时间";
-        cell.TimeLabel.text = @"我的分成";
-    }else{
-        if (outArray.count) {
-            OutModel *model = [outArray objectAtIndex:indexPath.row-1];
-            cell.OutModel = model;
-        }
+        static NSString *identifier = @"productTypeidentifier";
         
+        DetailTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[DetailTypeTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+        cell.TypeLabel.hidden = YES;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+    }else{
+        static NSString *identifier = @"productidentifier";
+        
+        OutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[OutTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+
+        if (outArray.count) {
+                OutModel *model = [outArray objectAtIndex:indexPath.row -1];
+                cell.OutModel = model;
+            }
+
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        return cell;
+  
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    return cell;
     
 }
 

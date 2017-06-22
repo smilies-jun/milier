@@ -35,7 +35,7 @@
 #pragma mark - UI搭建
 /** UI搭建 */
 - (void)setUpUI{
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     
     //------- 图片 -------//
     self.imageView = [[UIImageView alloc]init];
@@ -83,7 +83,7 @@
             
         case NoContentTypeNetwork: //
         {
-            [self setImage:@"nonedata" topLabelText:@"暂无数据" bottomLabelText:@"点击重新加载"];
+            [self setImage:@"nonedata" topLabelText:@"暂无数据" bottomLabelText:@""];
         }
             break;
             

@@ -11,7 +11,7 @@
 #import "MJRefresh.h"
 #import "ChangeTableViewCell.h"
 #import "MyChangeModel.h"
-
+#import "NoDateTableViewCell.h"
 
 @interface ChangeSailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *MyChangeArray;
@@ -120,12 +120,10 @@
         if (MyChangeArray.count) {
             [self.tableView reloadData];
             [self endRefresh];
-        }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
- 
         }
         
-     
+        [self endRefresh];
+
 
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
@@ -137,7 +135,13 @@
 
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  MyChangeArray.count;
+    if (MyChangeArray.count) {
+        return  MyChangeArray.count;
+
+    }else{
+        return  1;
+  
+    }
 }
 
 
@@ -147,29 +151,46 @@
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-
-    return 140;
+    if (MyChangeArray.count) {
+         return 140;
+    }else{
+        return SCREEN_HEIGHT-64;;
+    }
+   
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-
+    if (MyChangeArray.count) {
         static NSString *identifier = @"changedetailidentifier";
         
         ChangeTableViewCell    *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[ChangeTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
-             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         if (MyChangeArray.count) {
             MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
             cell.changeModel = model;
         }
+        
+        [cell.IsOrNoLabel addTarget:self action:@selector(CancelClick:) forControlEvents:UIControlEventTouchUpInside];
+        return cell;
+    }else{
+        static NSString *identifier = @"changedetailidentifier";
+        
+        NoDateTableViewCell    *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
+        
+        return cell;
+    }
+
     
-    [cell.IsOrNoLabel addTarget:self action:@selector(CancelClick:) forControlEvents:UIControlEventTouchUpInside];
-    return cell;
 
     
 }

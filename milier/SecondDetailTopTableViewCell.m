@@ -216,6 +216,22 @@
                 ProfitPercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
                 
                 break;
+            case 7:
+                TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                ShapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                
+                break;
+                
+            case 8:
+                TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                ShapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                
+                break;
+        
                 
             default:
                 break;

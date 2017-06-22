@@ -84,13 +84,13 @@
     ActivityArray = [[NSMutableArray alloc]init];
     
     EAIntroPage *page1 = [EAIntroPage page];
-    page1.bgImage = [UIImage imageNamed:@"welcome1"];
+    page1.bgImage = [UIImage imageNamed:@"welcome1_select@2x"];
     
     EAIntroPage *page2 = [EAIntroPage page];
-    page2.bgImage = [UIImage imageNamed:@"welcome2"];
+    page2.bgImage = [UIImage imageNamed:@"welcome2_select@2x"];
     
     EAIntroPage *page3 = [EAIntroPage page];
-    page3.bgImage = [UIImage imageNamed:@"welcome3"];
+    page3.bgImage = [UIImage imageNamed:@"welcome_select@2x"];
     
   
     
@@ -310,7 +310,6 @@
     configration.lineHeight = 2;
     configration.itemFont = [UIFont systemFontOfSize:14];
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
-    configration.lineBottomMargin = 0;
     configration.aligmentModeCenter = NO;
     configration.showConver = NO;
     configration.showNavigation = YES;
@@ -319,7 +318,8 @@
     configration.addButtonNormalImageName = @"menu@2x";
     configration.showTabbar = NO;//设置显示tabbar
     configration.itemMaxScale = 1.05;
-    
+    configration.lineBottomMargin = 0;
+
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
     
     vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款",@"购车贷款",@"债权转让"] Configration:configration];
@@ -552,7 +552,7 @@
     [alertView dismissAnimated:NO];    
 }
 - (void)CancelClick{
-    [alertView dismissAnimated:NO];
+    [alertView dismissAnimated:YES];
 }
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
     ActivityDetailViewController *fourVC = [[ActivityDetailViewController alloc]init];
@@ -627,7 +627,7 @@
     NSString *typeStr =  NSuserUse(@"qiye");
     switch ([typeStr integerValue]) {
         case 1:
-            [self ProClick];
+            [self BusClick];
             break;
         case 2:
             [self NetClick];
