@@ -60,7 +60,7 @@
     _DataArray = [[NSMutableArray alloc]init];
     _count = 190;
     [self getNetworkData:YES];
-    [self ConfigUI];
+   // [self ConfigUI];
 }
 - (void)reloadData{
     NSString *url;
@@ -69,28 +69,32 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *status = [result objectForKey:@"statusCode"];
         if ([status integerValue] == 200) {
-            ActivityDic = [[result objectForKey:@"items"]objectAtIndex:0];
-            NSArray *myArray = [result objectForKey:@"items"];
-            if (myArray.count) {
-                NSString *TypeID = NSuserUse(@"type");
-                NSString *ActiID = NSuserUse(@"activityOid");
+                NSArray *myArray = [result objectForKey:@"items"];
+                if (myArray.count) {
+                    ActivityDic = [[result objectForKey:@"items"]objectAtIndex:0];
 
-                if ([TypeID integerValue] == 1) {
-                    NSString *oid = [ActivityDic objectForKey:@"oid"];
-                    if ([ActiID integerValue] == [oid integerValue]) {
+                    NSString *TypeID = NSuserUse(@"type");
+                    NSString *ActiID = NSuserUse(@"activityOid");
+                    
+                    if ([TypeID integerValue] == 1) {
+                        NSString *oid = [ActivityDic objectForKey:@"oid"];
+                        if ([ActiID integerValue] == [oid integerValue]) {
+                            
+                        }else{
+                            [self showActivityView];
+                            
+                        }
+                        
                         
                     }else{
-                        [self showActivityView];
-  
+                        
                     }
-                    
-                    
                 }else{
-  
+                    
                 }
-            }else{
-                
-            }
+ 
+         
+            
             
         }else{
             
@@ -113,9 +117,12 @@
             _count = 190;
         }
         
-            [_DataArray addObject:model];
+        [_DataArray addObject:model];
 
         [_tableView reloadData];
+        
+        [self ConfigUI];
+        
     }];
     
 }
@@ -191,11 +198,11 @@
     isFirstCome = YES;
     isJuhua = NO;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
-    _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.backgroundColor = [UIColor clearColor];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
     
@@ -267,7 +274,26 @@
             break;
         default:
             break;
+    }if (_DataArray.count) {
+        ProductDetailModel *model = [_DataArray objectAtIndex:0];
+        switch ([model.state integerValue]) {
+            case 4:
+                SaleLbel.text = @"售罄";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                
+                break;
+                
+            case 8:
+                SaleLbel.text = @"计息";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                
+                break;
+            default:
+                break;
+        }
     }
+
+    
     
     
 }
@@ -440,7 +466,7 @@
                 cell.TitleLabel.text = @"产品详细";
                 break;
             case 4:
-                cell.TitleLabel.text = @"投资纪录";
+                cell.TitleLabel.text = @"投资记录";
                 break;
             default:
                 break;

@@ -106,8 +106,14 @@
 //    [intro.skipButton setTitle:@"Skip now" forState:UIControlStateNormal];
 //    [intro.skipButton setImage:[UIImage imageNamed:@"explain"] forState:UIControlStateNormal];
     [intro setDelegate:self];
+
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
+        [intro showInView:rootView animateDuration:0.3];
+
+    }else {
+           }
     
-    [intro showInView:rootView animateDuration:0.3];
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     self.navigationItem.title = @"米粒儿金融";
@@ -330,7 +336,6 @@
     //按钮点击
     vc.addButtonAtion = ^(UIButton *btn, YNPageScrollViewController *vc) {
        // NSLog(@"%f",btn.frame.size.height);
-        NSLog(@"%f",SCREEN_WIDTH);
         
         UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
         view.backgroundColor=[UIColor whiteColor];
@@ -358,7 +363,12 @@
             if (SCREEN_WIDTH == 375) {
                 make.left.mas_equalTo(view.mas_left).offset(30);
 
-            }else{
+            }else if (SCREEN_WIDTH == 320){
+                make.left.mas_equalTo(view.mas_left).offset(10);
+                
+            }
+            
+            else{
                 make.left.mas_equalTo(view.mas_left).offset(45);
 
             }
@@ -384,7 +394,13 @@
         [ProuctImageView addGestureRecognizer:ProTap];
         [view addSubview:ProuctImageView];
         [ProuctImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(NetImageView.mas_right).offset(55);
+            if (SCREEN_WIDTH == 320) {
+                make.left.mas_equalTo(NetImageView.mas_right).offset(45);
+
+            }else{
+                make.left.mas_equalTo(NetImageView.mas_right).offset(55);
+  
+            }
             make.top.mas_equalTo(view.mas_top).offset(70);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -407,7 +423,13 @@
         BussinessImageView.image = [UIImage imageNamed:@"businessloans"];
         [view addSubview:BussinessImageView];
         [BussinessImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ProuctImageView.mas_right).offset(55);
+            if (SCREEN_WIDTH == 320) {
+                make.left.mas_equalTo(ProuctImageView.mas_right).offset(45);
+
+            }else{
+                make.left.mas_equalTo(ProuctImageView.mas_right).offset(55);
+ 
+            }
             make.top.mas_equalTo(view.mas_top).offset(70);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -435,6 +457,8 @@
             if (SCREEN_WIDTH == 375) {
                 make.left.mas_equalTo(view.mas_left).offset(30);
                 
+            }else if (SCREEN_WIDTH == 320){
+                make.left.mas_equalTo(view.mas_left).offset(10);
             }else{
                 make.left.mas_equalTo(view.mas_left).offset(45);
                 
@@ -461,7 +485,13 @@
         BuyCarImageView.image = [UIImage imageNamed:@"carloan"];
         [view addSubview:BuyCarImageView];
         [BuyCarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(PersonImageView.mas_right).offset(55);
+            if (SCREEN_WIDTH == 320) {
+                make.left.mas_equalTo(PersonImageView.mas_right).offset(45);
+ 
+            }else{
+                make.left.mas_equalTo(PersonImageView.mas_right).offset(55);
+
+            }
             make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);
@@ -484,7 +514,13 @@
         ChangeImageView.image = [UIImage imageNamed:@"creditor"];
         [view addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(BuyCarImageView.mas_right).offset(55);
+            if (SCREEN_WIDTH == 320) {
+                make.left.mas_equalTo(BuyCarImageView.mas_right).offset(45);
+   
+            }else{
+                make.left.mas_equalTo(BuyCarImageView.mas_right).offset(55);
+
+            }
             make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
             make.width.mas_equalTo(68);
             make.height.mas_equalTo(68);

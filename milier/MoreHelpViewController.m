@@ -25,9 +25,10 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = _TitleStr;
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    
+      [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(BackTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
@@ -60,7 +61,8 @@
     HelpTableView.dataSource = self;
     HelpTableView.delegate = self;
     HelpTableView.tableFooterView = [UIView new];
-    HelpTableView.frame = CGRectMake(0,64, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    HelpTableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    HelpTableView.frame = CGRectMake(0,64+10, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
     [self.view addSubview:HelpTableView];
     
     

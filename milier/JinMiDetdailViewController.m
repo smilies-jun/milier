@@ -50,7 +50,7 @@
     [leftBtn addTarget:self action:@selector(JinMiClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    [self ConfigUI];
+   [self ConfigUI];
 
      [self getNetworkData:YES];
 }
@@ -62,7 +62,11 @@
     url = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=8",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         jinmiDic = [result objectForKey:@"data"];
+        NSLog(@"IC  = %@",result);
+       // [self ConfigUI];
+
         [self reloadData];
+
     }];
     
 
@@ -252,7 +256,7 @@
 - (void)comeCliCk{
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     vc.Type = 1;
-    vc.productCateID = 2;
+    vc.productCateID = 8;
     vc.productID = 375;;
     vc.State = @"2";
     [self.navigationController pushViewController:vc animated:NO];

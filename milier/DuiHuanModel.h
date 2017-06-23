@@ -36,5 +36,5 @@
 
 @property(nonatomic,strong)NSString *commodityDesc;
 
-
+@property(nonatomic,strong)NSString *logisticsNumber;
 @end

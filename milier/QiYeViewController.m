@@ -63,9 +63,9 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *url;
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=1",HOST_URL];
+        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=3",HOST_URL];
     }else{
-        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=1",HOST_URL,page];
+        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=3",HOST_URL,page];
         
     }
     if (page ==1) {
@@ -169,10 +169,11 @@
             UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
             [cell.RightImageView addGestureRecognizer:qiyeTap];
             
+        }else{
+            cell.RightImageView.userInteractionEnabled = NO;
+ 
         }
-        cell.RightImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
-        [cell.RightImageView addGestureRecognizer:qiyeTap];
+       
 
         return cell;
 

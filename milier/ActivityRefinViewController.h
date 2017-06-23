@@ -1,19 +1,17 @@
 //
-//  ReginAndLoginViewController.h
-//  YWD
+//  ActivityRefinViewController.h
+//  milier
 //
-//  Created by 007 on 15/10/29.
-//  Copyright © 2015年 star. All rights reserved.
+//  Created by amin on 2017/6/23.
+//  Copyright © 2017年 yj. All rights reserved.
 //
 
-#import "BaseViewController.h"
+#import <UIKit/UIKit.h>
 
-@interface ReginAndLoginViewController : BaseViewController<UITextFieldDelegate>
-
+@interface ActivityRefinViewController : UIViewController
 @property (nonatomic,strong) NSTimer *securityCodeTimer; //验证码倒计时
 @property (nonatomic,strong) UIButton *GetCode;//验证码
 @property (nonatomic,strong) NSString *codeStr;
 
 @property (nonatomic,strong) NSString *type;
-
 @end

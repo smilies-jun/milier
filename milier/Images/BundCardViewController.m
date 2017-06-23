@@ -617,11 +617,12 @@ static LLPayType payType = LLPayTypeVerify;
     _order.no_order = orderStr;
     _order.dt_order = timeStamp;
     _order.money_order = MoneyView.NameTextField.text;
-    _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
+    _order.notify_url = @"http://cspay.milibanking.com/pay/notify/ll";
     _order.acct_name = CardNameView.NameTextField.text;
+    _order.name_goods = @"充值";
     _order.card_no =[NSString stringWithFormat:@"%@",CardBankCodeView.NameTextField.text] ;
     _order.id_no =[NSString stringWithFormat:@"%@", CardNumberView.NameTextField.text];
-    _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr}];
+    _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr,@"user_info_identify_state":@"1",@"user_info_identify_type":@"1",@"user_info_full_name":CardNameView.NameTextField.text,@"user_info_id_no":[NSString stringWithFormat:@"%@", CardNumberView.NameTextField.text]}];
     _order.user_id = userID;
     
 }

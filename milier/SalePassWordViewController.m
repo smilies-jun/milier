@@ -43,7 +43,6 @@
     SaleNewPassWordView = [[customWithStatic alloc]init];
     SaleNewPassWordView.NameLabel.text = @"新交易密码:";
     SaleNewPassWordView.NameTextField.placeholder = @"密码至少6位";
-    SaleNewPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     SaleNewPassWordView.NameTextField.secureTextEntry = YES;;
     SaleNewPassWordView.NameTextField.delegate = self;
     [self.view addSubview:SaleNewPassWordView];
@@ -51,21 +50,20 @@
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(self.view.mas_top).offset(10);
         make.width.mas_offset(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     SaleSurePassWordView = [[customWithStatic alloc]init];
     SaleSurePassWordView.NameLabel.text = @"确认新密码:";
     SaleSurePassWordView.NameTextField.placeholder = @"请再次输入交易密码";
     SaleSurePassWordView.NameTextField.secureTextEntry =YES;
-    SaleSurePassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     SaleSurePassWordView.NameTextField.delegate = self;
     [self.view addSubview:SaleSurePassWordView];
     [SaleSurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(SaleNewPassWordView.mas_bottom).offset(10);
         make.width.mas_offset(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     UILabel *SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"购买";

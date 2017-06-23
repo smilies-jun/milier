@@ -75,6 +75,7 @@
         if ([statusStr integerValue] == 200) {
             MyMoneyDic = [result objectForKey:@"data"];
             [self ConfigUI];
+            [self.tableView reloadData];
             
         }
         

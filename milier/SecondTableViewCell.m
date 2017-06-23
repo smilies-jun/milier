@@ -105,7 +105,7 @@
         _limitTimeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         [self addSubview:_limitTimeLabel];
         [_limitTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
+            make.left.mas_equalTo(_ProfitLabel.mas_right).offset(25);
             make.centerY.mas_equalTo(_ProfitLabel.mas_centerY);
             make.width.mas_equalTo(250);
             make.height.mas_equalTo(15);
@@ -118,7 +118,7 @@
         _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         [self addSubview:_ChangeLabel];
         [_ChangeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(_ProfitLabel.mas_right).offset(45);
+            make.left.mas_equalTo(_ProfitLabel.mas_right).offset(25);
             make.top.mas_equalTo(_limitTimeLabel.mas_bottom).offset(3);
             make.width.mas_equalTo(250);
             make.height.mas_equalTo(15);
@@ -205,6 +205,11 @@
             _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld天",(long)limitTime];
             _BeginMoneyLabel.text =[NSString stringWithFormat:@"债权包价值 %.2f元",[_productMoel.bondTotal doubleValue]];
             _ChangeLabel.text =[NSString stringWithFormat:@"购买金额 %@元",_productMoel.aggregateAmount];
+            
+            _limitTimeLabel.font = [UIFont systemFontOfSize:13];
+            _BeginMoneyLabel.font = [UIFont systemFontOfSize:13];
+            _ChangeLabel.font = [UIFont systemFontOfSize:13];
+
 
         }else{
             _limitTimeLabel.text =[NSString stringWithFormat:@"投资期限 %ld个月",(long)limitTime/30];
@@ -269,6 +274,43 @@
         _PercentLabel.text = [NSString stringWithFormat:@"%@%%",_productMoel.progressMessage];
         _shapeLayer.strokeEnd = [_productMoel.progress floatValue]/100;
         
+        switch ([_productMoel.productCategoryId integerValue]) {
+            case 1:
+                _PercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
+                
+                
+                break;
+            case 2:
+                _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+                
+                
+                break;
+            case 3:
+                _PercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
+                
+                
+                break;
+            case 4:
+                _PercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
+                
+                
+                break;
+            case 5:
+                _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
+                
+                
+                break;
+            case 6:
+                _PercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
+                
+                
+                break;
+                
+            default:
+                break;
+        }
+        
+        
     }else if ([_productMoel.state intValue]   == 4){
         _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         _PercentLabel.text = @"售罄";
@@ -284,6 +326,8 @@
         
         
     }
+    
+    
     
 }
 

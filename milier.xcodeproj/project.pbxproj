@@ -199,6 +199,7 @@
 		271E830A1EFC08B7004F005C /* nodatas@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271E83081EFC08B7004F005C /* nodatas@2x.png */; };
 		271E830B1EFC08B7004F005C /* nodatas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271E83091EFC08B7004F005C /* nodatas@3x.png */; };
 		271E830E1EFC1302004F005C /* DeveloperTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E830D1EFC1302004F005C /* DeveloperTableViewCell.m */; };
+		271E83111EFD1D80004F005C /* ActivityRefinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83101EFD1D80004F005C /* ActivityRefinViewController.m */; };
 		271F27521EDEAE18001245C3 /* MyChangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27511EDEAE18001245C3 /* MyChangeModel.m */; };
 		271F27551EDEC045001245C3 /* JiFenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27541EDEC045001245C3 /* JiFenModel.m */; };
 		271F27581EDEC566001245C3 /* DuiHuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27571EDEC566001245C3 /* DuiHuanModel.m */; };
@@ -951,6 +952,8 @@
 		271E83091EFC08B7004F005C /* nodatas@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "nodatas@3x.png"; sourceTree = "<group>"; };
 		271E830C1EFC1302004F005C /* DeveloperTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeveloperTableViewCell.h; sourceTree = "<group>"; };
 		271E830D1EFC1302004F005C /* DeveloperTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeveloperTableViewCell.m; sourceTree = "<group>"; };
+		271E830F1EFD1D80004F005C /* ActivityRefinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityRefinViewController.h; sourceTree = "<group>"; };
+		271E83101EFD1D80004F005C /* ActivityRefinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityRefinViewController.m; sourceTree = "<group>"; };
 		271F27501EDEAE18001245C3 /* MyChangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyChangeModel.h; sourceTree = "<group>"; };
 		271F27511EDEAE18001245C3 /* MyChangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyChangeModel.m; sourceTree = "<group>"; };
 		271F27531EDEC045001245C3 /* JiFenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiFenModel.h; sourceTree = "<group>"; };
@@ -2827,6 +2830,8 @@
 				274A86221EC1B5D2002B7069 /* ActivityModel.m */,
 				27E229D81ECADA8F00B1034D /* ActivityDetailViewController.h */,
 				27E229D91ECADA8F00B1034D /* ActivityDetailViewController.m */,
+				271E830F1EFD1D80004F005C /* ActivityRefinViewController.h */,
+				271E83101EFD1D80004F005C /* ActivityRefinViewController.m */,
 			);
 			name = "活动列表";
 			sourceTree = "<group>";
@@ -4080,6 +4085,7 @@
 				27032F381EB0345400A4233B /* ShareViewController.m in Sources */,
 				27E229D11ECA9A0F00B1034D /* SGQRCodeScanningVC.m in Sources */,
 				27032EC21EA8B41C00A4233B /* ZFGradientAttribute.m in Sources */,
+				271E83111EFD1D80004F005C /* ActivityRefinViewController.m in Sources */,
 				27032ED31EA8B41C00A4233B /* ZFTranslucencePath.m in Sources */,
 				274A86031EC05E41002B7069 /* ZJCollectionView.m in Sources */,
 				27032ECE1EA8B41C00A4233B /* ZFCircle.m in Sources */,

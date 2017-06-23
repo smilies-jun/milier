@@ -11,6 +11,10 @@
 #import "ProductDetailNewViewController.h"
 #import "YWDLoginViewController.h"
 #import "SecondViewController.h"
+#import "ReginAndLoginViewController.h"
+#import "ActivityRefinViewController.h"
+
+
 @interface ActivityDetailViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
 }
@@ -32,7 +36,7 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     
     ActivityWebView  = [[UIWebView alloc]init];
-    ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+    ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
     ActivityWebView.delegate= self;
     [self.view addSubview:ActivityWebView];
@@ -50,12 +54,11 @@
     NSString *strRegin = @"http://weixin.milibanking.com/weixin/weixin/login/toRegister";
     NSString *strSale = @"http://weixin.milibanking.com/weixin/weixin/product/productList";
     if ([urlStr containsString:strRegin]) {
-        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-        loginNagition.navigationBarHidden = YES;
-        [self presentViewController:loginNagition animated:NO completion:nil];
+        ActivityRefinViewController *reVC= [[ActivityRefinViewController alloc]init];
+        reVC.type = @"1";
+        [self.navigationController pushViewController:reVC animated:YES];
     }else if ([urlStr containsString:strSale]){
-        
+        [self.tabBarController setSelectedIndex:0];
     }
     
     return YES;

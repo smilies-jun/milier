@@ -117,13 +117,14 @@
             [MyChangeArray addObject:model];
             
         }
+        [self endRefresh];
+
         if (MyChangeArray.count) {
             [self.tableView reloadData];
             [self endRefresh];
         }
         
-        [self endRefresh];
-
+      
 
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
@@ -178,7 +179,7 @@
         [cell.IsOrNoLabel addTarget:self action:@selector(CancelClick:) forControlEvents:UIControlEventTouchUpInside];
         return cell;
     }else{
-        static NSString *identifier = @"changedetailidentifier";
+        static NSString *identifier = @"Nodatdchangedetailidentifier";
         
         NoDateTableViewCell    *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
@@ -197,10 +198,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
-    if ([model.state integerValue] == 2) {
-        
-    }
+//    MyChangeModel *model = [MyChangeArray objectAtIndex:indexPath.row];
+//    if ([model.state integerValue] == 2) {
+//        
+//    }
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];

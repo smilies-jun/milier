@@ -22,7 +22,8 @@
 
 
 
-@interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate>{
+
+@interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate>{
     
     UIView *TopView;
     UIView *BootmView;
@@ -76,6 +77,8 @@
     int riskOrNo;
     int Type;
     
+    NSString *StageChoseStr;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -102,9 +105,37 @@
     [self reloadMyStage];
     [self ConfigUI];
     //[self ConfigInverest];
-
+   
+    
+    // You can also adjust other label properties if needed.
+    
+    // hud.label.font = [UIFont italicSystemFontOfSize:16.f];
+    
+    
+    
+//    dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0), ^{
+//        
+//        
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            
+//            [hud hideAnimated:YES];
+//            
+//        });
+//        
+//    });
 }
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)reloadMyMoney{
     NSString *Statisurl;
     NSString *userID = NSuserUse(@"userId");
@@ -258,62 +289,10 @@
         make.height.mas_equalTo(20);
     }];
     
-   
     
     if ([_productID integerValue] == 6) {
-//        ChoceStageView = [[UIView alloc]init];
-//        ChoceStageView.userInteractionEnabled = YES;
-//        UITapGestureRecognizer *choiceTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(MyChoceClcik)];
-//        [ChoceStageView addGestureRecognizer:choiceTap];
-//        ChoceStageView.backgroundColor = [UIColor whiteColor];
-//        [BootmView addSubview:ChoceStageView];
-//        [ChoceStageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.left.mas_equalTo(BootmView.mas_left);
-//            make.top.mas_equalTo(ExplainLabel.mas_bottom).offset(10);
-//            make.width.mas_equalTo(SCREEN_WIDTH);
-//            make.height.mas_equalTo(40);
-//        }];
-//        UIImageView *ChoceImageView = [[UIImageView alloc]init];
-//        ChoceImageView.image = [UIImage imageNamed:@"tool"];
-//        [ChoceStageView addSubview:ChoceImageView];
-//        [ChoceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
-//            make.left.mas_equalTo(ChoceStageView.mas_left).offset(10);
-//            make.width.mas_equalTo(15);
-//            make.height.mas_equalTo(15);
-//        }];
-//        
-//        UILabel *choceLabel = [[UILabel alloc]init];
-//        choceLabel.text  = @"选择道具";
-//        choceLabel.font = [UIFont systemFontOfSize:15];
-//        [ChoceStageView addSubview:choceLabel];
-//        [choceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
-//            make.left.mas_equalTo(ChoceImageView.mas_right).offset(10);
-//            make.width.mas_equalTo(80);
-//            make.height.mas_equalTo(20);
-//        }];
-//        StageLabel = [[UILabel alloc]init];
-//        StageLabel.textColor = colorWithRGB(0.80, 0.80, 0.80);
-//        if (AddStr.length) {
-//            StageLabel.text = AddStr;
-//            
-//        }else{
-//            StageLabel.text = @"请选择道具";
-//            
-//        }
-//        StageLabel.font = [UIFont systemFontOfSize:12];
-//        [ChoceStageView addSubview:StageLabel];
-//        [StageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
-//            make.left.mas_equalTo(choceLabel.mas_right);
-//            make.width.mas_equalTo(100);
-//            make.height.mas_equalTo(20);
-//            
-//        }];
         
-        
-        
+       
         SaleView = [[UIView alloc]init];
         SaleView.backgroundColor = [UIColor whiteColor];
         [BootmView addSubview:SaleView];
@@ -369,7 +348,8 @@
             make.height.mas_equalTo(44);
         }];
 
-    }else if([_productID integerValue] == 2){
+    }else if([_productID integerValue] == 7 || [_productID integerValue] == 8 ){
+        
         SaleView = [[UIView alloc]init];
         SaleView.backgroundColor = [UIColor whiteColor];
         [BootmView addSubview:SaleView];
@@ -648,7 +628,6 @@
     PassWordTextField.backgroundColor = [UIColor whiteColor];
     PassWordTextField.font = [UIFont systemFontOfSize:15];
     PassWordTextField.textAlignment = NSTextAlignmentLeft;
-    PassWordTextField.keyboardType = UIKeyboardTypeNumberPad;
     PassWordTextField.secureTextEntry = YES;
     PassWordTextField.delegate = self;
     PassWordTextField.placeholder = @"请输入交易密码";
@@ -772,7 +751,10 @@
             BuyTextField.text = [NSString stringWithFormat:@"%@",_aggregateAmount];
 
             float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
-            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f",BuyTextField.text,(text*100)/100];
+            NSInteger  percentStr = text *100;
+            double  resultStr = (double)percentStr/100;
+            
+            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f",BuyTextField.text,resultStr];
             BuyTextField.enabled = NO;
             
             break;
@@ -785,6 +767,7 @@
     AddMoneyLabel.textColor = [UIColor whiteColor];
     AddMoneyLabel.font = [UIFont systemFontOfSize:14];
     AddMoneyLabel.layer.cornerRadius = 2;
+    AddMoneyLabel.textAlignment = NSTextAlignmentCenter;
     AddMoneyLabel.layer.masksToBounds = YES;
     //mCGSize size =CGSizeMake(400,20);
     AddMoneyLabel.hidden = YES;
@@ -793,7 +776,7 @@
 //    NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:12],NSFontAttributeName,nil];
 //    CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
 //    AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
-    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, 100, 20);
+    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, 100, 40);
     [TopView addSubview:AddMoneyLabel];
     
     
@@ -841,8 +824,8 @@
     }
     NSDictionary * tdic = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14],NSFontAttributeName,nil];
     CGSize  actualsize =[AddMoneyLabel.text boundingRectWithSize:size options:NSStringDrawingUsesLineFragmentOrigin  attributes:tdic context:nil].size;
-    AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
-    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, actualsize.width, 15);
+    AddMoneyLabel.textAlignment = NSTextAlignmentCenter;
+    AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, actualsize.width+10, 25);
     [TopView addSubview:AddMoneyLabel];
 
     if (AddStr.length) {
@@ -877,15 +860,18 @@
                                 //购 买
                                 if ([riskID integerValue] >0) {
                                     if ([userRiskStr integerValue] < [_riskLevelStr integerValue]){
-                                         [self popAlertView];
-                                    }else{
                                         if (riskOrNo == 0) {
                                             [self popAlertView];
-
+                                            
                                         }else{
                                             [self WriteSailPassWord];
- 
                                         }
+                                        
+                                    }else{
+                                     
+                                            [self WriteSailPassWord];
+ 
+                                      
                                     }
 //                                    if (riskOrNo == 1) {
 //                                        
@@ -965,65 +951,72 @@
 }
 
 - (void)WriteSailPassWord{
-  
-    
-    
-    NSString *Bottomurl;
-    NSString *tokenID = NSuserUse(@"Authorization");
-    Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
-    
-    if (StageOid.length) {
+    if ([BuyTextField.text integerValue] >= [StageChoseStr integerValue]) {
+        NSString *Bottomurl;
+        NSString *tokenID = NSuserUse(@"Authorization");
+        Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
         
-    }else{
-        StageOid = @"-1";
-    }
-    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
-    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-            //UIAlertController风格：UIAlertControllerStyleAlert
-            NSString *sucessStr = [result objectForKey:@"award"];
-            NSString *mySucessStr;
-            if (sucessStr.length) {
-                mySucessStr = sucessStr;
-            }else{
-                mySucessStr = @"请到个人中心查看";
-            }
+        if (StageOid.length) {
             
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"购买成功"
-                                                                                     message:mySucessStr
-                                                                              preferredStyle:UIAlertControllerStyleAlert ];
-            
-            //添加取消到UIAlertController中
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-            [alertController addAction:cancelAction];
-            
-            //添加确定到UIAlertController中
-            UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                for (UIViewController *controller in self.navigationController.viewControllers) {
-                                        if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
-                                           [self.navigationController popToViewController:controller animated:YES];
-                                        }
-                                   }
-
-            }];
-            [alertController addAction:OKAction];
-            
-            [self presentViewController:alertController animated:YES completion:nil];
-//            normal_alert(@"提示", @"购买成功　", @"确定");
-//            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                //  返回指定页面
-//                for (UIViewController *controller in self.navigationController.viewControllers) {
-//                    if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
-//                        [self.navigationController popToViewController:controller animated:YES];
-//                    }
-//                }
-//            });
-
         }else{
-            NSString *message = [result objectForKey:@"message"];
-            normal_alert(@"提示", message, @"确定");
+            StageOid = @"-1";
         }
-    }];
+        NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
+        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            [self showProgress];
+            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                [self HideProgress];
+                //UIAlertController风格：UIAlertControllerStyleAlert
+                NSString *sucessStr = [result objectForKey:@"award"];
+                NSString *mySucessStr;
+                if (sucessStr.length) {
+                    mySucessStr = sucessStr;
+                }else{
+                    mySucessStr = @"请到个人中心查看";
+                }
+                
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"购买成功"
+                                                                                         message:mySucessStr
+                                                                                  preferredStyle:UIAlertControllerStyleAlert ];
+                
+                //添加取消到UIAlertController中
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:cancelAction];
+                
+                //添加确定到UIAlertController中
+                UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    for (UIViewController *controller in self.navigationController.viewControllers) {
+                        if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
+                            [self.navigationController popToViewController:controller animated:YES];
+                        }
+                    }
+                    
+                }];
+                [alertController addAction:OKAction];
+                
+                [self presentViewController:alertController animated:YES completion:nil];
+                //            normal_alert(@"提示", @"购买成功　", @"确定");
+                //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                //                //  返回指定页面
+                //                for (UIViewController *controller in self.navigationController.viewControllers) {
+                //                    if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
+                //                        [self.navigationController popToViewController:controller animated:YES];
+                //                    }
+                //                }
+                //            });
+                
+            }else{
+                 [self HideProgress];
+                NSString *message = [result objectForKey:@"message"];
+                normal_alert(@"提示", message, @"确定");
+            }
+        }];
+
+    }else{
+        normal_alert(@"提示", @"道具不可使用", @"确定");
+    }
+    
+    
     
 }
 - (void)popAlertView{
@@ -1201,14 +1194,14 @@
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
 
-    
+    [self HideKeyBoardClick];
     
     if (BuyTextField.tag ==100) {
         if ([textField.text doubleValue] >= [_minBuyStr doubleValue]){
             [self refreshInvest];
             
         }else{
-            normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
+           // normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
         };
     }
    
@@ -1223,10 +1216,17 @@
             if ([_fullScaleReward doubleValue]) {
                 if (Type == 1) {
                     float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue]+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
-                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+                    
+                    NSInteger  percentStr = text *100;
+                    double  resultStr = (double)percentStr/100;
+
+                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
                 }else if(Type ==2){
                     float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
-                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+                    NSInteger  percentStr = text *100;
+                    double  resultStr = (double)percentStr/100;
+
+                    InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue]-[AddStr integerValue],resultStr+[AddStr integerValue]];
                     
                 }else{
 //                    float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
@@ -1243,10 +1243,16 @@
     }else{
         if (Type == 1) {
             float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
-            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+            NSInteger  percentStr = text *100;
+            double  resultStr = (double)percentStr/100;
+
+            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
         }else if(Type ==2){
             float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
-            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],(text*100)/100];
+            NSInteger  percentStr = text *100;
+            double  resultStr = (double)percentStr/100;
+
+            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue]-[AddStr integerValue],resultStr+[AddStr integerValue]];
             
         }else{
 //            float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
@@ -1270,26 +1276,35 @@
         if ([_isFullScaleReward integerValue] == 1  ) {
             if ([_fullScaleReward doubleValue]) {
                 
-                float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
-                float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
-                InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+                float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[isfull doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
+                NSInteger  percentStr = text *100;
+                double  resultStr = (double)percentStr/100;
+
+                NSInteger jifenStr =[_investmentHorizonStr integerValue]/30;
+                float jifen = [BuyTextField.text integerValue]*jifenStr/100;
+                InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
                 
                 
             }
         }
     }else{
         float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100*[_investmentHorizonStr doubleValue]/365.0f);
-        
-        
-        float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
-        InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+        NSInteger  percentStr = text *100;
+        double  resultStr = (double)percentStr/100;
+
+        NSInteger jifenStr =[_investmentHorizonStr integerValue]/30;
+        float jifen = [BuyTextField.text integerValue]*jifenStr/100;
+        InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
     }
 
 }
 - (void)refreshInvest{
     if ([_productCatiID integerValue] == 8) {
         float text = [BuyTextField.text integerValue]*[_PercentStr doubleValue]/100/365;
-        InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",(text*100)/100];
+        NSInteger  percentStr = text *100;
+        double  resultStr = (double)percentStr/100;
+
+        InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",resultStr];
         
     }else{
         if (BuyTextField.text.length) {
@@ -1372,6 +1387,8 @@
     }else{
         
         ChooseStageModel *model = [stageArray objectAtIndex:indexPath.row];
+        StageChoseStr = model.minimumInvestmentAmount;
+        
         switch ([model.type integerValue]) {
             case 1:
                 Type = 1;

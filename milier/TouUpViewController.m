@@ -91,7 +91,6 @@ static LLPayType payType = LLPayTypeVerify;
     PassWordView.NameLabel.text = @"交易密码";
     PassWordView.NameTextField.secureTextEntry = YES;
     PassWordView.NameTextField.placeholder = @"请输入交易密码";
-    PassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:PassWordView];
     [PassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -315,12 +314,13 @@ static LLPayType payType = LLPayTypeVerify;
                        _order.no_order = orderStr;
                        _order.dt_order = timeStamp;
                        _order.money_order = payView.NameTextField.text;
-                       _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
-                                           
+                       _order.notify_url = @"http://cspay.milibanking.com/pay/notify/ll";
+                        _order.name_goods = @"充值";
                        _order.acct_name =[myBankDic objectForKey:@"username"];
                         _order.card_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"bankCardNumber"]];
                        _order.id_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"identityCardNumber"]];
-                       _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr}];
+                                           
+                       _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr,@"user_info_identify_state":@"1",@"user_info_identify_type":@"1",@"user_info_full_name":[myBankDic objectForKey:@"username"],@"user_info_id_no":[NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"identityCardNumber"]]}];
                        _order.user_id = userID;
                        
                        }

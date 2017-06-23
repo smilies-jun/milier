@@ -114,6 +114,11 @@
                 if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
                     NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
                     normal_alert(@"提示", message, @"确定");
+                    for (UIViewController *controller in self.navigationController.viewControllers) {
+                        if ([controller isKindOfClass:[JinMiDetdailViewController  class]]) {
+                            [self.navigationController popToViewController:controller animated:YES];
+                        }
+                    }
                 }else{
                     NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
                     normal_alert(@"提示", message, @"确定");

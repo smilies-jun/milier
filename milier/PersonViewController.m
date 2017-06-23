@@ -71,14 +71,15 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *url;
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=1",HOST_URL];
+        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=4",HOST_URL];
     }else{
-        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=1",HOST_URL,page];
+        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=4",HOST_URL,page];
         
     }
    
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
+            NSLog(@"result4 = %@",result);
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;
             [DataArray addObject:model];
@@ -178,10 +179,11 @@
             UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
             [cell.RightImageView addGestureRecognizer:qiyeTap];
             
+        }else{
+            cell.RightImageView.userInteractionEnabled = NO;
+            
         }
-        cell.RightImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
-        [cell.RightImageView addGestureRecognizer:qiyeTap];
+       
         return cell;
         
     }

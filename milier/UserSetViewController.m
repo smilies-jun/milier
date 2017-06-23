@@ -184,14 +184,14 @@
     SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
-    SaleLabel.layer.cornerRadius = 10;
+    SaleLabel.layer.cornerRadius = 22;
     SaleLabel.layer.masksToBounds = YES;
     [self.view addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(BundSetView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SetBackBtn
@@ -394,7 +394,6 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     dispatch_async(dispatch_get_main_queue(), ^{
         
-        NSLog(@"image = %@",newPhoto    );
         NSData *imageData = UIImageJPEGRepresentation(newPhoto, 0.5);
         
         __block NSMutableDictionary* parameter = [[NSMutableDictionary alloc] init];

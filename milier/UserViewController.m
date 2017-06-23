@@ -69,7 +69,7 @@
     UIImageView *DangerTestImageView;
     UILabel *DangerTestLabel;
     
-    
+    double totalNumber;
     
 }
 @property (nonatomic, strong) ZFCirqueChart * cirqueChart;
@@ -96,10 +96,27 @@
     UserDic = [[NSDictionary alloc]init];
     StaticUserDic = [[NSDictionary alloc]init];
     cirleArray = [[NSArray alloc]init];
-    [self getNetworkData:YES];
     [self ConfigUI];
-    NSLog(@"sc = %f",SCREEN_WIDTH);
+
+    [self getNetworkData:YES];
+    [self StaticUserData];
+    
 }
+
+- (void)StaticUserData{
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        StaticUserDic = [result objectForKey:@"data"];
+        [self ConfigUI];
+        [self reloadData];
+        
+    }];
+
+}
+
 -(void)getNetworkData:(BOOL)isRefresh
 {
     NSString *url;
@@ -120,18 +137,9 @@
         NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
         NSuserSave([UserDic objectForKey:@"riskLevel"], @"riskLevel");
         [self ConfigUI];
-
         [self reloadData];
     }];
     
-    NSString *Statisurl;
-    
-    Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        StaticUserDic = [result objectForKey:@"data"];
-        [self reloadData];
-        
-    }];
     
 }
 
@@ -937,8 +945,8 @@
         MoneyNumberLabel.text = @"0";
  
     }
-    if ([[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]) {
-        JinMiNumber.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"currentInvestmentAmount"]];
+    if ([[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue]) {
+        JinMiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"currentInvestmentAmount"]];
    
     }else{
         JinMiNumber.text = @"¥0";
@@ -973,16 +981,27 @@
     }else{
         MyLeftMoneyNumberLabel.text = @"0";
     }
+    if ([[StaticUserDic objectForKey:@"points"]doubleValue]) {
+         MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
+    }else{
+        MyJifenNmberLabel.text =@"0";
+
+    }
+    double   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue];
     
-    MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
-    float   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]floatValue];
-    float DinQiCircle = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]floatValue];
-    float CircleSet = DinQiCircle/circleTotal;
-    if (CircleSet) {
-        NSString *CircleStr = [NSString stringWithFormat:@"¥%f",CircleSet];
+    
+    double DinQiCircle = [[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue];
+    
+    
+    
+    double CircleSet = DinQiCircle/circleTotal;
+    if (circleTotal) {
+        totalNumber = circleTotal;
+        NSString *CircleStr = [NSString stringWithFormat:@"%f",CircleSet];
         cirleArray  = [[NSArray alloc]initWithObjects:CircleStr, nil];
         [self.cirqueChart strokePath];
     }else{
+        totalNumber = 100.0f;
         cirleArray  = [[NSArray alloc]initWithObjects:@"0", nil];
         [self.cirqueChart strokePath];
   
@@ -1069,11 +1088,16 @@
 }
 
 - (id)colorArrayInCirqueChart:(ZFCirqueChart *)cirqueChart{
-    return colorWithRGB(0.96, 0.6, 0.11);
+    return colorWithRGB(0.99, 0.78, 0.09);
     //    return @[ZFRed, ZFOrange, ZFMagenta, ZFBlue, ZFPurple];
 }
 
 - (CGFloat)maxValueInCirqueChart:(ZFCirqueChart *)cirqueChart{
+    if (totalNumber) {
+        return 1.0f;
+        
+    }
+    
     return 10000.f;
 }
 

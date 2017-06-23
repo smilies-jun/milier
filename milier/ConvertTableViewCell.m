@@ -45,13 +45,13 @@
     _NameDetailLabel.text = @"";
     _NameDetailLabel.numberOfLines = 0;
     _NameDetailLabel.lineBreakMode = NSLineBreakByCharWrapping;
-    _NameDetailLabel.font = [UIFont systemFontOfSize:15];
+    _NameDetailLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_NameDetailLabel];
     [_NameDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
         make.top.mas_equalTo(_NameLabel.mas_bottom);
-        make.width.mas_equalTo(200);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(SCREEN_WIDTH-150);
+        make.height.mas_equalTo(40);
     }];
     
     _MyJiFenLabel = [[UILabel alloc]init];

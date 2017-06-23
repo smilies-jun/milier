@@ -183,7 +183,7 @@
         _RegularNumberLabel.text = [NSString stringWithFormat:@"%.2f",[_changeModel.aggregateAmount doubleValue]-[_changeModel.fee doubleValue]];
         NSString *timeStr = [self getTimeStr:_changeModel.expireTime withForMat:@"yyyy-MM-dd"];
         
-        
+        NSLog(@" == %@",_changeModel.state);
         if ([_changeModel.state integerValue] == 2) {
             NSMutableAttributedString *hintString=[[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"下架时间:%@",timeStr]];
             //获取要调整颜色的文字位置,调整颜色
@@ -207,7 +207,7 @@
             NSRange range2=[[OutSailString string]rangeOfString:@"手续费:"];
             [OutSailString addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:range2];
             
-            _OutSailLabel.attributedText = OutSailString;
+            _OutLabel.attributedText = OutSailString;
 
             _OutSailLabel.hidden = YES;
             _StateImageView.image = [UIImage imageNamed:@"transferred"];

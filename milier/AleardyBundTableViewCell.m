@@ -59,12 +59,12 @@
         _NameLabel.text =[NSString stringWithFormat:@"%@",_ShareModel.phoneNumber];
         _DetailLabel.text = [NSString stringWithFormat:@"%@",_ShareModel.phoneNumber];
         switch ([_ShareModel.propType integerValue]) {
-            case 1:
-                _DetailLabel.text = [NSString stringWithFormat:@"成功领取%@小米卷",_ShareModel.propValue];
+            case 2:
+                _DetailLabel.text = [NSString stringWithFormat:@"成功领取%.2f小米券",[_ShareModel.propValue doubleValue]];
 
                 break;
-            case 2:
-                _DetailLabel.text = [NSString stringWithFormat:@"成功领取%@%%加息卷",_ShareModel.propValue];
+            case 1:
+                _DetailLabel.text = [NSString stringWithFormat:@"成功领取%.2f%%加息券",[_ShareModel.propValue doubleValue]];
 
                 break;
             default:

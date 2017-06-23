@@ -234,7 +234,7 @@
     UITapGestureRecognizer *CodeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(setupGenerateQRCode)];
     [codeImageView addGestureRecognizer:CodeTap];
     codeImageView.image = [UIImage imageNamed:@"erweima"];
-    codeImageView.backgroundColor = [UIColor orangeColor];
+    codeImageView.backgroundColor = [UIColor clearColor];
     [UserInviteView addSubview:codeImageView];
     [codeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(userImageView.mas_right).offset(10);

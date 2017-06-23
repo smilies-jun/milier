@@ -242,6 +242,17 @@
         make.height.mas_equalTo(6);
     }];
     
+    UIView* _bottomView = [[UIView alloc]init];
+    _bottomView.backgroundColor = [UIColor whiteColor];
+    [self addSubview:_bottomView];
+    [_bottomView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(self.mas_bottom);
+        make.left.mas_equalTo(self.mas_left);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(10);
+    }];
+
+    
 }
 - (void)setDinQiModel:(DinQiModel *)DinQiModel{
     if (DinQiModel != _DinQiModel) {
@@ -259,18 +270,27 @@
         NSString *startTimeStr = [self getTimeStr:_DinQiModel.InterestBearingStartTime withForMat:@"yyyy-MM-dd"];
         NSString *endTimeStr = [self getTimeStr:_DinQiModel.InterestBearingEndTime withForMat:@"yyyy-MM-dd"];
         _LimitNameLabel.text = [NSString stringWithFormat:@"计息时间:%@到%@",startTimeStr,endTimeStr];
+        
         if ([_DinQiModel.transferable integerValue] == 1) {
             _LookLimitLabel.hidden = NO;
-            if ([_DinQiModel.state integerValue]  == 5) {
-                [_LookLimitLabel setTitle:@"取消转让>>" forState:UIControlStateNormal];
+            if ([_DinQiModel.state integerValue]  == 2) {
+                [_LookLimitLabel setTitle:@"债权转让>>" forState:UIControlStateNormal];
 
             }else{
-                [_LookLimitLabel setTitle:@"债权转让>>" forState:UIControlStateNormal];
 
 
             }
         }else{
-            _LookLimitLabel.hidden = YES;
+            if ([_DinQiModel.state integerValue]  == 5) {
+                [_LookLimitLabel setTitle:@"取消转让>>" forState:UIControlStateNormal];
+                _LookLimitLabel.hidden = NO;
+
+            }else{
+                _LookLimitLabel.hidden = YES;
+  
+            }
+            
+
 
         }
         if (_DinQiModel.InstallmentInterestList.count) {

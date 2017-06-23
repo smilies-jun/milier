@@ -97,7 +97,7 @@
     //  NSString *userID = NSuserUse(@"userId");
     
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/commodities?page=1&rows=20",HOST_URL];
     }else{
         url = [NSString stringWithFormat:@"%@/commodities?page=%d&rows=20",HOST_URL,page];
@@ -108,6 +108,7 @@
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic  in [result objectForKey:@"items"]) {
+            
             giftModel *model = [[giftModel alloc]init];
             model.dataDictionary = dic;
             [JiFenArray addObject:model];
@@ -164,20 +165,28 @@
         if ([model.type integerValue] == 1) {
             CostViewController *vc = [[CostViewController alloc]init];
             vc.NameStr = model.name;
+            vc.TypeStr = model.type;
             vc.ProductID = model.oid;
             vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
             [self.navigationController   pushViewController:vc animated:NO];
-        }else{
+        }else if([model.type integerValue] == 3)  {
             SubstanceViewController *vc = [[SubstanceViewController alloc]init];
             vc.NameStr = model.name;
             vc.ProductID = model.oid;
             vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
             [self.navigationController   pushViewController:vc animated:NO];
             
+        }else{
+            CostViewController *vc = [[CostViewController alloc]init];
+            vc.NameStr = model.name;
+            vc.TypeStr = model.type;
+            vc.ProductID = model.oid;
+            vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+            [self.navigationController   pushViewController:vc animated:NO];
         }
     }
     
-    
+   
     
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];

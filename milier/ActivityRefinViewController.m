@@ -1,13 +1,12 @@
+//
+//  ActivityRefinViewController.m
+//  milier
+//
+//  Created by amin on 2017/6/23.
+//  Copyright © 2017年 yj. All rights reserved.
+//
 
-//
-//  ReginAndLoginViewController.m
-//  YWD
-//
-//  Created by 007 on 15/10/29.
-//  Copyright © 2015年 star. All rights reserved.
-//
-
-#import "ReginAndLoginViewController.h"
+#import "ActivityRefinViewController.h"
 #import "customWithStatic.h"
 #import "CustomView.h"
 #import "YWDAlertView.h"
@@ -17,33 +16,36 @@
 #import "ActivityDetailViewController.h"
 #import "YWDLoginViewController.h"
 
-@interface ReginAndLoginViewController (){
+@interface ActivityRefinViewController (){
     customWithStatic  *UsertPhoneView;
     customWithStatic  *PhoneView;
     customWithStatic  *PassView;
     CustomView *callView;
-     int _second;
+    int _second;
     UIButton *ClickBtn;
     UIView *alphaBagView;//遮罩
     YWDAlertView *alertView;
     popupFade *fadeSort;
-
+    
 }
+
 
 @end
 
-@implementation ReginAndLoginViewController
+@implementation ActivityRefinViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.TopView.hidden = NO;
-    self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
-    self.TopTitleLabel.text = @"注册";
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideKey)];
-    [self.view addGestureRecognizer:tap];
-    
-    [self.BackButton addTarget:self action:@selector(ReginAndLoginBackClick) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.title = @"注册";
+    self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(ReginlTap) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
+
     
     [self initUI];
     [self initAlertView];
@@ -52,19 +54,19 @@
     
     UsertPhoneView = [[customWithStatic alloc]init];
     UsertPhoneView.NameLabel.text = @"手机号码:";
-//    [UsertPhoneView.NameTextField mas_updateConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(UsertPhoneView.mas_right).offset(-10);
-//    }];
+    //    [UsertPhoneView.NameTextField mas_updateConstraints:^(MASConstraintMaker *make) {
+    //        make.right.mas_equalTo(UsertPhoneView.mas_right).offset(-10);
+    //    }];
     UsertPhoneView.NameTextField.delegate = self;
     UsertPhoneView.NameTextField.placeholder = @"请输入手机号码";
     [self.view addSubview:UsertPhoneView];
     [UsertPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.right.mas_equalTo(self.view.mas_right);
-        make.top.mas_equalTo(self.TopView.mas_bottom).offset(20);
+        make.top.mas_equalTo(self.view.mas_bottom).offset(20);
         make.height.mas_equalTo(40);
     }];
-
+    
     
     
     PhoneView = [[customWithStatic alloc]init];
@@ -149,7 +151,7 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(15);
     }];
-
+    
     UIButton *reginBtn = [[UIButton alloc]init];
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
@@ -170,14 +172,14 @@
     }else{
         btn.selected = YES;
     }
-
+    
 }
 
 - (void)gesClick{
-// 协议跳转
+    // 协议跳转
     ProtocalViewController *vc= [[ProtocalViewController alloc]init];
     [self.navigationController pushViewController:vc animated:NO];
-
+    
     
     
     
@@ -211,25 +213,25 @@
     
 }
 
-- (void)ReginAndLoginClicked{
+- (void)ReginlTap{
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
             if (ClickBtn.selected) {
                 [self ReginClicked];
-
+                
             }else{
                 normal_alert(@"提示", @"请同意协议" , @"确定");
- 
+                
             }
             
-  
+            
         }else{
             normal_alert(@"提示", @"登录密码不可为空" , @"确定");
-  
+            
         }
     }else{
         normal_alert(@"提示", @"验证码不可为空" , @"确定");
- 
+        
     }
     
     
@@ -254,10 +256,10 @@
             normal_alert(@"提示",message, @"确定");
         }
         
-
-
+        
+        
     }];
-
+    
 }
 - (void)showAlert{
     alphaBagView.hidden = NO;
@@ -280,19 +282,19 @@
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-                        if ([[result objectForKey:@"success"]integerValue]==1 ) {
+            if ([[result objectForKey:@"success"]integerValue]==1 ) {
                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{
                 NSString *ErrorMessage = [result objectForKey:@"message"];
                 normal_alert(@"提示", ErrorMessage, @"确定");
-
+                
             }
             
         }];
-
         
-    
-    
+        
+        
+        
     }
 }
 
@@ -317,20 +319,10 @@
     textField.textAlignment = NSTextAlignmentLeft;
 }
 - (void)ReginAndLoginBackClick{
-//    for (UIViewController *controller in self.navigationController.viewControllers) {
-//        if ([controller isKindOfClass:[ActivityDetailViewController  class]]) {
-//            [self.navigationController popToViewController:controller animated:YES];
-//        }
-//    }
-    if ([_type integerValue] == 1) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-    }
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[YWDLoginViewController  class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
+ 
+    [self.navigationController popToRootViewControllerAnimated:YES];
 
+    
 }
 - (void)hideKey{
     [self HideKeyBoardClick];
@@ -376,15 +368,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

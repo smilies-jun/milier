@@ -78,14 +78,14 @@
     SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
-    SaleLabel.layer.cornerRadius = 10;
+    SaleLabel.layer.cornerRadius = 22;
     SaleLabel.layer.masksToBounds = YES;
     [self.view addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(SureLoginView.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LoginBackBtn

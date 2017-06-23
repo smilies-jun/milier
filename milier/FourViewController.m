@@ -11,7 +11,9 @@
 
 
 
-@interface FourViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface FourViewController ()<UITableViewDataSource,UITableViewDelegate>{
+    MBProgressHUD *hud;
+}
 @property (nonatomic,strong)UITableView *tableView;
 
 @property (nonatomic,strong)NSMutableArray *sectionArray;
@@ -57,6 +59,19 @@
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
+    [self showProgress];
+}
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在加载中", @"HUD loading title");
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
@@ -86,6 +101,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         _MessageArray = [result objectForKey:@"items"];
         [self makeData];
+        [self HideProgress];
         [_tableView reloadData];
         isFirstCome = NO;
         

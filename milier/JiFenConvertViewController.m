@@ -327,7 +327,7 @@ static NSString * const cellId = @"CovertcellID";
         
         return cell;
     }else{
-        static NSString *identifier = @"duihuanTotalidentifier";
+        static NSString *identifier = @"nodateduihuanTotalidentifier";
         
         NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

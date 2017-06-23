@@ -32,7 +32,7 @@
     self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 
-        [self getNetworkData:YES];
+    [self getNetworkData:YES];
  
 
     
@@ -181,10 +181,11 @@
             UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
             [cell.RightImageView addGestureRecognizer:qiyeTap];
             
+        }else{
+            cell.RightImageView.userInteractionEnabled = NO;
+            
         }
-        cell.RightImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
-        [cell.RightImageView addGestureRecognizer:qiyeTap];
+       
         return cell;
         
     }

@@ -25,6 +25,7 @@
     DataChoseView *OutSailView;
     UILabel *SaleLabel;
     NSInteger *myDataTimeStr;
+    MBProgressHUD *hud;
 
 }
 
@@ -74,7 +75,7 @@
     }];
     
     UILabel *NumberLabel = [[UILabel alloc]init];
-    NumberLabel.text = [NSString stringWithFormat:@"¥%@",_MoneyName];
+    NumberLabel.text = [NSString stringWithFormat:@"%@",_MoneyName];
     NumberLabel.font = [UIFont systemFontOfSize:40];
     NumberLabel.textAlignment = NSTextAlignmentCenter;
     NumberLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
@@ -102,6 +103,9 @@
     
     
     ComeBackMoneyView = [[ProfilView alloc]init];
+    UITapGestureRecognizer *tapCome = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick      )];
+    ComeBackMoneyView.userInteractionEnabled = YES;
+    [ComeBackMoneyView addGestureRecognizer:tapCome];
     ComeBackMoneyView.GorrowView.hidden = YES;
     ComeBackMoneyView.NameLabel.text = @"回款金额";
     [self.view addSubview:ComeBackMoneyView];
@@ -113,7 +117,9 @@
     }];
     OneDayView = [[ProfilView alloc]init];
     OneDayView.GorrowView.hidden = YES;
-
+    UITapGestureRecognizer *tapOneDay = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
+    OneDayView.userInteractionEnabled = YES;
+    [OneDayView addGestureRecognizer:tapOneDay];
     OneDayView.NameLabel.text = @"当日转让率";
     OneDayView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:OneDayView];
@@ -125,6 +131,9 @@
     }];
     
     RateView = [[ProfilView alloc]init];
+    UITapGestureRecognizer *tapRate = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
+    RateView.userInteractionEnabled = YES;
+    [RateView addGestureRecognizer:tapRate];
     RateView.NameLabel.text = @"手续费";
     RateView.GorrowView.hidden = YES;
 
@@ -138,6 +147,9 @@
     }];
     
     ChangeView = [[customWithStatic alloc]init];
+    UITapGestureRecognizer *tapChange = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
+    ChangeView.userInteractionEnabled = YES;
+    [ChangeView addGestureRecognizer:tapChange];
     ChangeView.NameLabel.text = @"转让金额";
     ChangeView.NameTextField.placeholder = @"请输入转让金额";
     ChangeView.NameTextField.delegate = self;
@@ -147,10 +159,13 @@
         make.left.mas_equalTo(self.view.mas_left).offset(10);
         make.top.mas_equalTo(RateView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH -20);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     OutSailView = [[DataChoseView alloc]init];
+    UITapGestureRecognizer *tapChose = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
+    OutSailView.userInteractionEnabled = YES;
+    [OutSailView addGestureRecognizer:tapChose];
     OutSailView.NameLabel.text = @"下架时间";
     OutSailView.NameChoseLabel.text = @"请选择日期";
     OutSailView.NameChoseLabel.userInteractionEnabled = YES;
@@ -161,21 +176,23 @@
         make.left.mas_equalTo(self.view.mas_left).offset(10);
         make.top.mas_equalTo(ChangeView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH -20);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     DealPassWordView = [[customWithStatic alloc]init];
+    UITapGestureRecognizer *tapDeal = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
+    DealPassWordView.userInteractionEnabled = YES;
+    [DealPassWordView addGestureRecognizer:tapDeal];
     DealPassWordView.NameLabel.text = @"交易密码";
     DealPassWordView.NameTextField.secureTextEntry = YES;
     DealPassWordView.NameTextField.placeholder = @"请输入交易密码";
     DealPassWordView.NameTextField.delegate = self;
-    DealPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:DealPassWordView];
     [DealPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
         make.top.mas_equalTo(OutSailView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH -20);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     
@@ -198,14 +215,14 @@
     SaleLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLabel.textAlignment = NSTextAlignmentCenter;
     SaleLabel.textColor = [UIColor whiteColor];
-    SaleLabel.layer.cornerRadius = 10;
+    SaleLabel.layer.cornerRadius = 22;
     SaleLabel.layer.masksToBounds = YES;
     [self.view addSubview:SaleLabel];
     [SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
         make.top.mas_equalTo(MyLabel.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(TiJiaoBtn
@@ -231,6 +248,19 @@
    
 
 }
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+
 - (void)tapClick{
     [self HideKeyBoardClick];
     [self relreshUI];
@@ -243,6 +273,20 @@
         OutSailView.NameChoseLabel.text = date;
         NSInteger timeSp = [[NSNumber numberWithDouble:[startDate timeIntervalSince1970]] integerValue];
         myDataTimeStr = timeSp;
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setDateFormat:@"yyy-MM-dd HH-mm-ss"];
+        NSString*dateTime = [formatter stringFromDate:[NSDate  date]];
+        
+        NSDate* currentdate = [formatter dateFromString:dateTime]; //------------将字符串按formatter转成nsdate
+        
+        //时间转时间戳的方法:
+        
+        NSInteger timeCurrent = [[NSNumber numberWithDouble:[currentdate timeIntervalSince1970]] integerValue];
+        if ((NSInteger)myDataTimeStr <= timeCurrent) {
+            normal_alert(@"提示", @"下架时间应大于当前日期", @"确定");
+        }
+        
+        
     }];
     datepicker.doneButtonColor = [UIColor orangeColor];//确定按钮的颜色
     [datepicker show];
@@ -288,6 +332,7 @@
                     
                     NSString *ExpirTimeStr = [NSString stringWithFormat:@"%ld",(long)timeSp*1000];
                     
+                    
                     NSString *url;
                     NSString *tokenID = NSuserUse(@"Authorization");
                     //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
@@ -296,12 +341,15 @@
                     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:ChangeView.NameTextField.text,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
                     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
                         NSString *state = [result objectForKey:@"statusCode"];
+                        [self showProgress];
                         if ([state integerValue] == 201) {
+                            [self HideProgress];
                             normal_alert(@"提示", @"提交成功", @"确定");
                             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                 [self.navigationController popToRootViewControllerAnimated:NO];
                             });
                         }else{
+                            [self HideProgress];
                             NSString *message = [result objectForKey:@"message"];
                             normal_alert(@"提示", message, @"确定");
 
@@ -348,10 +396,10 @@
         OneDayView.DetailLabel.text = [NSString stringWithFormat:@"%.2f%%",myPercent];
         
         double rate = [ChangeView.NameTextField.text integerValue]*myPercent/100*0.02;
-        RateView.DetailLabel.text = [NSString stringWithFormat:@"%.2f元",rate];
+        RateView.DetailLabel.text = [NSString stringWithFormat:@"%.2f",rate];
         
         double comeBack = [ChangeView.NameTextField.text doubleValue] - rate;
-        ComeBackMoneyView.DetailLabel.text = [NSString stringWithFormat:@"%.2f元",comeBack];
+        ComeBackMoneyView.DetailLabel.text = [NSString stringWithFormat:@"%.2f",comeBack];
     }
     
     

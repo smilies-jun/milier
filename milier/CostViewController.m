@@ -11,7 +11,7 @@
 #import "CustomView.h"
 #import "ConvertViewController.h"
 #import "giftModel.h"
-
+#import "MyJiFenNewViewController.h"
 
 @interface CostViewController (){
     CustomChooseView *NameChooseView;
@@ -60,15 +60,27 @@
         make.height.mas_equalTo(44);
     }];
     PhoneView = [[CustomView alloc]init];
-    PhoneView.NameLabel.text = @"消费积分";
-    PhoneView.NameTextField.placeholder = @"请输入手机号码";
+    PhoneView.NameLabel.text = @"手机号码";
+    
+    if ([_TypeStr integerValue] == 1) {
+        NSString *PhoneID = NSuserUse(@"phoneNumber");
+        
+        PhoneView.NameTextField.text = PhoneID;
+        PhoneView.NameTextField.enabled = NO;
+
+    }else{
+        
+        PhoneView.NameTextField.placeholder = @"请输入手机号码";
+    }
+   
     PhoneView.NameTextField.keyboardType = UIKeyboardTypeNamePhonePad;
     [self.view addSubview:PhoneView];
     [PhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(CodeChooseView.mas_bottom).offset(1);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(44);    }];
+        make.height.mas_equalTo(44);
+    }];
     
 
     UILabel *SaleLbel =  [[UILabel alloc]init];
@@ -92,22 +104,52 @@
     [SaleLbel addGestureRecognizer:SaleTap];
     
 }
+
+#pragma 正则匹配手机号
+-(BOOL)checkTelNumber:(NSString *) telNumber
+{
+    NSString *MOBILE = @"^1[34578]\\d{9}$";
+    
+    NSPredicate *regexTestMobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",MOBILE];
+    /*
+     if ([regexTestMobile evaluateWithObject:self]) {
+     
+     return YES;
+     
+     }else {
+     
+     return NO;
+     
+     }*/
+    return [regexTestMobile evaluateWithObject:telNumber];
+}
+
 - (void)QuerenBtnClick{
     if (PhoneView.NameTextField.text.length) {
-        NSString * url = [NSString stringWithFormat:@"%@/commodityOrders",HOST_URL];
         
-        NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:_ProductID, @"commodityId",PhoneView.NameTextField.text,@"phoneNumber",nil];
-        NSString *tokenID = NSuserUse(@"Authorization");
-        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-                [self.navigationController popToRootViewControllerAnimated:NO];
-            }else{
-                NSString *message = [result objectForKey:@"message"];
-                normal_alert(@"提示", message, @"确定");
-                
-            }
-        }];
+        if ([self checkTelNumber:PhoneView.NameTextField.text]) {
+            NSString * url = [NSString stringWithFormat:@"%@/commodityOrders",HOST_URL];
+            
+            NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:_ProductID, @"commodityId",PhoneView.NameTextField.text,@"phoneNumber",nil];
+            NSString *tokenID = NSuserUse(@"Authorization");
+            [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                    for (UIViewController *controller in self.navigationController.viewControllers) {
+                        if ([controller isKindOfClass:[MyJiFenNewViewController class]]) {
+                            [self.navigationController popToViewController:controller animated:YES];
+                        }
+                    }
+                }else{
+                    NSString *message = [result objectForKey:@"message"];
+                    normal_alert(@"提示", message, @"确定");
+                    
+                }
+            }];
 
+        }else{
+            normal_alert(@"提示", @"手机号码格式不正确", @"确定");
+        }
+        
     }else{
         normal_alert(@"提示", @"手机号不可为空", @"确定　");
     }

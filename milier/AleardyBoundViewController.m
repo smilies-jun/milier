@@ -64,11 +64,14 @@
     NSString *userID = NSuserUse(@"userId");
 
     NSString *url;
-    if (isFirstCome) {
+    if (isRefresh) {
         url = [NSString stringWithFormat:@"%@/users/%@/customers?page=1&rows=20&bankCardExist=1",HOST_URL,userID];
     }else{
         url = [NSString stringWithFormat:@"%@/users/%@/customers?page=%d&rows=20&bankCardExist=1",HOST_URL,userID,page];
         
+    }
+    if (page ==1) {
+        [dataArray removeAllObjects];
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
@@ -133,7 +136,7 @@
     if (dataArray.count) {
         return 60;
     }
-    return SCREEN_HEIGHT-64-44-44;
+    return SCREEN_HEIGHT-64-44;
 }
 
 //cell-tableview
@@ -162,7 +165,7 @@
         if (!cell) {
             cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
-            cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+            cell.backgroundColor = colorWithRGB(1, 0.94, 0.72);
 
            // cell.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
             

@@ -195,7 +195,7 @@ static NSString * const ID = @"CollectionCell";
     tenLabel.text =[NSString stringWithFormat:@"10:%@",[titleArray objectAtIndex:9]];
     tenLabel.font = [UIFont systemFontOfSize:15];
     tenLabel.numberOfLines = 0;
-    tenLabel.frame = CGRectMake(SCREEN_WIDTH*9- 20*17-40, 10+40, 300, 40);
+    tenLabel.frame = CGRectMake(SCREEN_WIDTH*9- 20*17-40+20, 10+40, SCREEN_WIDTH-60, 40);
     tenLabel.numberOfLines = 0;
     [RiskScroview addSubview:tenLabel];
     
@@ -212,16 +212,16 @@ static NSString * const ID = @"CollectionCell";
     
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group1" atIndex:i];
-        rb.frame = CGRectMake(20-5, 20+40+40-5 + 30 * i+40, 40, 40);
+        rb.frame = CGRectMake(20-5, 10+40+40-5 + 40 * i+50, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(40, 20+40+40 + 30 * i + 40, 20, 20);
+        TypeLabel.frame = CGRectMake(60, 20+40+40 + 40 * i + 50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
-        NameLabel.frame = CGRectMake(60, 20+40+40 + 30 * i + 40, 220, 20);
+        NameLabel.font =[UIFont systemFontOfSize:14];
+        NameLabel.frame = CGRectMake(80, 20+40+40 + 40 * i + 50, 220, 20);
        // NSLog(@" == %@",[[OptionesArray  objectAtIndex:i]objectForKey:@"option"]);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:0]objectAtIndex:i]objectForKey:@"option"];
@@ -239,16 +239,16 @@ static NSString * const ID = @"CollectionCell";
     
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group2" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*1-20-5, 20+40+40 + 30 * i+40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*1-20-5, 10+40+40 + 40 * i+50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*1, 20+40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*1+20, 20+40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
 
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*1 + 20, 20+40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*1+50 , 20+40+40 + 40 * i+50, 220, 20);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:1]objectAtIndex:i]objectForKey:@"option"];
  
@@ -263,16 +263,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group3" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*2+20-40*2-5, 20+40+40 + 30 * i +40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*2+20-40*2-5, 10+40+40 + 40 * i +50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*2-40*2+40,20+ 40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*2-40*2+60,20+ 40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
 
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*2+60-40*2,20+ 40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*2+80-40*2,20+ 40+40 + 40 * i+50, 220, 20);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:2]objectAtIndex:i]objectForKey:@"option"];
 
@@ -288,16 +288,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group4" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*3+20-40*3-5, 20+40+40 + 30 * i+40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*3+20-40*3-5, 10+40+40 + 40 * i+50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*3+40-40*3, 20+40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*3+60-40*3, 20+40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
 
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*3+60-40*3, 20+40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*3+80-40*3, 20+40+40 + 40 * i+50, 220, 20);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:3]objectAtIndex:i]objectForKey:@"option"];
  
@@ -313,16 +313,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group5" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*4+20-40*4-5,20+ 40+40 + 30 * i+40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*4+20-40*4-5,10+ 40+40 + 40 * i+50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*4+40-40*4, 20+40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*4+60-40*4, 20+40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
 
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*4+60-40*4, 20+40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*4+80-40*4, 20+40+40 + 40 * i+50, 220, 20);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:4]objectAtIndex:i]objectForKey:@"option"];
 
@@ -338,16 +338,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group6" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*5+20-40*5-5,20+ 40+40 + 30 * i+40-5, 40+40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*5+20-40*5-5,10+ 40+40 + 40 * i+50-5, 50+50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*5+40-40*5, 20+40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*5+60-40*5, 20+40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
 
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*5+60-40*5,20+ 40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*5+80-40*5,20+ 40+40 + 40 * i+50, 220, 20);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:5]objectAtIndex:i]objectForKey:@"option"];
 
@@ -363,16 +363,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group7" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*6+20-40*6-5, 20+40+40 + 30 * i+40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*6+20-40*6-5, 10+40+40 + 40 * i+50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*6+40-40*6, 20+40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*6+60-40*6, 20+40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
         NameLabel.numberOfLines = 0;
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*6+60-40*6, 20+40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*6+80-40*6, 10+40+40 + 40 * i+50, 220, 40);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:6]objectAtIndex:i]objectForKey:@"option"];
 
@@ -388,16 +388,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group8" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*7+20-40*7-5, 20+40+40 + 30 * i+40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*7+20-40*7-5, 10+40+40 + 40 * i+50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*7+40-40*7,20+ 40+40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*7+60-40*7,20+ 40+40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
 
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*7+60-40*7,20+ 40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*7+80-40*7,20+ 40+40 + 40 * i+50, 220, 20);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:7]objectAtIndex:i]objectForKey:@"option"];
 
@@ -413,16 +413,16 @@ static NSString * const ID = @"CollectionCell";
     }
     for (int i = 0; i < 6; i++) {
         MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group9" atIndex:i];
-        rb.frame = CGRectMake(SCREEN_WIDTH*8+20-40*8-5,20+40+ 40 + 30 * i+40-5, 40, 40);
+        rb.frame = CGRectMake(SCREEN_WIDTH*8+20-40*8-5,10+40+ 40 + 40 * i+50-5, 50, 50);
         [RiskScroview addSubview:rb];
         UILabel *TypeLabel = [[UILabel alloc]init];
-        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*8+40-40*8,20+40+ 40 + 30 * i+40, 20, 20);
+        TypeLabel.frame = CGRectMake(SCREEN_WIDTH*8+60-40*8,20+40+ 40 + 40 * i+50, 20, 20);
         TypeLabel.text = [TypeArray objectAtIndex:i];
         [RiskScroview addSubview:TypeLabel];
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.font =[UIFont systemFontOfSize:12];
+        NameLabel.font =[UIFont systemFontOfSize:14];
         NameLabel.numberOfLines = 0;
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*8+60-40*8, 20+40+40 + 30 * i+40, 220, 20);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*8+80-40*8, 10+40+40 + 40 * i+50, SCREEN_WIDTH-150, 40);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:8]objectAtIndex:i]objectForKey:@"option"];
 
@@ -437,16 +437,18 @@ static NSString * const ID = @"CollectionCell";
     for (int i = 0; i < 6; i++) {
         if (SCREEN_WIDTH == 375) {
             MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group10" atIndex:i];
-            rb.frame = CGRectMake(SCREEN_WIDTH*9+20-40*9-15, 20+40+40 + 30 * i+40-5, 40, 40);
+            rb.frame = CGRectMake(SCREEN_WIDTH*9+20-40*9-15, 10+40+40 + 40 * i+50-5, 50, 50);
             [RiskScroview addSubview:rb];
             UILabel *TypeLabel = [[UILabel alloc]init];
-            TypeLabel.frame = CGRectMake(SCREEN_WIDTH*9+40-40*9-10,20+40+40 + 30 * i+40, 20, 20);
+            TypeLabel.frame = CGRectMake(SCREEN_WIDTH*9+60-40*9-10,20+40+40 + 40 * i+50, 20, 20);
             TypeLabel.text = [TypeArray objectAtIndex:i];
             [RiskScroview addSubview:TypeLabel];
             UILabel *NameLabel = [[UILabel alloc]init];
-            NameLabel.font =[UIFont systemFontOfSize:12];
+            NameLabel.font =[UIFont systemFontOfSize:14];
             
-            NameLabel.frame = CGRectMake(SCREEN_WIDTH*9+60-40*9-10, 20+40+40 + 30 * i+40, 220, 20);
+            NameLabel.frame = CGRectMake(SCREEN_WIDTH*9+80-40*9-10, 20+40+40 + 40 * i+50, SCREEN_WIDTH-140, 20);
+            NameLabel.numberOfLines = 0;
+
             if (i<5) {
                 NameLabel.text = [[[OptionesArray  objectAtIndex:9]objectAtIndex:i]objectForKey:@"option"];
 
@@ -461,16 +463,16 @@ static NSString * const ID = @"CollectionCell";
 
         }else{
             MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group10" atIndex:i];
-            rb.frame = CGRectMake(SCREEN_WIDTH*9+20-40*9-55, 20+40+40 + 30 * i+40-5, 40, 40);
+            rb.frame = CGRectMake(SCREEN_WIDTH*9+20-40*9-55, 10+40+40 + 40 * i+50-5, 50, 50);
             [RiskScroview addSubview:rb];
             UILabel *TypeLabel = [[UILabel alloc]init];
-            TypeLabel.frame = CGRectMake(SCREEN_WIDTH*9+40-40*9-50,20+40+40 + 30 * i+40, 20, 20);
+            TypeLabel.frame = CGRectMake(SCREEN_WIDTH*9+60-40*9-50,20+40+40 + 40 * i+50, 20, 20);
             TypeLabel.text = [TypeArray objectAtIndex:i];
             [RiskScroview addSubview:TypeLabel];
             UILabel *NameLabel = [[UILabel alloc]init];
-            NameLabel.font =[UIFont systemFontOfSize:12];
+            NameLabel.font =[UIFont systemFontOfSize:14];
             
-            NameLabel.frame = CGRectMake(SCREEN_WIDTH*9+60-40*9-50, 20+40+40 + 30 * i+40, 220, 20);
+            NameLabel.frame = CGRectMake(SCREEN_WIDTH*9+80-40*9-50, 35+40 + 40 * i+50, 220, 20);
             if (i<5) {
                 NameLabel.text = [[[OptionesArray  objectAtIndex:9]objectAtIndex:i]objectForKey:@"option"];
   
@@ -530,7 +532,7 @@ static NSString * const ID = @"CollectionCell";
     [self.view addSubview:ResultBtn];
     [ResultBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.centerY.mas_equalTo(self.view.mas_centerY).offset(50);
+        make.centerY.mas_equalTo(self.view.mas_centerY).offset(110);
         make.width.mas_equalTo(SCREEN_WIDTH - 100);
         make.height.mas_equalTo(40);
     }];

@@ -118,7 +118,7 @@
     UIButton * PushBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [PushBtn setTitle:@"提交" forState:UIControlStateNormal];
     PushBtn.layer.masksToBounds = YES;
-    PushBtn.layer.cornerRadius = 5.0f;
+    PushBtn.layer.cornerRadius = 22;
     PushBtn.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     [PushBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     PushBtn.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -128,7 +128,7 @@
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.right.mas_equalTo(self.view.mas_right).offset(-20);
         make.top.mas_equalTo(SurePassWordView.mas_bottom).offset(15);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44 );
     }];
 }
 #pragma mark - 提交 -

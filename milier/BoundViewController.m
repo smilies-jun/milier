@@ -74,7 +74,9 @@
     if (page==1) {
         [dataArray removeAllObjects];
     }
+    NSLog(@"url =%@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             
             ShareModel *model = [[ShareModel alloc]init];
@@ -139,7 +141,7 @@
     if (dataArray.count) {
          return 80;
     }
-    return SCREEN_HEIGHT-64-60-44;
+    return SCREEN_HEIGHT-64-44;
 }
 
 //cell-tableview
@@ -170,7 +172,7 @@
         if (!cell) {
             cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
-            cell.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+            cell.backgroundColor = colorWithRGB(1, 0.94, 0.72);
             
         }
 

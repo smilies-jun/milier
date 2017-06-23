@@ -13,6 +13,7 @@
 #import "LZCityPickerView.h"
 #import "LZCityPickerController.h"
 #import "FYLCityPickView.h"
+#import "MyJiFenNewViewController.h"
 
 @interface SubstanceViewController (){
     CustomChooseView *NameChooseView;
@@ -81,7 +82,6 @@
     CustomPhoneView = [[CustomView alloc]init];
     CustomPhoneView.NameLabel.text = @"手机号码";
     CustomPhoneView.NameTextField.keyboardType = UIKeyboardTypeNamePhonePad;
-
     CustomPhoneView.NameTextField.placeholder = @"请输入收货人手机号码";
     [self.view addSubview:CustomPhoneView];
     [CustomPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -137,6 +137,25 @@
     [SaleLbel addGestureRecognizer:SaleTap];
 
 }
+#pragma 正则匹配手机号
+-(BOOL)checkTelNumber:(NSString *) telNumber
+{
+    NSString *MOBILE = @"^1[34578]\\d{9}$";
+    
+    NSPredicate *regexTestMobile = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",MOBILE];
+    /*
+     if ([regexTestMobile evaluateWithObject:self]) {
+     
+     return YES;
+     
+     }else {
+     
+     return NO;
+     
+     }*/
+    return [regexTestMobile evaluateWithObject:telNumber];
+}
+
 - (void)QuerenBtnClick{
     [self HideKeyBoardClick];
     NSString *AddStr;
@@ -148,20 +167,30 @@
                     AddStr = AddressChooseView.ChooseLabel.text;
  
                 }
-               NSString * url = [NSString stringWithFormat:@"%@/commodityOrders",HOST_URL];
+                if ([self checkTelNumber:CustomPhoneView.NameTextField.text]) {
+                    NSString * url = [NSString stringWithFormat:@"%@/commodityOrders",HOST_URL];
+                    
+                    NSString *MyAddressStr = [AddStr stringByAppendingString:[NSString stringWithFormat:@"%@",CustomAddressView.NameTextField.text]];
+                    NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:_ProductID, @"commodityId",CustomPhoneView.NameTextField.text,@"phoneNumber",MyAddressStr,@"address",CustomUseView.NameTextField.text,@"person",nil];
+                    NSString *tokenID = NSuserUse(@"Authorization");
+                    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                            for (UIViewController *controller in self.navigationController.viewControllers) {
+                                if ([controller isKindOfClass:[MyJiFenNewViewController   class]]) {
+                                    [self.navigationController popToViewController:controller animated:YES];
+                                }
+                            }
+                        }else{
+                            NSString *message = [result objectForKey:@"message"];
+                            normal_alert(@"提示", message, @"确定");
+                            
+                        }
+                    }];
 
-                NSString *MyAddressStr = [AddStr stringByAppendingString:[NSString stringWithFormat:@"%@",CustomAddressView.NameTextField.text]];
-                NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:_ProductID, @"commodityId",CustomPhoneView.NameTextField.text,@"phoneNumber",MyAddressStr,@"address",CustomUseView.NameTextField.text,@"person",nil];
-                NSString *tokenID = NSuserUse(@"Authorization");
-                [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-                    if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-                        [self.navigationController popToRootViewControllerAnimated:NO];
-                    }else{
-                        NSString *message = [result objectForKey:@"message"];
-                        normal_alert(@"提示", message, @"确定");
-
-                    }
-                }];
+                }else{
+                    normal_alert(@"提示", @"请输入正确的手机号码", @"确定");
+                }
+                
                 
                 
                 

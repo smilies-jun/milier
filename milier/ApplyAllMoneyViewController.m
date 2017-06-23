@@ -15,6 +15,7 @@
 @interface ApplyAllMoneyViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     UIButton *ClickBtn;
     NSDictionary *MyDic;
+    int ApplyOrNo;
 
 }
 
@@ -28,19 +29,20 @@
     
     self.navigationItem.title = @"全民理财师";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    
+      [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(AllTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    ApplyOrNo = 0;
     [self configUI];
     
 }
 - (void)configUI{
     UIScrollView *scrollView = [[UIScrollView alloc]init];
-    scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64-20);
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT + 340);
@@ -67,7 +69,7 @@
     [self.view addSubview:ClickBtn];
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-30);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-60);
         make.width.mas_equalTo(18);
         make.height.mas_equalTo(18);
     }];
@@ -90,15 +92,15 @@
     UIButton *reginBtn = [[UIButton alloc]init];
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
-    reginBtn.layer.cornerRadius = 5.0f;
+    reginBtn.layer.cornerRadius = 20.0f;
     [reginBtn setTitle:@"成全民理财师" forState:UIControlStateNormal];
     [reginBtn addTarget:self action:@selector(agreeClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
-        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-5);
+        make.bottom.mas_equalTo(self.view.mas_bottom).offset(-10);
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
-        make.height.mas_equalTo(30);
+        make.height.mas_equalTo(40);
     }];
 
 }

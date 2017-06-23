@@ -110,7 +110,11 @@
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }
-        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[JinMiDetdailViewController   class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
         
     }
     

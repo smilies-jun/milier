@@ -49,7 +49,7 @@
     self.navigationItem.title = @"更多";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:15],NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self ConfigUI];
 }
@@ -217,6 +217,7 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
 }
 - (void)AllClick{
+
     NSString *userID = NSuserUse(@"userId");
     
     NSString *url = [NSString stringWithFormat:@"%@/users/%@/type",HOST_URL,userID];

@@ -129,14 +129,13 @@
     PayMoneyView = [[CustomView alloc]init];
     PayMoneyView.NameLabel.text = @"交易密码:";
     PayMoneyView.NameTextField.secureTextEntry = YES;
-    PayMoneyView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     PayMoneyView.NameTextField.delegate = self;
     [self.view addSubview:PayMoneyView];
     [PayMoneyView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.right.mas_equalTo(self.view.mas_right).offset(-20);
         make.top.mas_equalTo(TopView.mas_bottom).offset(20);
-        make.height.mas_equalTo(40);
+        make.height.mas_equalTo(44);
     }];
     
     SaleLabel = [[UILabel alloc]init];

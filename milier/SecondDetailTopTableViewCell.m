@@ -69,8 +69,8 @@
     }];
     
     ProfitPercentLabel  = [[UILabel alloc]init];
-    ProfitPercentLabel.text = @"12.34%";
-    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"12.34%"];
+    ProfitPercentLabel.text = @"0.00%";
+    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"0.00%"];
     [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:30] range:NSMakeRange(0,ProfitPercentLabel.text.length
                                                                                                           )];
     [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(ProfitPercentLabel.text.length - 1
@@ -86,7 +86,7 @@
     }];
     
     BondLabel = [[UILabel alloc]init];
-    BondLabel.text = @"1000000元起购";
+    BondLabel.text = @"";
     BondLabel.font = [UIFont systemFontOfSize:12];
     BondLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:BondLabel];
@@ -98,7 +98,7 @@
     }];
     
     BondTimeLabel = [[UILabel alloc]init];
-    BondTimeLabel.text = @"260天期限";
+    BondTimeLabel.text = @"";
     BondTimeLabel.font = [UIFont systemFontOfSize:12];
     BondTimeLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:BondTimeLabel];
@@ -110,7 +110,7 @@
     }];
     
     PercentProfitLabel = [[UILabel alloc]init];
-    PercentProfitLabel.text = @"万份收益1.23/天";
+    PercentProfitLabel.text = @"";
     PercentProfitLabel.font = [UIFont systemFontOfSize:12];
     PercentProfitLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:PercentProfitLabel];
@@ -131,7 +131,7 @@
         make.height.mas_equalTo(0.5);
     }];
     LeftLabel = [[UILabel alloc]init];
-    LeftLabel.text = @"剩余额度";
+    LeftLabel.text = @"";
     LeftLabel.font = [UIFont systemFontOfSize:15];
     [imageView addSubview:LeftLabel];
     [LeftLabel mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = _TitleStr;
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
-    
+      [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -39,10 +39,8 @@
     NSString *url =nil;
 
     url = [NSString stringWithFormat:@"%@/guides/%@/subMenus",HOST_URL,_OidStr];
-    NSLog(@"url; = %@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         HelpArray = [result objectForKey:@"items"];
-        NSLog(@"result = %@",result);
         [self ConfigUI];
     }];
     

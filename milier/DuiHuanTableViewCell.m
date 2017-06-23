@@ -109,7 +109,7 @@
         make.bottom.mas_equalTo(self.mas_bottom);
         make.left.mas_equalTo(self.mas_left);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(5);
+        make.height.mas_equalTo(10);
     }];
     
     
@@ -123,7 +123,7 @@
         }else{
             _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
             _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
-            _MyJiFenLabel.text=[NSString stringWithFormat:@"%@",_DuiHuanModel.logisticsName];
+            _MyJiFenLabel.text=[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.logisticsName,_DuiHuanModel.logisticsNumber];
 
         }
         
@@ -133,7 +133,7 @@
 }
 
 + (CGFloat)tableView:(UITableView *)tableView rowHeightForObject:(id)object{
-    CGFloat statuesHeight =  28 *[object integerValue];
+    CGFloat statuesHeight =  32 *[object integerValue];
     return statuesHeight;
 }
 
