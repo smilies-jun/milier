@@ -12,6 +12,7 @@
 #import "customWithStatic.h"
 #import "DataChoseView.h"
 #import "WSDatePickerView.h"
+#import "DinQiDeatilViewController.h"
 
 @interface ChangeSailDetailViewController ()<UITextFieldDelegate>{
     UIView *TopView;
@@ -252,7 +253,7 @@
     [hud hideAnimated:YES];
 }
 - (void)showProgress{
-    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     
     
@@ -332,30 +333,51 @@
                     
                     NSString *ExpirTimeStr = [NSString stringWithFormat:@"%ld",(long)timeSp*1000];
                     
+                    NSDateFormatter *formattercurrent = [[NSDateFormatter alloc] init];
+                    [formattercurrent setDateFormat:@"yyy-MM-dd HH-mm-ss"];
+                    NSString*dateTime = [formattercurrent stringFromDate:[NSDate  date]];
                     
-                    NSString *url;
-                    NSString *tokenID = NSuserUse(@"Authorization");
-                    //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
-                    url = [NSString stringWithFormat:@"%@/products/action/addDebentureTransferProduct",HOST_URL];
+                    NSDate* currentdate = [formattercurrent dateFromString:dateTime]; //------------将字符串按formatter转成nsdate
                     
-                    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:ChangeView.NameTextField.text,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
-                    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-                        NSString *state = [result objectForKey:@"statusCode"];
-                        [self showProgress];
-                        if ([state integerValue] == 201) {
-                            [self HideProgress];
-                            normal_alert(@"提示", @"提交成功", @"确定");
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                                [self.navigationController popToRootViewControllerAnimated:NO];
-                            });
-                        }else{
-                            [self HideProgress];
-                            NSString *message = [result objectForKey:@"message"];
-                            normal_alert(@"提示", message, @"确定");
-
-                        }
-                    }];
+                    //时间转时间戳的方法:
+                    
+                    NSInteger timeCurrent = [[NSNumber numberWithDouble:[currentdate timeIntervalSince1970]] integerValue];
+                    if ((NSInteger)myDataTimeStr <= timeCurrent) {
+                        normal_alert(@"提示", @"下架时间应大于当前日期", @"确定");
+                    }else{
+                        NSString *url;
+                        NSString *tokenID = NSuserUse(@"Authorization");
+                        //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
+                        url = [NSString stringWithFormat:@"%@/products/action/addDebentureTransferProduct",HOST_URL];
+                        
+                        NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:ChangeView.NameTextField.text,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
+                        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                            NSString *state = [result objectForKey:@"statusCode"];
+                            [self showProgress];
+                            if ([state integerValue] == 201) {
+                                [self HideProgress];
+                                normal_alert(@"提示", @"提交成功", @"确定");
+                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                    for (UIViewController *controller in self.navigationController.viewControllers) {
+                                        if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+                                            [self.navigationController popToViewController:controller animated:YES];
+                                        }
+                                    }
+//                                    DinQiDeatilViewController *dinqiVC= [[DinQiDeatilViewController alloc]init];
+//                                    [self.navigationController pushViewController:dinqiVC animated:YES];
+                                });
+                            }else{
+                                [self HideProgress];
+                                NSString *message = [result objectForKey:@"message"];
+                                normal_alert(@"提示", message, @"确定");
+                                
+                            }
+                        }];
  
+                    }
+
+                    
+                    
                 }
                 
                 
@@ -391,11 +413,14 @@
         NSInteger time = [_TimeName integerValue] - [timeString integerValue];
         NSInteger days = time/3600/24/1000;
         
-        double myPercent = ([_MoneyName integerValue] - [ChangeView.NameTextField.text doubleValue])*365*100/ [ChangeView.NameTextField.text doubleValue]/days;
+        double myPercent = ([_MoneyName doubleValue] - [ChangeView.NameTextField.text doubleValue])*365*100/ [ChangeView.NameTextField.text doubleValue]/days;
+        NSLog(@"my = %f",myPercent);
         
-        OneDayView.DetailLabel.text = [NSString stringWithFormat:@"%.2f%%",myPercent];
+        NSInteger  percentStr = myPercent *100;
+        double  resultStr = (double)percentStr/100;
+        OneDayView.DetailLabel.text = [NSString stringWithFormat:@"%.2f%%",resultStr];
         
-        double rate = [ChangeView.NameTextField.text integerValue]*myPercent/100*0.02;
+        double rate = [ChangeView.NameTextField.text doubleValue]*0.02;
         RateView.DetailLabel.text = [NSString stringWithFormat:@"%.2f",rate];
         
         double comeBack = [ChangeView.NameTextField.text doubleValue] - rate;

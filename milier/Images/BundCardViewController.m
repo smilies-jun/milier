@@ -16,6 +16,8 @@
 #import "UserSetViewController.h"
 #import "MyLeftViewController.h"
 #import "BundProfileViewController.h"
+#import "SaleViewController.h"
+#import "MoneyViewController.h"
 
 /*! TODO: 修改两个参数成商户自己的配置 */
 static NSString *kLLOidPartner = @"201606081000897509";//@"201408071000001546";                 // 商户号
@@ -59,6 +61,8 @@ static LLPayType payType = LLPayTypeVerify;
     NSString *createTimeStr;
     NSString *reginStr;
     NSString *bankOid;
+    MBProgressHUD *hud;
+    int statusType;
 }
 
 @property (nonatomic, strong) LLOrder *order;
@@ -74,7 +78,7 @@ static LLPayType payType = LLPayTypeVerify;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"绑定银行卡";
+    self.navigationItem.title = @"绑定银行卡并充值";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
 
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
@@ -91,7 +95,7 @@ static LLPayType payType = LLPayTypeVerify;
     BankIDArray = [[NSMutableArray alloc]init];
     [self getBankCards];
     
-    
+    statusType = 0;
    
 }
 - (void)getBankCards{
@@ -121,6 +125,7 @@ static LLPayType payType = LLPayTypeVerify;
     MoneyView = [[CustomView alloc]init];
     MoneyView.NameLabel.text = @"充值金额:";
     MoneyView.NameTextField.placeholder = @"请输入充值金额";
+    MoneyView.NameTextField.text = @"1";
     MoneyView.NameTextField.delegate = self;
     MoneyView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:MoneyView];
@@ -209,7 +214,7 @@ static LLPayType payType = LLPayTypeVerify;
         make.height.mas_equalTo(40);
     }];
     ExlainLabel = [[UILabel alloc]init];
-    ExlainLabel.text = @"绑定银行卡用于提现以及充值。绑定后不可更改";
+    ExlainLabel.text = @"绑定银行卡用于提现以及充值,绑定后不可更改 。";
     ExlainLabel.textAlignment = NSTextAlignmentLeft;
     ExlainLabel.textColor = [UIColor orangeColor];
     ExlainLabel.font = [UIFont systemFontOfSize:12];
@@ -229,23 +234,23 @@ static LLPayType payType = LLPayTypeVerify;
     [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.top.mas_equalTo(ExlainLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(15);
-        make.height.mas_equalTo(15);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
     }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:15];
-    nameLabel.text = @"我同意绑定及解绑服务协议";
-//    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意绑定及解绑服务协议"]];
-//    NSRange conectRange = {4,4};
-//    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
-//    nameLabel.attributedText = ConnectStr;
+    nameLabel.font = [UIFont systemFontOfSize:14];
+    nameLabel.text = @"我同意《绑定及解绑服务协议》";
+    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意《绑定及解绑服务协议》"]];
+    NSRange conectRange = {4,9};
+    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
+    nameLabel.attributedText = ConnectStr;
     nameLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saleConnectClick)];
     [nameLabel addGestureRecognizer:gesTap];
     [BackView addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
-        make.top.mas_equalTo(ExlainLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(ExlainLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(30);
     }];
@@ -273,7 +278,18 @@ static LLPayType payType = LLPayTypeVerify;
     [SaleLbel addGestureRecognizer:SaleTap];
     
 }
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)saleConnectClick{
     //协议
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
@@ -429,7 +445,7 @@ static LLPayType payType = LLPayTypeVerify;
 }
 - (void)BundBtnClick{
     [self HideKeyBoardClick];
-    if (MoneyView.NameTextField.text.length) {
+    if ([MoneyView.NameTextField.text integerValue] >= 1) {
         if (CardNameView.NameTextField.text.length) {
             
             if ([self checkTelNumber:CardIphoneView.NameTextField.text]) {
@@ -442,9 +458,7 @@ static LLPayType payType = LLPayTypeVerify;
                         if (CardWhichBankView.NameTextField.text.length) {
                             
                             if (bankStr.length) {
-                                
-                                [self postBankCard];
-                                
+                                    [self postBankCard];
                                 
                             }else{
                                 normal_alert(@"提示", @"清选择银行", @"确定");
@@ -482,7 +496,7 @@ static LLPayType payType = LLPayTypeVerify;
             
         }
     }else{
-        normal_alert(@"提示", @"充值金额不能为空", @"确定");
+        normal_alert(@"提示", @"充值金额要大于等于1元", @"确定");
     }
    
     
@@ -515,10 +529,13 @@ static LLPayType payType = LLPayTypeVerify;
 
    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
        NSString *statuesCode = [result objectForKey:@"statusCode"];
-       
        if ([statuesCode integerValue] == 201) {
            bankOid = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"oid"]];
            [self payMoney];
+       }else{
+           statusType = 1;
+           NSString *mesage = [result objectForKey:@"message"];
+           normal_alert(@"提示", mesage, @"确定");
        }
        
        
@@ -540,11 +557,23 @@ static LLPayType payType = LLPayTypeVerify;
         NSString *statuesCode = [result objectForKey:@"statusCode"];
         
         if ([statuesCode integerValue] == 201) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self HideProgress];
+  
+            });
             orderStr = [[result objectForKey:@"data"]objectForKey:@"dealOrderNo"];
             createTimeStr = [[result objectForKey:@"data"]objectForKey:@"createTime"];
             reginStr = [[result objectForKey:@"data"]objectForKey:@"userRegistrationTime"];
             [self createOrder];
             [self requestLLP];
+        }else{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self HideProgress];
+                
+            });
+            statusType =1;
+            NSString *mesage = [result objectForKey:@"message"];
+            normal_alert(@"提示", mesage, @"确定");
         }
         
         
@@ -577,23 +606,27 @@ static LLPayType payType = LLPayTypeVerify;
             msg = @"绑卡成功";
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 normal_alert(@"提示", msg, @"确定");
-
+                [self BundBackClick];
             });
 
-            [self.navigationController popToRootViewControllerAnimated:NO];
+            //[self.navigationController popToRootViewControllerAnimated:NO];
         } break;
         case kLLPayResultFail: {
+            statusType =1;
             msg = @"失败";
             normal_alert(@"提示", msg, @"确定");
         } break;
         case kLLPayResultCancel: {
+            statusType =1;
             msg = @"取消";
 
         } break;
         case kLLPayResultInitError: {
+            statusType = 1;
             msg = @"sdk初始化异常";
         } break;
         case kLLPayResultInitParamError: {
+            statusType =1;
             msg = dic[@"ret_msg"];
         } break;
         default:
@@ -650,6 +683,12 @@ static LLPayType payType = LLPayTypeVerify;
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[MoneyViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
+        
     }
     
    

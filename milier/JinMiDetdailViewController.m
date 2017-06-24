@@ -249,7 +249,7 @@
     NSString *userID = NSuserUse(@"userId");
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"金米宝协议";
-    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toCurrentPop?userId=%@",userID];
+    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toCurrentPop?userId=%@&stp=app",userID];
     [self.navigationController pushViewController:vc animated:NO];
 
 }

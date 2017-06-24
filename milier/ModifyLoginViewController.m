@@ -40,6 +40,7 @@
     OldLoginView = [[customWithStatic alloc]init];
     OldLoginView.NameLabel.text = @"原登录密码";
     OldLoginView.NameTextField.placeholder = @"请输入原登录密码";
+    OldLoginView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:OldLoginView];
     [OldLoginView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(10);
@@ -49,6 +50,8 @@
     }];
     
     NewLoginView = [[customWithStatic alloc]init];
+    NewLoginView.NameTextField.secureTextEntry = YES;
+
     NewLoginView.NameLabel.text = @"新登录密码";
     NewLoginView.NameTextField.placeholder = @"密码至少6位";
     [self.view addSubview:NewLoginView];
@@ -61,6 +64,8 @@
     }];
     
     SureLoginView = [[customWithStatic alloc]init];
+    SureLoginView.NameTextField.secureTextEntry = YES;
+
     SureLoginView.NameLabel.text = @"确认新密码";
     SureLoginView.NameTextField.placeholder = @"请再次输入登录密码";
     [self.view addSubview:SureLoginView];

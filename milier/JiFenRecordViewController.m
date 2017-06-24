@@ -98,7 +98,6 @@ static NSString * const cellId = @"cellID";
     if (page ==1) {
         [MyArray removeAllObjects];
     }
-    NSLog(@"url =%@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
       //  NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {

@@ -53,10 +53,10 @@
     CodeNumView.NameLabel.text = @"短信验证码:";
     CodeNumView.NameTextField.placeholder = @"";
     CodeNumView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
-
+    CodeNumView.NameTextField.placeholder = @"请输入短信验证码";
     CodeNumView.NameTextField.delegate = self;
     [CodeNumView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(100);
     }];
     [CodeNumView.NameTextField mas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(CodeNumView.mas_right).offset(-60);
@@ -90,7 +90,7 @@
     NewPassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:NewPassWordView];
     [NewPassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(100);
     }];
     [NewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -106,7 +106,7 @@
     SurePassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:SurePassWordView];
     [SurePassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(100);
     }];
     [SurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -170,9 +170,18 @@
     NSString *url = [NSString stringWithFormat:@"%@/retrievePassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         NSLog(@"mee = %@",result);
-        
+        if ([result objectForKey:@"statusCode"]) {
+            normal_alert(@"提示", @"修改密码成功", @"确定");
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popToRootViewControllerAnimated:NO];
+            });
+
+        }else{
+            NSString *mes = [result objectForKey:@"message"];
+            normal_alert(@"提示", mes, @"确定");
+
+        }
         //注册成功or失败
-        [self dismissViewControllerAnimated:NO completion:nil];
         
     }];
     

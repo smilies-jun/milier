@@ -131,7 +131,7 @@
         make.height.mas_equalTo(0.5);
     }];
     LeftLabel = [[UILabel alloc]init];
-    LeftLabel.text = @"";
+    LeftLabel.text = @"剩余额度";
     LeftLabel.font = [UIFont systemFontOfSize:15];
     [imageView addSubview:LeftLabel];
     [LeftLabel mas_makeConstraints:^(MASConstraintMaker *make) {

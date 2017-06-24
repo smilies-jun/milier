@@ -272,6 +272,11 @@
             SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
 
             break;
+        case 16:
+            SaleLbel.text = @"已还款";
+            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+            
+            break;
         default:
             break;
     }if (_DataArray.count) {
@@ -285,6 +290,11 @@
                 
             case 8:
                 SaleLbel.text = @"计息";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                
+                break;
+            case 16:
+                SaleLbel.text = @"已还款";
                 SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
                 
                 break;
@@ -322,6 +332,7 @@
                 SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
                 SaleVC.aggregateAmount = model.aggregateAmount;
                 SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
+                SaleVC.productCi = model.bondTotal;
                 [self.navigationController pushViewController:SaleVC animated:NO];
             }else{
                 YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];

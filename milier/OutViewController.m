@@ -27,7 +27,8 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
     [self getNetworkData:YES];
-    
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+
     
 }
 - (void)loadoconNew{
@@ -117,47 +118,67 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return outArray.count +1;
+    if (outArray.count) {
+        return outArray.count +1;
+    }
+    return 1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 40;
+    if (outArray.count) {
+        return 40;
+  
+    }
+    return 340;
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        static NSString *identifier = @"productTypeidentifier";
-        
-        DetailTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[DetailTypeTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-            [cell configUI:indexPath];
+    if (outArray.count) {
+        if (indexPath.row == 0) {
+            static NSString *identifier = @"productTypeidentifier";
             
-        }
-        cell.TypeLabel.hidden = YES;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
-    }else{
-        static NSString *identifier = @"productidentifier";
-        
-        OutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[OutTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-            [cell configUI:indexPath];
+            DetailTypeTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[DetailTypeTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+                
+            }
+            cell.TypeLabel.hidden = YES;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+        }else{
+            static NSString *identifier = @"productidentifier";
             
-        }
-
-        if (outArray.count) {
+            OutTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[OutTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+                
+            }
+            
+            if (outArray.count) {
                 OutModel *model = [outArray objectAtIndex:indexPath.row -1];
                 cell.OutModel = model;
             }
+            
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
+            
+        }
 
+    }else{
+        static NSString *identifier = @"OutDataidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+        
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         return cell;
-  
     }
     
 }

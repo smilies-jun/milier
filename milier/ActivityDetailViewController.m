@@ -52,13 +52,51 @@
      NSLog(@"REQUEST.URL = %@",request.URL);
     NSString *urlStr = [NSString stringWithFormat:@"%@",request.URL];
     NSString *strRegin = @"http://weixin.milibanking.com/weixin/weixin/login/toRegister";
-    NSString *strSale = @"http://weixin.milibanking.com/weixin/weixin/product/productList";
+    NSString *strSale1 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=1";
+    NSString *strSale2 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=2";
+    NSString *strSale3 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=3";
+
+    NSString *strSale4 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=4";
+
+    NSString *strSale5 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=5";
+
+    NSString *strSale6 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=6";
+
     if ([urlStr containsString:strRegin]) {
+       
         ActivityRefinViewController *reVC= [[ActivityRefinViewController alloc]init];
         reVC.type = @"1";
         [self.navigationController pushViewController:reVC animated:YES];
-    }else if ([urlStr containsString:strSale]){
-        [self.tabBarController setSelectedIndex:0];
+    }else if ([urlStr containsString:strSale1]){
+        NSuserSave(@"2", @"qiye");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.rdv_tabBarController setSelectedIndex:0];
+        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    }else if ([urlStr containsString:strSale2]){
+          NSuserSave(@"5", @"qiye");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.rdv_tabBarController setSelectedIndex:0];
+        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    }else if ([urlStr containsString:strSale3]){
+          NSuserSave(@"1", @"qiye");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.rdv_tabBarController setSelectedIndex:0];
+        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    }else if ([urlStr containsString:strSale4]){
+          NSuserSave(@"4", @"qiye");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.rdv_tabBarController setSelectedIndex:0];
+        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    }else if ([urlStr containsString:strSale5]){
+          NSuserSave(@"3", @"qiye");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.rdv_tabBarController setSelectedIndex:0];
+        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+    }else if ([urlStr containsString:strSale6]){
+          NSuserSave(@"6", @"qiye");
+        [self.navigationController popToRootViewControllerAnimated:YES];
+        [self.rdv_tabBarController setSelectedIndex:0];
+        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     }
     
     return YES;

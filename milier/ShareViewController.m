@@ -147,7 +147,7 @@
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
     configration.showNavigation = YES;
-    configration.showTabbar = NO;//设置显示tabbar
+    configration.showTabbar = YES;//设置显示tabbar
     
     //创建控制器
     YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"未绑卡",@"已绑卡"] Configration:configration];
@@ -308,12 +308,12 @@
     }];
     
     //footer用来当做内容高度
-    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
+    UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, SCREEN_HEIGHT-600)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     vc.placeHoderView = footerView;
     vc.dataSource = self;
     vc.headerView = imageView;
-    vc.IsTab = NO;
+
     return vc;
 }
 

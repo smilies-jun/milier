@@ -35,6 +35,7 @@
         _showTabbar = NO;
         _pageScrollViewMenuStyle = YNPageScrollViewMenuStyleTop;
         _showConver = NO;
+        _showPersonTab = YES;
         _showScrollLine = YES;
         _showGradientColor =YES;
         _showAddButton = NO;

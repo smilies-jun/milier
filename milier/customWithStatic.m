@@ -41,7 +41,7 @@
     
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"短信验证码:";
-    _NameLabel.font = [UIFont systemFontOfSize:13];
+    _NameLabel.font = [UIFont systemFontOfSize:14];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right);
@@ -53,15 +53,15 @@
     
     _NameTextField = [[UITextField alloc]init];
     _NameTextField.backgroundColor = [UIColor whiteColor];
-    _NameTextField.font = [UIFont systemFontOfSize:13];
-    _NameTextField.textAlignment = NSTextAlignmentRight;
+    _NameTextField.font = [UIFont systemFontOfSize:14];
+    _NameTextField.textAlignment = NSTextAlignmentLeft;
     _NameTextField.placeholder = @"请输入验证码";
     [self addSubview:_NameTextField];
     [_NameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameLabel.mas_right).offset(10);
-        make.top.mas_equalTo(self.mas_top).offset(10);
+        make.top.mas_equalTo(self.mas_top);
         make.right.mas_equalTo(self.mas_right).offset(-70);
-        make.height.mas_equalTo(20);
+        make.height.mas_equalTo(40);
     }];
 }
 @end

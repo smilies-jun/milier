@@ -217,7 +217,7 @@
             _ChangeLabel.hidden = YES;
         }
         
-     
+        NSLog(@"==%@",_productMoel.productCategoryId);
         
         
     }
@@ -263,6 +263,22 @@
 
             _shapeLayer.strokeColor = colorWithRGB(0.19, 0.39, 0.9).CGColor;
             
+            break;
+            
+        case 7:
+            _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            
+            _shapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
+            
+            break;
+            
+            
+        case 8:
+            _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            _limitTimeLabel.text = @"随时提现";
+            _shapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
             break;
             
         default:
@@ -318,8 +334,15 @@
         _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
         
         
-    }else{
+    }else if ([_productMoel.state intValue]   == 8) {
         _PercentLabel.text = @"计息";
+        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+        _shapeLayer.strokeEnd = 1.0f;
+        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
+        
+        
+    }else if ([_productMoel.state intValue]   == 16) {
+        _PercentLabel.text = @"已还款";
         _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         _shapeLayer.strokeEnd = 1.0f;
         _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;

@@ -40,7 +40,7 @@
     _ChooseLabel   = [[UILabel alloc]init];
     _ChooseLabel.backgroundColor = [UIColor whiteColor];
     _ChooseLabel.font = [UIFont systemFontOfSize:15];
-    _ChooseLabel.textAlignment = NSTextAlignmentRight;
+    _ChooseLabel.textAlignment = NSTextAlignmentLeft    ;
     _ChooseLabel.text = @"对应信息";
     [self addSubview:_ChooseLabel];
     [_ChooseLabel mas_makeConstraints:^(MASConstraintMaker *make) {

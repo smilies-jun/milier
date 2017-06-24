@@ -54,7 +54,7 @@
     
     NSMutableArray *ImageArray;
     NSMutableArray *ActivityArray;
-    
+     NSMutableArray *TitleArray;
 }
 @property(nonatomic, strong) MBProgressHUD *aProgressHUD;
 
@@ -82,6 +82,7 @@
     rootView = self.rdv_tabBarController.view;
     ImageArray = [[NSMutableArray alloc]init];
     ActivityArray = [[NSMutableArray alloc]init];
+    TitleArray = [[NSMutableArray alloc]init];
     
     EAIntroPage *page1 = [EAIntroPage page];
     page1.bgImage = [UIImage imageNamed:@"welcome1_select@2x"];
@@ -215,7 +216,7 @@
         for (NSDictionary *dic in array) {
             [ImageArray addObject:[dic objectForKey:@"image"]];
             [ActivityArray addObject:[dic objectForKey:@"href"]];
-            
+            [TitleArray addObject:[dic objectForKey:@"desc"]];
         }
         [self CreateUI];
     }];
@@ -322,12 +323,14 @@
     configration.showAddButton = YES;
     //configration.addButtonHightImageName = @"menu@2x";
     configration.addButtonNormalImageName = @"menu@2x";
-    configration.showTabbar = NO;//设置显示tabbar
     configration.itemMaxScale = 1.05;
     configration.lineBottomMargin = 0;
-
     configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
-    
+    configration.aligmentModeCenter = NO;
+    configration.scrollMenu = YES;
+    configration.showGradientColor = NO;//取消渐变
+    configration.showNavigation = YES;
+    configration.showTabbar = YES;//设置显示tabbar
     vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款",@"购车贷款",@"债权转让"] Configration:configration];
     vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
     vc.dataSource = self;
@@ -560,7 +563,6 @@
     [headerView2 addSubview:autoScrollView];
     vc.headerView = headerView2;
 
-    vc.IsTab = YES;
     return vc;
 }
 - (void)NetClick{
@@ -593,8 +595,8 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
     ActivityDetailViewController *fourVC = [[ActivityDetailViewController alloc]init];
     fourVC.WebStr = [ActivityArray objectAtIndex:index];
+    fourVC.TitleStr = [TitleArray objectAtIndex:index];
     [self.navigationController pushViewController:fourVC animated:YES];
-    NSLog(@"轮播图 点击 Index : %zd",index);
 }
 - (void)pageScrollViewMenuItemOnClick:(UILabel *)label index:(NSInteger)index{
     
@@ -674,7 +676,12 @@
         case 4:
             [self PersonClick];
             break;
-     
+        case 5:
+            [self ProClick];
+            break;
+        case 6:
+            [self ChangeClick];
+            break;
         default:
             break;
     }

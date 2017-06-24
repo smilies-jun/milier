@@ -17,13 +17,13 @@
 - (void)configUI:(NSIndexPath *)indexPath{
     self.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     _ImageView = [[UIImageView alloc]init];
-    _ImageView.image = [UIImage imageNamed:@"nodatas"];
+    _ImageView.image = [UIImage imageNamed:@"nonedata@2x"];
     [self addSubview:_ImageView];
     [_ImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX);
         make.top.mas_equalTo(self.mas_top).offset(50);
-        make.width.mas_equalTo(72);
-        make.height.mas_equalTo(51);
+        make.width.mas_equalTo(172);
+        make.height.mas_equalTo(144);
     }];
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text = @"暂无数据";

@@ -112,7 +112,7 @@
     }];
     callView = [[CustomView alloc]init];
     callView.NameLabel.text= @"邀请码:";
-    callView.NameTextField.placeholder = @"";
+    callView.NameTextField.placeholder = @"请输入邀请码";
     callView.NameTextField.delegate = self;
     [self.view addSubview:callView];
     [callView mas_makeConstraints:^(MASConstraintMaker *make) {

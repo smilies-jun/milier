@@ -90,7 +90,6 @@ static NSString * const cellId = @"CovertcellID";
         [SectionArray removeAllObjects];
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-         NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             DuiHuanModel *model = [[DuiHuanModel alloc]init];
             model.dataDictionary = dic;

@@ -25,9 +25,10 @@
     
     [super viewDidLoad];
     dataArray = [[NSMutableArray alloc]init];
-    self.tableView.backgroundColor = colorWithRGB(1, 0.89, 0.53);
+    self.tableView.backgroundColor = colorWithRGB(1, 0.94, 0.72);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+    self.tableView.frame = CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
 
     [self getNetworkData:YES];
 
@@ -173,7 +174,8 @@
             cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
             cell.backgroundColor = colorWithRGB(1, 0.94, 0.72);
-            
+            cell.ImageView.image = [UIImage imageNamed:@"nodatas@2x"];
+
         }
 
         

@@ -43,7 +43,7 @@
     _NameTextField = [[UITextField alloc]init];
     _NameTextField.backgroundColor = [UIColor whiteColor];
     _NameTextField.font = [UIFont systemFontOfSize:15];
-    _NameTextField.textAlignment = NSTextAlignmentRight;
+    _NameTextField.textAlignment = NSTextAlignmentLeft;
     _NameTextField.placeholder = @"请输入对应信息";
     [self addSubview:_NameTextField];
     [_NameTextField mas_makeConstraints:^(MASConstraintMaker *make) {

@@ -65,7 +65,7 @@
     [hud hideAnimated:YES];
 }
 - (void)showProgress{
-    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     
     
@@ -90,12 +90,15 @@
         [self endRefresh];
     }
     NSString *tokenID = NSuserUse(@"Authorization");
-    if (isFirstCome) {
-        url = [NSString stringWithFormat:@"%@/messages?page=1&rows=10",HOST_URL];
+    if (isRefresh) {
+        url = [NSString stringWithFormat:@"%@/messages?page=1&rows=20",HOST_URL];
         
     }else{
-        url = [NSString stringWithFormat:@"%@/messages?page=1&rows=%d",HOST_URL ,page*10];
+        url = [NSString stringWithFormat:@"%@/messages?page=%d&rows=20",HOST_URL ,page];
         
+    }
+    if (page == 1) {
+        _MessageArray = nil;
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
@@ -129,6 +132,7 @@
 }
 
 - (void)HistoryOnTap{
+    [self HideProgress];
     [self.navigationController   popToRootViewControllerAnimated:NO];
 }
 /**
@@ -189,20 +193,7 @@
     
     UIImageView *leftView = [[UIImageView alloc]init];
     leftView.image = [UIImage imageNamed:@"circle"];
-    NSString *checkStr = [[_MessageArray objectAtIndex:section]objectForKey:@"checked"];
-    if ([checkStr integerValue] == 1) {
-        leftView.hidden = YES;
-    }else{
-        leftView.hidden = NO;
-    }
-    for (NSString *myStr in _NoteArray) {
-        if ([myStr integerValue]) {
-            if ([myStr integerValue] == section) {
-                leftView.hidden = YES;
   
-            }
-        }
-    }
    
     leftView.frame = CGRectMake(15, 35, 8, 8);
     [sectionLabel addSubview:leftView];
@@ -256,7 +247,7 @@
         [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(leftView.mas_right).offset(10);
             make.top.mas_equalTo(sectionLabel.mas_top).offset(20);
-            make.width.mas_equalTo(200);
+            make.width.mas_equalTo(SCREEN_WIDTH - 40);
             make.height.mas_equalTo(20);
         }];
         UILabel *timeLabel = [[UILabel alloc]init];
@@ -273,7 +264,20 @@
             make.height.mas_equalTo(20);
         }];
     }
-    
+    NSString *checkStr = [[_MessageArray objectAtIndex:section]objectForKey:@"checked"];
+    if ([checkStr integerValue] == 1) {
+        leftView.hidden = YES;
+    }else{
+        leftView.hidden = NO;
+    }
+    for (NSString *myStr in _NoteArray) {
+
+            if ([myStr integerValue] == section) {
+                leftView.hidden = YES;
+                
+            }
+        }
+
     return sectionLabel;
 }
 
@@ -305,8 +309,9 @@
 }
 - (void)sectionClick:(UITapGestureRecognizer *)tap{
     int index = tap.view.tag % 100;
+    
     [_NoteArray addObject:[NSString stringWithFormat:@"%d",index]];
-
+    NSLog(@"_no = %@",_NoteArray);
     [_tableView reloadData];
 
     NSString *oidStr = [[_MessageArray objectAtIndex:index]objectForKey:@"oid"];

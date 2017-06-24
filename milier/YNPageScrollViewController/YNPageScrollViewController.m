@@ -6,10 +6,8 @@
 //  Copyright © 2016年 Yongneng Zheng. All rights reserved.
 //
 
-#define kYNPageNavHeight 0
-#define kYNPageTabbarHeight 0
-#define KYNpageTabbar 0
-
+#define kYNPageNavHeight 64
+#define kYNPageTabbarHeight 49
 #import "YNPageScrollViewController.h"
 #import "UIView+YNCategory.h"
 #import "YNPageScrollHeaderView.h"
@@ -57,6 +55,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     //检查参数
     [self checkParams];
     
@@ -86,22 +85,35 @@
 - (void)configUI{
     if (!self.scrollViewMenu) {
         
-        if (_isAsChildViewController && _isAfterLoadData) {
-            if (self.navigationController.navigationBar.isTranslucent) {
-                CGFloat deltaHeight =  self.configration.showNavigation ? kYNPageNavHeight : 0;
-                CGFloat dHeight  =  (self.configration.showTabbar ? kYNPageTabbarHeight : 0);
-                self.view.yn_y =self.parentViewController.edgesForExtendedLayout != UIRectEdgeNone ?  deltaHeight : 0;
-                self.view.yn_height =self.view.yn_height -  deltaHeight - dHeight;
+//        if (_isAsChildViewController && _isAfterLoadData) {
+//            if (self.navigationController.navigationBar.isTranslucent) {
+//                CGFloat deltaHeight =  self.configration.showNavigation ? kYNPageNavHeight : 0;
+//                CGFloat dHeight  =  (self.configration.showTabbar ? kYNPageTabbarHeight : 0);
+//                self.view.yn_y =self.parentViewController.edgesForExtendedLayout != UIRectEdgeNone ?  deltaHeight : 0;
+//                self.view.yn_height =self.view.yn_height -  deltaHeight - dHeight;
+//            }else{
+//                CGFloat deltaHeight =  self.configration.showNavigation ? kYNPageNavHeight : 0;
+//                CGFloat dHeight  =  (self.configration.showTabbar ? kYNPageTabbarHeight : 0);
+//                self.view.yn_height =self.view.yn_height -  deltaHeight - dHeight;
+//            }
+//        }
+        if ( self.configration.showNavigation) {
+            if (self.configration.showPersonTab) {
+                self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, SCREEN_HEIGHT- 64-49);
+                
+                self.parentScrollView.contentSize = CGSizeMake(self.view.yn_width * self.viewControllers.count, SCREEN_HEIGHT- 64-49);
             }else{
-                CGFloat deltaHeight =  self.configration.showNavigation ? kYNPageNavHeight : 0;
-                CGFloat dHeight  =  (self.configration.showTabbar ? kYNPageTabbarHeight : 0);
-                self.view.yn_height =self.view.yn_height -  deltaHeight - dHeight;
-
+                self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, SCREEN_HEIGHT- 64);
+                
+                self.parentScrollView.contentSize = CGSizeMake(self.view.yn_width * self.viewControllers.count, SCREEN_HEIGHT- 64);
             }
+           
+        }else{
+            self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, SCREEN_HEIGHT- 64);
+            
+            self.parentScrollView.contentSize = CGSizeMake(self.view.yn_width * self.viewControllers.count, SCREEN_HEIGHT- 64);
         }
-        self.parentScrollView.frame = CGRectMake(0, [self isTopStyle] ? self.configration.menuHeight : 0, self.view.yn_width, ([self isTopStyle] ? self.view.yn_height - self.configration.menuHeight: self.view.yn_height -  ([self IsTab] ? 0:40)));
         
-        self.parentScrollView.contentSize = CGSizeMake(self.view.yn_width * self.viewControllers.count, self.view.yn_height   - ([self isTopStyle] ? self.configration.menuHeight : 0)- ([self IsTab] ? 0:40));
         
         
         if ([self isSuspensionStyle]) {
@@ -128,6 +140,7 @@
             tableView.scrollIndicatorInsets = UIEdgeInsetsMake(self.bigHeaderView.yn_height, 0, 0, 0);
             
             ((YNPageScrollView *)self.parentScrollView).headerViewHeight = self.bigHeaderView.yn_height;
+            
             
             
             

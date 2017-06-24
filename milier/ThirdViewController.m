@@ -18,6 +18,7 @@
 #import "MoreHelpViewController.h"
 #import "ApplyAllMoneyViewController.h"
 #import "ConvertViewController.h"
+#import "YWDLoginViewController.h"
 
 @interface ThirdViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     CustomMoreView *AboutUsView;
@@ -223,14 +224,15 @@
     NSString *url = [NSString stringWithFormat:@"%@/users/%@/type",HOST_URL,userID];
         NSString *tokenID = NSuserUse(@"Authorization");
     [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        if ([[result objectForKey:@"type"]integerValue] == 0) {
-            ApplyAllMoneyViewController *vc = [[ApplyAllMoneyViewController alloc]init];
-            [self.navigationController   pushViewController:vc animated:NO];
-
-        }else if ([[result objectForKey:@"type"]integerValue] == 1){
-            NSString *urlType = [NSString stringWithFormat:@"%@/brokers/%@",HOST_URL,userID];
+        if ([[result objectForKey:@"statusCode"]integerValue]==200) {
+            if ([[result objectForKey:@"type"]integerValue] == 0) {
+                ApplyAllMoneyViewController *vc = [[ApplyAllMoneyViewController alloc]init];
+                [self.navigationController   pushViewController:vc animated:NO];
+                
+            }else if ([[result objectForKey:@"type"]integerValue] == 1){
+                NSString *urlType = [NSString stringWithFormat:@"%@/brokers/%@",HOST_URL,userID];
                 [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:urlType withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-                    if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                    if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
                         MyDic = [result objectForKey:@"data"];
                         UIViewController *allvc = nil;
                         allvc = [self getAllMoneyViewController];
@@ -239,11 +241,20 @@
                         
                     }
                 }];
-            
+                
+            }else{
+                normal_alert(@"提示", @"创道经纪人不能成为全民理财师", @"确定");
+            }
+
         }else{
-            normal_alert(@"提示", @"创道经纪人不能成为全民理财师", @"确定");
+            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+            loginNagition.navigationBarHidden = YES;
+            [self presentViewController:loginNagition animated:NO completion:nil];
+
         }
-    }];
+        
+            }];
 
     
     
@@ -331,7 +342,7 @@
     UILabel *ComeLabel = [[UILabel alloc]init];
     ComeLabel.text = @"转入米粒余额";
     ComeLabel.textAlignment = NSTextAlignmentCenter;
-    ComeLabel.layer.cornerRadius = 10;
+    ComeLabel.layer.cornerRadius = 17;
     ComeLabel.layer.masksToBounds = YES;
     ComeLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ComeClick)];
@@ -354,7 +365,6 @@
     vc.pageIndex = 0;
     
     vc.placeHoderView = footerView;
-    vc.IsTab = YES;
     vc.headerView = imageView;
     
     vc.dataSource = self;

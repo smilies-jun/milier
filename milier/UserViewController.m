@@ -221,8 +221,13 @@
 //    }];
     
     
-    
-    self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
+    if (SCREEN_WIDTH == 320) {
+        self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(60, 64, 90, 90)];
+  
+    }else{
+        self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
+ 
+    }
     self.cirqueChart.dataSource = self;
     self.cirqueChart.delegate = self;
     self.cirqueChart.textLabel.hidden = YES;
@@ -400,6 +405,22 @@
         make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(5);
+    }];
+    
+    UIView *lineShowView = [[UIView alloc]init];
+    lineShowView.backgroundColor =colorWithRGB(0.97, 0.97, 0.97);
+    [MyScrollView addSubview:lineShowView];
+    [lineShowView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (SCREEN_WIDTH == 320) {
+            make.left.mas_equalTo(JinMiLabel.mas_right).offset(20);
+
+        }else{
+            make.left.mas_equalTo(JinMiLabel.mas_right).offset(50);
+
+        }
+        make.top.mas_equalTo(JinMiLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(2);
+        make.height.mas_equalTo(50);
     }];
     if (SCREEN_WIDTH == 375) {
         MyLeftMoneyImageView = [[UIImageView alloc]init];

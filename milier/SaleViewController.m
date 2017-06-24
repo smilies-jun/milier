@@ -128,7 +128,7 @@
     [hud hideAnimated:YES];
 }
 - (void)showProgress{
-    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     
     
@@ -405,7 +405,66 @@
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.height.mas_equalTo(44);
         }];
+    }else if([_productID integerValue] == 7 || [_productID integerValue] == 8 ){
+        
+        SaleView = [[UIView alloc]init];
+        SaleView.backgroundColor = [UIColor whiteColor];
+        [BootmView addSubview:SaleView];
+        [SaleView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(BootmView.mas_left);
+            make.top.mas_equalTo(ExplainLabel.mas_bottom).offset(10);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            make.height.mas_equalTo(44);
+        }];
+        UIImageView *BuyImageView = [[UIImageView alloc]init];
+        BuyImageView.image = [UIImage imageNamed:@"buy"];
+        [SaleView addSubview:BuyImageView];
+        [BuyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(SaleView.mas_centerY);
+            make.left.mas_equalTo(SaleView.mas_left).offset(10);
+            make.width.mas_equalTo(22);
+            make.height.mas_equalTo(22);
+        }];
+        UILabel *buyLabel = [[UILabel alloc]init];
+        buyLabel.text  = @"购买金额";
+        buyLabel.textColor= colorWithRGB(0.27, 0.27, 0.27);
+        buyLabel.font = [UIFont systemFontOfSize:15];
+        [SaleView addSubview:buyLabel];
+        [buyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(SaleView.mas_centerY);
+            make.left.mas_equalTo(BuyImageView.mas_right).offset(10);
+            make.width.mas_equalTo(80);
+            make.height.mas_equalTo(20);
+        }];
+        
+        BuyTextField = [[UITextField alloc]init];
+        BuyTextField.backgroundColor = [UIColor whiteColor];
+        BuyTextField.font = [UIFont systemFontOfSize:15];
+        BuyTextField.textAlignment = NSTextAlignmentLeft;
+        BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
+        BuyTextField.delegate = self;
+        BuyTextField.tag = 100;
+        BuyTextField.placeholder = @"请输入购买金额";
+        [SaleView addSubview:BuyTextField];
+        [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.mas_equalTo(SaleView.mas_centerY);
+            make.left.mas_equalTo(buyLabel.mas_right);
+            make.width.mas_equalTo(200);
+            make.height.mas_equalTo(20);
+        }];
+        
+        InterestView = [[UIView alloc]init];
+        InterestView.backgroundColor = [UIColor whiteColor];
+        [BootmView addSubview:InterestView];
+        [InterestView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(BootmView.mas_left);
+            make.top.mas_equalTo(SaleView.mas_bottom).offset(0.5);
+            make.width.mas_equalTo(SCREEN_WIDTH);
+            make.height.mas_equalTo(44);
+        }];
     }
+    
+
     
     
     else{
@@ -750,10 +809,9 @@
             SaleLabel.backgroundColor =  colorWithRGB(0.19, 0.39, 0.9);
             BuyTextField.text = [NSString stringWithFormat:@"%@",_aggregateAmount];
 
-            float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+            float text = [_productCi doubleValue]-[BuyTextField.text integerValue];
             NSInteger  percentStr = text *100;
             double  resultStr = (double)percentStr/100;
-            
             InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f",BuyTextField.text,resultStr];
             BuyTextField.enabled = NO;
             
@@ -864,11 +922,14 @@
                                             [self popAlertView];
                                             
                                         }else{
+                                            [self showProgress];
+
                                             [self WriteSailPassWord];
                                         }
                                         
                                     }else{
-                                     
+                                        [self showProgress];
+
                                             [self WriteSailPassWord];
  
                                       
@@ -910,11 +971,13 @@
                             
                             
                         }else{
-                            normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
+                            NSString *minStr = [NSString stringWithFormat:@"购买金额少于最低购买金额%@元",_minBuyStr];
+                            normal_alert(@"提示", minStr, @"确定");
                         }
                         
                     }else{
-                        normal_alert(@"提示", @"购买金额不得大于剩余额度", @"确定");
+                          NSString *minStr = [NSString stringWithFormat:@"购买金额不得大于剩余额度%.2f元",leftMoney];
+                        normal_alert(@"提示", minStr, @"确定");
                     }
                     
                     
@@ -963,7 +1026,6 @@
         }
         NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
         [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            [self showProgress];
             if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
                 [self HideProgress];
                 //UIAlertController风格：UIAlertControllerStyleAlert
@@ -1013,7 +1075,8 @@
         }];
 
     }else{
-        normal_alert(@"提示", @"道具不可使用", @"确定");
+        NSString *str = [NSString stringWithFormat:@"该道具使用的最低额度为%@元",StageChoseStr];
+        normal_alert(@"提示", str, @"确定");
     }
     
     
@@ -1208,21 +1271,21 @@
     
 }
 - (void)MyIsFull{
-    
+
     NSString *  isfull;
     isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
     if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
         if ([_isFullScaleReward integerValue] == 1  ) {
             if ([_fullScaleReward doubleValue]) {
                 if (Type == 1) {
-                    float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue]+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+                    float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr doubleValue]+[isfull doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
                     
                     NSInteger  percentStr = text *100;
                     double  resultStr = (double)percentStr/100;
 
                     InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
                 }else if(Type ==2){
-                    float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+                    float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[isfull doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
                     NSInteger  percentStr = text *100;
                     double  resultStr = (double)percentStr/100;
 
@@ -1242,17 +1305,16 @@
         }
     }else{
         if (Type == 1) {
-            float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[AddStr integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
+            float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
             NSInteger  percentStr = text *100;
             double  resultStr = (double)percentStr/100;
-
             InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
         }else if(Type ==2){
-            float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
+            float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
             NSInteger  percentStr = text *100;
             double  resultStr = (double)percentStr/100;
 
-            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue]-[AddStr integerValue],resultStr+[AddStr integerValue]];
+            InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f+%.2f",[BuyTextField.text integerValue]-[AddStr doubleValue],resultStr+[AddStr integerValue]];
             
         }else{
 //            float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
@@ -1299,6 +1361,7 @@
 
 }
 - (void)refreshInvest{
+    InterestMoneyLabel.text = nil;
     if ([_productCatiID integerValue] == 8) {
         float text = [BuyTextField.text integerValue]*[_PercentStr doubleValue]/100/365;
         NSInteger  percentStr = text *100;
@@ -1306,6 +1369,12 @@
 
         InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f",resultStr];
         
+    }else if([_productCatiID integerValue] == 7){
+        float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]*[_investmentHorizonStr doubleValue]/36500.0f);
+        NSInteger  percentStr = text *100;
+        double  resultStr = (double)percentStr/100;
+        
+        InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f",BuyTextField.text,resultStr];
     }else{
         if (BuyTextField.text.length) {
             if (AddStr.length) {
@@ -1383,6 +1452,8 @@
         StageLabel.text = @"不使用道具";
         AddStr  = StageStr;
         StageOid   = @"-1";
+        [self ConfigInverest];
+        [self refreshInvest];
 
     }else{
         
@@ -1433,6 +1504,7 @@
             default:
                 break;
         }
+        NSLog(@" --- %@",AddStr);
         StageOid =  [NSString stringWithFormat:@"%@",model.oid];
         StageLabel.text = StageStr;
     }

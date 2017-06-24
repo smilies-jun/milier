@@ -26,7 +26,8 @@
     [super viewDidLoad];\
     DataArray = [[NSMutableArray alloc]init];
     [self getNetworkData:YES];
-    self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    page =1;
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
      self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
@@ -63,9 +64,9 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *url;
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=3",HOST_URL];
+        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=1",HOST_URL];
     }else{
-        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=3",HOST_URL,page];
+        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=1",HOST_URL,page];
         
     }
     if (page ==1) {
@@ -78,13 +79,15 @@
             model.dataDictionary = dic;
             [DataArray addObject:model];
         }
+        NSLog(@"result = %@",result);
         if (DataArray.count) {
+             [self endRefresh];
             [self.tableView reloadData];
-            [self endRefresh];
+           
    
         }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
-   
+            [self endRefresh];
+
         }
                // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
@@ -125,58 +128,77 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return [DataArray count];
+    if (DataArray.count) {
+        return [DataArray count]+1;
+    }
+    return 1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.row == 0) {
-        return 25;
+    if (DataArray.count) {
+        if (indexPath.row == 0) {
+            return 25;
+        }
+        return 150;
     }
-    return 150;
+    return SCREEN_HEIGHT-64-40;
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row == 0) {
-        static NSString *identifier = @"QiyeStageTotalidentifier";
-        
-        StageTotalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
-            [cell configUI:indexPath];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        return cell;
- 
-    }else{
-        static NSString *identifier = @"qiyeStageidentifier";
-        
-        StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            [cell configUI:indexPath];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        if ([DataArray count]) {
-            StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
-            cell.stageModel = model;
-        }
-        if ([cell.stageModel.state integerValue] == 2) {
-            cell.RightImageView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
-            [cell.RightImageView addGestureRecognizer:qiyeTap];
+    if (DataArray.count) {
+        if (indexPath.row == 0) {
+            static NSString *identifier = @"QiyeStageTotalidentifier";
+            
+            StageTotalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            return cell;
             
         }else{
-            cell.RightImageView.userInteractionEnabled = NO;
- 
+            static NSString *identifier = @"qiyeStageidentifier";
+            
+            StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            if ([DataArray count]) {
+                StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
+                cell.stageModel = model;
+            }
+            if ([cell.stageModel.state integerValue] == 2) {
+                cell.RightImageView.userInteractionEnabled = YES;
+                UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
+                [cell.RightImageView addGestureRecognizer:qiyeTap];
+                
+            }else{
+                cell.RightImageView.userInteractionEnabled = NO;
+                
+            }
+            
+            
+            return cell;
+            
         }
-       
 
+    }else{
+        static NSString *identifier = @"qiyeNodetailidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
         return cell;
-
     }
     
     

@@ -11,6 +11,7 @@
 #import "SaleViewController.h"
 #import "BundCardViewController.h"
 #import "UserSetViewController.h"
+#import "MyLeftViewController.h"
 
 @interface SalePassWordViewController (){
     customWithStatic *SaleNewPassWordView;
@@ -66,7 +67,7 @@
         make.height.mas_equalTo(44);
     }];
     UILabel *SaleLbel =  [[UILabel alloc]init];
-    SaleLbel.text = @"购买";
+    SaleLbel.text = @"设置交易密码";
     SaleLbel.userInteractionEnabled = YES;
     SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
@@ -81,29 +82,42 @@
         make.height.mas_equalTo(40);
     }];
     
-    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleSureBtnClick
+    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(reFreshData
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
 
 }
 
 - (void)reFreshData{
-    if (SaleNewPassWordView.NameTextField.text.length) {
-        if ([SaleNewPassWordView.NameTextField.text isEqualToString:SaleSurePassWordView.NameTextField.text]) {
-            
-            [self reloaData];
-        }else{
-            normal_alert(@"提示", @"两次输入密码不一致", @"确定");
+    if (SaleNewPassWordView.NameTextField.text.length>=6) {
+        if (SaleSurePassWordView.NameTextField.text.length) {
+            if ([SaleNewPassWordView.NameTextField.text isEqualToString:SaleSurePassWordView.NameTextField.text]) {
+                
+                [self reloaData];
+            }else{
+                normal_alert(@"提示", @"两次输入密码不一致", @"确定");
+                
+            }
   
+        }else{
+              normal_alert(@"提示", @"确认交易密码不能为空", @"确定");
         }
         
         
+        
     }else{
+        normal_alert(@"提示", @"交易密码最少6位", @"确定");
+        
    }
     
     
 }
+
+
+
 - (void)reloaData{
+    
+    
     NSString *url;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
@@ -111,12 +125,12 @@
     url = [NSString stringWithFormat:@"%@/users/%@/dealPassword",HOST_URL,userID];
     
     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:SaleNewPassWordView.NameTextField.text,@"dealPassword", nil];
-    [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *staues = [result objectForKey:@"statusCode"];
         if ([staues integerValue] == 201) {
             //提交
             normal_alert(@"提示", @"交易密码设置成功", @"确定");
-
+            [self SaleBackClick];
 //            for (UIViewController *controller in self.navigationController.viewControllers) {
 //                if ([controller isKindOfClass:[SaleViewController class]]) {
 //                    [self.navigationController popToViewController:controller animated:YES];
@@ -155,6 +169,12 @@
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[MyLeftViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+
 
 }
 #pragma mark - 隐藏当前页面所有键盘-

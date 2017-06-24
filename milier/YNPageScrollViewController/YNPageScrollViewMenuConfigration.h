@@ -22,6 +22,9 @@ typedef NS_ENUM(NSInteger , YNPageScrollViewMenuStyle) {
 @property (nonatomic, assign) BOOL showNavigation;
 /** 是否显示Tabbar NO*/
 @property (nonatomic, assign) BOOL showTabbar;
+
+@property (nonatomic, assign) BOOL showPersonTab;
+
 /** 菜单位置风格 默认 0*/
 @property (nonatomic, assign) YNPageScrollViewMenuStyle pageScrollViewMenuStyle;
 /** 是否显示遮盖*/

@@ -136,13 +136,6 @@
 		2705AF481E9F12AE008C20CA /* YNTestThreeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF421E9F12AE008C20CA /* YNTestThreeViewController.m */; };
 		2705AF491E9F12AE008C20CA /* YNTestTwoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF441E9F12AE008C20CA /* YNTestTwoViewController.m */; };
 		2705AF4C1E9F13C6008C20CA /* YNJianShuDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF4B1E9F13C6008C20CA /* YNJianShuDemoViewController.m */; };
-		2705AF5D1E9F7971008C20CA /* UIView+YNCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF501E9F7971008C20CA /* UIView+YNCategory.m */; };
-		2705AF5E1E9F7971008C20CA /* UIViewController+YNCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF521E9F7971008C20CA /* UIViewController+YNCategory.m */; };
-		2705AF5F1E9F7971008C20CA /* YNPageScrollHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF541E9F7971008C20CA /* YNPageScrollHeaderView.m */; };
-		2705AF601E9F7971008C20CA /* YNPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF561E9F7971008C20CA /* YNPageScrollView.m */; };
-		2705AF611E9F7971008C20CA /* YNPageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF581E9F7971008C20CA /* YNPageScrollViewController.m */; };
-		2705AF621E9F7971008C20CA /* YNPageScrollViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF5A1E9F7971008C20CA /* YNPageScrollViewMenu.m */; };
-		2705AF631E9F7971008C20CA /* YNPageScrollViewMenuConfigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AF5C1E9F7971008C20CA /* YNPageScrollViewMenuConfigration.m */; };
 		2705AF991E9F96EB008C20CA /* backarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF891E9F96EB008C20CA /* backarrow@2x.png */; };
 		2705AF9A1E9F96EB008C20CA /* backarrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF8A1E9F96EB008C20CA /* backarrow@3x.png */; };
 		2705AF9B1E9F96EB008C20CA /* close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF8B1E9F96EB008C20CA /* close@2x.png */; };
@@ -154,7 +147,6 @@
 		2705AFA11E9F96EB008C20CA /* interest@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF911E9F96EB008C20CA /* interest@2x.png */; };
 		2705AFA31E9F96EB008C20CA /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF931E9F96EB008C20CA /* menu@2x.png */; };
 		2705AFA41E9F96EB008C20CA /* menu@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF941E9F96EB008C20CA /* menu@3x.png */; };
-		2705AFA61E9F96EB008C20CA /* news@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2705AF961E9F96EB008C20CA /* news@3x.png */; };
 		2705AFAC1E9FA669008C20CA /* JKRBubbleDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AFA91E9FA669008C20CA /* JKRBubbleDelegate.m */; };
 		2705AFAD1E9FA669008C20CA /* JKRBubbleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AFAB1E9FA669008C20CA /* JKRBubbleViewController.m */; };
 		2705AFB01E9FA69A008C20CA /* SecondPushViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705AFAF1E9FA69A008C20CA /* SecondPushViewController.m */; };
@@ -200,6 +192,13 @@
 		271E830B1EFC08B7004F005C /* nodatas@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271E83091EFC08B7004F005C /* nodatas@3x.png */; };
 		271E830E1EFC1302004F005C /* DeveloperTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E830D1EFC1302004F005C /* DeveloperTableViewCell.m */; };
 		271E83111EFD1D80004F005C /* ActivityRefinViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83101EFD1D80004F005C /* ActivityRefinViewController.m */; };
+		271E83211EFE9122004F005C /* UIView+YNCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83141EFE9122004F005C /* UIView+YNCategory.m */; };
+		271E83221EFE9122004F005C /* UIViewController+YNCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83161EFE9122004F005C /* UIViewController+YNCategory.m */; };
+		271E83231EFE9122004F005C /* YNPageScrollHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83181EFE9122004F005C /* YNPageScrollHeaderView.m */; };
+		271E83241EFE9122004F005C /* YNPageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E831A1EFE9122004F005C /* YNPageScrollView.m */; };
+		271E83251EFE9122004F005C /* YNPageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E831C1EFE9122004F005C /* YNPageScrollViewController.m */; };
+		271E83261EFE9122004F005C /* YNPageScrollViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E831E1EFE9122004F005C /* YNPageScrollViewMenu.m */; };
+		271E83271EFE9122004F005C /* YNPageScrollViewMenuConfigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */; };
 		271F27521EDEAE18001245C3 /* MyChangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27511EDEAE18001245C3 /* MyChangeModel.m */; };
 		271F27551EDEC045001245C3 /* JiFenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27541EDEC045001245C3 /* JiFenModel.m */; };
 		271F27581EDEC566001245C3 /* DuiHuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27571EDEC566001245C3 /* DuiHuanModel.m */; };
@@ -867,20 +866,6 @@
 		2705AF441E9F12AE008C20CA /* YNTestTwoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNTestTwoViewController.m; sourceTree = "<group>"; };
 		2705AF4A1E9F13C6008C20CA /* YNJianShuDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = YNJianShuDemoViewController.h; path = ../YNJianShuDemoViewController.h; sourceTree = "<group>"; };
 		2705AF4B1E9F13C6008C20CA /* YNJianShuDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = YNJianShuDemoViewController.m; path = ../YNJianShuDemoViewController.m; sourceTree = "<group>"; };
-		2705AF4F1E9F7971008C20CA /* UIView+YNCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YNCategory.h"; sourceTree = "<group>"; };
-		2705AF501E9F7971008C20CA /* UIView+YNCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YNCategory.m"; sourceTree = "<group>"; };
-		2705AF511E9F7971008C20CA /* UIViewController+YNCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+YNCategory.h"; sourceTree = "<group>"; };
-		2705AF521E9F7971008C20CA /* UIViewController+YNCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+YNCategory.m"; sourceTree = "<group>"; };
-		2705AF531E9F7971008C20CA /* YNPageScrollHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollHeaderView.h; sourceTree = "<group>"; };
-		2705AF541E9F7971008C20CA /* YNPageScrollHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollHeaderView.m; sourceTree = "<group>"; };
-		2705AF551E9F7971008C20CA /* YNPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollView.h; sourceTree = "<group>"; };
-		2705AF561E9F7971008C20CA /* YNPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollView.m; sourceTree = "<group>"; };
-		2705AF571E9F7971008C20CA /* YNPageScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewController.h; sourceTree = "<group>"; };
-		2705AF581E9F7971008C20CA /* YNPageScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewController.m; sourceTree = "<group>"; };
-		2705AF591E9F7971008C20CA /* YNPageScrollViewMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewMenu.h; sourceTree = "<group>"; };
-		2705AF5A1E9F7971008C20CA /* YNPageScrollViewMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenu.m; sourceTree = "<group>"; };
-		2705AF5B1E9F7971008C20CA /* YNPageScrollViewMenuConfigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewMenuConfigration.h; sourceTree = "<group>"; };
-		2705AF5C1E9F7971008C20CA /* YNPageScrollViewMenuConfigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenuConfigration.m; sourceTree = "<group>"; };
 		2705AF891E9F96EB008C20CA /* backarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backarrow@2x.png"; sourceTree = "<group>"; };
 		2705AF8A1E9F96EB008C20CA /* backarrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backarrow@3x.png"; sourceTree = "<group>"; };
 		2705AF8B1E9F96EB008C20CA /* close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "close@2x.png"; sourceTree = "<group>"; };
@@ -892,7 +877,6 @@
 		2705AF911E9F96EB008C20CA /* interest@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "interest@2x.png"; sourceTree = "<group>"; };
 		2705AF931E9F96EB008C20CA /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
 		2705AF941E9F96EB008C20CA /* menu@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@3x.png"; sourceTree = "<group>"; };
-		2705AF961E9F96EB008C20CA /* news@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@3x.png"; sourceTree = "<group>"; };
 		2705AFA81E9FA669008C20CA /* JKRBubbleDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRBubbleDelegate.h; sourceTree = "<group>"; };
 		2705AFA91E9FA669008C20CA /* JKRBubbleDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JKRBubbleDelegate.m; sourceTree = "<group>"; };
 		2705AFAA1E9FA669008C20CA /* JKRBubbleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JKRBubbleViewController.h; sourceTree = "<group>"; };
@@ -954,6 +938,20 @@
 		271E830D1EFC1302004F005C /* DeveloperTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeveloperTableViewCell.m; sourceTree = "<group>"; };
 		271E830F1EFD1D80004F005C /* ActivityRefinViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityRefinViewController.h; sourceTree = "<group>"; };
 		271E83101EFD1D80004F005C /* ActivityRefinViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityRefinViewController.m; sourceTree = "<group>"; };
+		271E83131EFE9122004F005C /* UIView+YNCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+YNCategory.h"; sourceTree = "<group>"; };
+		271E83141EFE9122004F005C /* UIView+YNCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+YNCategory.m"; sourceTree = "<group>"; };
+		271E83151EFE9122004F005C /* UIViewController+YNCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+YNCategory.h"; sourceTree = "<group>"; };
+		271E83161EFE9122004F005C /* UIViewController+YNCategory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+YNCategory.m"; sourceTree = "<group>"; };
+		271E83171EFE9122004F005C /* YNPageScrollHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollHeaderView.h; sourceTree = "<group>"; };
+		271E83181EFE9122004F005C /* YNPageScrollHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollHeaderView.m; sourceTree = "<group>"; };
+		271E83191EFE9122004F005C /* YNPageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollView.h; sourceTree = "<group>"; };
+		271E831A1EFE9122004F005C /* YNPageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollView.m; sourceTree = "<group>"; };
+		271E831B1EFE9122004F005C /* YNPageScrollViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewController.h; sourceTree = "<group>"; };
+		271E831C1EFE9122004F005C /* YNPageScrollViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewController.m; sourceTree = "<group>"; };
+		271E831D1EFE9122004F005C /* YNPageScrollViewMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewMenu.h; sourceTree = "<group>"; };
+		271E831E1EFE9122004F005C /* YNPageScrollViewMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenu.m; sourceTree = "<group>"; };
+		271E831F1EFE9122004F005C /* YNPageScrollViewMenuConfigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewMenuConfigration.h; sourceTree = "<group>"; };
+		271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenuConfigration.m; sourceTree = "<group>"; };
 		271F27501EDEAE18001245C3 /* MyChangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyChangeModel.h; sourceTree = "<group>"; };
 		271F27511EDEAE18001245C3 /* MyChangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyChangeModel.m; sourceTree = "<group>"; };
 		271F27531EDEC045001245C3 /* JiFenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiFenModel.h; sourceTree = "<group>"; };
@@ -2133,30 +2131,8 @@
 			isa = PBXGroup;
 			children = (
 				27404D7F1EA7570500DAFFC2 /* popup */,
-				2705AF4E1E9F7971008C20CA /* YNPageScrollViewController */,
 			);
 			path = Libs;
-			sourceTree = "<group>";
-		};
-		2705AF4E1E9F7971008C20CA /* YNPageScrollViewController */ = {
-			isa = PBXGroup;
-			children = (
-				2705AF4F1E9F7971008C20CA /* UIView+YNCategory.h */,
-				2705AF501E9F7971008C20CA /* UIView+YNCategory.m */,
-				2705AF511E9F7971008C20CA /* UIViewController+YNCategory.h */,
-				2705AF521E9F7971008C20CA /* UIViewController+YNCategory.m */,
-				2705AF531E9F7971008C20CA /* YNPageScrollHeaderView.h */,
-				2705AF541E9F7971008C20CA /* YNPageScrollHeaderView.m */,
-				2705AF551E9F7971008C20CA /* YNPageScrollView.h */,
-				2705AF561E9F7971008C20CA /* YNPageScrollView.m */,
-				2705AF571E9F7971008C20CA /* YNPageScrollViewController.h */,
-				2705AF581E9F7971008C20CA /* YNPageScrollViewController.m */,
-				2705AF591E9F7971008C20CA /* YNPageScrollViewMenu.h */,
-				2705AF5A1E9F7971008C20CA /* YNPageScrollViewMenu.m */,
-				2705AF5B1E9F7971008C20CA /* YNPageScrollViewMenuConfigration.h */,
-				2705AF5C1E9F7971008C20CA /* YNPageScrollViewMenuConfigration.m */,
-			);
-			path = YNPageScrollViewController;
 			sourceTree = "<group>";
 		};
 		2705AF861E9F96EB008C20CA /* 通用 */ = {
@@ -2173,7 +2149,6 @@
 				2705AF911E9F96EB008C20CA /* interest@2x.png */,
 				2705AF931E9F96EB008C20CA /* menu@2x.png */,
 				2705AF941E9F96EB008C20CA /* menu@3x.png */,
-				2705AF961E9F96EB008C20CA /* news@3x.png */,
 			);
 			path = "通用";
 			sourceTree = "<group>";
@@ -2281,6 +2256,27 @@
 				271D37161EE7982900F99664 /* Icon-Spotlight-40@2x.png */,
 			);
 			path = logoicon;
+			sourceTree = "<group>";
+		};
+		271E83121EFE9122004F005C /* YNPageScrollViewController */ = {
+			isa = PBXGroup;
+			children = (
+				271E83131EFE9122004F005C /* UIView+YNCategory.h */,
+				271E83141EFE9122004F005C /* UIView+YNCategory.m */,
+				271E83151EFE9122004F005C /* UIViewController+YNCategory.h */,
+				271E83161EFE9122004F005C /* UIViewController+YNCategory.m */,
+				271E83171EFE9122004F005C /* YNPageScrollHeaderView.h */,
+				271E83181EFE9122004F005C /* YNPageScrollHeaderView.m */,
+				271E83191EFE9122004F005C /* YNPageScrollView.h */,
+				271E831A1EFE9122004F005C /* YNPageScrollView.m */,
+				271E831B1EFE9122004F005C /* YNPageScrollViewController.h */,
+				271E831C1EFE9122004F005C /* YNPageScrollViewController.m */,
+				271E831D1EFE9122004F005C /* YNPageScrollViewMenu.h */,
+				271E831E1EFE9122004F005C /* YNPageScrollViewMenu.m */,
+				271E831F1EFE9122004F005C /* YNPageScrollViewMenuConfigration.h */,
+				271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */,
+			);
+			path = YNPageScrollViewController;
 			sourceTree = "<group>";
 		};
 		272A0E9B1EDFF63D00E36B40 /* LZCityPickerClass */ = {
@@ -3345,6 +3341,7 @@
 		27FB50B21E5D857D0090AB69 /* until */ = {
 			isa = PBXGroup;
 			children = (
+				271E83121EFE9122004F005C /* YNPageScrollViewController */,
 				273D78541EF7737F0024B61B /* NoData */,
 				27C7C35B1EEA8EBC008CDDD2 /* WSDaePickerView */,
 				27C7C34C1EEA8663008CDDD2 /* dataChose */,
@@ -3839,7 +3836,6 @@
 				27404DB11EA75A5B00DAFFC2 /* success_icon@3x.png in Resources */,
 				274A85951EBC2704002B7069 /* smallarrow@2x.png in Resources */,
 				271288E01E5A9FBC00DCB546 /* Main.storyboard in Resources */,
-				2705AFA61E9F96EB008C20CA /* news@3x.png in Resources */,
 				27032E5A1EA89E5700A4233B /* personalloan@2x.png in Resources */,
 				27032E531EA89E5700A4233B /* carloan@3x.png in Resources */,
 				27032E581EA89E5700A4233B /* fund@2x.png in Resources */,
@@ -3991,6 +3987,7 @@
 				27032ED51EA8B41C00A4233B /* ZFRadar.m in Sources */,
 				2755DA5D1E5BD00600C75656 /* SecondViewController.m in Sources */,
 				27032F8E1EB8640800A4233B /* YNTestFiveTableViewController.m in Sources */,
+				271E83261EFE9122004F005C /* YNPageScrollViewMenu.m in Sources */,
 				271E83071EFBC4F5004F005C /* NoDateTableViewCell.m in Sources */,
 				27032EEE1EA9F3D800A4233B /* DinQiDeatilViewController.m in Sources */,
 				27E229EA1ECD96C900B1034D /* OutViewController.m in Sources */,
@@ -4013,7 +4010,6 @@
 				27032ECC1EA8B41C00A4233B /* ZFHorizontalBar.m in Sources */,
 				27DFC8011E9CD29F008E6098 /* SelectCollectionViewCell.m in Sources */,
 				27C70BC41EEE898B00120AEE /* FYLCityPickView.m in Sources */,
-				2705AF601E9F7971008C20CA /* YNPageScrollView.m in Sources */,
 				27404D701EA7564E00DAFFC2 /* ReginAndLoginViewController.m in Sources */,
 				275213321EA0AAFB00A36B0F /* UIAlertController+Extend.m in Sources */,
 				271E82F41EFBA49D004F005C /* DetailTypeTableViewCell.m in Sources */,
@@ -4026,6 +4022,7 @@
 				275213791EA4A35800A36B0F /* ProductViewController.m in Sources */,
 				272A0EB31EE114EC00E36B40 /* MyLeftModel.m in Sources */,
 				27C70BC51EEE898B00120AEE /* NSObject+YYModel.m in Sources */,
+				271E83231EFE9122004F005C /* YNPageScrollHeaderView.m in Sources */,
 				27DFC81A1E9CD858008E6098 /* TWRefreshCollectionView.m in Sources */,
 				27032EC11EA8B41C00A4233B /* ZFCurveAttribute.m in Sources */,
 				27032F301EAF3ED400A4233B /* BuyCarViewController.m in Sources */,
@@ -4033,7 +4030,6 @@
 				27032F341EAF484700A4233B /* StageTableViewCell.m in Sources */,
 				27032E5F1EA8A8A700A4233B /* ZHPickView.m in Sources */,
 				27DFC8251E9CDA50008E6098 /* SecondMainTableViewCell.m in Sources */,
-				2705AF5E1E9F7971008C20CA /* UIViewController+YNCategory.m in Sources */,
 				27032F231EAEFF1900A4233B /* ChangeSailDetailViewController.m in Sources */,
 				27E22A001ED5319E00B1034D /* MoneyViewController.m in Sources */,
 				27032F881EB826D700A4233B /* SecondDetailTopTableViewCell.m in Sources */,
@@ -4041,16 +4037,17 @@
 				274A86011EC05E41002B7069 /* UIView+ZJFrame.m in Sources */,
 				27E229FD1ECEE47500B1034D /* MoreHelpViewController.m in Sources */,
 				2705AF4C1E9F13C6008C20CA /* YNJianShuDemoViewController.m in Sources */,
-				2705AF621E9F7971008C20CA /* YNPageScrollViewMenu.m in Sources */,
 				27DFC81F1E9CD932008E6098 /* SecondTableViewTableViewCell.m in Sources */,
 				274A860E1EC060AF002B7069 /* ZJPageTableViewController.m in Sources */,
 				275213381EA0AAFB00A36B0F /* UIView+Dealloc.m in Sources */,
 				27404D821EA7571000DAFFC2 /* popupFade.m in Sources */,
 				27032F911EB8641800A4233B /* YNTestSixTableViewController.m in Sources */,
+				271E83271EFE9122004F005C /* YNPageScrollViewMenuConfigration.m in Sources */,
 				27032EBA1EA8B41C00A4233B /* UIBezierPath+Zirkfied.m in Sources */,
 				275213351EA0AAFB00A36B0F /* UINavigationBar+BackgroundColor.m in Sources */,
 				27E229931EC4429800B1034D /* ProductDetailModel.m in Sources */,
 				2755DA901E5C144700C75656 /* loginViewController.m in Sources */,
+				271E83221EFE9122004F005C /* UIViewController+YNCategory.m in Sources */,
 				27032F081EADE48300A4233B /* MyLeftTopViewTableViewCell.m in Sources */,
 				274A85ED1EBC846C002B7069 /* SecondDetailTableViewCell.m in Sources */,
 				27032EEB1EA9F3C800A4233B /* JinMiDetdailViewController.m in Sources */,
@@ -4058,7 +4055,6 @@
 				27E229F61ECEDBDD00B1034D /* SepartTableViewCell.m in Sources */,
 				272A0EA41EDFF63D00E36B40 /* LZCityPickerController.m in Sources */,
 				27E229D01ECA9A0F00B1034D /* UIImage+SGHelper.m in Sources */,
-				2705AF631E9F7971008C20CA /* YNPageScrollViewMenuConfigration.m in Sources */,
 				274A86081EC05E41002B7069 /* ZJTitleView.m in Sources */,
 				27032FB61EB985B800A4233B /* ConvertViewController.m in Sources */,
 				27032F051EADE36F00A4233B /* MyLeftViewController.m in Sources */,
@@ -4072,7 +4068,6 @@
 				27032EC91EA8B41C00A4233B /* ZFGenericAxis.m in Sources */,
 				27404D621EA7115F00DAFFC2 /* SaleViewController.m in Sources */,
 				27032F941EB88BD500A4233B /* PersonViewController.m in Sources */,
-				2705AF611E9F7971008C20CA /* YNPageScrollViewController.m in Sources */,
 				27032EBE1EA8B41C00A4233B /* ZFPopoverLabel.m in Sources */,
 				27E22A121ED6C13E00B1034D /* LLPayUtil.m in Sources */,
 				27D296621EED711D001DAB5F /* BundProfileViewController.m in Sources */,
@@ -4108,7 +4103,6 @@
 				2752137C1EA4A38300A36B0F /* DetailViewController.m in Sources */,
 				274A86071EC05E41002B7069 /* ZJSegmentStyle.m in Sources */,
 				274A85EA1EBC845F002B7069 /* SecondTypeTableViewCell.m in Sources */,
-				2705AF5D1E9F7971008C20CA /* UIView+YNCategory.m in Sources */,
 				275213361EA0AAFB00A36B0F /* UIScreen+Extend.m in Sources */,
 				27032E381EA7AE7A00A4233B /* CustomChooseView.m in Sources */,
 				2705AFB01E9FA69A008C20CA /* SecondPushViewController.m in Sources */,
@@ -4166,7 +4160,7 @@
 				27032EE41EA9B7A300A4233B /* ModifySailViewController.m in Sources */,
 				27032F2A1EAF3EBD00A4233B /* QiYeViewController.m in Sources */,
 				2705AF471E9F12AE008C20CA /* YNTestOneViewController.m in Sources */,
-				2705AF5F1E9F7971008C20CA /* YNPageScrollHeaderView.m in Sources */,
+				271E83211EFE9122004F005C /* UIView+YNCategory.m in Sources */,
 				27032EDB1EA9A4BA00A4233B /* UserSetViewController.m in Sources */,
 				271F27521EDEAE18001245C3 /* MyChangeModel.m in Sources */,
 				27032ED61EA8B41C00A4233B /* ZFRadarChart.m in Sources */,
@@ -4178,6 +4172,8 @@
 				273D78601EF777120024B61B /* BaseTableView.m in Sources */,
 				27DFC8381E9DC9D1008E6098 /* SecondMainViewController.m in Sources */,
 				27DFC8181E9CD858008E6098 /* TWRefreshView.m in Sources */,
+				271E83251EFE9122004F005C /* YNPageScrollViewController.m in Sources */,
+				271E83241EFE9122004F005C /* YNPageScrollView.m in Sources */,
 				272A0EB01EE01BC300E36B40 /* OutModel.m in Sources */,
 				27032F271EAF3B3300A4233B /* MyStageViewController.m in Sources */,
 				273D785C1EF773BD0024B61B /* UIColor+Util.m in Sources */,

@@ -41,4 +41,6 @@
 
 @property (nonatomic,strong)NSString *productCatiID;
 
+@property (nonatomic,strong)NSString *productCi;
+
 @end

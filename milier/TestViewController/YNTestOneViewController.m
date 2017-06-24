@@ -24,6 +24,7 @@
     [self.tableView setSeparatorColor:colorWithRGB(0.87, 0.87, 0.87)];
     dataArray = [[NSMutableArray alloc]init];
     self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT -64-49);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
@@ -127,7 +128,7 @@
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *identifier = @"identifier";
+    static NSString *identifier = @"oneidentifier";
     
     SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {

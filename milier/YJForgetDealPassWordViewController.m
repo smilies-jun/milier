@@ -72,12 +72,12 @@
     
     CodeNumView = [[CustomView alloc]init];
     CodeNumView.NameLabel.text = @"短信验证码:";
-    CodeNumView.NameTextField.placeholder = @"";
+    CodeNumView.NameTextField.placeholder = @"请输入短信验证码";
     CodeNumView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     
     CodeNumView.NameTextField.delegate = self;
     [CodeNumView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(90);
     }];
     [CodeNumView.NameTextField mas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(CodeNumView.mas_right).offset(-80);

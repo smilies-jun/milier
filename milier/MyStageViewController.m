@@ -83,14 +83,14 @@
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
+    configration.aligmentModeCenter = YES;
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
-    configration.showNavigation = NO;
+    configration.showNavigation = YES;
     configration.showTabbar = NO;//设置显示tabbar
-    
+    configration.showPersonTab = NO;
     YNJianShuDemoViewController   *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"企业贷款",@"网贷基金",@"购车贷款",@"个人贷款"] Configration:configration];
     vc.dataSource = self;
-    vc.IsTab = YES;
     return vc;
 }
 

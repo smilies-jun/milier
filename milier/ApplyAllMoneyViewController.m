@@ -12,6 +12,8 @@
 #import "AllMoneyViewController.h"
 #import "SepartViewController.h"
 #import "OutViewController.h"
+#import "YWDLoginViewController.h"
+
 @interface ApplyAllMoneyViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     UIButton *ClickBtn;
     NSDictionary *MyDic;
@@ -45,7 +47,7 @@
     scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64-20);
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
-    scrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT + 340);
+    scrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT + 620);
     [self.view addSubview:scrollView];
     
     
@@ -57,8 +59,8 @@
     UILabel *label = [[UILabel alloc]init];
     label.text = @"本网站（www.milibanking.com）现推出“米粒儿金融全民理财师专项活动”（以下简称：“本活动”），您在自愿加入本活动之前，请您务必认真阅读和理解《米粒儿金融全民理财师专项活动协议书》（以下简称：“本《协议》”）中规定的所有权利和限制。您完全接受本《协议》项下的全部条款。本《协议》是本活动参与人员与米粒儿金融之间的法律协议。\n一、加入本活动人员：米粒儿金融用户\n二、活动生效时间：20___年___月___日\n三、参与条件：\n1. www.milibanking.com在投资用户；\n2.自愿加入本活动，成为本活动期间的“理财师”；\n>3.自愿接受米粒儿金融全民理财师专项活动的全部规则，并点击“接受”、“认可”、“加入”等确认键，加入到本活动，签署本《协议》；\n4.本活动仅限网络等线上宣传推广，禁止一切线下操作。\n四、米粒儿金融用户参与本活动成功后，可在其账户系统中查看资格审批情况（以系统显示为准）。\n五、本次活动奖励支付：\n1.成功报名并参与本活动；\n2.邀请好友使用本人“邀请码”注册并投资，系统自动发送相应奖励；\3.奖励按T+1日结算并发放至米粒儿金融账户。\n4.奖励标准：\n每日奖励金额=当日存量*0.8%/365；\n当日存量是指理财师本人及推荐的客户（使用理财师邀请码注册）当日米粒儿账户内资金总额（不含活期产品），当日存量以当日23:59:59的数值为准。\n六、 权利义务：\n1. 参与本活动的用户不得以任何非法目的使用www.milibanking.com网站提供的本活动、相关产品。\n2.参与本活动的用户应当诚实履行对本协议，除法律、法规另有规定外，不得向第三方泄露本协议全部或部分内容。\n3.参与本活动的用户按照本活动的相关规则，有权获得相应的奖励。\n    七、 资格取消：\n1. 参与本活动的用户存在异常情况或做出有损本网站行为发生时，本网站有权随时取消理财师资格，而无需对用户或任何第三方承担任何责任。\n六、免责条款\n1.由于国家的有关法律、法规、规章、政策或者交易所规则的调整和改变、紧急措施的出台及其他不可抗力而导致双方承担风险和损失的，双方互不承担责任。\n七、 争议解决\n1. 本协议适用中华人民共和国法律。\n    2. 因本协议引起的或与本协议有关的任何争议，各方应友好协商解决；协商不成的，任何一方均可将有关争议提交至本网站所在地法院进行诉讼。\n八、 其他\n1.若本协议中的任何条款无论因何种原因完全或部分无效，不影响本协议其他条款的效力及约束力。\n2.本协议未尽事宜，双方可另行签订补充协议，该补充协议作为本协议的组成部分，具有同等法律效力。\n3.根据《合同法》规定，本协议采用电子文本形式制成并签订，并在本网站为此设立的专用服务器上保存，对双方均具有法律约束力。\n4. 与本协议相关的其他具体操作规则以本网站展示为准，并作为本协议的附件，如具体规则与本协议不一致的，以具体规则为准。乙方同意本协议即视为同意本协议相关附件。\n5.本网站在法律允许的最大范围内对本协议享有解释权与修改权。";
     label.numberOfLines = 0 ;
-    label.font = [UIFont systemFontOfSize:12];
-    label.frame = CGRectMake(10, 160, SCREEN_WIDTH-20, SCREEN_HEIGHT+200);
+    label.font = [UIFont systemFontOfSize:14];
+    label.frame = CGRectMake(10, 160, SCREEN_WIDTH-20, SCREEN_HEIGHT+430);
     [scrollView addSubview:label];
     
     ClickBtn = [[UIButton alloc]init];
@@ -126,7 +128,10 @@
             }];
             
         }else{
-            normal_alert(@"提示", @"请登陆", @"确定");
+            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+            loginNagition.navigationBarHidden = YES;
+            [self presentViewController:loginNagition animated:NO completion:nil];
             
         }
  
@@ -179,6 +184,7 @@
     [imageView addSubview:TopImageView];
     
     UILabel *MyScorLabel = [[UILabel alloc]init];
+    MyScorLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     if ([[MyDic objectForKey:@"totalIncome"]doubleValue]) {
         MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%@元", [MyDic objectForKey:@"totalIncome"]];
 
@@ -196,6 +202,7 @@
     }];
     UILabel *DetailLabel = [[UILabel alloc]init];
     DetailLabel.text = @"全民理财师，躺着把钱赚";
+    DetailLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     DetailLabel.font = [UIFont systemFontOfSize:14];
     DetailLabel.textAlignment = NSTextAlignmentRight;
     [imageView addSubview:DetailLabel];
@@ -206,6 +213,7 @@
         make.height.mas_equalTo(20);
     }];
     UILabel *myMoneyLabel = [[UILabel alloc]init];
+    myMoneyLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     if ([[MyDic objectForKey:@"assets"]doubleValue]) {
         myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%@元", [MyDic objectForKey:@"assets"]];
  
@@ -225,7 +233,7 @@
     UILabel *ComeLabel = [[UILabel alloc]init];
     ComeLabel.text = @"转入米粒余额";
     ComeLabel.textAlignment = NSTextAlignmentCenter;
-    ComeLabel.layer.cornerRadius = 10;
+    ComeLabel.layer.cornerRadius = 17;
     ComeLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ComeClick)];
     [ComeLabel addGestureRecognizer:tap];
@@ -248,7 +256,6 @@
     vc.pageIndex = 0;
     
     vc.placeHoderView = footerView;
-    vc.IsTab = YES;
     vc.headerView = imageView;
     
     vc.dataSource = self;

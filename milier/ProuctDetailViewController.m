@@ -361,7 +361,7 @@
     vc.placeHoderView = footerView;
     vc.dataSource = self;
     vc.headerView = imageView;
-    vc.IsTab = NO;
+  
     return vc;
 
 }

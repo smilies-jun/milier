@@ -12,6 +12,7 @@
 #import "ChangeTableViewCell.h"
 #import "MyChangeModel.h"
 #import "NoDateTableViewCell.h"
+#import "DinQiDeatilViewController.h"
 
 @interface ChangeSailViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *MyChangeArray;

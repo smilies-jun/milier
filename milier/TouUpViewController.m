@@ -36,6 +36,8 @@ static LLPayType payType = LLPayTypeVerify;
     
     UILabel *ForgetPayLabel;
     NSMutableDictionary *myBankDic;
+    NSString *BankStatus;
+    MBProgressHUD *hud;
 
 }
 @property (nonatomic, strong) LLOrder *order;
@@ -76,10 +78,28 @@ static LLPayType payType = LLPayTypeVerify;
         
     }];
 }
+- (void)reloadMyMoney{
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *statusStr = [result objectForKey:@"statusCode"];
+        if ([statusStr integerValue] == 200) {
+            BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
+       
+            
+        }
+        
+    }];
+    
+}
+
 - (void)configUI{
     payView = [[CustomView alloc]init];
     payView.NameLabel.text = @"充值金额";
     payView.NameTextField.placeholder = @"请输入充值金额";
+    payView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -155,7 +175,7 @@ static LLPayType payType = LLPayTypeVerify;
     [bankDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(bankImageView.mas_right).offset(5);
         make.top.mas_equalTo(bankLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(200);
+        make.width.mas_equalTo(SCREEN_WIDTH-10);
         make.height.mas_equalTo(15);
     }];
     
@@ -187,19 +207,24 @@ static LLPayType payType = LLPayTypeVerify;
     [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)PaySureBtnClick{
-    if ([payView.NameTextField.text integerValue] > 0) {
-        if (PassWordView.NameTextField.text.length) {
-            
-            [self requestBank];
-            
-        }else{
-            normal_alert(@"提示", @"交易密码不能为空", @"确定");
+        if ([payView.NameTextField.text integerValue] >= 100) {
+            if (PassWordView.NameTextField.text.length) {
+
+                    [self requestBank];
  
+        
+                
+            }else{
+                normal_alert(@"提示", @"交易密码不能为空", @"确定");
+                
+            }
+        }else{
+            normal_alert(@"提示", @"充值金额不能少于100", @"确定");
         }
-    }else{
-        normal_alert(@"提示", @"充值金额不能少于0", @"确定");
-    }
-}
+
+   
+    
+   }
 - (void)requestBank{
     NSString *BankStrUrl;
     NSString *bankID = NSuserUse(@"bankCardId");
@@ -210,7 +235,7 @@ static LLPayType payType = LLPayTypeVerify;
         NSString *statuesCode = [result objectForKey:@"statusCode"];
         if ([statuesCode integerValue] == 200) {
             myBankDic = [result objectForKey:@"data"];
-            
+            [self showProgress];
             [self payMoney];
 
         }else{
@@ -220,6 +245,18 @@ static LLPayType payType = LLPayTypeVerify;
 
     }];
 }
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)payMoney{
     NSString *url;
     NSString *tokenID = NSuserUse(@"Authorization");
@@ -228,17 +265,24 @@ static LLPayType payType = LLPayTypeVerify;
     url = [NSString stringWithFormat:@"%@/users/%@/recharge",HOST_URL,userID];
     
     
-    
     NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",PassWordView.NameTextField.text,@"dealPassword", nil];
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statuesCode = [result objectForKey:@"statusCode"];
         if ([statuesCode integerValue] == 201) {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self HideProgress];
+
+            });
             orderStr = [[result objectForKey:@"data"]objectForKey:@"dealOrderNo"];
             createTimeStr = [[result objectForKey:@"data"]objectForKey:@"createTime"];
             reginStr = [[result objectForKey:@"data"]objectForKey:@"userRegistrationTime"];
             [self createOrder];
             [self requestLLP];
         }else{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self HideProgress];
+                
+            });
             NSString *messageStr = [result objectForKey:@"message"];
             normal_alert(@"提示", messageStr, @"确定");
         }
@@ -276,9 +320,7 @@ static LLPayType payType = LLPayTypeVerify;
         case kLLPayResultSuccess: {
             msg = @"成功";
             normal_alert(@"提示", msg, @"确定");
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self TouUpTap];
-            });
         } break;
         case kLLPayResultFail: {
             msg = @"失败";

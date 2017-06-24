@@ -28,7 +28,7 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
 
-    [self getNetworkData:YES];
+    page =1;
 
     self.tableView.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
@@ -72,9 +72,9 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *url;
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=3&receiveState=5",HOST_URL];
+        url = [NSString stringWithFormat:@"%@/props?page=1&rows=20&productCategoryId=5&receiveState=1",HOST_URL];
     }else{
-        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=3&receiveState=5",HOST_URL,page];
+        url = [NSString stringWithFormat:@"%@/props?page=%d&rows=20&productCategoryId=5&receiveState=1",HOST_URL,page];
         
     }
    
@@ -85,11 +85,13 @@
             [DataArray addObject:model];
         }
         if (DataArray.count) {
-            [self.tableView reloadData];
             [self endRefresh];
+
+            [self.tableView reloadData];
             
         }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
+            [self endRefresh];
+
             
         }
         // UserDic = [result objectForKey:@"data"];
@@ -133,61 +135,81 @@
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     
-    return [DataArray count]+1;
+    if (DataArray.count) {
+        return [DataArray count]+1;
+    }
+    return 1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    if (indexPath.row == 0) {
-        return 25;
+    if (DataArray.count) {
+        if (indexPath.row == 0) {
+            return 25;
+        }
+        return 150;
     }
-    return 150;
+    return SCREEN_HEIGHT-64-40;
 
 }
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if (indexPath.row == 0) {
-        static NSString *identifier = @"BUYEStageTotalidentifier";
-        
-        StageTotalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            [cell configUI:indexPath];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        return cell;
-        
-    }else{
-        static NSString *identifier = @"buyStageidentifier";
-        
-        StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-        if (!cell) {
-            cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-            [cell configUI:indexPath];
-        }
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-
-        if ([DataArray count]) {
-            StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
-            cell.stageModel = model;
-        }
-        if ([cell.stageModel.state integerValue] == 2) {
-            cell.RightImageView.userInteractionEnabled = YES;
-            UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
-            [cell.RightImageView addGestureRecognizer:qiyeTap];
+    if (DataArray.count) {
+        if (indexPath.row == 0) {
+            static NSString *identifier = @"BUYEStageTotalidentifier";
+            
+            StageTotalTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[StageTotalTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            return cell;
             
         }else{
-            cell.RightImageView.userInteractionEnabled = NO;
+            static NSString *identifier = @"buyStageidentifier";
+            
+            StageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+            if (!cell) {
+                cell = [[StageTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+                [cell configUI:indexPath];
+            }
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            
+            if ([DataArray count]) {
+                StageModel *model = [DataArray objectAtIndex:indexPath.row -1];
+                cell.stageModel = model;
+            }
+            if ([cell.stageModel.state integerValue] == 2) {
+                cell.RightImageView.userInteractionEnabled = YES;
+                UITapGestureRecognizer *qiyeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(QiYeClick)];
+                [cell.RightImageView addGestureRecognizer:qiyeTap];
+                
+            }else{
+                cell.RightImageView.userInteractionEnabled = NO;
+                
+            }
+            
+            return cell;
             
         }
-       
-        return cell;
         
-    }
 
+    }else{
+        static NSString *identifier = @"buyNodetailidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
+        return cell;
+    }
     
 }
 

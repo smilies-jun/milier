@@ -9,10 +9,13 @@
 #import "MoneyViewController.h"
 #import "MyLeftViewController.h"
 #import "CustomView.h"
+#import "BundCardViewController.h"
 
 @interface MoneyViewController (){
     CustomView *payView;
     CustomView *passWordView;
+    NSString *BankStatus;
+    MBProgressHUD *hud;
 
 }
 
@@ -32,6 +35,7 @@
     [leftBtn addTarget:self action:@selector(TouUpTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    [self reloadMyMoney];
     [self configUI];
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
 }
@@ -42,6 +46,8 @@
         }
     }
 }
+
+
 - (void)configUI{
     
     UILabel *titleLabel = [[UILabel alloc]init];
@@ -99,42 +105,86 @@
     [TestLabel addGestureRecognizer:SaleTap];
     
 }
-- (void)PayMoneyClick{
-    if (payView.NameTextField.text.length) {
-        if (passWordView.NameTextField.text.length) {
-            NSString *Statisurl;
-            NSString *tokenID = NSuserUse(@"Authorization");
-            NSString *userID = NSuserUse(@"userId");
+
+- (void)reloadMyMoney{
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *statusStr = [result objectForKey:@"statusCode"];
+        if ([statusStr integerValue] == 200) {
+            BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
             
-            Statisurl = [NSString stringWithFormat:@"%@/users/%@/withdraw",HOST_URL,userID];
-            NSMutableDictionary  *Dic =[[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",passWordView.NameTextField.text,@"dealPassword", nil];
-            [[DateSource sharedInstance]requestHomeWithParameters:Dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-                if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-                    NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
-                    normal_alert(@"提示", message, @"确定");
-                    
-                    for (UIViewController *controller in self.navigationController.viewControllers) {
-                        if ([controller isKindOfClass:[MyLeftViewController class]]) {
-                            [self.navigationController popToViewController:controller animated:YES];
-                        }
-                    }
-                }else{
-                    NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
-                    normal_alert(@"提示", message, @"确定");
-                    
-                }
-            }];
-        }else{
-            normal_alert(@"提示", @"交易密码不能为空", @"确定");
- 
         }
         
-        
-    }else{
-        normal_alert(@"提示", @"提现金额不能为0", @"确定");
+    }];
     
+}
+
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+- (void)PayMoneyClick{
+    [self showProgress];
+    if ([BankStatus integerValue] ==1) {
+        if (payView.NameTextField.text.length) {
+            if (passWordView.NameTextField.text.length) {
+                NSString *Statisurl;
+                NSString *tokenID = NSuserUse(@"Authorization");
+                NSString *userID = NSuserUse(@"userId");
+                
+                Statisurl = [NSString stringWithFormat:@"%@/users/%@/withdraw",HOST_URL,userID];
+                NSMutableDictionary  *Dic =[[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",passWordView.NameTextField.text,@"dealPassword", nil];
+                [[DateSource sharedInstance]requestHomeWithParameters:Dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                    if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self HideProgress];
+                            
+                        });
+                        NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
+                        normal_alert(@"提示", message, @"确定");
+                        
+                        for (UIViewController *controller in self.navigationController.viewControllers) {
+                            if ([controller isKindOfClass:[MyLeftViewController class]]) {
+                                [self.navigationController popToViewController:controller animated:YES];
+                            }
+                        }
+                    }else{
+                            [self HideProgress];
+                            
+        
+                        NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
+                        normal_alert(@"提示", message, @"确定");
+                        
+                    }
+                }];
+            }else{
+                normal_alert(@"提示", @"交易密码不能为空", @"确定");
+                
+            }
+            
+            
+        }else{
+            normal_alert(@"提示", @"提现金额不能为0", @"确定");
+            
+        }
+
+    }else{
+        BundCardViewController *LoginVC = [[BundCardViewController alloc]init];
+        [self.navigationController pushViewController:LoginVC animated:NO];
     }
-   
+    
+    
 
 
 

@@ -56,7 +56,6 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
-        NSLog(@"result =%@",result);
 
         if (page == 1) {
             [dataArray removeAllObjects];
@@ -118,33 +117,49 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return [dataArray count];
+    if (dataArray.count) {
+        return dataArray.count;
+    }
+    return 1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 120;
+    if (dataArray.count) {
+        return 120;
+    }
+    return 320;
 }
 
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"identifier";
-    
-    SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (dataArray.count) {
-        ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
-        cell.productMoel = model;
+        static NSString *identifier = @"identifier";
+        
+        SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (dataArray.count) {
+            ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
+            cell.productMoel = model;
+        }
+        //cell.textLabel.text = @"11111111";
+        return cell;
+    }else{
+        static NSString *identifier = @"Nodateidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+              //cell.textLabel.text = @"11111111";
+        return cell;
     }
-    //cell.textLabel.text = @"11111111";
-    return cell;
+   
 }
 #pragma mark  - 滑到最底部
 - (void)scrollTableToFoot:(BOOL)animated

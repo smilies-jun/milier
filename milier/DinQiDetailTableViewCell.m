@@ -34,7 +34,13 @@
     [self addSubview:_LookSailLabel];
     [_LookSailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(_SailNameLabel.mas_centerY);
-        make.right.mas_equalTo(self.mas_right).offset(-40);
+        if (SCREEN_WIDTH == 320) {
+            make.right.mas_equalTo(self.mas_right).offset(-20);
+            
+        }else{
+            make.right.mas_equalTo(self.mas_right).offset(-40);
+            
+        }
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(15);
     }];
@@ -57,7 +63,13 @@
     [self addSubview:_LookLimitLabel];
     [_LookLimitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(_LimitNameLabel.mas_centerY);
-        make.right.mas_equalTo(self.mas_right).offset(-40);
+        if (SCREEN_WIDTH == 320) {
+            make.right.mas_equalTo(self.mas_right).offset(-20);
+
+        }else{
+            make.right.mas_equalTo(self.mas_right).offset(-40);
+ 
+        }
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(15);
     }];

@@ -74,7 +74,7 @@
     [hud hideAnimated:YES];
 }
 - (void)showProgress{
-    hud = [MBProgressHUD showHUDAddedTo:self.navigationController.view animated:YES];
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     
     
@@ -245,6 +245,7 @@
 }
 
 - (void)DinQiClick{
+    [self HideProgress];
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
@@ -809,10 +810,11 @@
                     DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
                     
                     DinQiNnumberLabel.text = [NSString stringWithFormat:@"%@",model.cci];
-                    DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%@",model.ci];
+                    DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%.2f",[model.ci doubleValue]];
   
                 }
-                           }
+                
+            }
             
             
             
@@ -1021,7 +1023,7 @@
     DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 200];
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"米粒儿金融借款协议";
-    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toProtocol?productinfoOrderId=%@",model.oid];
+    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toProtocol?productinfoOrderId=%@&stp=app",model.oid];
     [self.navigationController pushViewController:vc animated:NO];
 
 }
@@ -1057,16 +1059,13 @@
     
     if (CircleArray.count) {
         if ([[CircleArray objectAtIndex:0]integerValue]==0 && [[CircleArray objectAtIndex:1]integerValue]==0 && [[CircleArray objectAtIndex:2]integerValue]==0 && [[CircleArray objectAtIndex:3]integerValue]==0 &&[[CircleArray objectAtIndex:4]integerValue]==0 &&[[CircleArray objectAtIndex:5]integerValue]==0) {
-            NSLog(@"cir1 = %@",CircleArray);
 
             return @[@"100"];
         }else{
-            NSLog(@"cir2 = %@",CircleArray);
             return CircleArray;
             
         }
     }else{
-        NSLog(@"cir3= %@",CircleArray);
 
         return @[@"100"];
     }

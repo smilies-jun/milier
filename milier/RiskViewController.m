@@ -128,76 +128,148 @@ static NSString * const ID = @"CollectionCell";
     RiskScroview.maximumZoomScale = 2;
     RiskScroview.minimumZoomScale = 0.8;
     [self.view addSubview:RiskScroview];
+    if (SCREEN_WIDTH ==320) {
+        firstLabel = [[UILabel alloc]init];
+        firstLabel.text = [NSString stringWithFormat:@"1:%@",[titleArray objectAtIndex:0]];
+        firstLabel.font = [UIFont systemFontOfSize:15];
+        firstLabel.numberOfLines = 0;
+        firstLabel.frame = CGRectMake(20, 50, 260, 40);
+        firstLabel.numberOfLines = 0;
+        [RiskScroview addSubview:firstLabel];
+        secondLabel = [[UILabel alloc]init];
+        secondLabel.text = [NSString stringWithFormat:@"2:%@",[titleArray objectAtIndex:1]];
+        secondLabel.font = [UIFont systemFontOfSize:15];
+        secondLabel.numberOfLines = 0;
+        secondLabel.frame = CGRectMake(SCREEN_WIDTH*1 - 20, 50, 260, 80);
+        [RiskScroview addSubview:secondLabel];
+        thirdLabel = [[UILabel alloc]init];
+        thirdLabel.text = [NSString stringWithFormat:@"3:%@",[titleArray objectAtIndex:2]];
+        thirdLabel.font = [UIFont systemFontOfSize:15];
+        thirdLabel.numberOfLines = 0;
+        thirdLabel.frame = CGRectMake(SCREEN_WIDTH*2 - 20*3, 10 +40, 260, 40);
+        thirdLabel.numberOfLines = 0;
+        [RiskScroview addSubview:thirdLabel];
+        fourLabel = [[UILabel alloc]init];
+        fourLabel.text = [NSString stringWithFormat:@"4:%@",[titleArray objectAtIndex:3]];
+        fourLabel.font = [UIFont systemFontOfSize:15];
+        fourLabel.numberOfLines = 0;
+        fourLabel.frame = CGRectMake(SCREEN_WIDTH*3- 20*5, 10+40, 260, 40);
+        fourLabel.numberOfLines = 0;
+        [RiskScroview addSubview:fourLabel];
+        fiveLabel = [[UILabel alloc]init];
+        fiveLabel.text = [NSString stringWithFormat:@"5:%@",[titleArray objectAtIndex:4]];
+        fiveLabel.font = [UIFont systemFontOfSize:15];
+        fiveLabel.numberOfLines = 0;
+        fiveLabel.frame = CGRectMake(SCREEN_WIDTH*4- 20*7, 10+40, 260, 80);
+        fiveLabel.numberOfLines = 0;
+        [RiskScroview addSubview:fiveLabel];
+        sixLabel  = [[UILabel alloc]init];
+        sixLabel.text = [NSString stringWithFormat:@"6:%@",[titleArray objectAtIndex:5]];
+        sixLabel.font = [UIFont systemFontOfSize:15];
+        sixLabel.numberOfLines = 0;
+        sixLabel.frame = CGRectMake(SCREEN_WIDTH*5- 20*9, 10+40, 260, 60);
+        sixLabel.numberOfLines = 0;
+        [RiskScroview addSubview:sixLabel];
+        secenLabel = [[UILabel alloc]init];
+        secenLabel.text = [NSString stringWithFormat:@"7:%@",[titleArray objectAtIndex:6]];
+        secenLabel.font = [UIFont systemFontOfSize:15];
+        secenLabel.numberOfLines = 0;
+        secenLabel.frame = CGRectMake(SCREEN_WIDTH*6- 20*11, 10+40, 260, 40);
+        secenLabel.numberOfLines = 0;
+        [RiskScroview addSubview:secenLabel];
+        eightLabel = [[UILabel alloc]init];
+        eightLabel.text =[NSString stringWithFormat:@"8:%@",[titleArray objectAtIndex:7]];
+        eightLabel.font = [UIFont systemFontOfSize:15];
+        eightLabel.numberOfLines = 0;
+        eightLabel.frame = CGRectMake(SCREEN_WIDTH*7- 20*13, 10+40, 260, 40);
+        eightLabel.numberOfLines = 0;
+        [RiskScroview addSubview:eightLabel];
+        nineLabel = [[UILabel alloc]init];
+        nineLabel.text = [NSString stringWithFormat:@"9:%@",[titleArray objectAtIndex:8]];
+        nineLabel.font = [UIFont systemFontOfSize:15];
+        nineLabel.numberOfLines = 0;
+        nineLabel.frame = CGRectMake(SCREEN_WIDTH*8- 20*15, 10+40, 260, 40);
+        nineLabel.numberOfLines = 0;
+        [RiskScroview addSubview:nineLabel];
+        tenLabel  = [[UILabel alloc]init];
+        tenLabel.text =[NSString stringWithFormat:@"10:%@",[titleArray objectAtIndex:9]];
+        tenLabel.font = [UIFont systemFontOfSize:15];
+        tenLabel.numberOfLines = 0;
+        tenLabel.frame = CGRectMake(SCREEN_WIDTH*9- 20*17-40+20, 10+40, SCREEN_WIDTH-60, 40);
+        tenLabel.numberOfLines = 0;
+        [RiskScroview addSubview:tenLabel];
+    }else{
+        firstLabel = [[UILabel alloc]init];
+        firstLabel.text = [NSString stringWithFormat:@"1:%@",[titleArray objectAtIndex:0]];
+        firstLabel.font = [UIFont systemFontOfSize:15];
+        firstLabel.numberOfLines = 0;
+        firstLabel.frame = CGRectMake(20, 50, 300, 40);
+        firstLabel.numberOfLines = 0;
+        [RiskScroview addSubview:firstLabel];
+        secondLabel = [[UILabel alloc]init];
+        secondLabel.text = [NSString stringWithFormat:@"2:%@",[titleArray objectAtIndex:1]];
+        secondLabel.font = [UIFont systemFontOfSize:15];
+        secondLabel.numberOfLines = 0;
+        secondLabel.frame = CGRectMake(SCREEN_WIDTH*1 - 20, 50, 300, 80);
+        [RiskScroview addSubview:secondLabel];
+        thirdLabel = [[UILabel alloc]init];
+        thirdLabel.text = [NSString stringWithFormat:@"3:%@",[titleArray objectAtIndex:2]];
+        thirdLabel.font = [UIFont systemFontOfSize:15];
+        thirdLabel.numberOfLines = 0;
+        thirdLabel.frame = CGRectMake(SCREEN_WIDTH*2 - 20*3, 10 +40, 300, 40);
+        thirdLabel.numberOfLines = 0;
+        [RiskScroview addSubview:thirdLabel];
+        fourLabel = [[UILabel alloc]init];
+        fourLabel.text = [NSString stringWithFormat:@"4:%@",[titleArray objectAtIndex:3]];
+        fourLabel.font = [UIFont systemFontOfSize:15];
+        fourLabel.numberOfLines = 0;
+        fourLabel.frame = CGRectMake(SCREEN_WIDTH*3- 20*5, 10+40, 300, 40);
+        fourLabel.numberOfLines = 0;
+        [RiskScroview addSubview:fourLabel];
+        fiveLabel = [[UILabel alloc]init];
+        fiveLabel.text = [NSString stringWithFormat:@"5:%@",[titleArray objectAtIndex:4]];
+        fiveLabel.font = [UIFont systemFontOfSize:15];
+        fiveLabel.numberOfLines = 0;
+        fiveLabel.frame = CGRectMake(SCREEN_WIDTH*4- 20*7, 10+40, 300, 80);
+        fiveLabel.numberOfLines = 0;
+        [RiskScroview addSubview:fiveLabel];
+        sixLabel  = [[UILabel alloc]init];
+        sixLabel.text = [NSString stringWithFormat:@"6:%@",[titleArray objectAtIndex:5]];
+        sixLabel.font = [UIFont systemFontOfSize:15];
+        sixLabel.numberOfLines = 0;
+        sixLabel.frame = CGRectMake(SCREEN_WIDTH*5- 20*9, 10+40, 300, 60);
+        sixLabel.numberOfLines = 0;
+        [RiskScroview addSubview:sixLabel];
+        secenLabel = [[UILabel alloc]init];
+        secenLabel.text = [NSString stringWithFormat:@"7:%@",[titleArray objectAtIndex:6]];
+        secenLabel.font = [UIFont systemFontOfSize:15];
+        secenLabel.numberOfLines = 0;
+        secenLabel.frame = CGRectMake(SCREEN_WIDTH*6- 20*11, 10+40, 300, 40);
+        secenLabel.numberOfLines = 0;
+        [RiskScroview addSubview:secenLabel];
+        eightLabel = [[UILabel alloc]init];
+        eightLabel.text =[NSString stringWithFormat:@"8:%@",[titleArray objectAtIndex:7]];
+        eightLabel.font = [UIFont systemFontOfSize:15];
+        eightLabel.numberOfLines = 0;
+        eightLabel.frame = CGRectMake(SCREEN_WIDTH*7- 20*13, 10+40, 300, 40);
+        eightLabel.numberOfLines = 0;
+        [RiskScroview addSubview:eightLabel];
+        nineLabel = [[UILabel alloc]init];
+        nineLabel.text = [NSString stringWithFormat:@"9:%@",[titleArray objectAtIndex:8]];
+        nineLabel.font = [UIFont systemFontOfSize:15];
+        nineLabel.numberOfLines = 0;
+        nineLabel.frame = CGRectMake(SCREEN_WIDTH*8- 20*15, 10+40, 300, 40);
+        nineLabel.numberOfLines = 0;
+        [RiskScroview addSubview:nineLabel];
+        tenLabel  = [[UILabel alloc]init];
+        tenLabel.text =[NSString stringWithFormat:@"10:%@",[titleArray objectAtIndex:9]];
+        tenLabel.font = [UIFont systemFontOfSize:15];
+        tenLabel.numberOfLines = 0;
+        tenLabel.frame = CGRectMake(SCREEN_WIDTH*9- 20*17-40+20, 10+40, SCREEN_WIDTH-60, 40);
+        tenLabel.numberOfLines = 0;
+        [RiskScroview addSubview:tenLabel];
+    }
     
-    firstLabel = [[UILabel alloc]init];
-    firstLabel.text = [NSString stringWithFormat:@"1:%@",[titleArray objectAtIndex:0]];
-    firstLabel.font = [UIFont systemFontOfSize:15];
-    firstLabel.numberOfLines = 0;
-    firstLabel.frame = CGRectMake(20, 50, 300, 40);
-    firstLabel.numberOfLines = 0;
-    [RiskScroview addSubview:firstLabel];
-    secondLabel = [[UILabel alloc]init];
-    secondLabel.text = [NSString stringWithFormat:@"2:%@",[titleArray objectAtIndex:1]];
-    secondLabel.font = [UIFont systemFontOfSize:15];
-    secondLabel.numberOfLines = 0;
-    secondLabel.frame = CGRectMake(SCREEN_WIDTH*1 - 20, 50, 300, 80);
-    [RiskScroview addSubview:secondLabel];
-    thirdLabel = [[UILabel alloc]init];
-    thirdLabel.text = [NSString stringWithFormat:@"3:%@",[titleArray objectAtIndex:2]];
-    thirdLabel.font = [UIFont systemFontOfSize:15];
-    thirdLabel.numberOfLines = 0;
-    thirdLabel.frame = CGRectMake(SCREEN_WIDTH*2 - 20*3, 10 +40, 300, 40);
-    thirdLabel.numberOfLines = 0;
-    [RiskScroview addSubview:thirdLabel];
-    fourLabel = [[UILabel alloc]init];
-    fourLabel.text = [NSString stringWithFormat:@"4:%@",[titleArray objectAtIndex:3]];
-    fourLabel.font = [UIFont systemFontOfSize:15];
-    fourLabel.numberOfLines = 0;
-    fourLabel.frame = CGRectMake(SCREEN_WIDTH*3- 20*5, 10+40, 300, 40);
-    fourLabel.numberOfLines = 0;
-    [RiskScroview addSubview:fourLabel];
-    fiveLabel = [[UILabel alloc]init];
-    fiveLabel.text = [NSString stringWithFormat:@"5:%@",[titleArray objectAtIndex:4]];
-    fiveLabel.font = [UIFont systemFontOfSize:15];
-    fiveLabel.numberOfLines = 0;
-    fiveLabel.frame = CGRectMake(SCREEN_WIDTH*4- 20*7, 10+40, 300, 80);
-    fiveLabel.numberOfLines = 0;
-    [RiskScroview addSubview:fiveLabel];
-    sixLabel  = [[UILabel alloc]init];
-    sixLabel.text = [NSString stringWithFormat:@"6:%@",[titleArray objectAtIndex:5]];
-    sixLabel.font = [UIFont systemFontOfSize:15];
-    sixLabel.numberOfLines = 0;
-    sixLabel.frame = CGRectMake(SCREEN_WIDTH*5- 20*9, 10+40, 300, 60);
-    sixLabel.numberOfLines = 0;
-    [RiskScroview addSubview:sixLabel];
-    secenLabel = [[UILabel alloc]init];
-    secenLabel.text = [NSString stringWithFormat:@"7:%@",[titleArray objectAtIndex:6]];
-    secenLabel.font = [UIFont systemFontOfSize:15];
-    secenLabel.numberOfLines = 0;
-    secenLabel.frame = CGRectMake(SCREEN_WIDTH*6- 20*11, 10+40, 300, 40);
-    secenLabel.numberOfLines = 0;
-    [RiskScroview addSubview:secenLabel];
-    eightLabel = [[UILabel alloc]init];
-    eightLabel.text =[NSString stringWithFormat:@"8:%@",[titleArray objectAtIndex:7]];
-    eightLabel.font = [UIFont systemFontOfSize:15];
-    eightLabel.numberOfLines = 0;
-    eightLabel.frame = CGRectMake(SCREEN_WIDTH*7- 20*13, 10+40, 300, 40);
-    eightLabel.numberOfLines = 0;
-    [RiskScroview addSubview:eightLabel];
-    nineLabel = [[UILabel alloc]init];
-    nineLabel.text = [NSString stringWithFormat:@"9:%@",[titleArray objectAtIndex:8]];
-    nineLabel.font = [UIFont systemFontOfSize:15];
-    nineLabel.numberOfLines = 0;
-    nineLabel.frame = CGRectMake(SCREEN_WIDTH*8- 20*15, 10+40, 300, 40);
-    nineLabel.numberOfLines = 0;
-    [RiskScroview addSubview:nineLabel];
-    tenLabel  = [[UILabel alloc]init];
-    tenLabel.text =[NSString stringWithFormat:@"10:%@",[titleArray objectAtIndex:9]];
-    tenLabel.font = [UIFont systemFontOfSize:15];
-    tenLabel.numberOfLines = 0;
-    tenLabel.frame = CGRectMake(SCREEN_WIDTH*9- 20*17-40+20, 10+40, SCREEN_WIDTH-60, 40);
-    tenLabel.numberOfLines = 0;
-    [RiskScroview addSubview:tenLabel];
     
     TitleLabel = [[UILabel alloc]init];
     TitleLabel.text = @"风险能力测试题（1/10）";
@@ -422,7 +494,7 @@ static NSString * const ID = @"CollectionCell";
         UILabel *NameLabel = [[UILabel alloc]init];
         NameLabel.font =[UIFont systemFontOfSize:14];
         NameLabel.numberOfLines = 0;
-        NameLabel.frame = CGRectMake(SCREEN_WIDTH*8+80-40*8, 10+40+40 + 40 * i+50, SCREEN_WIDTH-150, 40);
+        NameLabel.frame = CGRectMake(SCREEN_WIDTH*8+80-40*8, 10+40+40 + 40 * i+50, SCREEN_WIDTH-160, 40);
         if (i<5) {
             NameLabel.text = [[[OptionesArray  objectAtIndex:8]objectAtIndex:i]objectForKey:@"option"];
 
@@ -463,16 +535,16 @@ static NSString * const ID = @"CollectionCell";
 
         }else{
             MHRadioButton *rb = [[MHRadioButton alloc] initWithGroupId:@"group10" atIndex:i];
-            rb.frame = CGRectMake(SCREEN_WIDTH*9+20-40*9-55, 10+40+40 + 40 * i+50-5, 50, 50);
+            rb.frame = CGRectMake(SCREEN_WIDTH*9+40-40*9-55, 10+40+40 + 40 * i+50-5, 50, 50);
             [RiskScroview addSubview:rb];
             UILabel *TypeLabel = [[UILabel alloc]init];
-            TypeLabel.frame = CGRectMake(SCREEN_WIDTH*9+60-40*9-50,20+40+40 + 40 * i+50, 20, 20);
+            TypeLabel.frame = CGRectMake(SCREEN_WIDTH*9+80-40*9-50,20+40+40 + 40 * i+50, 20, 20);
             TypeLabel.text = [TypeArray objectAtIndex:i];
             [RiskScroview addSubview:TypeLabel];
             UILabel *NameLabel = [[UILabel alloc]init];
             NameLabel.font =[UIFont systemFontOfSize:14];
             
-            NameLabel.frame = CGRectMake(SCREEN_WIDTH*9+80-40*9-50, 35+40 + 40 * i+50, 220, 20);
+            NameLabel.frame = CGRectMake(SCREEN_WIDTH*9+100-40*9-50, 20+40+40 + 40 * i+50, 220, 20);
             if (i<5) {
                 NameLabel.text = [[[OptionesArray  objectAtIndex:9]objectAtIndex:i]objectForKey:@"option"];
   
@@ -532,7 +604,13 @@ static NSString * const ID = @"CollectionCell";
     [self.view addSubview:ResultBtn];
     [ResultBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.view.mas_centerX);
-        make.centerY.mas_equalTo(self.view.mas_centerY).offset(110);
+        if (SCREEN_WIDTH == 320) {
+            make.centerY.mas_equalTo(self.view.mas_centerY).offset(150);
+
+        }else{
+            make.centerY.mas_equalTo(self.view.mas_centerY).offset(110);
+ 
+        }
         make.width.mas_equalTo(SCREEN_WIDTH - 100);
         make.height.mas_equalTo(40);
     }];
@@ -1023,12 +1101,18 @@ static NSString * const ID = @"CollectionCell";
     
     
     [alertView dismissAnimated:NO];
-   
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[SaleViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[UserViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+    
+    
 
 }
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{

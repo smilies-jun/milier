@@ -15,11 +15,13 @@
 #import "MoneyViewController.h"
 #import "MyLeftModel.h"
 #import "BundCardViewController.h"
-
+#import "SalePassWordViewController.h"
 
 @interface MyLeftViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSDictionary *MyMoneyDic;
     NSMutableArray *MyLeftArray;
+    NSString *BankStatus;
+    NSString *PassWordStr;
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)UIView *BottomView;
@@ -32,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"我的余额";
-    self.view.backgroundColor = [UIColor grayColor];
+    self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
@@ -40,8 +42,9 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     MyLeftArray = [[NSMutableArray alloc]init];
-   
+    self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     [self reloadMyMoney];
+    [self reloadMyBankMoney];
     [self getNetworkData:YES];
     [self ConfigUI];
 
@@ -86,7 +89,7 @@
     isFirstCome = YES;
     isJuhua = NO;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- 64 -44) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- 64 -60) style:UITableViewStylePlain];
     _tableView.delegate = self;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
@@ -142,25 +145,64 @@
         make.height.mas_equalTo(40);
     }];
 }
-- (void)payClick{
-   
 
-    NSString *bankStr = NSuserUse(@"bankCardExist");
-    if ([bankStr integerValue] == 0) {
+- (void)reloadMyBankMoney{
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *statusStr = [result objectForKey:@"statusCode"];
+        if ([statusStr integerValue] == 200) {
+            BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
+            PassWordStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dealPasswordExist"]];
+            
+           // [self ConfigUI];
+            
+        }
+        
+    }];
+    
+}
+
+- (void)payClick{
+    if ([BankStatus integerValue] ==1) {
+        if ([PassWordStr integerValue] ==1) {
+            TouUpViewController *vc = [[TouUpViewController alloc]init];
+            [self.navigationController pushViewController:vc animated:NO];
+        }else{
+            SalePassWordViewController *vc = [[SalePassWordViewController alloc]init];
+            [self.navigationController pushViewController:vc animated:NO];
+  
+        }
+    }else{
         BundCardViewController *vc = [[BundCardViewController alloc]init];
         vc.MoneyType = @"1";
-        [self.navigationController pushViewController:vc animated:NO];
-    }else{
-        TouUpViewController *vc = [[TouUpViewController alloc]init];
         [self.navigationController pushViewController:vc animated:NO];
     }
     
   
 }
 - (void)cashClick{
-    MoneyViewController *vc = [[MoneyViewController alloc]init];
-    vc.moneyStr = [MyMoneyDic objectForKey:@"assets"];
-    [self.navigationController pushViewController:vc animated:NO];
+    if ([BankStatus integerValue] ==1) {
+        if ([PassWordStr integerValue] ==1) {
+            MoneyViewController *vc = [[MoneyViewController alloc]init];
+            vc.moneyStr = [MyMoneyDic objectForKey:@"assets"];
+            [self.navigationController pushViewController:vc animated:NO];
+        }else{
+            SalePassWordViewController *vc = [[SalePassWordViewController alloc]init];
+            [self.navigationController pushViewController:vc animated:NO];
+ 
+        }
+    }else{
+        BundCardViewController *vc = [[BundCardViewController alloc]init];
+        vc.MoneyType = @"1";
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+
+
+    
+ 
 }
 - (void)MyLeftClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
@@ -230,7 +272,7 @@
         return 80;
  
     }
-    return SCREEN_HEIGHT-64-60-150;
+    return SCREEN_HEIGHT-64-150;
     
 }
 
@@ -307,6 +349,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 马上进入刷新状态
+    [self reloadMyBankMoney];
     [self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }

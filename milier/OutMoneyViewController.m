@@ -38,6 +38,7 @@
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
 }
 - (void)TouUpTap{
+    [self HideKeyBoardClick];
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[JinMiDetdailViewController  class]]) {
             [self.navigationController popToViewController:controller animated:YES];

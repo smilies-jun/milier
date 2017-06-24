@@ -41,9 +41,8 @@
    
     [self getNetworkData:YES];
     [self ConfigUI];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self loadoneNew];
-    };
+    [self loadoneNew];
+
 
 }
 -(void)ConfigUI{
@@ -131,9 +130,6 @@
             [self endRefresh];
             [self.tableView reloadData];
             isFirstCome = NO;
-        }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
-
         }
         
     }];
@@ -160,7 +156,7 @@
     if (AddArray.count) {
         return 44;
     }
-    return SCREEN_HEIGHT;
+    return SCREEN_HEIGHT-64;
     
 }
 

@@ -17,6 +17,7 @@
     CustomChooseView *NameChooseView;
     CustomChooseView *CodeChooseView;
     CustomView *PhoneView;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -123,7 +124,18 @@
      }*/
     return [regexTestMobile evaluateWithObject:telNumber];
 }
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)QuerenBtnClick{
     if (PhoneView.NameTextField.text.length) {
         
@@ -132,14 +144,20 @@
             
             NSMutableDictionary *dic = [[NSMutableDictionary   alloc]initWithObjectsAndKeys:_ProductID, @"commodityId",PhoneView.NameTextField.text,@"phoneNumber",nil];
             NSString *tokenID = NSuserUse(@"Authorization");
+            
+            [self showProgress];
             [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
                 if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                    [self HideProgress];
+                     normal_alert(@"提示", @"兑换成功", @"确定");
                     for (UIViewController *controller in self.navigationController.viewControllers) {
                         if ([controller isKindOfClass:[MyJiFenNewViewController class]]) {
                             [self.navigationController popToViewController:controller animated:YES];
                         }
                     }
                 }else{
+                    [self HideProgress];
+
                     NSString *message = [result objectForKey:@"message"];
                     normal_alert(@"提示", message, @"确定");
                     

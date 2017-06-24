@@ -27,8 +27,8 @@
 
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    self.tableView.backgroundColor = colorWithRGB(1, 0.89, 0.53);
- 
+    self.tableView.backgroundColor = colorWithRGB(1, 0.94, 0.72);
+    self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
 
     [self getNetworkData:YES];
 }
@@ -136,7 +136,7 @@
     if (dataArray.count) {
         return 60;
     }
-    return SCREEN_HEIGHT-64-44;
+    return SCREEN_HEIGHT-64-60;
 }
 
 //cell-tableview
@@ -166,7 +166,7 @@
             cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
             [cell configUI:indexPath];
             cell.backgroundColor = colorWithRGB(1, 0.94, 0.72);
-
+            cell.ImageView.image = [UIImage imageNamed:@"nodatas@2x"];
            // cell.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
             
         }
