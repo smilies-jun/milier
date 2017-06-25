@@ -28,6 +28,12 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
+     NSuserSave(@"2", @"qiye");
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSuserSave(@"2", @"qiye");
+    
 }
 - (void)loadoneNew{
     [self getNetworkData:YES];

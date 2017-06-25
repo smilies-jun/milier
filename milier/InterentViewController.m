@@ -14,6 +14,8 @@
 
 @interface InterentViewController (){
     NSMutableArray *DataArray;
+    MBProgressHUD *hud;
+
 }
 
 
@@ -57,6 +59,18 @@
     }
     [self.tableView.mj_footer endRefreshing];
 }
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
@@ -69,7 +83,7 @@
     if (page ==1) {
         [DataArray removeAllObjects];
     }
-
+    [self showProgress];
     //1. 网贷基金，2. 特色产品，3. 企业贷款、4. 个人贷款，5. 购车贷款、6. 债权转让，7. 新手专享，8. 金米宝， 0. 定期（包含1 3 4 5 6 7）
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *url;
@@ -82,23 +96,21 @@
     if (page ==1) {
         [DataArray removeAllObjects];
     }
+   [self HideProgress];
      [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;
             [DataArray addObject:model];
         }
-         NSLog(@"re = %@",result);
+       [self HideProgress];
          if (DataArray.count) {
              [self endRefresh];
 
              [self.tableView reloadData];
              
-         }else{
-             [self endRefresh];
-
          }
-
+        // [self HideProgress];
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];

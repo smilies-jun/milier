@@ -31,15 +31,17 @@
     dataArray = [[NSMutableArray alloc]init];
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 150-100);
     self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-
+    NSuserSave(@"3", @"qiye");
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self getNetworkData:YES];
-    };
+ 
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSuserSave(@"3", @"qiye");
+    
+}
 - (void)loadoneNew{
     [self getNetworkData:YES];
     

@@ -607,7 +607,8 @@
 - (UITableView *)pageScrollViewController:(YNPageScrollViewController *)pageScrollViewController scrollViewForIndex:(NSInteger)index{
     
     YNTestBaseViewController *VC= pageScrollViewController.viewControllers[index];
-    return [VC tableView];
+    NSLog(@"index%ld",(long)index);
+        return [VC tableView];
     
 };
 

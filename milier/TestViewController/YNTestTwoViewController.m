@@ -22,7 +22,7 @@
     [super viewDidLoad];
 
     self.tableView.backgroundColor = [UIColor whiteColor];
-    NSLog(@"two - viewDidLoad");
+    NSuserSave(@"5", @"qiye");
     dataArray = [[NSMutableArray alloc]init];
     self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
 
@@ -30,7 +30,11 @@
    // self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSuserSave(@"5", @"qiye");
+    
+}
 - (void)loadoneNew{
     [self getNetworkData:YES];
     

@@ -444,9 +444,9 @@
 - (UIButton *)addButton{
     
     if (!_addButton) {
-        _addButton = [[UIButton alloc] init];
-        [_addButton setBackgroundImage:[UIImage imageNamed:self.configration.addButtonNormalImageName] forState:UIControlStateNormal];
-        [_addButton setBackgroundImage:[UIImage imageNamed:self.configration.addButtonHightImageName] forState:UIControlStateSelected];
+        _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addButton setImage:[UIImage imageNamed:self.configration.addButtonNormalImageName] forState:UIControlStateNormal];
+        [_addButton setImage:[UIImage imageNamed:self.configration.addButtonHightImageName] forState:UIControlStateSelected];
         _addButton.layer.shadowColor = [UIColor clearColor].CGColor;
         _addButton.layer.shadowOffset = CGSizeMake(-1, 0);
         _addButton.layer.shadowOpacity = 0.5;
