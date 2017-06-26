@@ -46,7 +46,7 @@
 
 }
 -(void)ConfigUI{
-    page = 0;
+    page = 1;
     isFirstCome = YES;
     isJuhua = NO;
     _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];

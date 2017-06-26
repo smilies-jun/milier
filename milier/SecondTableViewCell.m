@@ -251,10 +251,10 @@
             
             break;
         case 5:
-            _MoneyLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
-            _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
+            _MoneyLabel.textColor = colorWithRGB(0.31, 0.69, 1);
+            _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 1);
 
-            _shapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 0.10).CGColor;
+            _shapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 1).CGColor;
             
             break;
         case 6:
@@ -312,7 +312,7 @@
                 
                 break;
             case 5:
-                _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
+                _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 1);
                 
                 
                 break;

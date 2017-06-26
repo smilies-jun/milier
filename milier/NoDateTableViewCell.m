@@ -15,6 +15,9 @@
     // Initialization code
 }
 - (void)configUI:(NSIndexPath *)indexPath{
+    
+    
+    
     self.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     _ImageView = [[UIImageView alloc]init];
     _ImageView.image = [UIImage imageNamed:@"nonedata@2x"];
@@ -37,6 +40,20 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
+    NSString *wifeStr = NSuserUse(@"Net");
+    NSLog(@"wife ============================================== %@",wifeStr);
+    switch ([wifeStr integerValue]) {
+        case 1:
+            _ImageView.image = [UIImage imageNamed:@"nowifi@2x"];
+            _NameLabel.text = @"暂无网络";
+
+            break;
+        default:
+            _ImageView.image = [UIImage imageNamed:@"nonedata@2x"];
+            _NameLabel.text = @"暂无数据";
+
+            break;
+    }
 
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

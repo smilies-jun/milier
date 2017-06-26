@@ -245,7 +245,7 @@
            SaleLbel.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
             break;
         case 5:
-          SaleLbel.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+          SaleLbel.backgroundColor = colorWithRGB(0.31, 0.69, 1);
             break;
         case 6:
            SaleLbel.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);

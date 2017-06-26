@@ -62,6 +62,16 @@
     if (manager) {
         manager = nil;
     }
+    [self CheckNetWorkinguseingBlock:^(NSString *staus) {
+        
+        if ([staus isEqualToString:@"未连接网络"]) {
+             NSuserSave(@"1", @"Net");
+        }else{
+           NSuserSave(@"0", @"Net");
+        }
+        
+       
+    }];
  //   __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
 //    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
 //        parameter = result;
@@ -88,10 +98,22 @@
         if (block) {
             block(nil,error);
         }
-    }];    
+    }];
+    
+    
     
 }
 - (void)requestDeleteWithParameters:(NSMutableDictionary *)parameters withUrl:(NSString *)url withTokenStr:(NSString *)tokenStr usingBlock:(void (^)(NSDictionary *, NSError *))block{
+    [self CheckNetWorkinguseingBlock:^(NSString *staus) {
+        
+        if ([staus isEqualToString:@"未连接网络"]) {
+            NSuserSave(@"1", @"Net");
+        }else{
+            NSuserSave(@"0", @"Net");
+        }
+        
+        
+    }];
     manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
@@ -121,7 +143,16 @@
     if (manager) {
         manager = nil;
     }
-//    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+    [self CheckNetWorkinguseingBlock:^(NSString *staus) {
+        
+        if ([staus isEqualToString:@"未连接网络"]) {
+            NSuserSave(@"1", @"Net");
+        }else{
+            NSuserSave(@"0", @"Net");
+        }
+        
+        
+    }];//    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
 //    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
 //        parameter = result;
 //    }];
@@ -165,7 +196,16 @@
 //    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
 //        parameter = result;
 //    }];
-    manager = [AFHTTPSessionManager manager];
+    [self CheckNetWorkinguseingBlock:^(NSString *staus) {
+        
+        if ([staus isEqualToString:@"未连接网络"]) {
+            NSuserSave(@"1", @"Net");
+        }else{
+            NSuserSave(@"0", @"Net");
+        }
+        
+        
+    }];    manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     manager.securityPolicy.allowInvalidCertificates = YES;
@@ -208,7 +248,16 @@
     if (manager) {
         manager = nil;
     }
-    manager = [AFHTTPSessionManager manager];
+    [self CheckNetWorkinguseingBlock:^(NSString *staus) {
+        
+        if ([staus isEqualToString:@"未连接网络"]) {
+            NSuserSave(@"1", @"Net");
+        }else{
+            NSuserSave(@"0", @"Net");
+        }
+        
+        
+    }];    manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
     manager.securityPolicy.allowInvalidCertificates = YES;

@@ -196,7 +196,7 @@
     UserLabel = [[UILabel alloc]init];
     UserLabel.textColor = colorWithRGB(0.22, 0.22, 0.22);
     UserLabel.text = @"";
-    UserLabel.font = [UIFont systemFontOfSize:15];
+    UserLabel.font = [UIFont systemFontOfSize:14];
     [TopView addSubview:UserLabel];
     [UserLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(UserImageView.mas_right).offset(10);
@@ -206,7 +206,7 @@
     }];
     PhoneLabel = [[UILabel alloc]init];
     PhoneLabel.text= @"";
-    PhoneLabel.font = [UIFont systemFontOfSize:12];
+    PhoneLabel.font = [UIFont systemFontOfSize:14];
     PhoneLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [TopView addSubview:PhoneLabel];
     [PhoneLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -236,7 +236,7 @@
     
     
     if (SCREEN_WIDTH == 320) {
-        self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(58, 64, 90, 90)];
+        self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(60, 64, 80, 80)];
   
     }else{
         self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
@@ -258,6 +258,7 @@
     
     MoneyLabel = [[UILabel alloc]init];
     MoneyLabel.text = @"在投资产";
+    MoneyLabel.textAlignment = NSTextAlignmentCenter;
     MoneyLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     MoneyLabel.font =  [UIFont systemFontOfSize:15];
     [MyScrollView addSubview:MoneyLabel];
@@ -281,16 +282,29 @@
         make.height.mas_equalTo(40);
         
     }];
-    
-    JinMiImageView = [[UIImageView alloc]init];
-    JinMiImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
-    [MyScrollView addSubview:JinMiImageView];
-    [JinMiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_left).offset(50);
-        make.top.mas_equalTo(TopView.mas_bottom).offset(250);
-        make.width.mas_equalTo(6);
-        make.height.mas_equalTo(14);
-    }];
+    if (SCREEN_WIDTH == 320) {
+        JinMiImageView = [[UIImageView alloc]init];
+        JinMiImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+        [MyScrollView addSubview:JinMiImageView];
+        [JinMiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(TopView.mas_left).offset(30);
+            make.top.mas_equalTo(TopView.mas_bottom).offset(250);
+            make.width.mas_equalTo(6);
+            make.height.mas_equalTo(14);
+        }];
+        
+    }else{
+        JinMiImageView = [[UIImageView alloc]init];
+        JinMiImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+        [MyScrollView addSubview:JinMiImageView];
+        [JinMiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(TopView.mas_left).offset(50);
+            make.top.mas_equalTo(TopView.mas_bottom).offset(250);
+            make.width.mas_equalTo(6);
+            make.height.mas_equalTo(14);
+        }];
+        
+    }
     
     JinMiLabel = [[UILabel alloc]init];
     JinMiLabel.text = @"金米宝";
@@ -346,16 +360,28 @@
         make.width.mas_equalTo(50);
         make.height.mas_equalTo(20);
     }];
+    if (SCREEN_WIDTH == 320) {
+        DinQiImageView = [[UIImageView alloc]init];
+        DinQiImageView.backgroundColor =colorWithRGB(0.96, 0.60, 0.12) ;
+        [MyScrollView addSubview:DinQiImageView];
+        [DinQiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(TopView.mas_right).offset(-130);
+            make.top.mas_equalTo(TopView.mas_bottom).offset(250);
+            make.width.mas_equalTo(6);
+            make.height.mas_equalTo(14);
+        }];
+    }else{
+        DinQiImageView = [[UIImageView alloc]init];
+        DinQiImageView.backgroundColor =colorWithRGB(0.96, 0.60, 0.12) ;
+        [MyScrollView addSubview:DinQiImageView];
+        [DinQiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(TopView.mas_right).offset(-150);
+            make.top.mas_equalTo(TopView.mas_bottom).offset(250);
+            make.width.mas_equalTo(6);
+            make.height.mas_equalTo(14);
+        }];
+    }
     
-    DinQiImageView = [[UIImageView alloc]init];
-    DinQiImageView.backgroundColor =colorWithRGB(0.96, 0.60, 0.12) ;
-    [MyScrollView addSubview:DinQiImageView];
-    [DinQiImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_right).offset(-150);
-        make.top.mas_equalTo(TopView.mas_bottom).offset(250);
-        make.width.mas_equalTo(6);
-        make.height.mas_equalTo(14);
-    }];
     
     DinQiLabel = [[UILabel alloc]init];
     DinQiLabel.text = @"定期投资";
@@ -1009,7 +1035,14 @@
         DinQiNumber.text = @"¥0";
  
     }
-    UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"username"]];
+    NSLog(@"use=== %@",UserDic);
+    NSString *usernameStr = [UserDic objectForKey:@"realName"];
+    if (usernameStr.length) {
+        UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"realName"]];
+
+    }else{
+        UserLabel.text = @"米粒儿用户";
+    }
     PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
     if ([[StaticUserDic objectForKey:@"assets"] doubleValue]) {
         MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];

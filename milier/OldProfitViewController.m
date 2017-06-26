@@ -17,7 +17,7 @@
     NSMutableArray *AddArray;
 
 }
-@property (nonatomic,strong)MyTableView *tableView;
+@property (nonatomic,strong)UITableView *tableView;
 @end
 
 @implementation OldProfitViewController
@@ -34,27 +34,23 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     AddArray = [[NSMutableArray alloc]init];
-    [self getNetworkData:YES];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self loadoneNew];
-    };
     [self ConfigUI];
+
+    [self getNetworkData:YES];
+
 }
 
 -(void)ConfigUI{
     
-    page = 0;
     isFirstCome = YES;
     isJuhua = NO;
-    
-    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStylePlain];
+    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = [UIColor whiteColor];
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-
     [self.view addSubview:_tableView];
 }
 - (void)loadoneNew{
@@ -69,10 +65,7 @@
  *  停止刷新
  */
 -(void)endRefresh{
-    
-    if (page == 1) {
-        [self.tableView.mj_header endRefreshing];
-    }
+    [self.tableView.mj_header endRefreshing];
     [self.tableView.mj_footer endRefreshing];
 }
 
@@ -98,37 +91,30 @@
     
     url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?productCategoryId=0",HOST_URL,userID];
 
-
+    [AddArray removeAllObjects];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
-        isJuhua = NO;
-        [self endRefresh];
-        if (page == 1) {
-            [AddArray removeAllObjects];
-        }
-        if (isJuhua) {
-            [self endRefresh];
-        }
-        if (AddArray.count) {
+
+        if (myArray.count) {
             for (NSDictionary *NewDic in myArray) {
                 ProfileModel *model = [[ProfileModel alloc]init];
                 model.dataDictionary = NewDic;
                 [AddArray addObject:model];
             }
-            [self endRefresh];
             [self.tableView reloadData];
-            isFirstCome = NO;
-        }else{
-            [self.tableView showEmptyViewWithType:NoContentTypeNetwork];
 
         }
+        [self endRefresh];
         
        
     }];
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  AddArray.count;
+    if (AddArray.count) {
+        return AddArray.count;
+    }
+    return  1;
 }
 
 
@@ -138,28 +124,44 @@
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-  return 44;
+    if (AddArray.count) {
+        return 44;
+    }
+  return 300;
     
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"oldidentifier";
-    
-    OldProfileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[OldProfileTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
     if (AddArray.count) {
-        ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
-        cell.ProfileModel = model;
+        static NSString *identifier = @"oldProidentifier";
+        
+        OldProfileTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[OldProfileTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        if (AddArray.count) {
+            ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
+            cell.ProfileModel = model;
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        
+        return cell;
+    }else{
+        static NSString *identifier = @"NoWifeidentifier";
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.textLabel.text = @"11111111";
+        return cell;
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
-
-    return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    SectionViewController *sVC = [[SectionViewController alloc] init];

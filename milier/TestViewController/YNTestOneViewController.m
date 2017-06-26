@@ -14,6 +14,7 @@
 
 @interface YNTestOneViewController (){
     NSMutableArray *dataArray;
+    int type;
 }
 @end
 
@@ -24,15 +25,29 @@
     [self.tableView setSeparatorColor:colorWithRGB(0.87, 0.87, 0.87)];
     dataArray = [[NSMutableArray alloc]init];
     self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    type = 0;
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT -64-49);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self getNetworkData:YES];
+
+    NSString *wifeStr = NSuserUse(@"Net");
+    switch ([wifeStr integerValue]) {
+        case 0:
+            type = 1;
+            [self.tableView reloadData];
+            break;
+        default:
+            type = 0;
+            break;
+    }
+    NSLog(@"wife = %@",wifeStr);
      NSuserSave(@"2", @"qiye");
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSuserSave(@"2", @"qiye");
+    
     
 }
 - (void)loadoneNew{
@@ -121,34 +136,53 @@
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSLog(@"a = %lu",(unsigned long)dataArray.count);
-    return [dataArray count];
+    if (dataArray.count) {
+        return dataArray.count;
+    }
+    return 1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 120;
+    if (dataArray.count) {
+        return 120;
+    }
+    return 300;
 }
 
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"oneidentifier";
-    
-    SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
     if (dataArray.count) {
-        ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
-        cell.productMoel = model;
+        static NSString *identifier = @"oneidentifier";
+        SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        if (dataArray.count) {
+            ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
+            cell.productMoel = model;
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        //cell.textLabel.text = @"11111111";
+        return cell;
+ 
+    }else{
+        static NSString *identifier = @"NoWifeidentifier";
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+       
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.textLabel.text = @"11111111";
+        return cell;
+ 
     }
-
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    
-    //cell.textLabel.text = @"11111111";
-    return cell;
 }
 #pragma mark  - 滑到最底部
 - (void)scrollTableToFoot:(BOOL)animated
@@ -162,12 +196,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
-    ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
-    vc.productID = [model.oid intValue];
-    vc.productCateID = 1;
-    vc.State = model.state;
-    [self.navigationController pushViewController:vc animated:NO];
+    if (dataArray.count) {
+        ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
+        ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
+        vc.productID = [model.oid intValue];
+        vc.productCateID = 1;
+        vc.State = model.state;
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+   
 }
 
 

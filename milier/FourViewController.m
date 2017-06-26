@@ -105,6 +105,7 @@
         _MessageArray = [result objectForKey:@"items"];
         [self makeData];
         [self HideProgress];
+        NSLog(@"sucess message");
         [_tableView reloadData];
         isFirstCome = NO;
         
@@ -311,7 +312,6 @@
     int index = tap.view.tag % 100;
     
     [_NoteArray addObject:[NSString stringWithFormat:@"%d",index]];
-    NSLog(@"_no = %@",_NoteArray);
     [_tableView reloadData];
 
     NSString *oidStr = [[_MessageArray objectAtIndex:index]objectForKey:@"oid"];

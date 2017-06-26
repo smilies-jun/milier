@@ -46,7 +46,7 @@
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(85);
+        make.width.mas_equalTo(90);
         make.height.mas_equalTo(20);
     }];
     
@@ -60,7 +60,7 @@
     [_NameTextField mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameLabel.mas_right).offset(10);
         make.top.mas_equalTo(self.mas_top);
-        make.right.mas_equalTo(self.mas_right).offset(-70);
+        make.right.mas_equalTo(self.mas_right).offset(-40);
         make.height.mas_equalTo(40);
     }];
 }

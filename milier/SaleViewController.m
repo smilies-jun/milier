@@ -170,7 +170,6 @@
                 model.dataDictionary = NewDic;
                 [stageArray addObject:model];
             }
-            
             [StageTableView reloadData];
         }
         
@@ -795,11 +794,11 @@
             SaleLabel.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
             break;
         case 5:
-            TitleLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
-            MoneyPercentLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
-            MoneyLeftLbel.textColor = colorWithRGB(0.31, 0.69, 0.10);
-            ExplainLabel.textColor =  colorWithRGB(0.31, 0.69, 0.10);
-            SaleLabel.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+            TitleLabel.textColor =  colorWithRGB(0.31, 0.69, 1);
+            MoneyPercentLabel.textColor = colorWithRGB(0.31, 0.69, 1);
+            MoneyLeftLbel.textColor = colorWithRGB(0.31, 0.69, 1);
+            ExplainLabel.textColor =  colorWithRGB(0.31, 0.69, 1);
+            SaleLabel.backgroundColor = colorWithRGB(0.31, 0.69,1);
             break;
         case 6:
             TitleLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
@@ -816,7 +815,20 @@
             BuyTextField.enabled = NO;
             
             break;
-            
+        case 7:
+            TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            MoneyLeftLbel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            ExplainLabel.textColor =  colorWithRGB(0.99, 0.79, 0.09);
+            SaleLabel.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+            break;
+        case 8:
+            TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            MoneyLeftLbel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+            ExplainLabel.textColor =  colorWithRGB(0.99, 0.79, 0.09);
+            SaleLabel.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+            break;
         default:
             break;
     }
@@ -1226,7 +1238,9 @@
 }
 - (void)MyChoceClcik{
     
-    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 280)];
+    UIView *view=[[UIView alloc]init];
+    view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 280);
+
     view.backgroundColor=[UIColor whiteColor];
     view.layer.masksToBounds = YES;
     view.layer.cornerRadius = 5.0f;

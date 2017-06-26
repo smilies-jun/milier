@@ -121,44 +121,65 @@
 }
 //rows-section
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    
-    return [dataArray count];
+    if (dataArray.count) {
+        return dataArray.count;
+    }
+    return 1;
 }
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    return 120;
+    if (dataArray.count) {
+        return 120;
+    }
+    return 300;
 }
 
 
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    static NSString *identifier = @"Twoidentifier";
-    
-    SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        [cell configUI:indexPath];
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     if (dataArray.count) {
-        ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
-        cell.productMoel = model;
+        static NSString *identifier = @"Twoidentifier";
+        
+        SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        if (dataArray.count) {
+            ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
+            cell.productMoel = model;
+        }
+        //cell.textLabel.text = @"11111111";
+        return cell; 
+    }else{
+        static NSString *identifier = @"NoWifeidentifier";
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+            
+        }
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        //cell.textLabel.text = @"11111111";
+        return cell;
     }
-    //cell.textLabel.text = @"11111111";
-    return cell;
+    
     
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
-    ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
-    vc.productID = [model.oid intValue];
-    vc.productCateID = [model.productCategoryId integerValue];
-    vc.State = model.state;
-
-    [self.navigationController pushViewController:vc animated:NO];
+    if (dataArray.count) {
+        ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
+        ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
+        vc.productID = [model.oid intValue];
+        vc.productCateID = [model.productCategoryId integerValue];
+        vc.State = model.state;
+        
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+   
 }
 
 

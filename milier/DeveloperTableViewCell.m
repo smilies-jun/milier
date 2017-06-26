@@ -37,6 +37,21 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
+    NSString *wifeStr = NSuserUse(@"Net");
+    switch ([wifeStr integerValue]) {
+        case 1:
+            _ImageView.image = [UIImage imageNamed:@"nowifi@2x"];
+            _NameLabel.text = @"暂无网络";
+            
+            break;
+        default:
+            _ImageView.image = [UIImage imageNamed:@"nonedata@2x"];
+            _NameLabel.text = @"即将上线";
+            
+            break;
+    }
+
+    
     
 }
 

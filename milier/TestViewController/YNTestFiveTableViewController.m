@@ -142,7 +142,7 @@
         return 120;
  
     }
-    return SCREEN_HEIGHT-64-44-170;
+    return 300;
 }
 
 
@@ -171,6 +171,7 @@
             cell = [[DeveloperTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+    
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
         return cell;

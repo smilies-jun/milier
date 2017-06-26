@@ -277,12 +277,22 @@
     detailLabel.textColor = colorWithRGB(0.86, 0.29, 0.24);
     detailLabel.text =@"查看详细规则>>";
     [UserInviteView addSubview:detailLabel];
-    [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(UserInviteView.mas_right);
-        make.centerY.mas_equalTo(UserInviteView.mas_centerY);
-        make.width.mas_equalTo(120);
-        make.height.mas_equalTo(20);
-    }];
+    if (SCREEN_WIDTH == 320) {
+        [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(UserInviteView.mas_right);
+            make.centerY.mas_equalTo(UserInviteView.mas_centerY).offset(20);
+            make.width.mas_equalTo(120);
+            make.height.mas_equalTo(20);
+        }];
+    }else{
+        [detailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(UserInviteView.mas_right);
+            make.centerY.mas_equalTo(UserInviteView.mas_centerY);
+            make.width.mas_equalTo(120);
+            make.height.mas_equalTo(20);
+        }];
+    }
+    
     
 
     UIView *InviteView = [[UIView alloc]init];

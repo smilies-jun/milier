@@ -189,7 +189,10 @@
                 _TypeDetailLabel.text = @"积极型，收益较高  适合积极型投资者";
                 break;
             default:
+                _TypeLabel.text = @"风险等级";
+                _TypeDetailLabel.text = @"保守型,收益适中 适合保守型投资者";
                 break;
+            
         }
         
         

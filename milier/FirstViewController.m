@@ -151,6 +151,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         [self endRefresh];
         isJuhua = NO;
+        NSLog(@"re = %@",result);
                if (page == 1) {
             [DataArray removeAllObjects];
         }
@@ -171,7 +172,10 @@
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return  [DataArray count];
+    if (DataArray.count) {
+        return DataArray.count;
+    }
+    return 1;
 }
 
 
@@ -189,7 +193,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-
+    if (DataArray.count) {
         static NSString *identifier = @"Activityidentifier";
         
         ActivityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
@@ -198,24 +202,40 @@
             [cell configUI:indexPath];
             cell.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
         }
-    
-    if ([DataArray count]) {
-        ActivityModel *NewModel = [DataArray objectAtIndex: indexPath.row];
-        cell.ActivityModel = NewModel;
-    }
+        
+        if ([DataArray count]) {
+            ActivityModel *NewModel = [DataArray objectAtIndex: indexPath.row];
+            cell.ActivityModel = NewModel;
+        }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         
         return cell;
 
+    }else{
+        static NSString *identifier = @"Nodateidentifier";
+        
+        NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+        if (!cell) {
+            cell = [[NoDateTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+            [cell configUI:indexPath];
+        }
+        //cell.textLabel.text = @"11111111";
+        return cell;
+
+    }
+    
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ActivityDetailViewController *vc = [[ActivityDetailViewController alloc]init];
-    ActivityModel *model = [DataArray objectAtIndex:indexPath.row];
-    vc.WebStr = model.url;
-    vc.TitleStr = model.name;
-    [self.navigationController   pushViewController:vc animated:NO];
+    if (DataArray.count) {
+        ActivityDetailViewController *vc = [[ActivityDetailViewController alloc]init];
+        ActivityModel *model = [DataArray objectAtIndex:indexPath.row];
+        vc.WebStr = model.url;
+        vc.TitleStr = model.name;
+        [self.navigationController   pushViewController:vc animated:NO];
+    }
+   
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

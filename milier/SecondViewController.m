@@ -172,16 +172,12 @@
             }else{
                 LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
             }
-           
-            
             [self RequestHead];
             self.navigationItem.rightBarButtonItem = rightItem;
         }];
       
     }else{
         LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
-
-
         self.navigationItem.rightBarButtonItem = nil;
         
     }
@@ -191,7 +187,6 @@
 
 - (void)RequestHead{
     NSString *tokenID = NSuserUse(@"Authorization");
-
     NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/messages/isNewMessageExist",HOST_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"exist"]integerValue]==1) {

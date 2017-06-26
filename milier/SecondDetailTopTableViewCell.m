@@ -202,10 +202,10 @@
                 
                 break;
             case 5:
-                TitleLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
-                ShapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 0.10).CGColor;
-                LeftMoneyLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
-                ProfitPercentLabel.textColor = colorWithRGB(0.31, 0.69, 0.10);
+                TitleLabel.textColor = colorWithRGB(0.31, 0.69, 1);
+                ShapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 1).CGColor;
+                LeftMoneyLabel.textColor = colorWithRGB(0.31, 0.69, 1);
+                ProfitPercentLabel.textColor = colorWithRGB(0.31, 0.69, 1);
                 
                 break;
             case 6:

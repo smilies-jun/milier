@@ -298,7 +298,7 @@
         return 280;
     }else{
         if (_MutableArray.count) {
-            return 88;
+            return 88+30;
         }
         return SCREEN_HEIGHT-280;
   
@@ -513,7 +513,7 @@
         FiveImageView.layer.cornerRadius = 5;
         FiveImageView.clipsToBounds = YES;
 
-        FiveImageView.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+        FiveImageView.backgroundColor = colorWithRGB(0.31, 0.69, 1);
         [topView addSubview:FiveImageView];
         [FiveImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(topView.mas_right).offset(-170);
@@ -717,7 +717,7 @@
         [topView addSubview:SegeteLineView];
         [SegeteLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(topView.mas_left);
-            make.top.mas_equalTo(ImageLineView.mas_bottom).offset(100);
+            make.top.mas_equalTo(ImageLineView.mas_bottom).offset(100+20);
             make.width.mas_equalTo(SCREEN_WIDTH);
             make.height.mas_equalTo(10);
         }];
@@ -746,42 +746,42 @@
             
             UIView *ImageView = [[UIView alloc]init];
             ImageView.backgroundColor = [UIColor orangeColor];
-            ImageView.frame = CGRectMake(0, 10, 2, 60);
+            ImageView.frame = CGRectMake(0, 25, 2, 60);
             [HeaderView addSubview:ImageView];
             
             UILabel *DinQiLabel = [[UILabel alloc]init];
             DinQiLabel.text = @"";
-            DinQiLabel.font = [UIFont systemFontOfSize:14];
-            DinQiLabel.frame = CGRectMake(10, 15, SCREEN_WIDTH-20, 20);
+            DinQiLabel.font = [UIFont systemFontOfSize:13];
+            DinQiLabel.frame = CGRectMake(10, 32, SCREEN_WIDTH-20, 20);
             [HeaderView addSubview:DinQiLabel];
             
             UILabel *DinQiDetailLabel = [[UILabel alloc]init];
             DinQiDetailLabel.text = @"";
             DinQiDetailLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-            DinQiDetailLabel.font = [UIFont systemFontOfSize:12];
-            DinQiDetailLabel.frame = CGRectMake(10, 35, SCREEN_WIDTH-20, 18);
+            DinQiDetailLabel.font = [UIFont systemFontOfSize:13];
+            DinQiDetailLabel.frame = CGRectMake(10, 55, SCREEN_WIDTH-20, 20);
             [HeaderView addSubview:DinQiDetailLabel];
             
             UILabel *DinQiNameLabel = [[UILabel alloc]init];
             DinQiNameLabel.text = @"当前资产";
-            DinQiNameLabel.font = [UIFont systemFontOfSize:12];
-            DinQiNameLabel.frame = CGRectMake(10, 55, 200, 18);
+            DinQiNameLabel.font = [UIFont systemFontOfSize:13];
+            DinQiNameLabel.frame = CGRectMake(10, 80, 200, 20);
             [HeaderView addSubview:DinQiNameLabel];
             if (SCREEN_WIDTH == 320) {
                 UILabel *DinQiNnumberLabel = [[UILabel alloc]init];
                 DinQiNnumberLabel.text = @"";
                 DinQiNnumberLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
                 DinQiNnumberLabel.textAlignment = NSTextAlignmentRight;
-                DinQiNnumberLabel.font = [UIFont systemFontOfSize:12];
-                DinQiNnumberLabel.frame = CGRectMake(150, 55, 100, 18);
+                DinQiNnumberLabel.font = [UIFont systemFontOfSize:13];
+                DinQiNnumberLabel.frame = CGRectMake(150, 80, 100, 18);
                 [HeaderView addSubview:DinQiNnumberLabel];
                 
                 UILabel *DinQiTotalNnumberLabel = [[UILabel alloc]init];
                 DinQiTotalNnumberLabel.text = @"";
                 DinQiTotalNnumberLabel.textColor = [UIColor blackColor];
                 DinQiTotalNnumberLabel.textAlignment = NSTextAlignmentLeft;
-                DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:12];
-                DinQiTotalNnumberLabel.frame = CGRectMake(250, 55, 100, 18);
+                DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:13];
+                DinQiTotalNnumberLabel.frame = CGRectMake(250, 80, 100, 18);
                 [HeaderView addSubview:DinQiTotalNnumberLabel];
                 if (DinQiArray.count) {
                     DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
@@ -796,7 +796,7 @@
                 DinQiNnumberLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
                 DinQiNnumberLabel.textAlignment = NSTextAlignmentRight;
                 DinQiNnumberLabel.font = [UIFont systemFontOfSize:12];
-                DinQiNnumberLabel.frame = CGRectMake(200, 55, 100, 18);
+                DinQiNnumberLabel.frame = CGRectMake(SCREEN_WIDTH-200, 80, 100, 18);
                 [HeaderView addSubview:DinQiNnumberLabel];
                 
                 UILabel *DinQiTotalNnumberLabel = [[UILabel alloc]init];
@@ -804,7 +804,7 @@
                 DinQiTotalNnumberLabel.textColor = [UIColor blackColor];
                 DinQiTotalNnumberLabel.textAlignment = NSTextAlignmentLeft;
                 DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:12];
-                DinQiTotalNnumberLabel.frame = CGRectMake(300, 55, 100, 18);
+                DinQiTotalNnumberLabel.frame = CGRectMake(SCREEN_WIDTH- 100, 80, 100, 18);
                 [HeaderView addSubview:DinQiTotalNnumberLabel];
                 if (DinQiArray.count) {
                     DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
@@ -825,12 +825,12 @@
             
             UIImageView *RowImageView = [[UIImageView alloc]init];
             RowImageView.image = [UIImage imageNamed:@"down_arrow_gray"];
-            RowImageView.frame = CGRectMake(SCREEN_WIDTH - 60, 30, 18, 18);
+            RowImageView.frame = CGRectMake(SCREEN_WIDTH - 38, 50, 18, 18);
             [HeaderView addSubview:RowImageView];
             
             
             UIProgressView *processView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
-            processView.frame = CGRectMake(10, 77,SCREEN_WIDTH-20, 4);
+            processView.frame = CGRectMake(10, 106,SCREEN_WIDTH-20-30, 6);
             processView.transform = CGAffineTransformMakeScale(1.0f, 2.0f);
             processView.progressTintColor = colorWithRGB(0.96, 0.6, 0.12);
             
@@ -859,13 +859,18 @@
                         
                         break;
                     case 5:
-                        ImageView.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
+                        ImageView.backgroundColor = colorWithRGB(0.31, 0.69, 1);
                         
                         break;
                     case 6:
-                        ImageView.backgroundColor = colorWithRGB(0.19, 0.39, 0.9);
+                        ImageView.backgroundColor = colorWithRGB(0.19, 0.39, 1);
                         break;
-                        
+                    case 7:
+                        ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+                        break;
+                    case 8:
+                        ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+                        break;
                     default:
                         break;
                 }
@@ -1001,22 +1006,45 @@
         ChangeVC.OrderNumber = [NSString stringWithFormat:@"%@",model.orderNo];
         [self.navigationController pushViewController:ChangeVC animated:NO];
     }else{
-        NSString *Statisurl;
-        NSString *tokenID = NSuserUse(@"Authorization");
-        Statisurl = [NSString stringWithFormat:@"%@/products/action/deleteDebentureTransferProduct",HOST_URL];
-        DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
-
-        NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:model.orderNo,@"orderNo", nil];;
-        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            NSString *state = [result objectForKey:@"statusCode"];
-            if ([state integerValue]  == 201) {
-                [self getNetworkData:YES];
-            }else{
-                NSString *message = [result objectForKey:@"message"];
-                normal_alert(@"提示", message, @"确定");
-            }
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                                 message:@"是否取消转让"
+                                                                          preferredStyle:UIAlertControllerStyleAlert ];
+        
+        //添加取消到UIAlertController中
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+        [alertController addAction:cancelAction];
+        
+        //添加确定到UIAlertController中
+        UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSString *Statisurl;
+            NSString *tokenID = NSuserUse(@"Authorization");
+            Statisurl = [NSString stringWithFormat:@"%@/products/action/deleteDebentureTransferProduct",HOST_URL];
+            DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
+            
+            NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:model.orderNo,@"orderNo", nil];;
+            [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                NSString *state = [result objectForKey:@"statusCode"];
+                if ([state integerValue]  == 201) {
+                    [self getNetworkData:YES];
+                }else{
+                    NSString *message = [result objectForKey:@"message"];
+                    normal_alert(@"提示", message, @"确定");
+                }
+            }];
+            
         }];
+        [alertController addAction:OKAction];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+        
+      
     }
+    
+}
+
+
+- (void)CanceChangeClick{
     
 }
 - (void)LookClick:(UIButton *)btn{
@@ -1085,7 +1113,7 @@
     if ([[CircleArray objectAtIndex:0]integerValue]==0 && [[CircleArray objectAtIndex:1]integerValue]==0 && [[CircleArray objectAtIndex:2]integerValue]==0 && [[CircleArray objectAtIndex:3]integerValue]==0 &&[[CircleArray objectAtIndex:4]integerValue]==0 &&[[CircleArray objectAtIndex:5]integerValue]==0) {
          return @[colorWithRGB(0.83, 0.83, 0.83)];
     }else{
-         return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.79, 0.09), colorWithRGB(0.99, 0.52, 0.18), colorWithRGB(0.27, 0.78, 0.96), colorWithRGB(0.31, 0.69, 1), colorWithRGB(0.19, 0.39, 0.9)];
+         return @[colorWithRGB(0.62, 0.80, 0.09),colorWithRGB(0.99, 0.79, 0.09), colorWithRGB(0.99, 0.52, 0.18), colorWithRGB(0.31, 0.69, 1), colorWithRGB(0.27, 0.78, 0.96), colorWithRGB(0.19, 0.39, 0.9)];
     }
     
 }

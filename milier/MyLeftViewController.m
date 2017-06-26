@@ -102,7 +102,7 @@
     
     _BottomView = [[UIView alloc]init];
     _BottomView.backgroundColor = [UIColor whiteColor];
-    _BottomView.alpha = 0.5;
+    _BottomView.alpha = 0.9;
     [self.view addSubview:_BottomView];
     [_BottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -112,7 +112,6 @@
     }];
     UILabel *PayLabel =[[UILabel alloc]init];
     PayLabel.text = @"充值";
-    PayLabel.alpha = 0.9;
     PayLabel.textColor = [UIColor whiteColor];
     PayLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *PayTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(payClick)];
@@ -130,7 +129,6 @@
     }];
     UILabel *CashLabel =[[UILabel alloc]init];
     CashLabel.text = @"提现";
-    CashLabel.alpha = 0.9;
     CashLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *CashTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cashClick)];
     [CashLabel addGestureRecognizer:CashTap];
