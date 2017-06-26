@@ -77,7 +77,6 @@
             [dataArray addObject:model];
         }
         [self.tableView reloadData];
-        [self scrollTableToFoot:YES];
         isFirstCome = NO;
     }];
     

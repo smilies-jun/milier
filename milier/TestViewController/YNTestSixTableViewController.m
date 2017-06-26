@@ -142,7 +142,7 @@
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    static NSString *identifier = @"sixidentifier";
+    static NSString *identifier = @"sixIdentifier";
     
     SecondTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {

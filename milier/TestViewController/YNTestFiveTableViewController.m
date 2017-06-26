@@ -164,7 +164,7 @@
         //cell.textLabel.text = @"11111111";
         return cell;
     }else{
-        static NSString *identifier = @"DDeidentifier";
+        static NSString *identifier = @"NoDataeidentifier";
         
         DeveloperTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

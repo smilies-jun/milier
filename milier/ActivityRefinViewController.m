@@ -15,8 +15,9 @@
 #import "ProtocalViewController.h"
 #import "ActivityDetailViewController.h"
 #import "YWDLoginViewController.h"
+#import "FirstViewController.h"
 
-@interface ActivityRefinViewController (){
+@interface ActivityRefinViewController ()<UITextFieldDelegate>{
     customWithStatic  *UsertPhoneView;
     customWithStatic  *PhoneView;
     customWithStatic  *PassView;
@@ -42,7 +43,7 @@
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(ReginlTap) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn addTarget:self action:@selector(ReginAndLoginBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
 
@@ -50,6 +51,7 @@
     [self initUI];
     [self initAlertView];
 }
+
 - (void)initUI{
     
     UsertPhoneView = [[customWithStatic alloc]init];
@@ -63,7 +65,7 @@
     [UsertPhoneView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.right.mas_equalTo(self.view.mas_right);
-        make.top.mas_equalTo(self.view.mas_bottom).offset(20);
+        make.top.mas_equalTo(self.view.mas_top).offset(20);
         make.height.mas_equalTo(40);
     }];
     
@@ -155,9 +157,9 @@
     UIButton *reginBtn = [[UIButton alloc]init];
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
-    reginBtn.layer.cornerRadius = 5.0f;
+    reginBtn.layer.cornerRadius = 20.0f;
     [reginBtn setTitle:@"注册并登录" forState:UIControlStateNormal];
-    [reginBtn addTarget:self action:@selector(ReginAndLoginClicked) forControlEvents:UIControlEventTouchUpInside];
+    [reginBtn addTarget:self action:@selector(ReginAndLoginClickedActivity) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -166,6 +168,33 @@
         make.height.mas_equalTo(40);
     }];
 }
+
+- (void)ReginAndLoginClickedActivity{
+    [self dismissViewControllerAnimated:NO completion:nil];
+    if (PhoneView.NameTextField.text.length) {
+        if (PassView.NameTextField.text.length) {
+            if (ClickBtn.selected) {
+                [self ReginClicked];
+                
+            }else{
+                normal_alert(@"提示", @"请同意协议" , @"确定");
+                
+            }
+            
+            
+        }else{
+            normal_alert(@"提示", @"登录密码不可为空" , @"确定");
+            
+        }
+    }else{
+        normal_alert(@"提示", @"验证码不可为空" , @"确定");
+        
+    }
+    
+    
+}
+
+
 -(void)Agreeclicked:(UIButton *)btn{
     if (btn.selected) {
         btn.selected = NO;
@@ -320,8 +349,12 @@
 }
 - (void)ReginAndLoginBackClick{
  
-    [self.navigationController popToRootViewControllerAnimated:YES];
-
+//    for (UIViewController *controller in self.navigationController.viewControllers) {
+//        if ([controller isKindOfClass:[FirstViewController  class]]) {
+//            [self.navigationController popToViewController:controller animated:YES];
+//        }
+//    }
+    [self.navigationController   popToRootViewControllerAnimated:NO];
     
 }
 - (void)hideKey{

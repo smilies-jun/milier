@@ -167,6 +167,10 @@
             [cell configUI:indexPath];
             cell.backgroundColor = colorWithRGB(1, 0.94, 0.72);
             cell.ImageView.image = [UIImage imageNamed:@"nodatas@2x"];
+            [cell.ImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(57);
+                make.height.mas_equalTo(51);
+            }];
            // cell.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
             
         }

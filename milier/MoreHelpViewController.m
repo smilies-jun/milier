@@ -62,7 +62,7 @@
     HelpTableView.delegate = self;
     HelpTableView.tableFooterView = [UIView new];
     HelpTableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-    HelpTableView.frame = CGRectMake(0,64+10, SCREEN_WIDTH, SCREEN_HEIGHT - 64);
+    HelpTableView.frame = CGRectMake(0,64+10, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:HelpTableView];
     
     

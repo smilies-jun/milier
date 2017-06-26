@@ -24,7 +24,7 @@
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(self.mas_top).offset(10);
-        make.width.mas_equalTo(200);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(20);
     
     }];
@@ -36,7 +36,7 @@
     [_DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(_NameLabel.mas_bottom);
-        make.width.mas_equalTo(220);
+        make.width.mas_equalTo(SCREEN_WIDTH - 140);
         make.height.mas_equalTo(20);
     }];
     _TimeLabel = [[UILabel alloc]init];

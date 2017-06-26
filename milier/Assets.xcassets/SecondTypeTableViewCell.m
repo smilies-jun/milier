@@ -31,7 +31,7 @@
     [_TypeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TypeImageView.mas_right).offset(5);
         make.centerY.mas_equalTo(_TypeImageView.mas_centerY);
-        make.width.mas_equalTo(50);
+        make.width.mas_equalTo(80);
         make.height.mas_equalTo(20);
     }];
     UIView *lineView = [[UIView alloc]init];
@@ -177,16 +177,16 @@
         
         switch ([_detailModel.riskLevel integerValue]) {
             case 1:
-                _TypeLabel.text = @"保守型";
-                _TypeDetailLabel.text = @"收益适中 适合保守型投资者";
+                _TypeLabel.text = @"风险等级";
+                _TypeDetailLabel.text = @"保守型,收益适中 适合保守型投资者";
                 break;
             case 2:
-                _TypeLabel.text = @"稳健";
-                _TypeDetailLabel.text = @"收益可观 适合稳健型投资者";
+                _TypeLabel.text = @"风险等级";
+                _TypeDetailLabel.text = @"稳健型，收益可观 适合稳健型投资者";
                 break;
             case 3:
-                _TypeLabel.text = @"积极型";
-                _TypeDetailLabel.text = @"收益较高  适合积极型投资者";
+                _TypeLabel.text = @"风险等级";
+                _TypeDetailLabel.text = @"积极型，收益较高  适合积极型投资者";
                 break;
             default:
                 break;

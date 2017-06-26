@@ -102,7 +102,7 @@
     
     _BottomView = [[UIView alloc]init];
     _BottomView.backgroundColor = [UIColor whiteColor];
-    _BottomView.alpha = 0.9;
+    _BottomView.alpha = 0.5;
     [self.view addSubview:_BottomView];
     [_BottomView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -112,6 +112,7 @@
     }];
     UILabel *PayLabel =[[UILabel alloc]init];
     PayLabel.text = @"充值";
+    PayLabel.alpha = 0.9;
     PayLabel.textColor = [UIColor whiteColor];
     PayLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *PayTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(payClick)];
@@ -120,7 +121,7 @@
     PayLabel.backgroundColor = [UIColor orangeColor];
     PayLabel.layer.cornerRadius = 20;
     PayLabel.layer.masksToBounds = YES;
-    [self.view addSubview:PayLabel];
+    [_BottomView addSubview:PayLabel];
     [PayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_BottomView.mas_left).offset(10);
         make.centerY.mas_equalTo(_BottomView.mas_centerY);
@@ -129,6 +130,7 @@
     }];
     UILabel *CashLabel =[[UILabel alloc]init];
     CashLabel.text = @"提现";
+    CashLabel.alpha = 0.9;
     CashLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *CashTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cashClick)];
     [CashLabel addGestureRecognizer:CashTap];
@@ -137,7 +139,7 @@
     CashLabel.backgroundColor = [UIColor orangeColor];
     CashLabel.layer.cornerRadius = 20;
     CashLabel.layer.masksToBounds = YES;
-    [self.view addSubview:CashLabel];
+    [_BottomView addSubview:CashLabel];
     [CashLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(_BottomView.mas_right).offset(-10);
         make.centerY.mas_equalTo(_BottomView.mas_centerY);

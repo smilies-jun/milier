@@ -1075,6 +1075,7 @@
         }];
 
     }else{
+        [self HideProgress];
         NSString *str = [NSString stringWithFormat:@"该道具使用的最低额度为%@元",StageChoseStr];
         normal_alert(@"提示", str, @"确定");
     }
@@ -1251,6 +1252,8 @@
     label.text = @"选择道具";
     label.font = [UIFont systemFontOfSize:15];
     [view addSubview:label];
+    
+    
     alertView=[[AwAlertView alloc]initWithContentView:view];
     alertView.isUseHidden=YES;
     [alertView showAnimated:YES];
@@ -1438,14 +1441,14 @@
         ChooseStageModel *model  = [stageArray objectAtIndex:indexPath.row];
         cell.stageModel = model;
     }
-    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
     return cell;
 }
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     NSString *StageStr;
     if (indexPath.row == 0) {
         StageStr = @"";

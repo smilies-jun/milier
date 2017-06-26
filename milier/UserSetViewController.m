@@ -133,6 +133,12 @@
     SailSetView.DetailLabel.textColor = colorWithRGB(0.56, 0.56, 0.56);
     if (SCREEN_WIDTH == 320) {
         SailSetView.DetailLabel.font = [UIFont systemFontOfSize:13];
+        SailSetView.DetailLabel.numberOfLines = 0;
+        [SailSetView.DetailLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(SailSetView.NameLabel.mas_bottom);
+            make.width.mas_equalTo(230);
+            make.height.mas_equalTo(40);
+        }];
     }
     SailSetView.userInteractionEnabled = YES;
     UITapGestureRecognizer *SailTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SailSetClick)];
@@ -288,7 +294,6 @@
         make.top.mas_equalTo(KeFuLabel.mas_bottom).offset(5);
         make.width.mas_equalTo(30);
         make.height.mas_equalTo(30);
-        
     }];
     YinHangLabel = [[UILabel alloc]init];
     YinHangLabel.text = [NSString stringWithFormat:@"%@(%@)",[MyDic objectForKey:@"bankName"],[MyDic objectForKey:@"bankCardNumberSuffix"]];
@@ -308,7 +313,7 @@
     SureLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     SureLabel.textAlignment = NSTextAlignmentCenter;
     SureLabel.textColor = [UIColor whiteColor];
-    SureLabel.layer.cornerRadius = 10;
+    SureLabel.layer.cornerRadius = 20;
     SureLabel.layer.masksToBounds = YES;
     [view addSubview:SureLabel];
     [SureLabel mas_makeConstraints:^(MASConstraintMaker *make) {

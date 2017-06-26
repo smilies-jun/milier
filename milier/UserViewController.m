@@ -70,6 +70,7 @@
     UILabel *DangerTestLabel;
     
     double totalNumber;
+    MBProgressHUD *hud;
     
 }
 @property (nonatomic, strong) ZFCirqueChart * cirqueChart;
@@ -97,12 +98,23 @@
     StaticUserDic = [[NSDictionary alloc]init];
     cirleArray = [[NSArray alloc]init];
     [self ConfigUI];
-
+    [self showProgress];
     [self getNetworkData:YES];
     [self StaticUserData];
     
 }
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)StaticUserData{
     NSString *Statisurl;
     NSString *userID = NSuserUse(@"userId");
@@ -112,6 +124,7 @@
         StaticUserDic = [result objectForKey:@"data"];
         [self ConfigUI];
         [self reloadData];
+        [self HideProgress];
         
     }];
 
@@ -138,6 +151,7 @@
         NSuserSave([UserDic objectForKey:@"riskLevel"], @"riskLevel");
         [self ConfigUI];
         [self reloadData];
+        [self HideProgress];
     }];
     
     
@@ -222,7 +236,7 @@
     
     
     if (SCREEN_WIDTH == 320) {
-        self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(60, 64, 90, 90)];
+        self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(58, 64, 90, 90)];
   
     }else{
         self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
@@ -404,7 +418,7 @@
         make.left.mas_equalTo(MyScrollView.mas_left);
         make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(20);
         make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(5);
+        make.height.mas_equalTo(10);
     }];
     
     UIView *lineShowView = [[UIView alloc]init];
@@ -412,14 +426,15 @@
     [MyScrollView addSubview:lineShowView];
     [lineShowView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (SCREEN_WIDTH == 320) {
-            make.left.mas_equalTo(JinMiLabel.mas_right).offset(20);
+            make.left.mas_equalTo(JinMiLabel.mas_right).offset(30);
+            make.width.mas_equalTo(1);
 
         }else{
-            make.left.mas_equalTo(JinMiLabel.mas_right).offset(50);
+            make.left.mas_equalTo(JinMiLabel.mas_right).offset(60);
+            make.width.mas_equalTo(1);
 
         }
         make.top.mas_equalTo(JinMiLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(2);
         make.height.mas_equalTo(50);
     }];
     if (SCREEN_WIDTH == 375) {

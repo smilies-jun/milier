@@ -34,7 +34,7 @@
     [self addSubview:_StaticImageView];
     [_StaticImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(10);
-        make.top.mas_equalTo(self.mas_top).offset(15);
+        make.centerY.mas_equalTo(self.mas_centerY);
         make.width.mas_equalTo(22);
         make.height.mas_equalTo(22);
     }];
@@ -45,7 +45,7 @@
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_StaticImageView.mas_right).offset(10);
-        make.top.mas_equalTo(self.mas_top).offset(15);
+        make.centerY.mas_equalTo(self.mas_centerY);
         make.width.mas_equalTo(85);
         make.height.mas_equalTo(20);
     }];

@@ -23,7 +23,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = _TitleStr;
-    self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
       [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -34,7 +34,7 @@
     ActivityWebView  = [[UIWebView alloc]init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
     ActivityWebView.delegate= self;
-    ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64);
+    ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     [self.view addSubview:ActivityWebView];
     [ActivityWebView loadRequest:request];
     

@@ -80,10 +80,7 @@
             [dataArray addObject:model];
         }
         [self.tableView reloadData];
-        if (page > 1) {
-            [self scrollTableToFoot:YES];
   
-        }
         isFirstCome = NO;
     }];
     

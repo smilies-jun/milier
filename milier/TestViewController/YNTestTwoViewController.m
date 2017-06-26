@@ -32,7 +32,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSuserSave(@"5", @"qiye");
+    NSuserSave(@"5.d", @"qiye");
     
 }
 - (void)loadoneNew{

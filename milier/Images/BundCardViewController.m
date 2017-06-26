@@ -614,19 +614,25 @@ static LLPayType payType = LLPayTypeVerify;
         case kLLPayResultFail: {
             statusType =1;
             msg = @"失败";
+            [self HideProgress];
             normal_alert(@"提示", msg, @"确定");
         } break;
         case kLLPayResultCancel: {
+            [self HideProgress];
             statusType =1;
             msg = @"取消";
 
         } break;
         case kLLPayResultInitError: {
+            [self HideProgress];
+
             statusType = 1;
             msg = @"sdk初始化异常";
         } break;
         case kLLPayResultInitParamError: {
             statusType =1;
+            [self HideProgress];
+
             msg = dic[@"ret_msg"];
         } break;
         default:

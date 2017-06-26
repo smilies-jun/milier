@@ -48,7 +48,6 @@
     ShapeLayer.lineWidth = 8.0f;
     //创建出圆形贝塞尔曲线
     UIBezierPath *circlePath =  [UIBezierPath bezierPathWithArcCenter:CGPointMake(imageView.centerX, imageView.centerY-60) radius:110 startAngle:0.75f*M_PI endAngle:0.25f*M_PI clockwise:YES];
-    
     //让贝塞尔曲线与CAShapeLayer产生联系
     ShapeLayer.path = circlePath.CGPath;
     
@@ -282,6 +281,20 @@
             
             LeftMoneyLabel.text = [NSString stringWithFormat:@"%.2f元",totalDouble - sellDouble];
         }
+    }
+    
+    switch ([_detailModel.state integerValue]) {
+        case 4:
+          LeftMoneyLabel.text = @"0元";
+            break;
+        case 8:
+           LeftMoneyLabel.text = @"0元";
+            break;
+        case 16:
+            LeftMoneyLabel.text = @"0元";
+            break;
+        default:
+            break;
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

@@ -29,6 +29,7 @@
         UIWebView *ActivityWebView;
         NSDictionary *ActivityDic;
         int type;
+        MBProgressHUD *hud;
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *DataArray;
@@ -62,6 +63,20 @@
     [self getNetworkData:YES];
    // [self ConfigUI];
 }
+
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+
 - (void)reloadData{
     NSString *url;
     
@@ -104,7 +119,7 @@
 -(void)getNetworkData:(BOOL)isRefresh
 {
     NSString *url;
-
+    [self showProgress];
     url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         [_DataArray removeAllObjects];
@@ -483,7 +498,10 @@
                 break;
         }
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self HideProgress];
+ 
+        });
         
         return cell;
     }

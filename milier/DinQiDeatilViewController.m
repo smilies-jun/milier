@@ -635,11 +635,11 @@
         OldDetailLabel = [UIButton buttonWithType:UIButtonTypeCustom];
         [OldDetailLabel setTitle:@"详情" forState:UIControlStateNormal];
         [OldDetailLabel addTarget:self action:@selector(OldTapClick) forControlEvents:UIControlEventTouchUpInside];
-        OldDetailLabel.layer.borderColor = colorWithRGB(0.95, 0.6, 0.11).CGColor;
+        OldDetailLabel.layer.borderColor = ZFOrange.CGColor;
         OldDetailLabel.layer.borderWidth = 0.5f;
         OldDetailLabel.layer.masksToBounds = YES;
         OldDetailLabel.layer.cornerRadius = 10;
-        [OldDetailLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
+        [OldDetailLabel setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
         OldDetailLabel.titleLabel.font = [UIFont systemFontOfSize:14];
         [topView addSubview:OldDetailLabel];
         [OldDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {

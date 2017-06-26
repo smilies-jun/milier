@@ -78,7 +78,7 @@
         SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
         SaleLbel.textAlignment = NSTextAlignmentCenter;
         SaleLbel.textColor = [UIColor whiteColor];
-        SaleLbel.layer.cornerRadius = 10;
+        SaleLbel.layer.cornerRadius = 20;
         SaleLbel.layer.masksToBounds = YES;
         [saleView addSubview:SaleLbel];
         [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -101,7 +101,7 @@
         getLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
         getLabel.textAlignment = NSTextAlignmentCenter;
         getLabel.textColor = [UIColor whiteColor];
-        getLabel.layer.cornerRadius = 10;
+        getLabel.layer.cornerRadius = 20;
         getLabel.layer.masksToBounds = YES;
         [saleView addSubview:getLabel];
         [getLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -190,7 +190,7 @@
     SaleLbel.backgroundColor = colorWithRGB(0.91, 0.31, 0.24);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
     SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 10;
+    SaleLbel.layer.cornerRadius = 20;
     SaleLbel.layer.masksToBounds = YES;
     [imageView addSubview:SaleLbel];
     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {

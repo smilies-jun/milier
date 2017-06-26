@@ -63,10 +63,9 @@
     NSString *strSale6 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=6";
 
     if ([urlStr containsString:strRegin]) {
-       
         ActivityRefinViewController *reVC= [[ActivityRefinViewController alloc]init];
         reVC.type = @"1";
-        [self.navigationController pushViewController:reVC animated:YES];
+        [self.navigationController pushViewController:reVC animated:NO];
     }else if ([urlStr containsString:strSale1]){
         NSuserSave(@"2", @"qiye");
         [self.navigationController popToRootViewControllerAnimated:YES];
