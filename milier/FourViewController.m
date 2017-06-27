@@ -59,7 +59,7 @@
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
-   // [self showProgress];
+    [self showProgress];
 }
 - (void)HideProgress{
     [hud hideAnimated:YES];
@@ -108,7 +108,7 @@
             model.dataDictionary = dic;
             [_MessageArray addObject:model];
         }
-        NSLog(@"=====%@",result);
+        [self HideProgress];
         if (_MessageArray.count) {
             [self makeData];
             [self.tableView reloadData];
