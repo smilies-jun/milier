@@ -132,11 +132,13 @@
     CashLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *CashTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(cashClick)];
     [CashLabel addGestureRecognizer:CashTap];
-    CashLabel.textColor = [UIColor whiteColor];
+    CashLabel.textColor = [UIColor orangeColor];
     CashLabel.textAlignment = NSTextAlignmentCenter;
-    CashLabel.backgroundColor = [UIColor orangeColor];
+    CashLabel.backgroundColor = [UIColor whiteColor];
     CashLabel.layer.cornerRadius = 20;
     CashLabel.layer.masksToBounds = YES;
+    CashLabel.layer.borderWidth = 1.0;
+    CashLabel.layer.borderColor = [UIColor orangeColor].CGColor;
     [_BottomView addSubview:CashLabel];
     [CashLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(_BottomView.mas_right).offset(-10);
@@ -287,7 +289,7 @@
             [cell configUI:indexPath];
         }
         if (MyLeftArray.count) {
-            cell.NameLabel.text = [NSString stringWithFormat:@"¥%@",[MyMoneyDic objectForKey:@"assets"]];;
+            cell.NameLabel.text = [NSString stringWithFormat:@"¥%.2f",[[MyMoneyDic objectForKey:@"assets"]doubleValue]];;
 
         }else{
             cell.NameLabel.text= @"¥0";

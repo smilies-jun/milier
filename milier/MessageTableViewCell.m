@@ -30,7 +30,15 @@
     [super awakeFromNib];
     // Initialization code
 }
-
+- (void)setMessage:(MesaageMoel *)message{
+    if (message != _message) {
+        _message = message;
+        _Messagelabel.text = _message.content;
+        CGRect rect = [_Messagelabel.text boundingRectWithSize:CGSizeMake(self.frame.size.width - 20, 99999) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName :   [UIFont systemFontOfSize:14.0]} context:nil];
+        _Messagelabel.frame = CGRectMake(30, 10, SCREEN_WIDTH-60, rect.size.height);
+        _rowHeight = rect.size.height+10;
+    }
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

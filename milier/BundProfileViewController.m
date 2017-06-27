@@ -18,6 +18,7 @@
 
 @interface BundProfileViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -28,7 +29,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = _TitleStr;
-    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor blackColor]}];
 
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -37,13 +38,16 @@
     [leftBtn addTarget:self action:@selector(BundDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-        ActivityWebView  = [[UIWebView alloc]init];
+    ActivityWebView  = [[UIWebView alloc]init];
     ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64);
-
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
-        ActivityWebView.delegate= self;
-        [self.view addSubview:ActivityWebView];
-        [ActivityWebView loadRequest:request];
+    if ([_TypeStr integerValue] == 1) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"下载" style:UIBarButtonItemStylePlain target:self action:@selector(bunRightClick)];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
+    ActivityWebView.delegate= self;
+    [self.view addSubview:ActivityWebView];
+    [ActivityWebView loadRequest:request];
 //        [ActivityWebView mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.left.mas_equalTo(self.view.mas_left);
 //            make.top.mas_equalTo(self.view.mas_top);
@@ -54,18 +58,33 @@
 
     
 }
-
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+- (void)bunRightClick{
+    normal_alert(@"提示", @"请到电脑上下载", @"确定");
+}
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
     NSLog(@"REQUEST.URL = %@",request.URL);
     return YES;
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     // NSLog(@"webView start load");
+    [self showProgress];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    [self HideProgress];
 }
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
     // NSLog(@"webview fail load");

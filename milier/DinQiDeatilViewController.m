@@ -272,13 +272,13 @@
         [_flagArray addObject:@"0"];
     }
     
-
+    NSLog(@"sec === %lu",(unsigned long)_sectionArray.count);
 
 }
 //设置组数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (_MutableArray.count) {
-        return _sectionArray.count;
+        return _sectionArray.count-1;
   
     }
     return 2;
@@ -306,8 +306,7 @@
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (DinQiArray.count) {
-        if (_flagArray.count == _MutableArray.count+1) {
+    if (_MutableArray.count) {
             if ([_flagArray[indexPath.section] isEqualToString:@"0"])
                 return 0;
             else
@@ -321,7 +320,7 @@
         }
         
  
-    }
+
    
     return 0;
        
@@ -615,7 +614,7 @@
         }];
         OldLabel = [[UILabel alloc]init];
         if ([[CircleDinQiDic objectForKey:@"yesterdayEarnings"]doubleValue]) {
-            OldLabel.text = [NSString stringWithFormat:@"¥%@",[CircleDinQiDic objectForKey:@"yesterdayEarnings"]];
+            OldLabel.text = [NSString stringWithFormat:@"¥%.2f",[[CircleDinQiDic objectForKey:@"yesterdayEarnings"]doubleValue]];
  
         }else{
             OldLabel.text = [NSString stringWithFormat:@"¥0"];
@@ -786,8 +785,8 @@
                 if (DinQiArray.count) {
                     DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
                     
-                    DinQiNnumberLabel.text = [NSString stringWithFormat:@"%@",model.cci];
-                    DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%@",model.ci];
+                    DinQiNnumberLabel.text = [NSString stringWithFormat:@"%.2f",[model.cci doubleValue]];
+                    DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"%.2f",[model.ci doubleValue]];
                 }
                
             }else{
@@ -809,7 +808,7 @@
                 if (DinQiArray.count) {
                     DinQiModel   *model = [DinQiArray objectAtIndex:section-1];
                     
-                    DinQiNnumberLabel.text = [NSString stringWithFormat:@"%@",model.cci];
+                    DinQiNnumberLabel.text = [NSString stringWithFormat:@"%.2f",[model.cci doubleValue]];
                     DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"/%.2f",[model.ci doubleValue]];
   
                 }
@@ -1051,6 +1050,7 @@
     DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 200];
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"米粒儿金融借款协议";
+    vc.TypeStr = @"1";
     vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toProtocol?productinfoOrderId=%@&stp=app",model.oid];
     [self.navigationController pushViewController:vc animated:NO];
 
@@ -1061,7 +1061,7 @@
     //    [self presentViewController:sVC animated:YES completion:nil];
 }
 - (void)ImageClick:(UITapGestureRecognizer *)tap{
-    int index = tap.view.tag % 100;
+    NSInteger index = tap.view.tag - 100;
     
     NSMutableArray *indexArray = [[NSMutableArray alloc]init];
     NSArray *arr = _sectionArray[index];
@@ -1069,6 +1069,7 @@
         NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:index];
         [indexArray addObject:path];
     }
+    NSLog(@"flag == %lu",(unsigned long)_flagArray.count);
     //展开
     if ([_flagArray[index] isEqualToString:@"0"]) {
         _flagArray[index] = @"1";

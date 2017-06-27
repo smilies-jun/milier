@@ -193,6 +193,7 @@
                 _TypeDetailLabel.text = @"保守型,收益适中 适合保守型投资者";
                 break;
             
+                
         }
         
         

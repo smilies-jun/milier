@@ -16,4 +16,7 @@
 
 @property(nonatomic, strong)NSString *WebTypeStr;
 
+
+@property(nonatomic, strong)NSString *TypeStr;
+
 @end

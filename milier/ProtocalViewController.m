@@ -8,6 +8,7 @@
 
 #import "ProtocalViewController.h"
 #import "ReginAndLoginViewController.h"
+#import "ActivityRefinViewController.h"
 
 @interface ProtocalViewController ()
 
@@ -19,11 +20,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.TopView.hidden = NO;
-    self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
-    
-    self.TopTitleLabel.text = @"米粒儿金融注册协议（出借人）";
-    [self.BackButton addTarget:self action:@selector(protocalBackClick) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.title = @"米粒儿金融注册协议（出借人）";
+    self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(protocalBackClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+    self.navigationItem.leftBarButtonItem = leftItem;
+   // self.TopTitleLabel.text = @"米粒儿金融注册协议（出借人）";
+    //[self.BackButton addTarget:self action:@selector(protocalBackClick) forControlEvents:UIControlEventTouchUpInside];
     
     AboutSafeWebView  = [[UIWebView alloc]init];
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@/agreement/registration.html",HOST_URL]]];
@@ -33,7 +39,7 @@
     
     [AboutSafeWebView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.TopView.mas_bottom);
+        make.top.mas_equalTo(self.view.mas_top);
         make.right.mas_equalTo(self.view.mas_right);
         make.bottom.mas_equalTo(self.view.mas_bottom);
     }];
@@ -52,6 +58,8 @@
     [super viewWillDisappear:animated];
 }
 - (void)safeCallBackClick{
+    
+    
     [self.navigationController popToRootViewControllerAnimated:NO];
     
 }
@@ -76,6 +84,12 @@
     //  返回指定页面
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[ReginAndLoginViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[ActivityRefinViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

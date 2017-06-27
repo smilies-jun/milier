@@ -17,6 +17,7 @@
 
 @interface ActivityDetailViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -46,7 +47,18 @@
    
 
 }
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
      NSLog(@"REQUEST.URL = %@",request.URL);
@@ -102,11 +114,12 @@
 }
 - (void)webViewDidStartLoad:(UIWebView *)webView{
     // NSLog(@"webView start load");
+    [self showProgress];
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    
+    [self HideProgress];
   //  [webView sizeToFit];
 
 }

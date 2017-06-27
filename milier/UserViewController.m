@@ -20,6 +20,7 @@
 #import "RiskViewController.h"
 #import "RiskComplyViewController.h"
 #import "MyJiFenNewViewController.h"
+#import "YWDLoginViewController.h"
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
     
@@ -152,6 +153,13 @@
         [self ConfigUI];
         [self reloadData];
         [self HideProgress];
+        NSLog(@"re == %@",result);
+        if ([[result objectForKey:@"statusCode"]integerValue] == 401) {
+            normal_alert(@"提示", @"认证失败请重新登录", @"确定");
+        
+        
+        }
+    
     }];
     
     
@@ -1015,14 +1023,14 @@
 
     }
     if ([[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]) {
-        JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥%@",[StaticUserDic objectForKey:@"currentYesterdayEarnings"]];
+        JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥%.2f",[[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]];
 
     }else{
         JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥0"];
 
     }
     if ([[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]) {
-        DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥%@",[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]];
+        DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥%.2f",[[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]];
 
     }else{
         DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥0"];
@@ -1035,7 +1043,6 @@
         DinQiNumber.text = @"¥0";
  
     }
-    NSLog(@"use=== %@",UserDic);
     NSString *usernameStr = [UserDic objectForKey:@"realName"];
     if (usernameStr.length) {
         UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"realName"]];

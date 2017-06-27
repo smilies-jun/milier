@@ -38,13 +38,13 @@
     }];
     _TopTitleLabel = [[UILabel alloc]init];
     _TopTitleLabel.textAlignment = NSTextAlignmentCenter;
-    _TopTitleLabel.font = [UIFont systemFontOfSize:15];
+    _TopTitleLabel.font = [UIFont systemFontOfSize:16];
     _TopTitleLabel.textColor = [UIColor blackColor];
     [_TopView addSubview:_TopTitleLabel];
     [_TopTitleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(_TopView.mas_centerX);
         make.top.mas_equalTo(self.view.mas_top).offset(20);
-        make.width.mas_equalTo(200);
+        make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
 

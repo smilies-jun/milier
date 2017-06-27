@@ -16,6 +16,8 @@
 
 @property(nonatomic,strong)NSString *commodityName;
 
+@property(nonatomic,strong)NSString *commodityDescArray;
+
 @property(nonatomic,strong)NSString *commodityScore;
 
 @property(nonatomic,strong)NSString *commodityType;

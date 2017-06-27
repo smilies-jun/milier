@@ -249,7 +249,7 @@
                 
             }
             
-            PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.tenThousandIncome];
+            PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%.2f/天",[_detailModel.tenThousandIncome doubleValue]];
             
             
             NSString *totalStr = [NSString stringWithFormat:@"%@",_detailModel.aggregateAmount];
@@ -272,7 +272,7 @@
                 
             }
             
-            PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%@/天",_detailModel.tenThousandIncome];
+            PercentProfitLabel.text = [NSString stringWithFormat:@"万份收益%.2f/天",[_detailModel.tenThousandIncome doubleValue]];
             NSString *totalStr = [NSString stringWithFormat:@"%@",_detailModel.aggregateAmount];
             double totalDouble = [totalStr doubleValue];
             

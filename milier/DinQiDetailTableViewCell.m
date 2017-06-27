@@ -320,7 +320,7 @@
                     }
                     NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     _FirstNameLabel.text = [NSString stringWithFormat:@"第一次付息：%@",TimeStr];
-                    _FirstSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+                    _FirstSailLabel.text = [NSString stringWithFormat:@"%.2f元",[[dic objectForKey:@"amount"] doubleValue]];
                 }
                 if (i == 1) {
                     NSDictionary *dic = [_DinQiModel.InstallmentInterestList objectAtIndex:1];
@@ -334,7 +334,7 @@
                     }
                     NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     _SecondNameLabel.text = [NSString stringWithFormat:@"第二次付息：%@",TimeStr];
-                    _SecondSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+                    _SecondSailLabel.text = [NSString stringWithFormat:@"%.2f元",[[dic objectForKey:@"amount"]doubleValue]];
 
                 }
                 if (i ==2) {
@@ -349,7 +349,7 @@
                     NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     
                     _ThirdNameLabel.text = [NSString stringWithFormat:@"第三次付息：%@",TimeStr];
-                    _ThirdSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+                    _ThirdSailLabel.text = [NSString stringWithFormat:@"%.2f元",[[dic objectForKey:@"amount"]doubleValue]];
 
                 }
                 if (i == 3) {
@@ -364,7 +364,7 @@
                     NSString *TimeStr = [self getTimeStr:[dic objectForKey:@"repaymentTime"] withForMat:@"yyyy-MM-dd"];
                     
                     _FourNameLabel.text = [NSString stringWithFormat:@"第四次付息：%@",TimeStr];
-                    _FourSailLabel.text = [NSString stringWithFormat:@"%@元",[dic objectForKey:@"amount"]];
+                    _FourSailLabel.text = [NSString stringWithFormat:@"%.2f元",[[dic objectForKey:@"amount"]doubleValue]];
 
                 }
             }

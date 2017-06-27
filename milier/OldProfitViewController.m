@@ -48,7 +48,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
-    _tableView.backgroundColor = [UIColor whiteColor];
+    _tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self.view addSubview:_tableView];
@@ -94,7 +94,6 @@
     [AddArray removeAllObjects];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
-
         if (myArray.count) {
             for (NSDictionary *NewDic in myArray) {
                 ProfileModel *model = [[ProfileModel alloc]init];
@@ -127,7 +126,7 @@
     if (AddArray.count) {
         return 44;
     }
-  return 300;
+  return SCREEN_HEIGHT;
     
 }
 

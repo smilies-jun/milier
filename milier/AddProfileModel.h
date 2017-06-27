@@ -18,4 +18,6 @@
 
 @property(nonatomic,strong)NSString *interest;
 
+
+@property(nonatomic,strong)NSString *amount;
 @end

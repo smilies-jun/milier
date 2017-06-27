@@ -136,7 +136,7 @@
     ProfileLabel = [[UILabel alloc]init];
     ProfileLabel.text = @"查看协议>>";
     ProfileLabel.hidden = NO;
-    ProfileLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    ProfileLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
 //    NSDictionary *attribtDic = @{NSUnderlineStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
 //    NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:ProfileLabel.text attributes:attribtDic];
 //    ProfileLabel.attributedText = attribtStr;
@@ -144,7 +144,6 @@
     [ProfileLabel addGestureRecognizer:tap];
     ProfileLabel.userInteractionEnabled = YES;
     ProfileLabel.textAlignment = NSTextAlignmentCenter;
-    ProfileLabel.textColor = colorWithRGB(0.08, 0.08, 0.08);
     ProfileLabel.font = [UIFont systemFontOfSize:14];
     [TopView addSubview:ProfileLabel];
     [ProfileLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -249,6 +248,7 @@
     NSString *userID = NSuserUse(@"userId");
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"金米宝协议";
+    vc.TypeStr = @"1";
     vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toCurrentPop?userId=%@&stp=app",userID];
     [self.navigationController pushViewController:vc animated:NO];
 

@@ -8,7 +8,7 @@
 
 #import "FourViewController.h"
 #import "MessageTableViewCell.h"
-
+#import "MesaageMoel.h"
 
 
 @interface FourViewController ()<UITableViewDataSource,UITableViewDelegate>{
@@ -20,7 +20,7 @@
 @property (nonatomic,strong)NSMutableArray *flagArray;
 
 @property (nonatomic, assign) CGFloat rowHeight;
-@property (nonatomic,strong)NSArray *MessageArray;
+@property (nonatomic,strong)NSMutableArray *MessageArray;
 
 
 @property (nonatomic,strong)NSMutableArray *NoteArray;
@@ -47,7 +47,7 @@
     [leftBtn addTarget:self action:@selector(HistoryOnTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    _MessageArray = [[NSArray alloc]init];
+    _MessageArray = [[NSMutableArray alloc]init];
     _NoteArray = [[NSMutableArray alloc]init];
      [self getNetworkData:YES];
     [self makeData];
@@ -59,7 +59,7 @@
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:_tableView];
-    [self showProgress];
+   // [self showProgress];
 }
 - (void)HideProgress{
     [hud hideAnimated:YES];
@@ -98,16 +98,29 @@
         
     }
     if (page == 1) {
-        _MessageArray = nil;
+        [_MessageArray removeAllObjects];
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        _MessageArray = [result objectForKey:@"items"];
-        [self makeData];
-        [self HideProgress];
-        NSLog(@"sucess message");
-        [_tableView reloadData];
-        isFirstCome = NO;
+        
+        for (NSDictionary *dic in [result objectForKey:@"items"]) {
+            MesaageMoel *model = [[MesaageMoel alloc]init];
+            model.dataDictionary = dic;
+            [_MessageArray addObject:model];
+        }
+        NSLog(@"=====%@",result);
+        if (_MessageArray.count) {
+            [self makeData];
+            [self.tableView reloadData];
+            [self endRefresh];
+        }
+        
+        [self endRefresh];
+//        _MessageArray = [result objectForKey:@"items"];
+//        [self makeData];
+//        [self HideProgress];
+//        [_tableView reloadData];
+//        isFirstCome = NO;
         
     }];
     
@@ -154,12 +167,11 @@
 }
 //设置组数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return _sectionArray.count;
+    return _MessageArray.count;
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSArray *arr = _sectionArray[section];
-    return arr.count;
+    return 1;
 }
 //组头高度
 -(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -176,7 +188,10 @@
     if ([_flagArray[indexPath.section] isEqualToString:@"0"])
         return 0;
     else
-         return self.rowHeight;;
+        if (_rowHeight) {
+            return _rowHeight+10;
+        }
+         return 100;
 }
 //组头
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -213,7 +228,7 @@
     if (section ==0) {
         BottomlineView.hidden = YES;
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
+      //  NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
         NameLabel.textAlignment = NSTextAlignmentLeft;
         NameLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
         NameLabel.font = [UIFont systemFontOfSize:14];
@@ -221,13 +236,13 @@
         [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(leftView.mas_right).offset(10);
             make.top.mas_equalTo(sectionLabel.mas_top).offset(10);
-            make.width.mas_equalTo(200);
+            make.width.mas_equalTo(SCREEN_WIDTH - 80);
             make.height.mas_equalTo(20);
         }];
         UILabel *timeLabel = [[UILabel alloc]init];
-        NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+       // NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
         
-        timeLabel.text = timeStr;
+     //   timeLabel.text = timeStr;
         timeLabel.textColor = colorWithRGB(0.4, 0.4, 0.4);
         timeLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel addSubview:timeLabel];
@@ -237,47 +252,69 @@
             make.width.mas_equalTo(200);
             make.height.mas_equalTo(20);
         }];
+        if (_MessageArray.count) {
+            MesaageMoel *moel = [_MessageArray objectAtIndex:section];
+            
+            NameLabel.text =moel.title;
+            
+            NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd"];
+            
+            timeLabel.text = timeStr;
+        }
     }else{
         BottomlineView.hidden = NO;
         UILabel *NameLabel = [[UILabel alloc]init];
-        NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
+      //  NameLabel.text = [[_MessageArray objectAtIndex:section]objectForKey:@"title"];
         NameLabel.textAlignment = NSTextAlignmentLeft;
         NameLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-        NameLabel.font = [UIFont systemFontOfSize:14];
+        NameLabel.font = [UIFont systemFontOfSize:13];
         [sectionLabel addSubview:NameLabel];
         [NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(leftView.mas_right).offset(10);
             make.top.mas_equalTo(sectionLabel.mas_top).offset(20);
-            make.width.mas_equalTo(SCREEN_WIDTH - 40);
+            make.width.mas_equalTo(SCREEN_WIDTH - 80);
             make.height.mas_equalTo(20);
         }];
         UILabel *timeLabel = [[UILabel alloc]init];
-        NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
+      //  NSString *timeStr = [self getTimeStr:[[_MessageArray objectAtIndex:section]objectForKey:@"createTime"] withForMat:@"yyyy-MM-dd"];
         
-        timeLabel.text = timeStr;
+     //   timeLabel.text = timeStr;
         timeLabel.textColor = colorWithRGB(0.4, 0.4, 0.4);
         timeLabel.font = [UIFont systemFontOfSize:14];
         [sectionLabel addSubview:timeLabel];
         [timeLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(leftView.mas_right).offset(10);
-            make.top.mas_equalTo(NameLabel.mas_bottom);
+            make.top.mas_equalTo(NameLabel.mas_bottom).offset(10);
             make.width.mas_equalTo(200);
             make.height.mas_equalTo(20);
         }];
-    }
-    NSString *checkStr = [[_MessageArray objectAtIndex:section]objectForKey:@"checked"];
-    if ([checkStr integerValue] == 1) {
-        leftView.hidden = YES;
-    }else{
-        leftView.hidden = NO;
-    }
-    for (NSString *myStr in _NoteArray) {
+        if (_MessageArray.count) {
+             MesaageMoel *moel = [_MessageArray objectAtIndex:section];
+            
+             NameLabel.text = moel.title;
 
-            if ([myStr integerValue] == section) {
-                leftView.hidden = YES;
-                
-            }
+             NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd"];
+            
+             timeLabel.text = timeStr;
         }
+    }
+    if (_MessageArray.count) {
+        MesaageMoel *moel = [_MessageArray objectAtIndex:section];
+            NSString *checkStr = moel.checked;
+            if ([checkStr integerValue] == 1) {
+                leftView.hidden = YES;
+            }else{
+                leftView.hidden = NO;
+            }
+            for (NSString *myStr in _NoteArray) {
+        
+                    if ([myStr integerValue] == section) {
+                        leftView.hidden = YES;
+                        
+                    }
+                }
+        
+    }
 
     return sectionLabel;
 }
@@ -297,7 +334,11 @@
         cell = [[MessageTableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identify];
         [cell configUI:indexPath];
     }
-    cell.Messagelabel.text = [[_MessageArray objectAtIndex:indexPath.section]objectForKey:@"content"];
+    if (_MessageArray.count) {
+        MesaageMoel *model = [_MessageArray objectAtIndex:indexPath.section];
+        cell.message = model;
+    }
+   // cell.Messagelabel.text = [[_MessageArray objectAtIndex:indexPath.section]objectForKey:@"content"];
   
     self.rowHeight = cell.rowHeight;
     cell.clipsToBounds = YES;//这句话很重要 不信你就试试
@@ -309,18 +350,21 @@
     
 }
 - (void)sectionClick:(UITapGestureRecognizer *)tap{
-    int index = tap.view.tag % 100;
-    
-    [_NoteArray addObject:[NSString stringWithFormat:@"%d",index]];
-    [_tableView reloadData];
-
-    NSString *oidStr = [[_MessageArray objectAtIndex:index]objectForKey:@"oid"];
-    NSString *url;
-    NSString *tokenID = NSuserUse(@"Authorization");
-    url = [NSString stringWithFormat:@"%@/messages/%@/markAsRead",HOST_URL,oidStr];
-    [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+    NSInteger   index = tap.view.tag - 100;
+    if (_MessageArray.count) {
+        MesaageMoel *moe = [_MessageArray objectAtIndex:index];
+        [_NoteArray addObject:[NSString stringWithFormat:@"%ld",(long)index]];
         [_tableView reloadData];
-    }];
+        
+        NSString *oidStr = moe.oid;
+        NSString *url;
+        NSString *tokenID = NSuserUse(@"Authorization");
+        url = [NSString stringWithFormat:@"%@/messages/%@/markAsRead",HOST_URL,oidStr];
+        [[DateSource sharedInstance]requestHomeWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            [_tableView reloadData];
+        }];
+  
+    }
     
     
     NSMutableArray *indexArray = [[NSMutableArray alloc]init];

@@ -141,7 +141,7 @@
     UIImage *finishedImage = [UIImage imageNamed:@"tabbarbg_normal"];
     UIImage *unfinishedImage = [UIImage imageNamed:@"tabbarbg_normal"];
     NSArray *tabBarItemImages = @[@"licai", @"huodong", @"more"];
-    NSArray *tabBarItemNames = @[@"理财", @"活动", @"更多"];
+    NSArray *tabBarItemNames = @[@"投资", @"活动", @"更多"];
     NSInteger index = 0;
     [[tabBarController tabBar] setBackgroundColor:[UIColor whiteColor]];
     for (RDVTabBarItem *item in [[tabBarController tabBar] items]) {

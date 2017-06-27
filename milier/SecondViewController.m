@@ -55,6 +55,7 @@
     NSMutableArray *ImageArray;
     NSMutableArray *ActivityArray;
      NSMutableArray *TitleArray;
+    MBProgressHUD *hud;
 }
 @property(nonatomic, strong) MBProgressHUD *aProgressHUD;
 
@@ -134,12 +135,26 @@
     
 
 }
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+
 - (void)refreshData{
     UIImageView *LeftBtn = [[UIImageView alloc]init];
     LeftBtn.frame = CGRectMake(0, 0, 28, 28);
     LeftBtn.layer.masksToBounds = YES;
     LeftBtn.layer.cornerRadius = 14;
     LeftBtn.userInteractionEnabled = YES;
+     LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftBtnClick)];
     [LeftBtn addGestureRecognizer:tap];
    // [LeftBtn addTarget:self action:@selector(LeftBtnClick) forControlEvents:UIControlEventTouchUpInside];
@@ -225,6 +240,7 @@
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
 }
 - (void)LeftBtnClick{
+    [self showProgress];
     NSString *url;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
@@ -233,9 +249,11 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *state = [result objectForKey:@"statusCode"];
         if ([state integerValue] == 200) {
+            [self HideProgress];
             UserViewController *NserVC = [[UserViewController alloc]init];
             [self.navigationController  pushViewController:NserVC animated:NO];
         }else{
+            [self HideProgress];
             YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
             UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
             loginNagition.navigationBarHidden = YES;

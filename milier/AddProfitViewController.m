@@ -195,13 +195,16 @@
    
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if (AddArray.count) {
+        AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
+        ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
+        VC.OidStr = [NSString stringWithFormat:@"%@",model.oid];
+        [self.navigationController pushViewController:VC animated:NO];
+    }
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];
-    AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
-    ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
-    VC.OidStr = [NSString stringWithFormat:@"%@",model.oid];
-    [self.navigationController pushViewController:VC animated:NO];
+   
     
     
 }

@@ -170,7 +170,6 @@
 }
 
 - (void)ReginAndLoginClickedActivity{
-    [self dismissViewControllerAnimated:NO completion:nil];
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
             if (ClickBtn.selected) {
@@ -233,9 +232,8 @@
                 
             }];
         }else{
-            [self.navigationController dismissViewControllerAnimated:NO completion:^{
-                
-            }];
+            [self.navigationController popToRootViewControllerAnimated:NO ];
+
         }
     }];
     
@@ -279,7 +277,7 @@
             NSDictionary *dic = [result objectForKey:@"data"];
             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
             NSuserSave([dic objectForKey:@"userId"], @"userId");
-            [self dismissViewControllerAnimated:NO completion:nil];
+            [self.navigationController popToRootViewControllerAnimated:NO ];
         }else{
             NSString *message = [result objectForKey:@"message"];
             normal_alert(@"提示",message, @"确定");

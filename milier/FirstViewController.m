@@ -151,7 +151,6 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         [self endRefresh];
         isJuhua = NO;
-        NSLog(@"re = %@",result);
                if (page == 1) {
             [DataArray removeAllObjects];
         }

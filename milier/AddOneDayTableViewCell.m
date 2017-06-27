@@ -58,7 +58,7 @@
     if (AddModel    != _AddModel ) {
         _AddModel = AddModel;
         //NSString *timeStr = [self getTimeStr:_AddModel.createTime withForMat:@"yyyy-MM-dd HH:mm:ss"];
-        _NameLabel.text =[NSString stringWithFormat:@"%@",_AddModel.targetOrderName];
+        _NameLabel.text =[NSString stringWithFormat:@"%@,%.2f",_AddModel.targetOrderName,[_AddModel.amount doubleValue]];
         _DetailLabel.text =[NSString stringWithFormat:@"+%.2f",[_AddModel.interest floatValue]];
         
     }

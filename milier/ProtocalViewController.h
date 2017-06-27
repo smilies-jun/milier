@@ -8,7 +8,7 @@
 
 #import "BaseViewController.h"
 
-@interface ProtocalViewController : BaseViewController<UIWebViewDelegate>{
+@interface ProtocalViewController : UIViewController<UIWebViewDelegate>{
     UIWebView *AboutSafeWebView;
 }
 

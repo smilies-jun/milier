@@ -193,7 +193,7 @@
 }
 
 - (void)CancelClick{
-    [self.navigationController dismissViewControllerAnimated:NO completion:nil];
+    [self dismissViewControllerAnimated:NO completion:nil];
 }
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{

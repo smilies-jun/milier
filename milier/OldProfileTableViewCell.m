@@ -24,7 +24,7 @@
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.centerY.mas_equalTo(self.mas_centerY);
-        make.width.mas_equalTo(300);
+        make.width.mas_equalTo(SCREEN_WIDTH - 40-60);
         make.height.mas_equalTo(30);
     }];
     _DetailLabel = [[UILabel alloc]init];
@@ -43,8 +43,7 @@
 - (void)setProfileModel:(ProfileModel *)ProfileModel{
     if (ProfileModel != _ProfileModel) {
         _ProfileModel = ProfileModel;
-        NSString *timeStr = [self getTimeStr:_ProfileModel.createTime withForMat:@"yyyy-MM-dd"];
-        _NameLabel.text =[NSString stringWithFormat:@"%@",timeStr];
+        _NameLabel.text =[NSString stringWithFormat:@"%@,%.2f",_ProfileModel.targetOrderName,[_ProfileModel.amount floatValue]];
         _DetailLabel.text =[NSString stringWithFormat:@"+%.2f",[_ProfileModel.interest floatValue]];
         
     }

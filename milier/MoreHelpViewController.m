@@ -14,6 +14,7 @@
 @interface MoreHelpViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSArray *HelpArray;
     UITableView *HelpTableView;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -56,6 +57,19 @@
     }];
 
 }
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+
 - (void)ConfigUI{
     HelpTableView = [[UITableView alloc]init];
     HelpTableView.dataSource = self;

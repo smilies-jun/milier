@@ -15,5 +15,8 @@
 
 @property(nonatomic,strong)NSString *oid;
 
+@property(nonatomic,strong)NSString *targetOrderName;
 
+
+@property(nonatomic,strong)NSString *amount;
 @end

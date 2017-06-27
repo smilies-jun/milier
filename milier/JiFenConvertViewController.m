@@ -100,6 +100,7 @@ static NSString * const cellId = @"CovertcellID";
             [SectionArray addObject:[NSString stringWithFormat:@"%d",rows]];
 
         }
+        NSLog(@"=====%@",result);
         if (DuiHuanArray.count) {
             [self makeData];
             [self.tableView reloadData];
@@ -134,6 +135,7 @@ static NSString * const cellId = @"CovertcellID";
 //设置组数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (DuiHuanArray.count) {
+
         return _sectionArray.count;
 
     }else{
@@ -309,7 +311,7 @@ static NSString * const cellId = @"CovertcellID";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (DuiHuanArray.count) {
-        static NSString *identifier = @"duihuanTotalidentifier";
+        static NSString *identifier = @"duihuanWupinglidentifier";
         
         DuiHuanTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
@@ -319,7 +321,7 @@ static NSString * const cellId = @"CovertcellID";
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         if (DuiHuanArray.count) {
-            DuiHuanModel *model = [DuiHuanArray objectAtIndex:indexPath.row];
+            DuiHuanModel *model = [DuiHuanArray objectAtIndex:indexPath.section];
             cell.DuiHuanModel = model;
         }
         
@@ -348,7 +350,7 @@ static NSString * const cellId = @"CovertcellID";
     //    [self presentViewController:sVC animated:YES completion:nil];
 }
 - (void)sectionClick:(UITapGestureRecognizer *)tap{
-    int index = tap.view.tag % 100;
+    int index = tap.view.tag - 100;
     NSMutableArray *indexArray = [[NSMutableArray alloc]init];
     NSArray *arr = _sectionArray[index];
     for (int i = 0; i < arr.count; i ++) {

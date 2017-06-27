@@ -118,17 +118,41 @@
 - (void)setDuiHuanModel:(DuiHuanModel *)DuiHuanModel{
     if (DuiHuanModel != _DuiHuanModel) {
         _DuiHuanModel = DuiHuanModel;
-        if ([_DuiHuanModel.commodityType integerValue] == 1) {
-            _NameLabel.text =[NSString stringWithFormat:@"%@",_DuiHuanModel.commodityDesc];
-        }else{
-            _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
-            _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
-            _MyJiFenLabel.text=[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.logisticsName,_DuiHuanModel.logisticsNumber];
+//        if ([_DuiHuanModel.commodityType integerValue] == 1) {
+//            _NameLabel.text =[NSString stringWithFormat:@"%@",_DuiHuanModel.commodityDesc];
+//        }else{
+//            _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
+//            _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
+//            _MyJiFenLabel.text=[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.logisticsName,_DuiHuanModel.logisticsNumber];
+//
+//        }
+        _NameLabel.text =@"";
+        _NameDetailLabel.text =@"";
+        _MyJiFenLabel.text=@"";
+        NSLog(@" === %@",_DuiHuanModel.commodityDescArray);
+        switch ([_DuiHuanModel.commodityDescArray integerValue]) {
+            case 1:
+                _NameLabel.text =[NSString stringWithFormat:@"%@",_DuiHuanModel.commodityDesc];
+ 
+                break;
+            case 2:
+                _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
+                _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
 
+                break;
+            case 3:
+                _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
+                _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
+                _MyJiFenLabel.text=[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.logisticsName,_DuiHuanModel.logisticsNumber];
+
+                break;
+            default:
+                _NameLabel.text =@"";
+                _NameDetailLabel.text =@"";
+                _MyJiFenLabel.text=@"";
+                break;
         }
-        
-        
-        
+       
     }
 }
 

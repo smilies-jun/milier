@@ -55,7 +55,7 @@
     }];
     
     _ActivityImageView = [[UIImageView alloc]init];
-    _ActivityImageView.backgroundColor = [UIColor blueColor];
+    _ActivityImageView.backgroundColor = [UIColor whiteColor];
     [_BagView addSubview:_ActivityImageView];
     [_ActivityImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_BagView.mas_left).offset(10);
@@ -66,6 +66,7 @@
 
     _ActivityLabel = [[UILabel alloc]init];
     _ActivityLabel.numberOfLines = 0;
+    _ActivityLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     _ActivityLabel.font = [UIFont systemFontOfSize:14];
     _ActivityLabel.text = @"23";
     [_BagView addSubview:_ActivityLabel];

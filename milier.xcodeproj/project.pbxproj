@@ -199,6 +199,7 @@
 		271E83251EFE9122004F005C /* YNPageScrollViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E831C1EFE9122004F005C /* YNPageScrollViewController.m */; };
 		271E83261EFE9122004F005C /* YNPageScrollViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E831E1EFE9122004F005C /* YNPageScrollViewMenu.m */; };
 		271E83271EFE9122004F005C /* YNPageScrollViewMenuConfigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */; };
+		271E832A1F02A01F004F005C /* MesaageMoel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83291F02A01F004F005C /* MesaageMoel.m */; };
 		271F27521EDEAE18001245C3 /* MyChangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27511EDEAE18001245C3 /* MyChangeModel.m */; };
 		271F27551EDEC045001245C3 /* JiFenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27541EDEC045001245C3 /* JiFenModel.m */; };
 		271F27581EDEC566001245C3 /* DuiHuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27571EDEC566001245C3 /* DuiHuanModel.m */; };
@@ -952,6 +953,8 @@
 		271E831E1EFE9122004F005C /* YNPageScrollViewMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenu.m; sourceTree = "<group>"; };
 		271E831F1EFE9122004F005C /* YNPageScrollViewMenuConfigration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YNPageScrollViewMenuConfigration.h; sourceTree = "<group>"; };
 		271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenuConfigration.m; sourceTree = "<group>"; };
+		271E83281F02A01F004F005C /* MesaageMoel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesaageMoel.h; sourceTree = "<group>"; };
+		271E83291F02A01F004F005C /* MesaageMoel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MesaageMoel.m; sourceTree = "<group>"; };
 		271F27501EDEAE18001245C3 /* MyChangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyChangeModel.h; sourceTree = "<group>"; };
 		271F27511EDEAE18001245C3 /* MyChangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyChangeModel.m; sourceTree = "<group>"; };
 		271F27531EDEC045001245C3 /* JiFenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiFenModel.h; sourceTree = "<group>"; };
@@ -2848,8 +2851,10 @@
 			children = (
 				2755DA611E5BD02700C75656 /* FourViewController.h */,
 				2755DA621E5BD02700C75656 /* FourViewController.m */,
+				271E83281F02A01F004F005C /* MesaageMoel.h */,
 				27E229F01ECE82E100B1034D /* MessageTableViewCell.h */,
 				27E229F11ECE82E100B1034D /* MessageTableViewCell.m */,
+				271E83291F02A01F004F005C /* MesaageMoel.m */,
 			);
 			name = "消息";
 			sourceTree = "<group>";
@@ -4157,6 +4162,7 @@
 				27C7C3631EEA8EBC008CDDD2 /* NSDate+Extension.m in Sources */,
 				27032EF71EADA3A600A4233B /* AddProfitViewController.m in Sources */,
 				273D785D1EF773BD0024B61B /* UIView+frameAdjust.m in Sources */,
+				271E832A1F02A01F004F005C /* MesaageMoel.m in Sources */,
 				27032EE41EA9B7A300A4233B /* ModifySailViewController.m in Sources */,
 				27032F2A1EAF3EBD00A4233B /* QiYeViewController.m in Sources */,
 				2705AF471E9F12AE008C20CA /* YNTestOneViewController.m in Sources */,
