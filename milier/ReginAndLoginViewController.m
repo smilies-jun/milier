@@ -13,7 +13,7 @@
 #import "YWDAlertView.h"
 #import "YWDAlertView.h"
 #import "popupFade.h"
-#import "ProtocalViewController.h"
+#import "RegionProfileViewController.h"
 #import "ActivityDetailViewController.h"
 #import "YWDLoginViewController.h"
 
@@ -154,7 +154,7 @@
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 5.0f;
-    [reginBtn setTitle:@"注册并登录" forState:UIControlStateNormal];
+    [reginBtn setTitle:@"注册" forState:UIControlStateNormal];
     [reginBtn addTarget:self action:@selector(ReginAndLoginClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -175,7 +175,7 @@
 
 - (void)gesClick{
 // 协议跳转
-    ProtocalViewController *vc= [[ProtocalViewController alloc]init];
+    RegionProfileViewController *vc= [[RegionProfileViewController alloc]init];
     [self.navigationController pushViewController:vc animated:NO];
 
     
@@ -248,7 +248,7 @@
             NSDictionary *dic = [result objectForKey:@"data"];
             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
             NSuserSave([dic objectForKey:@"userId"], @"userId");
-            [self dismissViewControllerAnimated:NO completion:nil];
+            [self.navigationController popToRootViewControllerAnimated:NO];
         }else{
             NSString *message = [result objectForKey:@"message"];
             normal_alert(@"提示",message, @"确定");
@@ -268,8 +268,7 @@
 - (void)senderInputSecurityCodeBtnClicked
 
 {
-    _second = 90;
-    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+   
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     BOOL isMatch  = [phoneTest evaluateWithObject:UsertPhoneView.NameTextField.text];
@@ -277,6 +276,8 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
+        _second = 90;
+        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {

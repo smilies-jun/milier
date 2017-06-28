@@ -194,11 +194,22 @@
     }
    
 }
+- (NSString *)getTimeStr:(NSString *)MyTimeStr withForMat:(NSString *)formatStr{
+    NSTimeInterval interval=[MyTimeStr doubleValue] / 1000.0;
+    NSDate *date = [NSDate dateWithTimeIntervalSince1970:interval];
+    NSDateFormatter *objDateformat = [[NSDateFormatter alloc] init];
+    [objDateformat setDateFormat:formatStr];
+    NSString * timeStr = [NSString stringWithFormat:@"%@",[objDateformat stringFromDate: date]];
+    return timeStr;
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (AddArray.count) {
         AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
         ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
         VC.OidStr = [NSString stringWithFormat:@"%@",model.oid];
+        NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
+
+        VC.TitleStr = [NSString stringWithFormat:@"%@收益(元)",timeStr];
         [self.navigationController pushViewController:VC animated:NO];
     }
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
@@ -224,7 +235,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 马上进入刷新状态
-    [self.tableView.mj_header beginRefreshing];
+    //[self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

@@ -176,6 +176,7 @@
             [_MutableArray removeAllObjects];
             _mysectionArray = nil;
         }
+        NSLog(@"re === %@",result);
         NSArray *myArray = [result objectForKey:@"items"];
             _mysectionArray = myArray;
             isJuhua = NO;
@@ -278,7 +279,7 @@
 //设置组数
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     if (_MutableArray.count) {
-        return _sectionArray.count-1;
+        return _sectionArray.count;
   
     }
     return 2;

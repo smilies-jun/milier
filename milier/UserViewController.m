@@ -332,7 +332,13 @@
     JinMiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:JinMiNumber];
     [JinMiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_left).offset(50);
+        if (SCREEN_WIDTH == 320) {
+            make.left.mas_equalTo(TopView.mas_left).offset(30);
+ 
+        }else{
+            make.left.mas_equalTo(TopView.mas_left).offset(50);
+ 
+        }
         make.top.mas_equalTo(JinMiImageView.mas_bottom).offset(12);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(15);
@@ -344,7 +350,13 @@
     JinMiOldNumber.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [MyScrollView addSubview:JinMiOldNumber];
     [JinMiOldNumber mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_left).offset(50);
+        if (SCREEN_WIDTH == 320) {
+            make.left.mas_equalTo(TopView.mas_left).offset(30);
+            
+        }else{
+            make.left.mas_equalTo(TopView.mas_left).offset(50);
+            
+        }
         make.top.mas_equalTo(JinMiNumber.mas_bottom).offset(10);
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
@@ -409,7 +421,7 @@
     DinQiNumber.textColor = [UIColor blackColor];
     [MyScrollView addSubview:DinQiNumber];
     [DinQiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_right).offset(-150);
+        make.left.mas_equalTo(DinQiImageView.mas_left);
         make.top.mas_equalTo(DinQiImageView.mas_bottom).offset(10);
         make.width.mas_equalTo(80);
         make.height.mas_equalTo(15);
@@ -421,7 +433,7 @@
     DinQidOldNumber.textColor = colorWithRGB(0.53, 0.53, 0.53);
     [MyScrollView addSubview:DinQidOldNumber];
     [DinQidOldNumber mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(TopView.mas_right).offset(-150);
+        make.left.mas_equalTo(DinQiImageView.mas_left);
         make.top.mas_equalTo(DinQiNumber.mas_bottom).offset(10);
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
@@ -460,7 +472,7 @@
     [MyScrollView addSubview:lineShowView];
     [lineShowView mas_makeConstraints:^(MASConstraintMaker *make) {
         if (SCREEN_WIDTH == 320) {
-            make.left.mas_equalTo(JinMiLabel.mas_right).offset(30);
+            make.left.mas_equalTo(JinMiLabel.mas_right).offset(50);
             make.width.mas_equalTo(1);
 
         }else{

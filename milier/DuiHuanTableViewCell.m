@@ -137,13 +137,13 @@
                 break;
             case 2:
                 _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
-                _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
+                _NameDetailLabel.text = [NSString stringWithFormat:@"地址：%@",_DuiHuanModel.address];
 
                 break;
             case 3:
                 _NameLabel.text =[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.person,_DuiHuanModel.phoneNumber];
                 _NameDetailLabel.text = [NSString stringWithFormat:@"%@",_DuiHuanModel.address];
-                _MyJiFenLabel.text=[NSString stringWithFormat:@"%@(%@)",_DuiHuanModel.logisticsName,_DuiHuanModel.logisticsNumber];
+                _MyJiFenLabel.text=[NSString stringWithFormat:@"%@(单号：%@)",_DuiHuanModel.logisticsName,_DuiHuanModel.logisticsNumber];
 
                 break;
             default:

@@ -166,13 +166,16 @@
     }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
-    ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
-    vc.productID = [model.oid intValue];
-    vc.productCateID = 4;
-    vc.State = model.state;
-
-    [self.navigationController pushViewController:vc animated:NO];
+    if (dataArray.count) {
+        ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
+        ProuctModel *model = [dataArray objectAtIndex:indexPath.row];
+        vc.productID = [model.oid intValue];
+        vc.productCateID = 4;
+        vc.State = model.state;
+        
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+   
 }
 
 

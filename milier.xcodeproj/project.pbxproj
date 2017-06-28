@@ -200,6 +200,7 @@
 		271E83261EFE9122004F005C /* YNPageScrollViewMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E831E1EFE9122004F005C /* YNPageScrollViewMenu.m */; };
 		271E83271EFE9122004F005C /* YNPageScrollViewMenuConfigration.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */; };
 		271E832A1F02A01F004F005C /* MesaageMoel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E83291F02A01F004F005C /* MesaageMoel.m */; };
+		271E832D1F035A5B004F005C /* RegionProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271E832C1F035A5B004F005C /* RegionProfileViewController.m */; };
 		271F27521EDEAE18001245C3 /* MyChangeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27511EDEAE18001245C3 /* MyChangeModel.m */; };
 		271F27551EDEC045001245C3 /* JiFenModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27541EDEC045001245C3 /* JiFenModel.m */; };
 		271F27581EDEC566001245C3 /* DuiHuanModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 271F27571EDEC566001245C3 /* DuiHuanModel.m */; };
@@ -955,6 +956,8 @@
 		271E83201EFE9122004F005C /* YNPageScrollViewMenuConfigration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YNPageScrollViewMenuConfigration.m; sourceTree = "<group>"; };
 		271E83281F02A01F004F005C /* MesaageMoel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MesaageMoel.h; sourceTree = "<group>"; };
 		271E83291F02A01F004F005C /* MesaageMoel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MesaageMoel.m; sourceTree = "<group>"; };
+		271E832B1F035A5B004F005C /* RegionProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegionProfileViewController.h; sourceTree = "<group>"; };
+		271E832C1F035A5B004F005C /* RegionProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegionProfileViewController.m; sourceTree = "<group>"; };
 		271F27501EDEAE18001245C3 /* MyChangeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyChangeModel.h; sourceTree = "<group>"; };
 		271F27511EDEAE18001245C3 /* MyChangeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyChangeModel.m; sourceTree = "<group>"; };
 		271F27531EDEC045001245C3 /* JiFenModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JiFenModel.h; sourceTree = "<group>"; };
@@ -1955,6 +1958,8 @@
 				27404D681EA7564E00DAFFC2 /* YWDForgetPassWordViewController.m */,
 				272A0EB41EE168E300E36B40 /* YJForgetDealPassWordViewController.h */,
 				272A0EB51EE168E300E36B40 /* YJForgetDealPassWordViewController.m */,
+				271E832B1F035A5B004F005C /* RegionProfileViewController.h */,
+				271E832C1F035A5B004F005C /* RegionProfileViewController.m */,
 			);
 			name = "登陆";
 			sourceTree = "<group>";
@@ -4110,6 +4115,7 @@
 				274A85EA1EBC845F002B7069 /* SecondTypeTableViewCell.m in Sources */,
 				275213361EA0AAFB00A36B0F /* UIScreen+Extend.m in Sources */,
 				27032E381EA7AE7A00A4233B /* CustomChooseView.m in Sources */,
+				271E832D1F035A5B004F005C /* RegionProfileViewController.m in Sources */,
 				2705AFB01E9FA69A008C20CA /* SecondPushViewController.m in Sources */,
 				27032F151EADF5CB00A4233B /* JiFenConvertViewController.m in Sources */,
 				271F27551EDEC045001245C3 /* JiFenModel.m in Sources */,

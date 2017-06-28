@@ -66,6 +66,8 @@
         
         if ([staus isEqualToString:@"未连接网络"]) {
              NSuserSave(@"1", @"Net");
+            NSuserSave(@"1", @"refresh");
+
         }else{
            NSuserSave(@"0", @"Net");
         }
@@ -108,6 +110,8 @@
         
         if ([staus isEqualToString:@"未连接网络"]) {
             NSuserSave(@"1", @"Net");
+            NSuserSave(@"1", @"refresh");
+
         }else{
             NSuserSave(@"0", @"Net");
         }
@@ -147,6 +151,8 @@
         
         if ([staus isEqualToString:@"未连接网络"]) {
             NSuserSave(@"1", @"Net");
+            NSuserSave(@"1", @"refresh");
+
         }else{
             NSuserSave(@"0", @"Net");
         }
@@ -200,6 +206,8 @@
         
         if ([staus isEqualToString:@"未连接网络"]) {
             NSuserSave(@"1", @"Net");
+            NSuserSave(@"1", @"refresh");
+
         }else{
             NSuserSave(@"0", @"Net");
         }
@@ -252,6 +260,8 @@
         
         if ([staus isEqualToString:@"未连接网络"]) {
             NSuserSave(@"1", @"Net");
+            NSuserSave(@"1", @"refresh");
+
         }else{
             NSuserSave(@"0", @"Net");
         }

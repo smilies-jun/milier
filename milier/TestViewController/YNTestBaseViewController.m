@@ -90,7 +90,7 @@
 //    if (!HasHeaderRefresh) {
 //        self.tableView.mj_header = nil;
 //    }
-//    
+//
 //    
 //    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingBlock:^{
 //        

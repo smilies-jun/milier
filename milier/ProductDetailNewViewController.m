@@ -416,30 +416,46 @@
             switch (_productCateID) {
                 case 1:
                     cell.ProductcatID = 1;
+                    NSuserSave(@"2", @"qiye");
+
                     break;
                 case 2:
+                    NSuserSave(@"5", @"qiye");
+
                     cell.ProductcatID =2;
                     break;
                     
                 case 3:
+                    NSuserSave(@"1", @"qiye");
+
                     cell.ProductcatID = 3;
                     break;
                     
                 case 4:
+                    NSuserSave(@"4", @"qiye");
+
                     cell.ProductcatID = 4;
                     break;
                     
                 case 5:
+                    NSuserSave(@"3", @"qiye");
+
                     cell.ProductcatID = 5;
                     break;
                     
                 case 6:
+                    NSuserSave(@"6", @"qiye");
+
                     cell.ProductcatID = 6;
                     break;
                 case 7:
+                    NSuserSave(@"5", @"qiye");
+
                     cell.ProductcatID = 7;
                     break;
                 case 8:
+                    NSuserSave(@"5", @"qiye");
+
                     cell.ProductcatID = 8;
                     break;
                     

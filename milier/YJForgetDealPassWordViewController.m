@@ -10,6 +10,8 @@
 #import "CustomView.h"
 #import "TouUpViewController.h"
 #import "ModifySailViewController.h"
+#import "UserSetViewController.h"
+
 
 @interface YJForgetDealPassWordViewController (){
     CustomView *phoneNumView;
@@ -154,6 +156,7 @@
 }
 #pragma mark - 提交 -
 - (void)PostBtnClick{
+    
     if (phoneNumView.NameTextField.text.length) {
         if (CodeNumView.NameTextField.text.length) {
             if (NewPassWordView.NameTextField.text.length) {
@@ -187,22 +190,32 @@
 }
 
 - (void)postForgetCode{
+
     NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",NewPassWordView.NameTextField.text,@"newDealPassword", nil];
     NSString *url = [NSString stringWithFormat:@"%@/retrieveDealPassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
 
-            if ([_TypeStr integerValue]==1) {
                 normal_alert(@"提示", @"密码修改成功", @"确定");
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    for (UIViewController *controller in self.navigationController.viewControllers) {
-                        if ([controller isKindOfClass:[TouUpViewController class]]) {
-                            [self.navigationController popToViewController:controller animated:YES];
-                        }
-                    }
-
-                });
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[UserSetViewController class]]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
             }
+            for (UIViewController *controller in self.navigationController.viewControllers) {
+                if ([controller isKindOfClass:[TouUpViewController class]]) {
+                    [self.navigationController popToViewController:controller animated:YES];
+                }
+            }
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                    for (UIViewController *controller in self.navigationController.viewControllers) {
+//                        if ([controller isKindOfClass:[TouUpViewController class]]) {
+//                            [self.navigationController popToViewController:controller animated:YES];
+//                        }
+//                    }
+//
+//                });
+
         }else{
             NSString *message = [result objectForKey:@"message"];
             normal_alert(@"提示", message, @"确定　");

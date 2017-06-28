@@ -453,6 +453,7 @@
     NSuserRemove(@"activityOid");
     NSuserRemove(@"Risk");
     NSuserSave(@"2", @"qiye");
+    NSuserSave(@"1", @"heafresh");
     [self.navigationController popToRootViewControllerAnimated:NO];
 
 }

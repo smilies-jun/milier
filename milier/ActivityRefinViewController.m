@@ -158,7 +158,7 @@
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 20.0f;
-    [reginBtn setTitle:@"注册并登录" forState:UIControlStateNormal];
+    [reginBtn setTitle:@"注册" forState:UIControlStateNormal];
     [reginBtn addTarget:self action:@selector(ReginAndLoginClickedActivity) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -297,8 +297,7 @@
 - (void)senderInputSecurityCodeBtnClicked
 
 {
-    _second = 90;
-    _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+  
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     BOOL isMatch  = [phoneTest evaluateWithObject:UsertPhoneView.NameTextField.text];
@@ -306,6 +305,8 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
+        _second = 90;
+        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {

@@ -240,7 +240,7 @@
             NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
             ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
             
-            BondLabel.text = [NSString stringWithFormat:@"%@元债权",_detailModel.bondTotal];
+            BondLabel.text = [NSString stringWithFormat:@"%.2f元债权",[_detailModel.bondTotal doubleValue]];
             if ([_detailModel.oid integerValue] == 375) {
                 BondTimeLabel.text = @"随时提现";
                 

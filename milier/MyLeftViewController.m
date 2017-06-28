@@ -159,8 +159,8 @@
             BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
             PassWordStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dealPasswordExist"]];
             
-           // [self ConfigUI];
-            
+            [self ConfigUI];
+            [self.tableView reloadData];
         }
         
     }];
@@ -351,6 +351,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 马上进入刷新状态
+    [self reloadMyMoney];
     [self reloadMyBankMoney];
     [self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];

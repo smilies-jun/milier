@@ -31,8 +31,9 @@
 #import "ActivityDetailViewController.h"
 
 
+
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
-    
+    SDCycleScrollView *autoScrollView;
     UIImageView *CancelImageView;
     
     UIImageView *NetImageView;//网贷基金
@@ -129,7 +130,7 @@
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
    
     
-    
+    [self refreshData];
     
     [self RequestData];
     
@@ -199,7 +200,6 @@
 
 }
 
-
 - (void)RequestHead{
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/messages/isNewMessageExist",HOST_URL];
@@ -222,6 +222,9 @@
     
     NSString *CarouselsUrl = [NSString stringWithFormat:@"%@",CAROUSSELS_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+        [ImageArray removeAllObjects];
+        [ActivityArray removeAllObjects];
+        [TitleArray removeAllObjects];
         NSArray *array = [result objectForKey:@"items"];
         for (NSDictionary *dic in array) {
             [ImageArray addObject:[dic objectForKey:@"image"]];
@@ -551,7 +554,31 @@
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
-        
+//        NSString *typeStr =  NSuserUse(@"qiye");
+//        NSLog(@"type == %@",typeStr);
+//        switch ([typeStr integerValue]) {
+//            case 1:
+//                [self BusClick];
+//                break;
+//            case 2:
+//                [self NetClick];
+//                break;
+//            case 3:
+//                [self BuyClick];
+//                break;
+//            case 4:
+//                [self PersonClick];
+//                break;
+//            case 5:
+//                [self ProClick];
+//                break;
+//            case 6:
+//                [self ChangeClick];
+//                break;
+//            default:
+//                break;
+//        }
+
         alertView=[[AwAlertView alloc]initWithContentView:view];
         alertView.isUseHidden=YES;
         [alertView showAnimated:YES];
@@ -570,9 +597,9 @@
     //头部headerView
     UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170)];
     //轮播器
-    SDCycleScrollView *autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170) imageURLStringsGroup:ImageArray];
+    autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170) imageURLStringsGroup:ImageArray];
     autoScrollView.delegate = self;
-    
+    [autoScrollView setPlaceholderImage:[UIImage imageNamed:@"huodong"]];
     [headerView2 addSubview:autoScrollView];
     vc.headerView = headerView2;
 
@@ -675,7 +702,23 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self refreshData];
+//    [self refreshData];
+//    [self RequestData];
+  
+    NSString *refresh =     NSuserUse( @"refresh");
+    if ([refresh integerValue] == 1) {
+          [self refreshData];
+          [self RequestData];
+        NSuserSave(@"0", @"refresh");
+    }else{
+        NSuserSave(@"0", @"refresh");
+    }
+    NSString *heafresh =     NSuserUse( @"heafresh");
+    if ([heafresh integerValue] ==1) {
+        [self refreshData];
+        NSuserSave(@"0", @"heafresh");
+    }
+   
     NSString *typeStr =  NSuserUse(@"qiye");
     switch ([typeStr integerValue]) {
         case 1:

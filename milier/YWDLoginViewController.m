@@ -296,6 +296,7 @@
                             NSDictionary *dic = [result objectForKey:@"data"];
                             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
                             NSuserSave([dic objectForKey:@"userId"], @"userId");
+                            NSuserSave(@"1", @"heafresh");
                             NSuserRemove(@"tokenIDisOraNo");
                             //                        if (_Type == 1) {
                             //                            //  返回指定页面

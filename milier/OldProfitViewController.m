@@ -49,9 +49,10 @@
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
     _tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
-    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
+    //_tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
+    //_tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     [self.view addSubview:_tableView];
+    [self getNetworkData:YES];
 }
 - (void)loadoneNew{
     [self getNetworkData:YES];

@@ -52,7 +52,7 @@
 }
 - (void)loadoneNew{
     [self getNetworkData:YES];
-    
+
 }
 - (void)loadoneMore{
     [self getNetworkData:NO];

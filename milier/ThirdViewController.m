@@ -90,6 +90,7 @@
     NewPersonView.StaticImageView.image = [UIImage imageNamed:@"novice"];
     NewPersonView.userInteractionEnabled = YES;
     NewPersonView.tag = 1;
+    NewPersonView.hidden = YES;
     UITapGestureRecognizer *PersonTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(NewMoreClick)];
     [NewPersonView addGestureRecognizer:PersonTap];
 
@@ -112,7 +113,7 @@
     [self.view addSubview:HelpView];
     [HelpView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(NewPersonView.mas_bottom).offset(0.5);
+        make.top.mas_equalTo(SafeView.mas_bottom).offset(0.5);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);
     }];

@@ -169,7 +169,7 @@ static LLPayType payType = LLPayTypeVerify;
     
     double monuthLimit = [month doubleValue]/10000;
     
-    bankDetailLabel.text =[NSString stringWithFormat:@"单笔%.1f万，单日%.1f，单月%.1f万",singleLimit,dayLimit,monuthLimit];
+    bankDetailLabel.text =[NSString stringWithFormat:@"单笔%.1f万，单日%.1f万，单月%.1f万",singleLimit,dayLimit,monuthLimit];
     bankDetailLabel.font = [UIFont systemFontOfSize:12];
     [self.view addSubview:bankDetailLabel];
     [bankDetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {

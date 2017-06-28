@@ -127,6 +127,7 @@
     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:SaleNewPassWordView.NameTextField.text,@"dealPassword", nil];
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *staues = [result objectForKey:@"statusCode"];
+        NSLog(@"re == %@",result);
         if ([staues integerValue] == 201) {
             //提交
             normal_alert(@"提示", @"交易密码设置成功", @"确定");
