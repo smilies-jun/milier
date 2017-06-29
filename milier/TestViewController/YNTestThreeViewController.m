@@ -39,7 +39,6 @@
 
 
 - (void)loadoneNew{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeWife" object:nil userInfo:nil];
 
     [self getNetworkData:YES];
     
@@ -98,7 +97,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     
     
-    return 0;
+    return 2;
     
 }
 //header-secion

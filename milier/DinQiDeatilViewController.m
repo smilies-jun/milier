@@ -176,7 +176,6 @@
             [_MutableArray removeAllObjects];
             _mysectionArray = nil;
         }
-        NSLog(@"re === %@",result);
         NSArray *myArray = [result objectForKey:@"items"];
             _mysectionArray = myArray;
             isJuhua = NO;
@@ -273,7 +272,6 @@
         [_flagArray addObject:@"0"];
     }
     
-    NSLog(@"sec === %lu",(unsigned long)_sectionArray.count);
 
 }
 //设置组数

@@ -336,7 +336,7 @@
     configration.itemLeftAndRightMargin = 20;
     configration.lineColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.lineHeight = 2;
-    configration.itemFont = [UIFont systemFontOfSize:14];
+    configration.itemFont = [UIFont systemFontOfSize:15];
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     configration.aligmentModeCenter = NO;
     configration.showConver = NO;

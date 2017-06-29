@@ -91,7 +91,7 @@
     [_GetCode mas_makeConstraints:^(MASConstraintMaker* make) {
         make.top.mas_equalTo(PhoneView.mas_top);
         make.right.mas_equalTo(self.view.mas_right);
-        make.width.mas_equalTo(70);
+        make.width.mas_equalTo(90);
         make.height.mas_equalTo(40);
     }];
     
