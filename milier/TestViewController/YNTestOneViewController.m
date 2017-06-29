@@ -8,6 +8,7 @@
 
 #import "YNTestOneViewController.h"
 #import "ProductDetailNewViewController.h"
+#import "YNPageScrollViewController.h"
 
 #import "SecondTableViewCell.h"
 #import "ProuctModel.h"
@@ -39,8 +40,11 @@
             break;
         default:
             type = 0;
+            
             break;
     }
+    //   __weak typeof (YNTestBaseViewController *)weakself = self;
+    
     NSLog(@"wife = %@",wifeStr);
      NSuserSave(@"2", @"qiye");
 }
@@ -51,6 +55,8 @@
     
 }
 - (void)loadoneNew{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeWife" object:nil userInfo:nil];
+
     [self getNetworkData:YES];
 
 }
@@ -170,6 +176,7 @@
         return cell;
  
     }else{
+
         static NSString *identifier = @"NoWifeidentifier";
         NoDateTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {

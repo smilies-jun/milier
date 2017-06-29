@@ -34,6 +34,8 @@
     
 }
 - (void)loadoneNew{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"changeWife" object:nil userInfo:nil];
+
     [self getNetworkData:YES];
     
 }

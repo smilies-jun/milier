@@ -125,7 +125,8 @@
             [self endRefresh];
         }
         
-      
+        [self.tableView reloadData];
+
 
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
@@ -208,6 +209,7 @@
     //    [self presentViewController:sVC animated:YES completion:nil];
 }
 - (void)CancelClick:(UIButton *)btn{
+    NSLog(@"tag === %ld",(long)btn.tag);
     MyChangeModel *model = [MyChangeArray objectAtIndex:btn.tag - 100];
     NSString *url;
     NSString *tokenID = NSuserUse(@"Authorization");
@@ -216,7 +218,23 @@
    [[DateSource sharedInstance]requestDeleteWithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary * dic, NSError *error) {
        NSString *stateStr = [dic objectForKey:@"statusCode"];
        if ([stateStr integerValue] == 201) {
-           [self getNetworkData:YES];
+           UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                                    message:@"是否取消"
+                                                                             preferredStyle:UIAlertControllerStyleAlert ];
+           
+           //添加取消到UIAlertController中
+           UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+           [alertController addAction:cancelAction];
+           
+           //添加确定到UIAlertController中
+           UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            　
+               [self getNetworkData:YES];
+           }];
+           [alertController addAction:OKAction];
+           
+           [self presentViewController:alertController animated:YES completion:nil];
+           
        }else{
            NSString *message = [dic objectForKey:@"message"];
            normal_alert(@"提示", message, @"确定");

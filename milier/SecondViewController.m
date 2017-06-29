@@ -133,7 +133,13 @@
     [self refreshData];
     
     [self RequestData];
-    
+     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeWife) name:@"changeWife" object:nil];
+
+}
+- (void)changeWife{
+    [self refreshData];
+    [self RequestData];
+
 
 }
 - (void)HideProgress{
@@ -164,39 +170,38 @@
     
     UIImage *rightImage = [[UIImage imageNamed:@"news"]imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:rightImage style:UIBarButtonItemStylePlain target:self action:@selector(RightClick)];
-    NSString *userID = NSuserUse(@"userId");
-    if ([userID integerValue]>0) {
-        NSString *url;
         NSString *userID = NSuserUse(@"userId");
+        NSString *url;
         NSString *tokenID = NSuserUse(@"Authorization");
         url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
         [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-            NSMutableDictionary *   UserDic = [result objectForKey:@"data"];
-            NSuserSave([UserDic objectForKey:@"bankCardExist"], @"bankCardExist");
-            NSuserSave([UserDic objectForKey:@"dealPasswordExist"], @"dealPasswordExist");
-            NSuserSave([UserDic objectForKey:@"bankCardId"], @"bankCardId");
-            NSuserSave([UserDic objectForKey:@"bankId"], @"bankId");
-            NSuserSave([UserDic objectForKey:@"bankCardNumberSuffix"], @"bankCardNumberSuffix");
-            NSuserSave([UserDic objectForKey:@"phoneNumber"], @"phoneNumber");
-            NSuserSave([UserDic objectForKey:@"receivedPropsCount"], @"receivedPropsCount");
-            NSuserSave([UserDic objectForKey:@"noneReceivedPropsCount"], @"noneReceivedPropsCount");
-            NSuserSave([UserDic objectForKey:@"customersCount"], @"customersCount");
-            NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
-            NSString *userImageStr = NSuserUse(@"avatar");
-            if (userImageStr.length) {
-                [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
+            if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
+                NSMutableDictionary *   UserDic = [result objectForKey:@"data"];
+                NSuserSave([UserDic objectForKey:@"bankCardExist"], @"bankCardExist");
+                NSuserSave([UserDic objectForKey:@"dealPasswordExist"], @"dealPasswordExist");
+                NSuserSave([UserDic objectForKey:@"bankCardId"], @"bankCardId");
+                NSuserSave([UserDic objectForKey:@"bankId"], @"bankId");
+                NSuserSave([UserDic objectForKey:@"bankCardNumberSuffix"], @"bankCardNumberSuffix");
+                NSuserSave([UserDic objectForKey:@"phoneNumber"], @"phoneNumber");
+                NSuserSave([UserDic objectForKey:@"receivedPropsCount"], @"receivedPropsCount");
+                NSuserSave([UserDic objectForKey:@"noneReceivedPropsCount"], @"noneReceivedPropsCount");
+                NSuserSave([UserDic objectForKey:@"customersCount"], @"customersCount");
+                NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
+                NSString *userImageStr = NSuserUse(@"avatar");
+                if (userImageStr.length) {
+                    [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
+                }else{
+                    LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
+                }
+                [self RequestHead];
+                self.navigationItem.rightBarButtonItem = rightItem;
             }else{
                 LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
+                self.navigationItem.rightBarButtonItem = nil;
             }
-            [self RequestHead];
-            self.navigationItem.rightBarButtonItem = rightItem;
+            
         }];
-      
-    }else{
-        LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
-        self.navigationItem.rightBarButtonItem = nil;
-        
-    }
+
 
 }
 
@@ -705,20 +710,19 @@
 //    [self refreshData];
 //    [self RequestData];
   
-    NSString *refresh =     NSuserUse( @"refresh");
-    if ([refresh integerValue] == 1) {
-          [self refreshData];
-          [self RequestData];
-        NSuserSave(@"0", @"refresh");
-    }else{
-        NSuserSave(@"0", @"refresh");
-    }
+//    NSString *refresh =     NSuserUse( @"refresh");
+//    NSLog(@"re == %@",refresh);
+//    if ([refresh integerValue] == 1) {
+//          [self refreshData];
+//          [self RequestData];
+//    }else{
+//        NSuserSave(@"0", @"refresh");
+//    }
     NSString *heafresh =     NSuserUse( @"heafresh");
     if ([heafresh integerValue] ==1) {
         [self refreshData];
         NSuserSave(@"0", @"heafresh");
     }
-   
     NSString *typeStr =  NSuserUse(@"qiye");
     switch ([typeStr integerValue]) {
         case 1:

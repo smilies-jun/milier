@@ -37,6 +37,7 @@
         NSString *CheckStr;
 
         if (status == -1) {
+            
             CheckStr = [NSString stringWithFormat:@"未识别网络"];
         }
         if (status == 0) {

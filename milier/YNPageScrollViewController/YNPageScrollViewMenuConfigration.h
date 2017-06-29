@@ -62,8 +62,7 @@ typedef NS_ENUM(NSInteger , YNPageScrollViewMenuStyle) {
 /** 选项正常color*/
 @property (nonatomic, strong) UIColor *normalItemColor;
 /** 选项选中color*/
-@property (nonatomic, strong) UIColor *selectedItemColor;
-/** 线height 2 */
+d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d d/** 线height 2 */
 @property (nonatomic, assign) CGFloat lineHeight;
 /** 线条底部距离 0*/
 @property (nonatomic, assign) CGFloat lineBottomMargin;
