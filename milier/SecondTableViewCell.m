@@ -29,14 +29,64 @@
         make.width.mas_equalTo(260);
         make.height.mas_equalTo(20);
     }];
+    
+    _StyleLabel = [[UILabel alloc]init];
+    _StyleLabel.text = @"保守型";
+    _StyleLabel.layer.cornerRadius = 2;
+    _StyleLabel.layer.masksToBounds = YES;
+    _StyleLabel.font = [UIFont systemFontOfSize:13];
+    _StyleLabel.textAlignment = NSTextAlignmentCenter;
+    _StyleLabel.backgroundColor = colorWithRGB(0.97, 0.6, 0.00);
+    _StyleLabel.textColor = [UIColor whiteColor];
+    [self.contentView addSubview:_StyleLabel];
+    [_StyleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_TitleLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(self.contentView.mas_left).offset(20);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(20);
+    }];
+    
+    
+    _SaleLabel = [[UILabel alloc]init];
+    _SaleLabel.layer.cornerRadius = 2;
+    _SaleLabel.layer.masksToBounds = YES;
+    _SaleLabel.text = @"到期还本付息";
+    _SaleLabel.font = [UIFont systemFontOfSize:13];
+    _SaleLabel.textAlignment = NSTextAlignmentCenter;
+    _SaleLabel.backgroundColor = colorWithRGB(0.58, 0.72, 0.00);
+    _SaleLabel.textColor = [UIColor whiteColor];
+    [self.contentView addSubview:_SaleLabel];
+    [_SaleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_TitleLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(_StyleLabel.mas_right).offset(5);
+        make.width.mas_equalTo(110);
+        make.height.mas_equalTo(20);
+    }];
 
+    _FullLabel = [[UILabel alloc]init];
+    _FullLabel.layer.cornerRadius = 2;
+    _FullLabel.layer.masksToBounds = YES;
+    _FullLabel.text = @"满标+0.5%";
+    _FullLabel.font = [UIFont systemFontOfSize:14];
+    _FullLabel.textAlignment = NSTextAlignmentCenter;
+    _FullLabel.backgroundColor = colorWithRGB(0.22, 0.61, 0.83);
+    _FullLabel.textColor = [UIColor whiteColor];
+    [self.contentView addSubview:_FullLabel];
+    [_FullLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(_TitleLabel.mas_bottom).offset(5);
+        make.left.mas_equalTo(_SaleLabel.mas_right).offset(5);
+        make.width.mas_equalTo(90);
+        make.height.mas_equalTo(20);
+    }];
+    
+    
     _ProfitLabel = [[UILabel alloc]init];
     _ProfitLabel.font = [UIFont systemFontOfSize:15];
     _ProfitLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
     _ProfitLabel.text = @"预计年化收益";
     [self.contentView addSubview:_ProfitLabel];
     [_ProfitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(_TitleLabel.mas_bottom).offset(10);
+        make.top.mas_equalTo(_TitleLabel.mas_bottom).offset(30);
         make.left.mas_equalTo(self.contentView.mas_left).offset(20);
         make.width.mas_equalTo(93);
         make.height.mas_equalTo(20);
@@ -217,10 +267,59 @@
             _ChangeLabel.hidden = YES;
         }
         
-        NSLog(@"==%@",_productMoel.productCategoryId);
         
         
     }
+    switch ([_productMoel.riskLevel integerValue]) {
+        case 1:
+            _StyleLabel.text = @"保守型";
+            break;
+        case 2:
+            _StyleLabel.text = @"稳健型";
+            break;
+        case 3:
+            _StyleLabel.text = @"积极型";
+            break;
+        default:
+             _StyleLabel.text = @"保守型";
+            break;
+    }
+    
+    switch ([_productMoel.modeOfRepayment integerValue]) {
+        case 0:
+           _SaleLabel.text = @"到期还本付息";
+            [_SaleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(90);
+            }];
+            break;
+        case 1:
+              _SaleLabel.text = @"按月付息到期还本";
+            [_SaleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(110);
+            }];
+            break;
+        case 2:
+              _SaleLabel.text = @"按季付息到期还本";
+            [_SaleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(110);
+            }];
+            break;
+        case 3:
+              _SaleLabel.text = @"按半年付息到期还本";
+            [_SaleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(110);
+            }];
+            break;
+        case 4:
+              _SaleLabel.text = @"按年付息到期还本";
+            [_SaleLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.width.mas_equalTo(110);
+            }];
+            break;
+        default:
+            break;
+    }
+    
     switch ([_productMoel.productCategoryId integerValue]) {
         case 1:
             _MoneyLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
@@ -350,7 +449,19 @@
         
     }
     
-    
+    switch ([_productMoel.isFullScaleReward integerValue]) {
+        case 0:
+            _FullLabel.hidden = YES;
+            break;
+        case 1:
+            _FullLabel.hidden = NO;
+            _FullLabel.text = [NSString stringWithFormat:@"满标+%@%%",_productMoel.fullScaleReward];
+            break;
+            
+        default:
+            _FullLabel.hidden = YES;
+            break;
+    }
     
 }
 

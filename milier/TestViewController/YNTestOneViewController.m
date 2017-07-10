@@ -81,9 +81,11 @@
         url = [NSString stringWithFormat:@"%@?page=%d&rows=20&productCategoryId=1",PRODUCTS_URL,page];
         
     }
+    
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
+        NSLog(@"re == %@",result);
         if (page == 1) {
             [dataArray removeAllObjects];
         }
@@ -150,7 +152,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (dataArray.count) {
-        return 120;
+        return 140;
     }
     return 300;
 }

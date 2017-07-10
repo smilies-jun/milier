@@ -26,7 +26,6 @@
         make.height.mas_equalTo(20);
     }];
     _LookSailLabel =  [UIButton buttonWithType:UIButtonTypeCustom];
-    _LookSailLabel.tag = indexPath.section + 200 -1;
     [_LookSailLabel setTitle:@"查看协议>>" forState:UIControlStateNormal ];
     [_LookSailLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     _LookSailLabel.titleLabel.font = [UIFont systemFontOfSize:12];
@@ -57,7 +56,6 @@
     _LookLimitLabel =  [UIButton buttonWithType:UIButtonTypeCustom];
     [_LookLimitLabel setTitleColor:colorWithRGB(0.95, 0.6, 0.11) forState:UIControlStateNormal];
     _LookLimitLabel.hidden = YES;
-    _LookLimitLabel.tag = 100 + indexPath.section-1;
     _LookLimitLabel.titleLabel.text = @"债权转让>>";
     _LookLimitLabel.titleLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_LookLimitLabel];

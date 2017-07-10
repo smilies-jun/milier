@@ -106,12 +106,10 @@
             url = [NSString stringWithFormat:@"%@/earnings?page=%d&rows=20&userId=%@&productCategoryId=0",HOST_URL,page,userID];
             
         }
-       
-
+        
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
-        
         isJuhua = NO;
         [self endRefresh];
         if (page == 1) {
@@ -206,8 +204,8 @@
     if (AddArray.count) {
         AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
         ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
-        VC.OidStr = [NSString stringWithFormat:@"%@",model.oid];
         NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
+        VC.OidStr = [NSString stringWithFormat:@"%@",timeStr];
 
         VC.TitleStr = [NSString stringWithFormat:@"%@收益(元)",timeStr];
         [self.navigationController pushViewController:VC animated:NO];

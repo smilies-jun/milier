@@ -153,7 +153,6 @@
         [self ConfigUI];
         [self reloadData];
         [self HideProgress];
-        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 401) {
             normal_alert(@"提示", @"认证失败请重新登录", @"确定");
         
@@ -340,7 +339,7 @@
  
         }
         make.top.mas_equalTo(JinMiImageView.mas_bottom).offset(12);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     JinMiOldNumber = [[UILabel alloc]init];
@@ -423,7 +422,7 @@
     [DinQiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(DinQiImageView.mas_left);
         make.top.mas_equalTo(DinQiImageView.mas_bottom).offset(10);
-        make.width.mas_equalTo(80);
+        make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
     DinQidOldNumber = [[UILabel alloc]init];
@@ -1021,38 +1020,38 @@
     [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
     
     if ([[StaticUserDic objectForKey:@"investmentAmount"]doubleValue]) {
-        MoneyNumberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"investmentAmount"]];
+        MoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"investmentAmount"]doubleValue]];
 
     }else{
-        MoneyNumberLabel.text = @"0";
+        MoneyNumberLabel.text = @"0.00";
  
     }
     if ([[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue]) {
-        JinMiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"currentInvestmentAmount"]];
+        JinMiNumber.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue]];
    
     }else{
-        JinMiNumber.text = @"¥0";
+        JinMiNumber.text = @"¥0.00";
 
     }
     if ([[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]) {
         JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥%.2f",[[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]];
 
     }else{
-        JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥0"];
+        JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥0.00"];
 
     }
     if ([[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]) {
         DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥%.2f",[[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]];
 
     }else{
-        DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥0"];
+        DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥0.00"];
  
     }
     if ([[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue]) {
         DinQiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
 
     }else{
-        DinQiNumber.text = @"¥0";
+        DinQiNumber.text = @"¥0.00";
  
     }
     NSString *usernameStr = [UserDic objectForKey:@"realName"];
@@ -1067,12 +1066,12 @@
         MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];
  
     }else{
-        MyLeftMoneyNumberLabel.text = @"0";
+        MyLeftMoneyNumberLabel.text = @"0.00";
     }
     if ([[StaticUserDic objectForKey:@"points"]doubleValue]) {
          MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     }else{
-        MyJifenNmberLabel.text =@"0";
+        MyJifenNmberLabel.text =@"0.00";
 
     }
     double   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue];
@@ -1089,8 +1088,8 @@
         cirleArray  = [[NSArray alloc]initWithObjects:CircleStr, nil];
         [self.cirqueChart strokePath];
     }else{
-        totalNumber = 100.0f;
-        cirleArray  = [[NSArray alloc]initWithObjects:@"0", nil];
+        totalNumber = 1.0f;
+        cirleArray  = [[NSArray alloc]initWithObjects:@"1", nil];
         [self.cirqueChart strokePath];
   
     }
@@ -1176,7 +1175,11 @@
 }
 
 - (id)colorArrayInCirqueChart:(ZFCirqueChart *)cirqueChart{
-    return colorWithRGB(0.99, 0.78, 0.09);
+    if (totalNumber > 1) {
+       return colorWithRGB(0.99, 0.78, 0.09);
+    }
+    
+    return colorWithRGB(0.93, 0.93, 0.93);
     //    return @[ZFRed, ZFOrange, ZFMagenta, ZFBlue, ZFPurple];
 }
 
@@ -1186,7 +1189,7 @@
         
     }
     
-    return 10000.f;
+    return 1.0f;
 }
 
 #pragma mark - ZFCirqueChartDelegate

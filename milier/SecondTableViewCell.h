@@ -23,6 +23,11 @@
 
 @property (nonatomic , retain) UILabel *MoneyLabel;
 
+@property (nonatomic , retain) UILabel *StyleLabel;
+
+@property (nonatomic , retain) UILabel *SaleLabel;
+
+@property (nonatomic , retain) UILabel *FullLabel;
 
 @property (nonatomic , retain) UILabel *limitTimeLabel;
 

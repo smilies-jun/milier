@@ -63,7 +63,6 @@
     [ShareSDK registerApp:@"15ae883ab95ee"
      
           activePlatforms:@[
-                            @(SSDKPlatformTypeSinaWeibo),
                             @(SSDKPlatformTypeWechat),
                             @(SSDKPlatformTypeQQ),]
                  onImport:^(SSDKPlatformType platformType)
@@ -76,9 +75,9 @@
              case SSDKPlatformTypeQQ:
                  [ShareSDKConnector connectQQ:[QQApiInterface class] tencentOAuthClass:[TencentOAuth class]];
                  break;
-             case SSDKPlatformTypeSinaWeibo:
-                 [ShareSDKConnector connectWeibo:[WeiboSDK class]];
-                 break;
+//             case SSDKPlatformTypeSinaWeibo:
+//                 [ShareSDKConnector connectWeibo:[WeiboSDK class]];
+//                 break;
                         default:
                  break;
          }
@@ -88,13 +87,13 @@
          
          switch (platformType)
          {
-             case SSDKPlatformTypeSinaWeibo:
-                 //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
-                 [appInfo SSDKSetupSinaWeiboByAppKey:@"3430303160"
-                                           appSecret:@"c4656da9a999e8ac56accf74bf7572b0"
-                                         redirectUri:@"http://weixin.milibanking.com/weixin/weixin/activity/share"
-                                            authType:SSDKAuthTypeBoth];
-                 break;
+//             case SSDKPlatformTypeSinaWeibo:
+//                 //设置新浪微博应用信息,其中authType设置为使用SSO＋Web形式授权
+//                 [appInfo SSDKSetupSinaWeiboByAppKey:@"3430303160"
+//                                           appSecret:@"c4656da9a999e8ac56accf74bf7572b0"
+//                                         redirectUri:@"http://weixin.milibanking.com/weixin/weixin/activity/share"
+//                                            authType:SSDKAuthTypeBoth];
+//                 break;
              case SSDKPlatformTypeWechat:
                  [appInfo SSDKSetupWeChatByAppId:@"wx64c5aa8a1de5111d"
                                        appSecret:@"a5ee45d86f6dd7b2b39f80df70a29b90"];

@@ -72,7 +72,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
-
+        NSLog(@"---%@",result);
         if (page == 1) {
             [dataArray removeAllObjects];
         }
@@ -140,7 +140,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (dataArray.count) {
-        return 120;
+        return 140;
  
     }
     return 300;

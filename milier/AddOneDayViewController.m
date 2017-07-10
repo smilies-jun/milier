@@ -81,7 +81,8 @@
     NSString *tokenID = NSuserUse(@"Authorization");
    
         
-    url = [NSString stringWithFormat:@"%@/earnings/%@/details?productCategoryId=0",HOST_URL,_OidStr];
+    url = [NSString stringWithFormat:@"%@/earningDetails?productCategoryId=0&date=%@",HOST_URL,_OidStr];
+    NSLog(@" === %@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
         isJuhua = NO;

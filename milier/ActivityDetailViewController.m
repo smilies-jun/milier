@@ -63,16 +63,16 @@
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
      NSLog(@"REQUEST.URL = %@",request.URL);
     NSString *urlStr = [NSString stringWithFormat:@"%@",request.URL];
-    NSString *strRegin = @"http://weixin.milibanking.com/weixin/weixin/login/toRegister";
-    NSString *strSale1 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=1";
-    NSString *strSale2 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=2";
-    NSString *strSale3 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=3";
+    NSString *strRegin = @"https://weixin.milibanking.com/weixin/weixin/login/toRegister";
+    NSString *strSale1 = @"https://weixin.milibanking.com/weixin/weixin/product/productList?productId=1";
+    NSString *strSale2 = @"https://weixin.milibanking.com/weixin/weixin/product/productList?productId=2";
+    NSString *strSale3 = @"https://weixin.milibanking.com/weixin/weixin/product/productList?productId=3";
 
-    NSString *strSale4 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=4";
+    NSString *strSale4 = @"https://weixin.milibanking.com/weixin/weixin/product/productList?productId=4";
 
-    NSString *strSale5 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=5";
+    NSString *strSale5 = @"https://weixin.milibanking.com/weixin/weixin/product/productList?productId=5";
 
-    NSString *strSale6 = @"http://weixin.milibanking.com/weixin/weixin/product/productList?productId=6";
+    NSString *strSale6 = @"https://weixin.milibanking.com/weixin/weixin/product/productList?productId=6";
 
     if ([urlStr containsString:strRegin]) {
         ActivityRefinViewController *reVC= [[ActivityRefinViewController alloc]init];

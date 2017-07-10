@@ -38,4 +38,8 @@
 
 @property(nonatomic,strong)NSString *tenThousandIncome;
 
+@property(nonatomic,strong)NSString *isFullScaleReward;
+
+@property(nonatomic,strong)NSString *fullScaleReward;
+
 @end

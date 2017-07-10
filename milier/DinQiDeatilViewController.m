@@ -968,7 +968,8 @@
                 cell.DinQiModel = model;
             }
         }
-        
+        cell.LookSailLabel.tag = indexPath.section + 200 -1;
+        cell.LookLimitLabel.tag = indexPath.section + 100 -1;
         [cell.LookSailLabel addTarget:self action:@selector(LookClick:) forControlEvents:UIControlEventTouchUpInside];
         
         [cell.LookLimitLabel addTarget:self action:@selector(LimitClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -997,6 +998,7 @@
 - (void)LimitClick:(UIButton *)btn{
     if ([btn.titleLabel.text isEqualToString:@"债权转让>>"]) {
         ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
+        NSLog(@"...tag == %ld   array == %ld",(long)btn.tag,DinQiArray.count);
         DinQiModel *model = [DinQiArray objectAtIndex:btn.tag - 100];
         ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];
         ChangeVC.MoneyName = [NSString stringWithFormat:@"%@",model.ci];

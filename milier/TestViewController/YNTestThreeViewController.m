@@ -132,7 +132,7 @@
 //cell-height
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (dataArray.count) {
-        return 120;
+        return 140;
     }
     return 320;
 }
