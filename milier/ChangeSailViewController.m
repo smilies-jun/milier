@@ -36,7 +36,7 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     MyChangeArray = [[NSMutableArray alloc]init];
-   // [self getNetworkData:YES];
+    [self getNetworkData:YES];
     [self ConfigUI];
     
 }
@@ -55,9 +55,7 @@
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
-    self.tableView.noContentViewTapedBlock = ^{
-        [self getNetworkData:YES];
-    };
+
     
 }
 /**
@@ -155,7 +153,7 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (MyChangeArray.count) {
-         return 140;
+         return 135;
     }else{
         return SCREEN_HEIGHT-64;;
     }
