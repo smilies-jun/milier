@@ -45,14 +45,14 @@
 
 
 //URL
-#define SMS_URL @"https://csapp.milibanking.com/app/sms" //短信验证
-#define LOGIN_URL @"https://csapp.milibanking.com/app/tokens" //登录
-#define HOST_URL @"https://csapp.milibanking.com/app"
-#define CAROUSSELS_URL @"https://csapp.milibanking.com/app/carousels"
-#define PRODUCTS_URL @"https://csapp.milibanking.com/app/products"
-#define USER_URL @"https://csapp.milibanking.com/app/users"
-#define PRODUCTO_RDERS_URL @"https://csapp.milibanking.com/app/productOrders"
-#define ACTIVITIES_URL @"https://csapp.milibanking.com/app/activities"
+#define SMS_URL @"https://app.milibanking.com/app/sms" //短信验证
+#define LOGIN_URL @"https://app.milibanking.com/app/tokens" //登录
+#define HOST_URL @"https://app.milibanking.com/app"
+#define CAROUSSELS_URL @"https://app.milibanking.com/app/carousels"
+#define PRODUCTS_URL @"https://app.milibanking.com/app/products"
+#define USER_URL @"https://app.milibanking.com/app/users"
+#define PRODUCTO_RDERS_URL @"https://app.milibanking.com/app/productOrders"
+#define ACTIVITIES_URL @"https://app.milibanking.com/app/activities"
 
 #define normal_alert(TITLE,MESSAGE,CANCEL) [[[UIAlertView alloc] initWithTitle:TITLE message:MESSAGE delegate:nil cancelButtonTitle:CANCEL otherButtonTitles:nil, nil] show]
 
