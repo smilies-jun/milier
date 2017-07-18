@@ -1041,12 +1041,13 @@
             if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
                 [self HideProgress];
                 //UIAlertController风格：UIAlertControllerStyleAlert
-                NSString *sucessStr = [result objectForKey:@"award"];
+                NSString *sucessStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
                 NSString *mySucessStr;
-                if (sucessStr.length) {
-                    mySucessStr = sucessStr;
-                }else{
+                if ([sucessStr isEqualToString:@"(null)"]) {
                     mySucessStr = @"请到个人中心查看";
+                }else{
+                    mySucessStr = sucessStr;
+  
                 }
                 
                 UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"购买成功"
