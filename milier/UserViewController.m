@@ -21,6 +21,8 @@
 #import "RiskComplyViewController.h"
 #import "MyJiFenNewViewController.h"
 #import "YWDLoginViewController.h"
+#import "MyNewDinQiViewController.h"
+#import "UnYetMoneyViewController.h"
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
     
@@ -57,6 +59,13 @@
     UIImageView *MyJiFenImageView;
     UILabel *MyJiFenLabel;
     UILabel *MyJifenNmberLabel;
+    
+    //代收金额
+    UIImageView *MyGetMoneyImageView;
+    UILabel *MyGetMoneyLabel;
+    UILabel *MyGetMoneyNmberLabel;
+    
+    
     //债券转让
     UIImageView *ChangeImageView;
     UILabel *ChangeLabel;
@@ -86,7 +95,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"我的";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
-
+    
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);
@@ -128,7 +137,7 @@
         [self HideProgress];
         
     }];
-
+    
 }
 
 -(void)getNetworkData:(BOOL)isRefresh
@@ -155,10 +164,10 @@
         [self HideProgress];
         if ([[result objectForKey:@"statusCode"]integerValue] == 401) {
             normal_alert(@"提示", @"认证失败请重新登录", @"确定");
-        
-        
+            
+            
         }
-    
+        
     }];
     
     
@@ -170,7 +179,7 @@
     MyScrollView.showsVerticalScrollIndicator = NO;
     MyScrollView.showsHorizontalScrollIndicator = NO;
     MyScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    MyScrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT+130);
+    MyScrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT+160);
     [self.view addSubview:MyScrollView];
     TopView = [[UIView alloc]init];
     TopView.userInteractionEnabled = YES;
@@ -188,8 +197,8 @@
     UserImageView.layer.cornerRadius = 20;
     UserImageView.layer.masksToBounds = YES;
     //NSString *userImageStr = NSuserUse(@"avatar");
-   // NSLog(@"url = %@",userImageStr);
-   // [UserImageView sd_setImageWithURL:userImageStr placeholderImage:[UIImage imageNamed:@"headpicUser"]];
+    // NSLog(@"url = %@",userImageStr);
+    // [UserImageView sd_setImageWithURL:userImageStr placeholderImage:[UIImage imageNamed:@"headpicUser"]];
     
     
     [TopView addSubview:UserImageView];
@@ -222,7 +231,7 @@
         make.width.mas_equalTo(100);
         make.height.mas_equalTo(10);
     }];
-   UIImageView *GorrowView = [[UIImageView alloc]init];
+    UIImageView *GorrowView = [[UIImageView alloc]init];
     GorrowView.image = [UIImage imageNamed:@"goarrow"];
     [TopView addSubview:GorrowView];
     [GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -231,31 +240,31 @@
         make.width.mas_equalTo(18);
         make.height.mas_equalTo(18);
     }];
-//    UIView *lineUSerView = [[UIView alloc]init];
-//    lineUSerView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-//    [TopView addSubview:lineUSerView];
-//    [lineUSerView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(TopView.mas_left);
-//        make.top.mas_equalTo(UserImageView.mas_bottom).offset(10);
-//        make.width.mas_equalTo(SCREEN_WIDTH);
-//        make.height.mas_equalTo(0.5);
-//    }];
+    //    UIView *lineUSerView = [[UIView alloc]init];
+    //    lineUSerView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    //    [TopView addSubview:lineUSerView];
+    //    [lineUSerView mas_makeConstraints:^(MASConstraintMaker *make) {
+    //        make.left.mas_equalTo(TopView.mas_left);
+    //        make.top.mas_equalTo(UserImageView.mas_bottom).offset(10);
+    //        make.width.mas_equalTo(SCREEN_WIDTH);
+    //        make.height.mas_equalTo(0.5);
+    //    }];
     
     
     if (SCREEN_WIDTH == 320) {
         self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(60, 64, 80, 80)];
-  
+        
     }else{
         self.cirqueChart = [[ZFCirqueChart alloc] initWithFrame:CGRectMake(SCREEN_WIDTH/375*70, 64, 100, 100)];
- 
+        
     }
     self.cirqueChart.dataSource = self;
     self.cirqueChart.delegate = self;
     self.cirqueChart.textLabel.hidden = YES;
     //self.cirqueChart.textLabel.backgroundColor = ZFOrange;
-//    self.cirqueChart.textLabel.text = [NSString stringWithFormat:@"%.f%%",(6500.f / 10000.f) * 100];
-//    self.cirqueChart.textLabel.textColor = ZFRed;
-//    self.cirqueChart.textLabel.font = [UIFont boldSystemFontOfSize:12.f];
+    //    self.cirqueChart.textLabel.text = [NSString stringWithFormat:@"%.f%%",(6500.f / 10000.f) * 100];
+    //    self.cirqueChart.textLabel.textColor = ZFRed;
+    //    self.cirqueChart.textLabel.font = [UIFont boldSystemFontOfSize:12.f];
     self.cirqueChart.isResetMaxValue = YES;
     //    self.cirqueChart.isAnimated = NO;
     self.cirqueChart.cirquePatternType = kCirquePatternTypeForDefault;
@@ -333,10 +342,10 @@
     [JinMiNumber mas_makeConstraints:^(MASConstraintMaker *make) {
         if (SCREEN_WIDTH == 320) {
             make.left.mas_equalTo(TopView.mas_left).offset(30);
- 
+            
         }else{
             make.left.mas_equalTo(TopView.mas_left).offset(50);
- 
+            
         }
         make.top.mas_equalTo(JinMiImageView.mas_bottom).offset(12);
         make.width.mas_equalTo(180);
@@ -473,11 +482,11 @@
         if (SCREEN_WIDTH == 320) {
             make.left.mas_equalTo(JinMiLabel.mas_right).offset(50);
             make.width.mas_equalTo(1);
-
+            
         }else{
             make.left.mas_equalTo(JinMiLabel.mas_right).offset(60);
             make.width.mas_equalTo(1);
-
+            
         }
         make.top.mas_equalTo(JinMiLabel.mas_bottom).offset(10);
         make.height.mas_equalTo(50);
@@ -521,6 +530,46 @@
         }];
         
         
+        
+        MyGetMoneyImageView = [[UIImageView alloc]init];
+        MyGetMoneyImageView.image = [UIImage imageNamed:@"daishou"];
+        MyGetMoneyImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *GetMoneyTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DaiShouClick)];
+        [MyGetMoneyImageView addGestureRecognizer:GetMoneyTap];
+        [MyScrollView addSubview:MyGetMoneyImageView];
+        [MyGetMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
+            
+            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        MyGetMoneyLabel   = [[UILabel alloc]init];
+        MyGetMoneyLabel.text =  @"待收金额";
+        MyGetMoneyLabel.textAlignment = NSTextAlignmentCenter;
+        MyGetMoneyLabel.textColor = [UIColor grayColor];
+        MyGetMoneyLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:MyGetMoneyLabel];
+        [MyGetMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyGetMoneyImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
+        
+        MyGetMoneyNmberLabel = [[UILabel alloc]init];
+        MyGetMoneyNmberLabel.text = @"0.0";
+        MyGetMoneyNmberLabel.textColor = [UIColor orangeColor];
+        MyGetMoneyNmberLabel.font = [UIFont systemFontOfSize:12];
+        MyGetMoneyNmberLabel.textAlignment = NSTextAlignmentCenter;
+        [MyScrollView addSubview:MyGetMoneyNmberLabel];
+        [MyGetMoneyNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyGetMoneyLabel.mas_bottom);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(15);
+        }];
+        
         MyJiFenImageView = [[UIImageView alloc]init];
         MyJiFenImageView.image = [UIImage imageNamed:@"star"];
         MyJiFenImageView.userInteractionEnabled = YES;
@@ -528,7 +577,7 @@
         [MyJiFenImageView addGestureRecognizer:JiFenTap];
         [MyScrollView addSubview:MyJiFenImageView];
         [MyJiFenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
+            make.left.mas_equalTo(MyGetMoneyImageView.mas_right).offset(76);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -567,8 +616,8 @@
         ChangeImageView.image = [UIImage imageNamed:@"attorn"];
         [MyScrollView addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(76);
-            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(38);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -592,8 +641,8 @@
         MyStageImageView.image = [UIImage imageNamed:@"diamond"];
         [MyScrollView addSubview:MyStageImageView];
         [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(38);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.left.mas_equalTo(ChangeImageView.mas_right).offset(76);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -617,7 +666,7 @@
         [MyScrollView addSubview:ShareImageView];
         [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(MyStageImageView.mas_right).offset(76);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -641,7 +690,7 @@
         DangerTestImageView.image = [UIImage imageNamed:@"security"];
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ShareImageView.mas_right).offset(76);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(38);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -658,7 +707,7 @@
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
-
+        
     }else if(SCREEN_WIDTH == 320){
         MyLeftMoneyImageView = [[UIImageView alloc]init];
         MyLeftMoneyImageView.userInteractionEnabled = YES;
@@ -806,7 +855,7 @@
         [MyScrollView addSubview:ShareLabel];
         [ShareLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(ShareImageView.mas_centerX);
-            make.top.mas_equalTo(ShareImageView.mas_bottom).offset(5);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
@@ -818,7 +867,7 @@
         DangerTestImageView.image = [UIImage imageNamed:@"security"];
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ShareImageView.mas_right).offset(56);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -835,7 +884,7 @@
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
- 
+        
     }else{
         MyLeftMoneyImageView = [[UIImageView alloc]init];
         MyLeftMoneyImageView.userInteractionEnabled = YES;
@@ -983,7 +1032,7 @@
         [MyScrollView addSubview:ShareLabel];
         [ShareLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(ShareImageView.mas_centerX);
-            make.top.mas_equalTo(ShareImageView.mas_bottom).offset(5);
+            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
@@ -1014,65 +1063,65 @@
         }];
     }
     
-    }
+}
 //刷新数据
 - (void)reloadData{
     [UserImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
     
     if ([[StaticUserDic objectForKey:@"investmentAmount"]doubleValue]) {
         MoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"investmentAmount"]doubleValue]];
-
+        
     }else{
         MoneyNumberLabel.text = @"0.00";
- 
+        
     }
     if ([[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue]) {
         JinMiNumber.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue]];
-   
+        
     }else{
         JinMiNumber.text = @"¥0.00";
-
+        
     }
     if ([[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]) {
         JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥%.2f",[[StaticUserDic objectForKey:@"currentYesterdayEarnings"]doubleValue]];
-
+        
     }else{
         JinMiOldNumber.text = [NSString stringWithFormat:@"昨日收益：¥0.00"];
-
+        
     }
     if ([[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]) {
         DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥%.2f",[[StaticUserDic objectForKey:@"noneCurrentYesterdayEarnings"]doubleValue]];
-
+        
     }else{
         DinQidOldNumber.text = [NSString stringWithFormat:@"昨日收益: ¥0.00"];
- 
+        
     }
     if ([[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue]) {
         DinQiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
-
+        
     }else{
         DinQiNumber.text = @"¥0.00";
- 
+        
     }
     NSString *usernameStr = [UserDic objectForKey:@"realName"];
     if (usernameStr.length) {
         UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"realName"]];
-
+        
     }else{
         UserLabel.text = @"米粒儿用户";
     }
     PhoneLabel.text= [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"phoneNumber"]];
     if ([[StaticUserDic objectForKey:@"assets"] doubleValue]) {
         MyLeftMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"assets"] doubleValue]];
- 
+        
     }else{
         MyLeftMoneyNumberLabel.text = @"0.00";
     }
     if ([[StaticUserDic objectForKey:@"points"]doubleValue]) {
-         MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
+        MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     }else{
         MyJifenNmberLabel.text =@"0.00";
-
+        
     }
     double   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue];
     
@@ -1091,9 +1140,14 @@
         totalNumber = 1.0f;
         cirleArray  = [[NSArray alloc]initWithObjects:@"1", nil];
         [self.cirqueChart strokePath];
-  
+        
     }
-  
+    
+}
+
+- (void)DaiShouClick{
+    UnYetMoneyViewController   *SetVC = [[UnYetMoneyViewController alloc]init];
+    [self.navigationController   pushViewController:SetVC animated:NO];
 }
 //金米宝详情
 - (void)jinmiClick{
@@ -1102,7 +1156,7 @@
 }
 //定期详情
 - (void)DinQiClick{
-    DinQiDeatilViewController *SetVC = [[DinQiDeatilViewController alloc]init];
+    MyNewDinQiViewController *SetVC = [[MyNewDinQiViewController alloc]init];
     [self.navigationController   pushViewController:SetVC animated:NO];
 }
 //余额
@@ -1120,7 +1174,7 @@
 - (void)changeClick{
     ChangeSailViewController *changeVC = [[ChangeSailViewController alloc]init];
     [self.navigationController   pushViewController:changeVC animated:NO];
-
+    
 }
 //我的道具
 - (void)StageClick{
@@ -1131,7 +1185,7 @@
 - (void)ShareClick{
     ShareViewController *ShareVC = [[ShareViewController alloc]init];
     [self.navigationController   pushViewController:ShareVC animated:NO];
-
+    
 }
 
 //风险评  测试不同的情况进行跳转
@@ -1149,15 +1203,15 @@
         RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
         RiskVC.type =2;
         [self.navigationController   pushViewController:RiskVC animated:NO];
-
+        
     }else{
         RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
         RiskVC.type =3;
         [self.navigationController   pushViewController:RiskVC animated:NO];
-
+        
     }
     
-  
+    
 }
 //帐号设置
 - (void)TopClick{
@@ -1176,7 +1230,7 @@
 
 - (id)colorArrayInCirqueChart:(ZFCirqueChart *)cirqueChart{
     if (totalNumber > 1) {
-       return colorWithRGB(0.99, 0.78, 0.09);
+        return colorWithRGB(0.99, 0.78, 0.09);
     }
     
     return colorWithRGB(0.93, 0.93, 0.93);
@@ -1233,7 +1287,7 @@
     [super viewWillAppear:animated];
     [self getNetworkData:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
-
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -1243,13 +1297,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

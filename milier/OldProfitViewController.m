@@ -11,7 +11,7 @@
 #import "OldProfileTableViewCell.h"
 #import "MJRefresh.h"
 #import "ProfileModel.h"
-
+#import "MyNewDinQiDetailViewController.h"
 
 @interface OldProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *AddArray;
@@ -171,7 +171,7 @@
 
 - (void)OldProfitClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+        if ([controller isKindOfClass:[MyNewDinQiDetailViewController   class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

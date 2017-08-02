@@ -14,7 +14,7 @@
 #import "DinQiDeatilViewController.h"
 #import "MyJiFenNewViewController.h"
 #import "JinMiDetdailViewController.h"
-
+#import "MyNewDinQiDetailViewController.h"
 
 @interface BundProfileViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
@@ -120,7 +120,7 @@
         }
         
         for (UIViewController *controller in self.navigationController.viewControllers) {
-            if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+            if ([controller isKindOfClass:[MyNewDinQiDetailViewController   class]]) {
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }

@@ -14,7 +14,7 @@
 #import "ProfileModel.h"
 #import "AddOneDayViewController.h"
 #import "UIView+frameAdjust.h"
-
+#import "MyNewDinQiDetailViewController.h"
 @interface AddProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *AddArray;
 }
@@ -220,7 +220,7 @@
 
 - (void)AddProfitClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+        if ([controller isKindOfClass:[MyNewDinQiDetailViewController     class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

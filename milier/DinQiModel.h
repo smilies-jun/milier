@@ -41,4 +41,8 @@
 
 @property(nonatomic,strong)NSString *productCategoryId;
 
+@property(nonatomic,strong)NSString *amount;
+
+@property(nonatomic,strong)NSString *repaymentTime;
+
 @end
