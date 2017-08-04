@@ -13,6 +13,7 @@
 #import "DataChoseView.h"
 #import "WSDatePickerView.h"
 #import "DinQiDeatilViewController.h"
+#import "MyNewDinQiViewController.h"
 
 @interface ChangeSailDetailViewController ()<UITextFieldDelegate>{
     UIView *TopView;
@@ -431,7 +432,7 @@
 }
 - (void)DetailChangeClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+        if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

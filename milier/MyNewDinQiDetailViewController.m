@@ -173,7 +173,7 @@
     [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)CancelClick:(UIButton *)btn{
-    if ([btn.titleLabel.text isEqualToString:@"债权转让>>"]) {
+    if ([btn.titleLabel.text isEqualToString:@"债权转让"]) {
         ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
         DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
         ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];
