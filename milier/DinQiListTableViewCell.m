@@ -92,7 +92,7 @@
         _DinQiLabel.text = [NSString stringWithFormat:@"%@(%@)",_DinqiModel.name,_DinqiModel.nameSuffix];
         _DinQiDetailLabel.text =  [NSString stringWithFormat:@"预计年化收益 %@",_DinqiModel.subname];
         [_processView setProgress:[_DinqiModel.progress doubleValue]/10000 animated:YES];
-        _DinQiNnumberLabel.text = [NSString stringWithFormat:@"%.2f",[_DinqiModel.cci doubleValue]];
+        _DinQiNnumberLabel.text = [NSString stringWithFormat:@"%.2f/",[_DinqiModel.cci doubleValue]];
         _DinQiTotalNnumberLabel.text =[NSString stringWithFormat:@"%.2f",[_DinqiModel.ci doubleValue]];
         switch ([_DinqiModel.state integerValue]) {
             case 1:

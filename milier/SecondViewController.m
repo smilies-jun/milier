@@ -29,7 +29,7 @@
 #import "UserViewController.h"
 #import <EAIntroView/EAIntroView.h>
 #import "ActivityDetailViewController.h"
-
+#import "ConfirmBankViewController.h"
 
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
@@ -115,8 +115,10 @@
         [intro showInView:rootView animateDuration:0.3];
 
     }else {
-           }
+        
     
+    }
+ 
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     self.navigationItem.title = @"米粒儿金融";
@@ -134,8 +136,27 @@
     
     [self RequestData];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeWife) name:@"changeWife" object:nil];
-
-}
+    NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue]) {
+        
+        NSString *url;
+        NSString *tokenID = NSuserUse(@"Authorization");
+        url = [NSString stringWithFormat:@"%@/bankValidate/%@",HOST_URL,userID];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
+                if ([[[result objectForKey:@"data"]objectForKey:@"validateState"]integerValue]) {
+                    ConfirmBankViewController *vc1 = [[ConfirmBankViewController alloc]init];
+                    [self presentViewController:vc1 animated:NO completion:nil];
+ 
+                }
+            }
+            
+        }];
+        
+    }
+    
+    
+   }
 - (void)changeWife{
     [self refreshData];
     [self RequestData];
@@ -597,14 +618,14 @@
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
     vc.placeHoderView = footerView;
-
     
     //头部headerView
-    UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170)];
+    UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 375/2)];
     //轮播器
-    autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 170) imageURLStringsGroup:ImageArray];
+    autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 375/2) imageURLStringsGroup:ImageArray];
     autoScrollView.delegate = self;
-    [autoScrollView setPlaceholderImage:[UIImage imageNamed:@"huodong"]];
+    autoScrollView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    [autoScrollView setPlaceholderImage:[UIImage imageNamed:@"bannerpic"]];
     [headerView2 addSubview:autoScrollView];
     vc.headerView = headerView2;
 
@@ -707,8 +728,8 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-//    [self refreshData];
-//    [self RequestData];
+    //[self refreshData];
+    //[self RequestData];
   
 //    NSString *refresh =     NSuserUse( @"refresh");
 //    NSLog(@"re == %@",refresh);
@@ -718,6 +739,8 @@
 //    }else{
 //        NSuserSave(@"0", @"refresh");
 //    }
+    
+  
     NSString *heafresh =     NSuserUse( @"heafresh");
     if ([heafresh integerValue] ==1) {
         [self refreshData];

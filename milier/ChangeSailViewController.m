@@ -226,7 +226,11 @@
            
            //添加确定到UIAlertController中
            UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            　
+               for (UIViewController *controller in self.navigationController.viewControllers) {
+                   if ([controller isKindOfClass:[UserViewController class]]) {
+                       [self.navigationController popToViewController:controller animated:YES];
+                   }
+               }
                [self getNetworkData:YES];
            }];
            [alertController addAction:OKAction];

@@ -492,6 +492,7 @@
         make.height.mas_equalTo(50);
     }];
     if (SCREEN_WIDTH == 375) {
+        NSLog(@"375");
         MyLeftMoneyImageView = [[UIImageView alloc]init];
         MyLeftMoneyImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *YueTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftClick)];
@@ -539,7 +540,6 @@
         [MyScrollView addSubview:MyGetMoneyImageView];
         [MyGetMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
-            
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -745,7 +745,45 @@
             make.width.mas_equalTo(160);
             make.height.mas_equalTo(15);
         }];
+        MyGetMoneyImageView = [[UIImageView alloc]init];
+        MyGetMoneyImageView.image = [UIImage imageNamed:@"daishou"];
+        MyGetMoneyImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *GetMoneyTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DaiShouClick)];
+        [MyGetMoneyImageView addGestureRecognizer:GetMoneyTap];
+        [MyScrollView addSubview:MyGetMoneyImageView];
+        [MyGetMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
+            
+            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        MyGetMoneyLabel   = [[UILabel alloc]init];
+        MyGetMoneyLabel.text =  @"待收金额";
+        MyGetMoneyLabel.textAlignment = NSTextAlignmentCenter;
+        MyGetMoneyLabel.textColor = [UIColor grayColor];
+        MyGetMoneyLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:MyGetMoneyLabel];
+        [MyGetMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyGetMoneyImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
         
+        MyGetMoneyNmberLabel = [[UILabel alloc]init];
+        MyGetMoneyNmberLabel.text = @"0.0";
+        MyGetMoneyNmberLabel.textColor = [UIColor orangeColor];
+        MyGetMoneyNmberLabel.font = [UIFont systemFontOfSize:12];
+        MyGetMoneyNmberLabel.textAlignment = NSTextAlignmentCenter;
+        [MyScrollView addSubview:MyGetMoneyNmberLabel];
+        [MyGetMoneyNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyGetMoneyLabel.mas_bottom);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(15);
+        }];
+
         
         MyJiFenImageView = [[UIImageView alloc]init];
         MyJiFenImageView.image = [UIImage imageNamed:@"star"];
@@ -754,7 +792,7 @@
         [MyJiFenImageView addGestureRecognizer:JiFenTap];
         [MyScrollView addSubview:MyJiFenImageView];
         [MyJiFenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(56);
+            make.left.mas_equalTo(MyGetMoneyImageView.mas_right).offset(56);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -793,8 +831,8 @@
         ChangeImageView.image = [UIImage imageNamed:@"attorn"];
         [MyScrollView addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(56);
-            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(56);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -867,6 +905,7 @@
         DangerTestImageView.image = [UIImage imageNamed:@"security"];
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
             make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
@@ -886,6 +925,8 @@
         }];
         
     }else{
+        NSLog(@"else");
+
         MyLeftMoneyImageView = [[UIImageView alloc]init];
         MyLeftMoneyImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *YueTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftClick)];
@@ -922,7 +963,45 @@
             make.width.mas_equalTo(160);
             make.height.mas_equalTo(15);
         }];
+        MyGetMoneyImageView = [[UIImageView alloc]init];
+        MyGetMoneyImageView.image = [UIImage imageNamed:@"daishou"];
+        MyGetMoneyImageView.userInteractionEnabled = YES;
+        UITapGestureRecognizer *GetMoneyTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DaiShouClick)];
+        [MyGetMoneyImageView addGestureRecognizer:GetMoneyTap];
+        [MyScrollView addSubview:MyGetMoneyImageView];
+        [MyGetMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
+            
+            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.width.mas_equalTo(50);
+            make.height.mas_equalTo(50);
+        }];
+        MyGetMoneyLabel   = [[UILabel alloc]init];
+        MyGetMoneyLabel.text =  @"待收金额";
+        MyGetMoneyLabel.textAlignment = NSTextAlignmentCenter;
+        MyGetMoneyLabel.textColor = [UIColor grayColor];
+        MyGetMoneyLabel.font = [UIFont systemFontOfSize:12];
+        [MyScrollView addSubview:MyGetMoneyLabel];
+        [MyGetMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyGetMoneyImageView.mas_bottom).offset(5);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(20);
+        }];
         
+        MyGetMoneyNmberLabel = [[UILabel alloc]init];
+        MyGetMoneyNmberLabel.text = @"0.0";
+        MyGetMoneyNmberLabel.textColor = [UIColor orangeColor];
+        MyGetMoneyNmberLabel.font = [UIFont systemFontOfSize:12];
+        MyGetMoneyNmberLabel.textAlignment = NSTextAlignmentCenter;
+        [MyScrollView addSubview:MyGetMoneyNmberLabel];
+        [MyGetMoneyNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
+            make.top.mas_equalTo(MyGetMoneyLabel.mas_bottom);
+            make.width.mas_equalTo(60);
+            make.height.mas_equalTo(15);
+        }];
+
         
         MyJiFenImageView = [[UIImageView alloc]init];
         MyJiFenImageView.image = [UIImage imageNamed:@"star"];
@@ -931,7 +1010,7 @@
         [MyJiFenImageView addGestureRecognizer:JiFenTap];
         [MyScrollView addSubview:MyJiFenImageView];
         [MyJiFenImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(75);
+            make.left.mas_equalTo(MyGetMoneyImageView.mas_right).offset(75);
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -970,8 +1049,8 @@
         ChangeImageView.image = [UIImage imageNamed:@"attorn"];
         [MyScrollView addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyJiFenImageView.mas_right).offset(75);
-            make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(48);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -995,8 +1074,8 @@
         MyStageImageView.image = [UIImage imageNamed:@"diamond"];
         [MyScrollView addSubview:MyStageImageView];
         [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(48);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.left.mas_equalTo(ChangeImageView.mas_right).offset(75);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -1020,7 +1099,7 @@
         [MyScrollView addSubview:ShareImageView];
         [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(MyStageImageView.mas_right).offset(75);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -1032,7 +1111,7 @@
         [MyScrollView addSubview:ShareLabel];
         [ShareLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(ShareImageView.mas_centerX);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.top.mas_equalTo(ShareImageView.mas_bottom).offset(5);
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
@@ -1044,7 +1123,7 @@
         DangerTestImageView.image = [UIImage imageNamed:@"security"];
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(ShareImageView.mas_right).offset(75);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(48);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -1121,6 +1200,14 @@
         MyJifenNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
     }else{
         MyJifenNmberLabel.text =@"0.00";
+        
+    }
+    
+    
+    if ([[StaticUserDic objectForKey:@"repaymentTotal"]doubleValue]) {
+        MyGetMoneyNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"repaymentTotal"]];
+    }else{
+        MyGetMoneyNmberLabel.text =@"0.00";
         
     }
     double   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue];

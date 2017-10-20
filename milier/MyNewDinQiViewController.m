@@ -234,6 +234,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+     [self getNetworkData:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

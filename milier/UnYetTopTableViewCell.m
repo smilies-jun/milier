@@ -20,6 +20,21 @@
     [super setFrame:frame];
 }
 - (void)configUI:(NSIndexPath *)indexPath{
+    
+    UILabel *titleLabel = [[UILabel alloc]init];
+    titleLabel.text = @"待收金额";
+    titleLabel.textColor = colorWithRGB(0.97, 0.6, 0.11);
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.font = [UIFont systemFontOfSize:28];
+    [self addSubview:titleLabel];
+    [titleLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(self.mas_centerX);
+        make.top.mas_equalTo(self.mas_top).offset(20);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(20);
+    }];
+
+    
     _TopMoneyLabel = [[UILabel alloc]init];
     _TopMoneyLabel.text = @"$123124";
     _TopMoneyLabel.textColor = colorWithRGB(0.97, 0.6, 0.11);
@@ -28,7 +43,7 @@
     [self addSubview:_TopMoneyLabel];
     [_TopMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX);
-        make.top.mas_equalTo(self.mas_top).offset(20);
+        make.top.mas_equalTo(titleLabel.mas_bottom);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(60);
     }];
@@ -44,6 +59,17 @@
         make.width.mas_equalTo(SCREEN_WIDTH/2);
         make.height.mas_equalTo(20);
     }];
+    
+    UIImageView *rorrowImage = [[UIImageView alloc]init];
+    rorrowImage.image = [UIImage imageNamed:@"xsarrow"];
+    [self addSubview:rorrowImage];
+    [rorrowImage mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_LostMoneyLabel.mas_right).offset(-40);
+        make.top.mas_equalTo(_LostMoneyLabel.mas_bottom).offset(20);
+        make.width.mas_equalTo(7);
+        make.height.mas_equalTo(7);
+    }];
+    
     _LostMoneyNumberLabel = [[UILabel alloc]init];
     _LostMoneyNumberLabel.text = @"$123214";
     _LostMoneyNumberLabel.textColor = colorWithRGB(0.97, 0.6, 0.11);
@@ -71,6 +97,16 @@
         make.width.mas_equalTo(SCREEN_WIDTH/2);
         make.height.mas_equalTo(20);
     }];
+    UIImageView *rorrowImage2 = [[UIImageView alloc]init];
+    rorrowImage2.image = [UIImage imageNamed:@"xsarrow"];
+    [self addSubview:rorrowImage2];
+    [rorrowImage2 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_BackMoneyLabel.mas_right).offset(-40);
+        make.top.mas_equalTo(_BackMoneyLabel.mas_bottom).offset(20);
+        make.width.mas_equalTo(7);
+        make.height.mas_equalTo(7);
+    }];
+    
     _BackMoneyNumberLabel = [[UILabel alloc]init];
     _BackMoneyNumberLabel.text = @"$123214";
     _BackMoneyNumberLabel.textColor = colorWithRGB(0.97, 0.6, 0.11);

@@ -32,6 +32,8 @@
 
 @property(nonatomic,strong)NSString *state;
 
+@property(nonatomic,strong)NSString *flag;
+
 @property(nonatomic,strong)NSString *bondTotal;
 
 @property(nonatomic,strong)NSString *aggregateAmount;

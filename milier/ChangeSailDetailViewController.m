@@ -358,15 +358,14 @@
                             if ([state integerValue] == 201) {
                                 [self HideProgress];
                                 normal_alert(@"提示", @"提交成功", @"确定");
-                                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                     for (UIViewController *controller in self.navigationController.viewControllers) {
-                                        if ([controller isKindOfClass:[DinQiDeatilViewController class]]) {
+                                        if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
                                             [self.navigationController popToViewController:controller animated:YES];
                                         }
                                     }
 //                                    DinQiDeatilViewController *dinqiVC= [[DinQiDeatilViewController alloc]init];
 //                                    [self.navigationController pushViewController:dinqiVC animated:YES];
-                                });
+                             
                             }else{
                                 [self HideProgress];
                                 NSString *message = [result objectForKey:@"message"];

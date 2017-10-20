@@ -426,28 +426,35 @@
         }
         
         
-    }else if ([_productMoel.state intValue]   == 4){
-        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-        _PercentLabel.text = @"售罄";
-        _shapeLayer.strokeEnd = 1.0f;
-        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
-        
-        
-    }else if ([_productMoel.state intValue]   == 8) {
-        _PercentLabel.text = @"计息";
+    }else{
+        _PercentLabel.text = [NSString stringWithFormat:@"%@",_productMoel.progressMessage];
         _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         _shapeLayer.strokeEnd = 1.0f;
         _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
-        
-        
-    }else if ([_productMoel.state intValue]   == 16) {
-        _PercentLabel.text = @"已还款";
-        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
-        _shapeLayer.strokeEnd = 1.0f;
-        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
-        
-        
     }
+    
+//    else if ([_productMoel.state intValue]   == 4){
+//        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+//        _PercentLabel.text = @"售罄";
+//        _shapeLayer.strokeEnd = 1.0f;
+//        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
+//        
+//        
+//    }else if ([_productMoel.state intValue]   == 8) {
+//        _PercentLabel.text = @"计息";
+//        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+//        _shapeLayer.strokeEnd = 1.0f;
+//        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
+//        
+//        
+//    }else if ([_productMoel.state intValue]   == 16) {
+//        _PercentLabel.text = @"已还款";
+//        _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+//        _shapeLayer.strokeEnd = 1.0f;
+//        _shapeLayer.strokeColor = colorWithRGB(0.90, 0.90, 0.90).CGColor;
+//        
+//        
+//    }
     
     switch ([_productMoel.isFullScaleReward integerValue]) {
         case 0:
@@ -462,6 +469,41 @@
             _FullLabel.hidden = YES;
             break;
     }
+    switch ([_productMoel.flag integerValue]) {
+        case 1:
+            _FullLabel.hidden = NO;
+            _FullLabel.backgroundColor = colorWithRGB(0.95, 0.77, 0.17);
+
+            _FullLabel.text = @"待成标";
+            break;
+        case 2:
+            _FullLabel.hidden = NO;
+            _FullLabel.text = @"废标";
+            _FullLabel.backgroundColor = colorWithRGB(0.87, 0.87, 0.87);
+
+            break;
+        case 4:
+            _FullLabel.hidden = NO;
+            _FullLabel.text = @"逾期";
+            _FullLabel.backgroundColor = colorWithRGB(0.67, 0.54, 0.74);
+
+            break;
+        case 8:
+            _FullLabel.hidden = NO;
+            _FullLabel.text = @"坏账待还";
+            _FullLabel.backgroundColor = colorWithRGB(0.98, 0.51, 0.53);
+
+            break;
+        case 0:
+            _FullLabel.hidden = YES;
+            break;
+   ;
+        default:
+            _FullLabel.hidden = YES;
+            break;
+    }
+    
+    
     
 }
 

@@ -17,7 +17,7 @@
 #import "SYNetWorkingUpLoad.h"
 #import "SalePassWordViewController.h"
 #import "SalePassWordViewController.h"
-
+#import "ChangeBankCardViewController.h"
 
 @interface UserSetViewController ()<UINavigationControllerDelegate,UIImagePickerControllerDelegate,SYNetworkUploadDelegat>{
     UserSetView *ImageSetView;
@@ -156,14 +156,7 @@
     BundSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
     NSString *bankCardID = NSuserUse(@"bankCardExist");
     if ([bankCardID integerValue] ==1) {
-        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"已认证绑定 %@",[BankDic objectForKey:@"bankCardNumberSuffix"]];
-        NSMutableAttributedString *bundStr = [[NSMutableAttributedString alloc] initWithString:@"已认证绑定"];
-        NSRange BunddRange = NSMakeRange([[bundStr string] rangeOfString:@"已认证绑定"].location, [[bundStr string] rangeOfString:@"已认证绑定"].length);
-        //需要设置的位置
-        [bundStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.56, 0.56, 0.56) range:BunddRange];
-        //设置颜色
-        [BundSetView.DetailLabel setAttributedText:bundStr];
-
+        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"更换银行卡"];
 
     }else{
         BundSetView.DetailLabel.text = @"未绑定银行卡";
@@ -210,7 +203,9 @@
 
     if ([bankCardID integerValue] ==1) {
        // BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
-        [self ShowBank];
+        
+        ChangeBankCardViewController*loginVC = [[ChangeBankCardViewController alloc]init];
+        [self.navigationController   pushViewController:loginVC animated:NO];
         
     }else{
         BundSetView.DetailLabel.text = @"未绑定银行卡";

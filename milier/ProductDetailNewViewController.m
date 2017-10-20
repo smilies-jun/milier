@@ -275,27 +275,49 @@
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SaleBtnClick
                                                                                                     )];
     [SaleLbel addGestureRecognizer:SaleTap];
-    switch ([_State integerValue]) {
-        case 4:
-            SaleLbel.text = @"售罄";
-            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-
-            break;
-         
-        case 8:
-            SaleLbel.text = @"计息";
-            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-
-            break;
-        case 16:
-            SaleLbel.text = @"已还款";
-            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
-            
-            break;
-        default:
-            break;
-    }if (_DataArray.count) {
+//    switch ([_State integerValue]) {
+//        case 4:
+//            SaleLbel.text = @"售罄";
+//            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+//
+//            break;
+//         
+//        case 8:
+//            SaleLbel.text = @"计息";
+//            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+//
+//            break;
+//        case 16:
+//            SaleLbel.text = @"已还款";
+//            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+//            
+//            break;
+//        default:
+//            break;
+//    }if (_DataArray.count) {
         ProductDetailModel *model = [_DataArray objectAtIndex:0];
+    if ([model.flag integerValue]) {
+        switch ([model.flag integerValue]) {
+            case 1:
+                SaleLbel.text = @"待成标";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                break;
+            case 2:
+                SaleLbel.text = @"废标";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                break;
+            case 4:
+                SaleLbel.text = @"逾期";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                break;
+            case 8:
+                SaleLbel.text = @"坏账待还";
+                SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+                break;
+            default:
+                break;
+        }
+    }else{
         switch ([model.state integerValue]) {
             case 4:
                 SaleLbel.text = @"售罄";
@@ -316,12 +338,15 @@
             default:
                 break;
         }
+  
     }
+    
+}
 
     
     
     
-}
+//}
 - (void)SaleBtnClick{
     if ([_State integerValue] == 2) {
         NSString *url;

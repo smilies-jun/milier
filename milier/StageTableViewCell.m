@@ -343,7 +343,6 @@
         _PersonTitleLable.backgroundColor = [UIColor whiteColor];
 
         if (_stageModel.productCategoryIds.count) {
-            NSLog(@" ==== %@",_stageModel.productCategoryIds);
             for (int i = 0; i < _stageModel.productCategoryIds.count; i++) {
                 NSString *MyStageType = [_stageModel.productCategoryIds objectAtIndex:i];
                 switch (i) {

@@ -94,6 +94,9 @@
     }
   [self HideProgress];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        if (page ==1) {
+            [DataArray removeAllObjects];
+        }
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;

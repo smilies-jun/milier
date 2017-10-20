@@ -28,6 +28,7 @@
 
 @property(nonatomic,strong)NSString *minimumInvestmentAmount;//
 
+@property(nonatomic,strong)NSString *flag;//
 
 @property(nonatomic,strong)NSString *state;//
 

@@ -492,6 +492,9 @@
 		2755DA8B1E5BD45500C75656 /* third_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA771E5BD45500C75656 /* third_selected.png */; };
 		2755DA8C1E5BD45500C75656 /* third_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2755DA781E5BD45500C75656 /* third_selected@2x.png */; };
 		2755DA901E5C144700C75656 /* loginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2755DA8F1E5C144700C75656 /* loginViewController.m */; };
+		2782CF501F3C049E00896B22 /* xsarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2782CF4E1F3C049E00896B22 /* xsarrow@2x.png */; };
+		2782CF511F3C049E00896B22 /* xsarrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2782CF4F1F3C049E00896B22 /* xsarrow@3x.png */; };
+		2782CF571F413C1A00896B22 /* ConfirmBankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2782CF561F413C1A00896B22 /* ConfirmBankViewController.m */; };
 		279D8CC21F1DDEE5002F4563 /* daishou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279D8CC01F1DDEE5002F4563 /* daishou@2x.png */; };
 		279D8CC31F1DDEE5002F4563 /* daishou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279D8CC11F1DDEE5002F4563 /* daishou@3x.png */; };
 		279D8D131F2EDAEC002F4563 /* MyNewDinQiDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D101F2EDAEC002F4563 /* MyNewDinQiDetailViewController.m */; };
@@ -526,6 +529,7 @@
 		279D8D641F316AF5002F4563 /* UnYetDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D631F316AF5002F4563 /* UnYetDetailViewController.m */; };
 		279D8D671F3175E5002F4563 /* YetDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D661F3175E5002F4563 /* YetDetailModel.m */; };
 		279D8D6A1F31A6F5002F4563 /* UnYetDetailTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D691F31A6F5002F4563 /* UnYetDetailTopTableViewCell.m */; };
+		27AE81671F98A1B9002B2B0D /* ChangeBankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AE81661F98A1B9002B2B0D /* ChangeBankCardViewController.m */; };
 		27C70BB21EEE77F500120AEE /* MoreMoreHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */; };
 		27C70BB51EEE7C6A00120AEE /* NewPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB41EEE7C6A00120AEE /* NewPersonViewController.m */; };
 		27C70BC21EEE898B00120AEE /* FYLCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27C70BB71EEE898B00120AEE /* FYLCity.plist */; };
@@ -1359,6 +1363,10 @@
 		2755DA781E5BD45500C75656 /* third_selected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "third_selected@2x.png"; sourceTree = "<group>"; };
 		2755DA8E1E5C144700C75656 /* loginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loginViewController.h; sourceTree = "<group>"; };
 		2755DA8F1E5C144700C75656 /* loginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = loginViewController.m; sourceTree = "<group>"; };
+		2782CF4E1F3C049E00896B22 /* xsarrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xsarrow@2x.png"; sourceTree = "<group>"; };
+		2782CF4F1F3C049E00896B22 /* xsarrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xsarrow@3x.png"; sourceTree = "<group>"; };
+		2782CF551F413C1A00896B22 /* ConfirmBankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmBankViewController.h; sourceTree = "<group>"; };
+		2782CF561F413C1A00896B22 /* ConfirmBankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmBankViewController.m; sourceTree = "<group>"; };
 		279D8CC01F1DDEE5002F4563 /* daishou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daishou@2x.png"; sourceTree = "<group>"; };
 		279D8CC11F1DDEE5002F4563 /* daishou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daishou@3x.png"; sourceTree = "<group>"; };
 		279D8D0F1F2EDAEC002F4563 /* MyNewDinQiDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNewDinQiDetailViewController.h; sourceTree = "<group>"; };
@@ -1409,6 +1417,8 @@
 		279D8D661F3175E5002F4563 /* YetDetailModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YetDetailModel.m; sourceTree = "<group>"; };
 		279D8D681F31A6F5002F4563 /* UnYetDetailTopTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnYetDetailTopTableViewCell.h; sourceTree = "<group>"; };
 		279D8D691F31A6F5002F4563 /* UnYetDetailTopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnYetDetailTopTableViewCell.m; sourceTree = "<group>"; };
+		27AE81651F98A1B9002B2B0D /* ChangeBankCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeBankCardViewController.h; sourceTree = "<group>"; };
+		27AE81661F98A1B9002B2B0D /* ChangeBankCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeBankCardViewController.m; sourceTree = "<group>"; };
 		27C70BB01EEE77F500120AEE /* MoreMoreHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreMoreHelpViewController.h; sourceTree = "<group>"; };
 		27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreMoreHelpViewController.m; sourceTree = "<group>"; };
 		27C70BB31EEE7C6A00120AEE /* NewPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPersonViewController.h; sourceTree = "<group>"; };
@@ -2034,6 +2044,8 @@
 				272A0EB51EE168E300E36B40 /* YJForgetDealPassWordViewController.m */,
 				271E832B1F035A5B004F005C /* RegionProfileViewController.h */,
 				271E832C1F035A5B004F005C /* RegionProfileViewController.m */,
+				2782CF551F413C1A00896B22 /* ConfirmBankViewController.h */,
+				2782CF561F413C1A00896B22 /* ConfirmBankViewController.m */,
 			);
 			name = "登陆";
 			sourceTree = "<group>";
@@ -2072,6 +2084,8 @@
 				27032EED1EA9F3D800A4233B /* DinQiDeatilViewController.m */,
 				271D36FB1EE78E9E00F99664 /* OutMoneyViewController.h */,
 				271D36FC1EE78E9E00F99664 /* OutMoneyViewController.m */,
+				27AE81651F98A1B9002B2B0D /* ChangeBankCardViewController.h */,
+				27AE81661F98A1B9002B2B0D /* ChangeBankCardViewController.m */,
 			);
 			name = "个人中心";
 			sourceTree = "<group>";
@@ -2941,6 +2955,8 @@
 		2755DA641E5BD45500C75656 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				2782CF4E1F3C049E00896B22 /* xsarrow@2x.png */,
+				2782CF4F1F3C049E00896B22 /* xsarrow@3x.png */,
 				279D8D391F31673C002F4563 /* 产品状态图标 */,
 				279D8CC01F1DDEE5002F4563 /* daishou@2x.png */,
 				279D8CC11F1DDEE5002F4563 /* daishou@3x.png */,
@@ -3779,6 +3795,7 @@
 				274A859E1EBC2704002B7069 /* tool@3x.png in Resources */,
 				27E229B21EC592CC00B1034D /* icon_none@3x.png in Resources */,
 				274A85511EBC26EB002B7069 /* phone@2x.png in Resources */,
+				2782CF511F3C049E00896B22 /* xsarrow@3x.png in Resources */,
 				274A854D1EBC26EB002B7069 /* key@2x.png in Resources */,
 				274A852E1EBC26E0002B7069 /* geren_xmq_03@3x.png in Resources */,
 				274A85441EBC26E0002B7069 /* zhaiquan_xmq_01@3x.png in Resources */,
@@ -3868,6 +3885,7 @@
 				2755DA7B1E5BD45500C75656 /* first_selected.png in Resources */,
 				271D370C1EE78F6C00F99664 /* Default-xxhdpi.png in Resources */,
 				27DFC8501E9E1E7E008E6098 /* licai_hover@3x.png in Resources */,
+				2782CF501F3C049E00896B22 /* xsarrow@2x.png in Resources */,
 				27404DA71EA75A5B00DAFFC2 /* login_bg@3x.png in Resources */,
 				27404DA91EA75A5B00DAFFC2 /* login_logo@3x.png in Resources */,
 				2755DA7E1E5BD45500C75656 /* navigationbar_background@2x.png in Resources */,
@@ -4247,6 +4265,7 @@
 				272A0EA51EDFF63D00E36B40 /* LZCityPickerView.m in Sources */,
 				271288D71E5A9FBC00DCB546 /* main.m in Sources */,
 				27FB50BC1E5D872B0090AB69 /* DateSource.m in Sources */,
+				2782CF571F413C1A00896B22 /* ConfirmBankViewController.m in Sources */,
 				27032F381EB0345400A4233B /* ShareViewController.m in Sources */,
 				27E229D11ECA9A0F00B1034D /* SGQRCodeScanningVC.m in Sources */,
 				27032EC21EA8B41C00A4233B /* ZFGradientAttribute.m in Sources */,
@@ -4298,6 +4317,7 @@
 				27032F3E1EB039A700A4233B /* BoundViewController.m in Sources */,
 				2752137F1EA4A3A200A36B0F /* ProductHistoryViewController.m in Sources */,
 				27404DB61EA7634D00DAFFC2 /* SalePassWordViewController.m in Sources */,
+				27AE81671F98A1B9002B2B0D /* ChangeBankCardViewController.m in Sources */,
 				27032ECD1EA8B41C00A4233B /* ZFHorizontalBarChart.m in Sources */,
 				2705AFAD1E9FA669008C20CA /* JKRBubbleViewController.m in Sources */,
 				27032ECF1EA8B41C00A4233B /* ZFLine.m in Sources */,

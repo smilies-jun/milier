@@ -174,45 +174,56 @@
 }
 - (void)CancelClick:(UIButton *)btn{
     if ([btn.titleLabel.text isEqualToString:@"债权转让"]) {
-        ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
-        DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
-        ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];
-        ChangeVC.MoneyName = [NSString stringWithFormat:@"%@",model.ci];
-        ChangeVC.TimeName = [NSString stringWithFormat:@"%@",model.InterestBearingEndTime];
-        ChangeVC.OrderNumber = [NSString stringWithFormat:@"%@",model.orderNo];
-        [self.navigationController pushViewController:ChangeVC animated:NO];
-    }else{
-        
-        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
-                                                                                 message:@"是否取消转让"
-                                                                          preferredStyle:UIAlertControllerStyleAlert ];
-        
-        //添加取消到UIAlertController中
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-        [alertController addAction:cancelAction];
-        
-        //添加确定到UIAlertController中
-        UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            NSString *Statisurl;
-            NSString *tokenID = NSuserUse(@"Authorization");
-            Statisurl = [NSString stringWithFormat:@"%@/products/action/deleteDebentureTransferProduct",HOST_URL];
+        if ([DinQiDetailArray count]) {
+            ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
             DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
-            
-            NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:model.orderNo,@"orderNo", nil];;
-            [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-                NSString *state = [result objectForKey:@"statusCode"];
-                if ([state integerValue]  == 201) {
-                    [self getNetworkData:YES];
-                }else{
-                    NSString *message = [result objectForKey:@"message"];
-                    normal_alert(@"提示", message, @"确定");
-                }
-            }];
-            
-        }];
-        [alertController addAction:OKAction];
+            ChangeVC.TitleName = [NSString stringWithFormat:@"%@",model.name];
+            ChangeVC.MoneyName = [NSString stringWithFormat:@"%@",model.ci];
+            ChangeVC.TimeName = [NSString stringWithFormat:@"%@",model.InterestBearingEndTime];
+            ChangeVC.OrderNumber = [NSString stringWithFormat:@"%@",model.orderNo];
+            [self.navigationController pushViewController:ChangeVC animated:NO];
+        }
         
-        [self presentViewController:alertController animated:YES completion:nil];
+    }else{
+        if ([DinQiDetailArray count]) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                                     message:@"是否取消转让"
+                                                                              preferredStyle:UIAlertControllerStyleAlert ];
+            
+            //添加取消到UIAlertController中
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+            [alertController addAction:cancelAction];
+            
+            //添加确定到UIAlertController中
+            UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                NSString *Statisurl;
+                NSString *tokenID = NSuserUse(@"Authorization");
+                Statisurl = [NSString stringWithFormat:@"%@/products/action/deleteDebentureTransferProduct",HOST_URL];
+                
+                DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
+                
+                NSMutableDictionary *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:model.orderNo,@"orderNo", nil];;
+                [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                    NSString *state = [result objectForKey:@"statusCode"];
+                    if ([state integerValue]  == 201) {
+                        [self getNetworkData:YES];
+                        for (UIViewController *controller in self.navigationController.viewControllers) {
+                            if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
+                                [self.navigationController popToViewController:controller animated:YES];
+                            }
+                        }
+                    }else{
+                        NSString *message = [result objectForKey:@"message"];
+                        normal_alert(@"提示", message, @"确定");
+                    }
+                }];
+                
+            }];
+            [alertController addAction:OKAction];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
+        }
+       
         
         
     }
@@ -270,7 +281,7 @@
         
         if (DinQiDetailArray.count) {
            DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
-            NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
+            NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd hh:mm"];
 
             cell.SaleLabel.text = [NSString stringWithFormat:@"购买时间：%@",timeStr];
 //            cell.DinqiModel = model;
@@ -291,8 +302,8 @@
         if (DinQiDetailArray.count) {
             DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
             NSString *timeStr = [self getTimeStr:model.InterestBearingStartTime withForMat:@"yyyy-MM-dd"];
-
-            cell.SaleLabel.text = [NSString stringWithFormat:@"计息时间：%@",timeStr];
+            NSString *timeStrResult = [self getTimeStr:model.InterestBearingEndTime withForMat:@"yyyy-MM-dd"];
+            cell.SaleLabel.text = [NSString stringWithFormat:@"计息时间：%@ 到 %@",timeStr,timeStrResult];
         }
         cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

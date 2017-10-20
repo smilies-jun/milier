@@ -82,7 +82,7 @@
         NSString *timeStr = [self getTimeStr:_LostModel.date withForMat:@"yyyy-MM-dd"];
 
         _DinQiLabel.text = [NSString stringWithFormat:@"%@",_LostModel.name];
-        _DinQiDetailLabel.text = [NSString stringWithFormat:@"投资金额:%@",_LostModel.payTotal];
+        _DinQiDetailLabel.text = [NSString stringWithFormat:@"投资金额:%@",_LostModel.total];
         _DaoQiLabel.text = [NSString stringWithFormat:@"到期时间:%@",timeStr];
         NSString *MoneyStr = [NSString stringWithFormat:@"待收金额:%@",_LostModel.payTotal];
         NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",MoneyStr]];

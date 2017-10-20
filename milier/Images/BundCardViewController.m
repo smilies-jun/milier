@@ -20,8 +20,8 @@
 #import "MoneyViewController.h"
 
 /*! TODO: 修改两个参数成商户自己的配置 */
-static NSString *kLLOidPartner = @"201606081000897509";//@"201408071000001546";                 // 商户号
-static NSString *kLLPartnerKey = @"cdzbMLE2016Md5";//@"201408071000001546_test_20140815";   // 密钥
+static NSString *kLLOidPartner = @"201707271001909517";//@"201408071000001546";                 // 商户号
+static NSString *kLLPartnerKey = @"szqhMLE2016Md5";//@"201408071000001546_test_20140815";   // 密钥
 static NSString *signType = @"MD5"; //签名方式
 
 /*! 接入什么支付产品就改成那个支付产品的LLPayType，如快捷支付就是LLPayTypeQuick */
@@ -458,7 +458,7 @@ static LLPayType payType = LLPayTypeVerify;
                         if (CardWhichBankView.NameTextField.text.length) {
                             
                             if (bankStr.length) {
-                                    [self postBankCard];
+                                    [self payMoney];
                                 
                             }else{
                                 normal_alert(@"提示", @"清选择银行", @"确定");
@@ -546,11 +546,25 @@ static LLPayType payType = LLPayTypeVerify;
 }
 
 - (void)payMoney{
+    int j  = 0;
+    for (int i = 0; i < BankArray.count; i++) {
+        NSString *str = [BankArray objectAtIndex:i];
+        if ([str isEqualToString:bankStr]) {
+            j = i;
+        }
+    }
+    NSInteger bankI = 0;
+    for (int i = 0; i < BankIDArray.count; i++) {
+        if (i  == j) {
+            bankI = [[BankIDArray objectAtIndex:i]integerValue];
+        }
+    }
     NSString *url;
     NSString *tokenID = NSuserUse(@"Authorization");
+    NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
     url = [NSString stringWithFormat:@"%@/dealOrders",HOST_URL];
     
-    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:MoneyView.NameTextField.text,@"amount",@"3",@"type",bankOid,@"temporaryBankCardId", nil];
+    NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:MoneyView.NameTextField.text,@"amount",@"3",@"type",CardNameView.NameTextField.text,@"username",CardIphoneView.NameTextField.text,@"phoneNumber",CardNumberView.NameTextField.text,@"identityCardNumber",CardBankCodeView.NameTextField.text,@"bankCardNumber",bankID,@"bankId",CardWhichBankView.NameTextField.text,@"branchBank", nil];
     
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         
@@ -656,7 +670,7 @@ static LLPayType payType = LLPayTypeVerify;
     _order.no_order = orderStr;
     _order.dt_order = timeStamp;
     _order.money_order = MoneyView.NameTextField.text;
-    _order.notify_url = @"http://pay.milibanking.com/pay/notify/ll";
+    _order.notify_url = @"http://139.224.139.178:7000/sunpay-rest/v1/pay_mallpay_result_notify/029";
     _order.acct_name = CardNameView.NameTextField.text;
     _order.name_goods = @"充值";
     _order.card_no =[NSString stringWithFormat:@"%@",CardBankCodeView.NameTextField.text] ;
