@@ -36,7 +36,7 @@
     AddArray = [[NSMutableArray alloc]init];
     [self ConfigUI];
 
-    [self getNetworkData:YES];
+   // [self getNetworkData:YES];
 
 }
 
@@ -89,12 +89,13 @@
 //            url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?page=%d&rows=20&userId=2&productCategoryId=0",HOST_URL,userID,page];
 //            
 //        }
-    
+    [AddArray removeAllObjects];
     url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?productCategoryId=0",HOST_URL,userID];
 
     [AddArray removeAllObjects];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
+        NSLog(@"re == %@",result);
         if (myArray.count) {
             for (NSDictionary *NewDic in myArray) {
                 ProfileModel *model = [[ProfileModel alloc]init];

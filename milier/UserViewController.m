@@ -1205,7 +1205,7 @@
     
     
     if ([[StaticUserDic objectForKey:@"repaymentTotal"]doubleValue]) {
-        MyGetMoneyNmberLabel.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"repaymentTotal"]];
+        MyGetMoneyNmberLabel.text = [NSString stringWithFormat:@"%.2f",[[StaticUserDic objectForKey:@"repaymentTotal"]doubleValue] ];
     }else{
         MyGetMoneyNmberLabel.text =@"0.00";
         

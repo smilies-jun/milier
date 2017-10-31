@@ -17,19 +17,19 @@
 - (void)configUI:(NSIndexPath *)indexPath{
     
     _SaleImageView =[[UIImageView alloc]init];
-    _SaleImageView.image = [UIImage imageNamed:@""];
-    _SaleImageView.frame =CGRectMake(10, 20, 20, 20);
+    _SaleImageView.image = [UIImage imageNamed:@"yifuxi"];
+    _SaleImageView.frame =CGRectMake(10, 20, 14, 10);
     [self addSubview:_SaleImageView];
 
     
     _SaleLabel = [[UILabel alloc]init];
-    _SaleLabel.text = @"第一次计息: 2017-08-23 12:20";
+   // _SaleLabel.text = @"第一次计息: 2017-08-23 12:20";
     _SaleLabel.font = [UIFont systemFontOfSize:14];
     _SaleLabel.frame = CGRectMake(40, 10, SCREEN_WIDTH - 120, 25);
     [self addSubview:_SaleLabel];
     
     _MoneyLabel = [[UILabel alloc]init];
-    _MoneyLabel.text = @"10000元";
+    //_MoneyLabel.text = @"10000元";
     _MoneyLabel.textAlignment = NSTextAlignmentRight;
     _MoneyLabel.font = [UIFont systemFontOfSize:14];
     _MoneyLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
@@ -59,6 +59,9 @@
     if (JixiModel != _JixiModel) {
         _JixiModel = JixiModel;
        // _SaleLabel.text = @"第一次计息: 2017-08-23 12:20";
+        if ([JixiModel.state integerValue]) {
+            
+        }
     }
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

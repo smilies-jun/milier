@@ -79,11 +79,17 @@
     NSString *url;
 
     NSString *tokenID = NSuserUse(@"Authorization");
-   
+    if (_ProductType == 1) {
+        url = [NSString stringWithFormat:@"%@/earningDetails?productCategoryId=8&date=%@",HOST_URL,_OidStr];
+
+    }else{
+        url = [NSString stringWithFormat:@"%@/earningDetails?productCategoryId=0&date=%@",HOST_URL,_OidStr];
+
+    }
         
-    url = [NSString stringWithFormat:@"%@/earningDetails?productCategoryId=0&date=%@",HOST_URL,_OidStr];
     NSLog(@" === %@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re收益   == %@",result);
         NSArray *myArray = [result objectForKey:@"items"];
         isJuhua = NO;
         [self endRefresh];

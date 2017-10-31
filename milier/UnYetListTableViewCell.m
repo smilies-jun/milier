@@ -82,9 +82,9 @@
         NSString *timeStr = [self getTimeStr:_LostModel.date withForMat:@"yyyy-MM-dd"];
 
         _DinQiLabel.text = [NSString stringWithFormat:@"%@",_LostModel.name];
-        _DinQiDetailLabel.text = [NSString stringWithFormat:@"投资金额:%@",_LostModel.total];
+        _DinQiDetailLabel.text = [NSString stringWithFormat:@"投资金额:%@",_LostModel.payTotal];
         _DaoQiLabel.text = [NSString stringWithFormat:@"到期时间:%@",timeStr];
-        NSString *MoneyStr = [NSString stringWithFormat:@"待收金额:%@",_LostModel.payTotal];
+        NSString *MoneyStr = [NSString stringWithFormat:@"待收金额:%@",_LostModel.total];
         NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",MoneyStr]];
         NSRange redRange = NSMakeRange([[noteStr string] rangeOfString:@"待收金额:"].location, [[noteStr string] rangeOfString:@"待收金额:"].length);
         //需要设置的位置

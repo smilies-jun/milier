@@ -214,7 +214,7 @@ static LLPayType payType = LLPayTypeVerify;
         make.height.mas_equalTo(40);
     }];
     ExlainLabel = [[UILabel alloc]init];
-    ExlainLabel.text = @"绑定银行卡用于提现以及充值,绑定后不可更改 。";
+    ExlainLabel.text = @"绑定银行卡用于提现以及充值。";
     ExlainLabel.textAlignment = NSTextAlignmentLeft;
     ExlainLabel.textColor = [UIColor orangeColor];
     ExlainLabel.font = [UIFont systemFontOfSize:12];
@@ -670,7 +670,8 @@ static LLPayType payType = LLPayTypeVerify;
     _order.no_order = orderStr;
     _order.dt_order = timeStamp;
     _order.money_order = MoneyView.NameTextField.text;
-    _order.notify_url = @"http://139.224.139.178:7000/sunpay-rest/v1/pay_mallpay_result_notify/029";
+    //_order.notify_url = @"http://139.224.139.178:7000/sunpay-rest/v1/pay_mallpay_result_notify/029";//TEST
+   _order.notify_url = @"http://139.224.95.121:8888/sunpay-rest/v1/pay_mallpay_result_notify/029";//正式
     _order.acct_name = CardNameView.NameTextField.text;
     _order.name_goods = @"充值";
     _order.card_no =[NSString stringWithFormat:@"%@",CardBankCodeView.NameTextField.text] ;

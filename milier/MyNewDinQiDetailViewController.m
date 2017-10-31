@@ -53,10 +53,14 @@
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
+    [DinQiDetailArray removeAllObjects];
+    [DinQiJiXiDetailArray removeAllObjects];
     NSString *Bottomurl;
     NSString *tokenID = NSuserUse(@"Authorization");
         Bottomurl = [NSString stringWithFormat:@"%@/productOrders/%@/details",HOST_URL,_oid];
         [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            NSLog(@"result列表 === %@",result);
+
                 DinQiModel *model = [[DinQiModel alloc]init];
                 model.dataDictionary = [result objectForKey:@"items"];
                 [DinQiDetailArray addObject:model];
@@ -68,6 +72,7 @@
     url = [NSString stringWithFormat:@"%@/productOrders/%@/detailsSub",HOST_URL,_oid];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *DinQiArray = [result objectForKey:@"items"];
+        NSLog(@"result计息 ==%@",result);
         if (DinQiArray.count) {
             for (NSDictionary *dic in DinQiArray) {
                 DinQiModel *model = [[DinQiModel alloc]init];
@@ -83,7 +88,7 @@
 }
 -(void)ConfigUI{
     
-    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
+    _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.tableFooterView = [UIView new];
@@ -165,12 +170,15 @@
 
 }
 - (void)SayClick{
-    DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
-    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
-    vc.TitleStr = @"米粒儿金融借款协议";
-    vc.TypeStr = @"1";
-    vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toProtocol?productinfoOrderId=%@&stp=app",model.oid];
-    [self.navigationController pushViewController:vc animated:NO];
+    if (DinQiDetailArray.count) {
+        DinQiModel *model = [DinQiDetailArray objectAtIndex:0];
+        BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+        vc.TitleStr = @"米粒儿金融借款协议";
+        vc.TypeStr = @"1";
+        vc.WebStr = [NSString stringWithFormat:@"http://weixin.milibanking.com/weixin/weixin/user/toProtocol?productinfoOrderId=%@&stp=app",model.oid];
+        [self.navigationController pushViewController:vc animated:NO];
+    }
+   
 }
 - (void)CancelClick:(UIButton *)btn{
     if ([btn.titleLabel.text isEqualToString:@"债权转让"]) {
@@ -319,7 +327,6 @@
             [cell configUI:indexPath];
         }
         if (DinQiJiXiDetailArray.count) {
-            
             DinQiModel *model = [DinQiJiXiDetailArray objectAtIndex:indexPath.row - 3];
             NSString *timeStr = [self getTimeStr:model.repaymentTime withForMat:@"yyyy-MM-dd"];
             cell.SaleLabel.text = [NSString stringWithFormat:@"第%ld次付息：%@",indexPath.row - 2,timeStr];
@@ -367,6 +374,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+//    [self getNetworkData:YES];
+//    [self ConfigUI];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

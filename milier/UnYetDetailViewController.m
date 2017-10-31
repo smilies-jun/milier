@@ -72,7 +72,9 @@
         [YetDetailArray removeAllObjects];
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re  == %@",result);
         if ([[result objectForKey:@"items"] count]) {
+            
             for (NSDictionary *dic in [result objectForKey:@"items"]) {
                 YetDetailModel *model = [[YetDetailModel alloc]init];
                 model.dataDictionary = dic;

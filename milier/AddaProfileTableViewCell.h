@@ -17,6 +17,8 @@
 
 @property (nonatomic, retain)UIImageView *typeImagewView;
 
+@property (nonatomic, retain)UIImageView *GorrowView;
+
 @property(nonatomic, retain)ProfileModel *ProfileModel;
 
 - (void)configUI:(NSIndexPath *)indexPath;

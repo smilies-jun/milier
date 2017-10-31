@@ -15,7 +15,7 @@
 #import "MyJiFenNewViewController.h"
 #import "JinMiDetdailViewController.h"
 #import "MyNewDinQiDetailViewController.h"
-
+#import "ChangeBankCardViewController.h"
 @interface BundProfileViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
     MBProgressHUD *hud;
@@ -100,7 +100,11 @@
         }
  
     }else{
-        
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[ChangeBankCardViewController  class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
         for (UIViewController *controller in self.navigationController.viewControllers) {
             if ([controller isKindOfClass:[BundCardViewController  class]]) {
                 [self.navigationController popToViewController:controller animated:YES];

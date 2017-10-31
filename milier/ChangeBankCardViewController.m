@@ -13,7 +13,7 @@
 #import "UserSetViewController.h"
 #import "CustomChooseView.h"
 #import "ZHPickView.h"
-
+#import "BundProfileViewController.h"
 @interface ChangeBankCardViewController (){
 
     CustomView *phoneNumView;
@@ -23,6 +23,8 @@
     CustomChooseView *CardBankView;
     NSMutableArray *BankArray;
     NSMutableArray *BankIDArray;
+    NSString *bankStr;
+    NSString *OrderID;
     int _second;
     
 }
@@ -88,9 +90,7 @@
     NewPassWordView.NameTextField.delegate = self;
     NewPassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:NewPassWordView];
-    [NewPassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(110);
-    }];
+
     [NewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(self.view.mas_top).offset(15);
@@ -119,9 +119,7 @@
     SurePassWordView.NameTextField.delegate = self;
     SurePassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:SurePassWordView];
-    [SurePassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(110);
-    }];
+ 
     [SurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(CardBankView.mas_bottom).offset(15);
@@ -163,7 +161,24 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
-    
+    UILabel *nameLabel =[[UILabel alloc]init];
+    nameLabel.font = [UIFont systemFontOfSize:12];
+    nameLabel.text = @"我同意服务协议";
+    nameLabel.textColor =colorWithRGB(0.95, 0.6, 0.11);
+//    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意服务协议"]];
+//    NSRange conectRange = {4,9};
+//    [ConnectStr addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:conectRange];
+//    nameLabel.attributedText = ConnectStr;
+    nameLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *gesTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(saleConnectClick)];
+    [nameLabel addGestureRecognizer:gesTap];
+    [self.view addSubview:nameLabel];
+    [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(CodeNumView.mas_bottom).offset(5);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(30);
+    }];
     _GetCode = [[UIButton alloc] init];
     [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
@@ -191,12 +206,18 @@
     [PushBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
         make.right.mas_equalTo(self.view.mas_right).offset(-20);
-        make.top.mas_equalTo(CodeNumView.mas_bottom).offset(15);
+        make.top.mas_equalTo(nameLabel.mas_bottom).offset(15);
         make.height.mas_equalTo(44);
     }];
 }
 
-
+- (void)saleConnectClick{
+    BundProfileViewController *vc= [[BundProfileViewController alloc]init];
+    vc.TitleStr = @"米粒儿金融投资咨询与管理服务协议(出借人)";
+    NSString *urlStr =  [NSString stringWithFormat:@"%@/agreement/registration.html",HOST_URL];
+    vc.WebStr = urlStr;
+    [self.navigationController pushViewController:vc animated:NO];
+}
 - (void)chooseTapClick{
     [self HideKeyBoardClick];
     ZHPickView *pickView = [[ZHPickView alloc] init];
@@ -206,7 +227,7 @@
     pickView.block = ^(NSString *selectedStr)
     {
         CardBankView.ChooseLabel.text = selectedStr;
-        //bankStr = [NSString stringWithFormat:@"%@",selectedStr];
+        bankStr = [NSString stringWithFormat:@"%@",selectedStr];
     };
 }
 #pragma mark - 提交 -
@@ -245,23 +266,24 @@
 }
 
 - (void)postForgetCode{
-    
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",NewPassWordView.NameTextField.text,@"newDealPassword", nil];
+       NSString *userID = NSuserUse(@"userId");
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"code",userID,@"userId",bankStr,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",OrderID,@"orderNo", nil];
+ 
     NSString *url = [NSString stringWithFormat:@"%@/retrieveDealPassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+        if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
             
-            normal_alert(@"提示", @"密码修改成功", @"确定");
-            for (UIViewController *controller in self.navigationController.viewControllers) {
-                if ([controller isKindOfClass:[UserSetViewController class]]) {
-                    [self.navigationController popToViewController:controller animated:YES];
-                }
-            }
-            for (UIViewController *controller in self.navigationController.viewControllers) {
-                if ([controller isKindOfClass:[TouUpViewController class]]) {
-                    [self.navigationController popToViewController:controller animated:YES];
-                }
-            }
+            normal_alert(@"提示", @"验证成功", @"确定");
+//            for (UIViewController *controller in self.navigationController.viewControllers) {
+//                if ([controller isKindOfClass:[UserSetViewController class]]) {
+//                    [self.navigationController popToViewController:controller animated:YES];
+//                }
+//            }
+//            for (UIViewController *controller in self.navigationController.viewControllers) {
+//                if ([controller isKindOfClass:[TouUpViewController class]]) {
+//                    [self.navigationController popToViewController:controller animated:YES];
+//                }
+//            }
             //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             //                    for (UIViewController *controller in self.navigationController.viewControllers) {
             //                        if ([controller isKindOfClass:[TouUpViewController class]]) {
@@ -304,12 +326,18 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
+        NSString *userID = NSuserUse(@"userId");
+
+        NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/unbundling",USER_URL,userID];
+        //NSString *tokenID = NSuserUse(@"Authorization");
         _second = 90;
         _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"6",@"type",nil];
+        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",bankStr,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",nil];
         //验证码获取陈功or失败
-        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-            if ([[result objectForKey:@"success"]integerValue]==1 ) {
+        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+            NSLog(@"re == %@",result);
+            if ([[result objectForKey:@"statusCode"]integerValue]==200 ) {
+                OrderID = [[result objectForKey:@"data"]objectForKey:@"orderNo"];
                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{
                 NSString *ErrorMessage = [result objectForKey:@"message"];

@@ -137,6 +137,7 @@ static LLPayType payType = LLPayTypeVerify;
     }];
     
     UIImageView *bankImageView = [[UIImageView alloc]init];
+    NSLog(@"mdic== %@",myDic);
     [bankImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[myDic objectForKey:@"icon"]]]];
     [self.view addSubview:bankImageView];
     [bankImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -268,6 +269,7 @@ static LLPayType payType = LLPayTypeVerify;
     NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",PassWordView.NameTextField.text,@"dealPassword", nil];
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statuesCode = [result objectForKey:@"statusCode"];
+        NSLog(@"re == %@",result);
         if ([statuesCode integerValue] == 201) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self HideProgress];
@@ -314,7 +316,7 @@ static LLPayType payType = LLPayTypeVerify;
 // 订单支付结果返回，主要是异常和成功的不同状态
 // TODO: 开发人员需要根据实际业务调整逻辑
 - (void)paymentEnd:(LLPayResult)resultCode withResultDic:(NSDictionary *)dic {
-    
+    NSLog(@"dic == %@",dic);
     NSString *msg = @"异常";
     switch (resultCode) {
         case kLLPayResultSuccess: {
@@ -330,9 +332,12 @@ static LLPayType payType = LLPayTypeVerify;
         } break;
         case kLLPayResultInitError: {
             msg = @"sdk初始化异常";
+            NSLog(@"mss2== %@",msg);
         } break;
         case kLLPayResultInitParamError: {
             msg = dic[@"ret_msg"];
+            NSLog(@"mss3== %@",msg);
+
         } break;
         default:
             break;
@@ -356,7 +361,8 @@ static LLPayType payType = LLPayTypeVerify;
                        _order.no_order = orderStr;
                        _order.dt_order = timeStamp;
                        _order.money_order = payView.NameTextField.text;
-                       _order.notify_url = @"http://139.224.139.178:7000/sunpay-rest/v1/pay_mallpay_result_notify/029";
+                       //_order.notify_url = @"http://139.224.139.178:7000/sunpay-rest/v1/pay_mallpay_result_notify/029";//TEST
+                       _order.notify_url = @"http://139.224.95.121:8888/sunpay-rest/v1/pay_mallpay_result_notify/029";
                         _order.name_goods = @"充值";
                        _order.acct_name =[myBankDic objectForKey:@"username"];
                         _order.card_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"bankCardNumber"]];

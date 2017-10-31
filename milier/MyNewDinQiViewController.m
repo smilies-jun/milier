@@ -60,8 +60,19 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     
     //定期 0 活期 8
-    
+    if (isRefresh) {
+        page = 1;
+        isFirstCome = YES;
+    }else{
+        page++;
+    }
+    　if (page == 1) {
+        [DinQiDetailArray removeAllObjects];
+        [DinQiTopArray removeAllObjects];
+    }
     Bottomurl = [NSString stringWithFormat:@"%@/%@/investmentStatistics?productCategoryId=0",USER_URL,userID];
+
+
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         // CircleDinQiDic = [result objectForKey:@"data"];
         DinQiTopModel *model = [[DinQiTopModel alloc]init];
@@ -73,12 +84,7 @@
 //        [_tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath,nil] withRowAnimation:UITableViewRowAnimationNone];
     }];
         NSString *url;
-        if (isRefresh) {
-            page = 1;
-            isFirstCome = YES;
-        }else{
-            page++;
-        }
+    
         if (isRefresh) {
             url = [NSString stringWithFormat:@"%@?page=1&rows=20&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,userID];
     
@@ -86,9 +92,7 @@
             url = [NSString stringWithFormat:@"%@?page=%d&rows=20&userId=%@&productCategoryId=0",PRODUCTO_RDERS_URL,page,userID];
     
         }
-    　if (page == 1) {
-        [DinQiDetailArray removeAllObjects];
-    }
+   
         [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
 
             NSArray *myArray = [result objectForKey:@"items"];
@@ -234,7 +238,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-     [self getNetworkData:YES];
+    //[self getNetworkData:YES];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

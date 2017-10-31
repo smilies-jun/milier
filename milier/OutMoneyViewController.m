@@ -14,6 +14,7 @@
 @interface OutMoneyViewController (){
     CustomView *payView;
     CustomView *passWordView;
+     MBProgressHUD *hud;
     
 }
 
@@ -44,6 +45,18 @@
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+}
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
 }
 - (void)configUI{
     
@@ -108,11 +121,12 @@
         if (passWordView.NameTextField.text.length) {
             NSString *Statisurl;
             NSString *tokenID = NSuserUse(@"Authorization");
-            
+            [self showProgress];
             Statisurl = [NSString stringWithFormat:@"%@/products/action/redeemCurrent",HOST_URL];
             NSMutableDictionary  *Dic =[[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",passWordView.NameTextField.text,@"dealPassword", nil];
             [[DateSource sharedInstance]requestHomeWithParameters:Dic withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
                 if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                    [self HideProgress];
                     NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
                     normal_alert(@"提示", message, @"确定");
                     for (UIViewController *controller in self.navigationController.viewControllers) {
@@ -121,18 +135,21 @@
                         }
                     }
                 }else{
+                      [self HideProgress];
                     NSString *message = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
                     normal_alert(@"提示", message, @"确定");
                     
                 }
             }];
         }else{
+              [self HideProgress];
             normal_alert(@"提示", @"交易密码不能为空", @"确定");
             
         }
         
         
     }else{
+          [self HideProgress];
         normal_alert(@"提示", @"转出金额不能为0", @"确定");
         
     }

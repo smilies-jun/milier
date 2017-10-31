@@ -168,7 +168,11 @@
             cell = [[AddaProfileTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        
+        if (_ProductType == 1) {
+            cell.GorrowView.hidden = YES;
+        }else{
+             cell.GorrowView.hidden = NO;
+        }
         if (AddArray.count) {
             ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
             cell.ProfileModel = model;
@@ -202,15 +206,20 @@
     return timeStr;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if (AddArray.count) {
-        AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
-        ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
-        NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
-        VC.OidStr = [NSString stringWithFormat:@"%@",timeStr];
-
-        VC.TitleStr = [NSString stringWithFormat:@"%@收益(元)",timeStr];
-        [self.navigationController pushViewController:VC animated:NO];
+    　if (_ProductType == 1) {
+        
+    }else{
+        if (AddArray.count) {
+            AddOneDayViewController *VC = [[AddOneDayViewController alloc]init];
+            ProfileModel *model = [AddArray objectAtIndex:indexPath.row];
+            NSString *timeStr = [self getTimeStr:model.createTime withForMat:@"yyyy-MM-dd"];
+            VC.OidStr = [NSString stringWithFormat:@"%@",timeStr];
+      
+            VC.TitleStr = [NSString stringWithFormat:@"%@收益(元)",timeStr];
+            [self.navigationController pushViewController:VC animated:NO];
+        }
     }
+    
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];

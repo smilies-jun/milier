@@ -181,6 +181,11 @@
     LeftBtn.frame = CGRectMake(0, 0, 28, 28);
     LeftBtn.layer.masksToBounds = YES;
     LeftBtn.layer.cornerRadius = 14;
+//    if (@available(iOS 11.0, *)) {
+//        LeftBtn.layer.maskedCorners = kCALayerMaxXMaxYCorner | kCALayerMaxXMinYCorner;
+//    } else {
+//        // Fallback on earlier versions
+//    }
     LeftBtn.userInteractionEnabled = YES;
      LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftBtnClick)];
@@ -746,6 +751,7 @@
         [self refreshData];
         NSuserSave(@"0", @"heafresh");
     }
+     [self refreshData];
     NSString *typeStr =  NSuserUse(@"qiye");
     switch ([typeStr integerValue]) {
         case 1:

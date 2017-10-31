@@ -75,6 +75,7 @@
         [MoneyArray removeAllObjects];
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re -=--- %@",result);
         if ([[result objectForKey:@"items"] count]) {
             for (NSDictionary *dic in [result objectForKey:@"items"]) {
                 MoneyModel *model = [[MoneyModel alloc]init];
@@ -137,9 +138,9 @@
             cell = [[UnYetTopTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        cell.TopMoneyLabel.text = [NSString stringWithFormat:@"¥%@",[TopMoneyArray objectForKey:@"repaymentTotal"]];
-        cell.LostMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%@",[TopMoneyArray objectForKey:@"overTotal"]];
-         cell.BackMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%@",[TopMoneyArray objectForKey:@"badTotal"]];
+        cell.TopMoneyLabel.text = [NSString stringWithFormat:@"¥%.2f",[[TopMoneyArray objectForKey:@"repaymentTotal"]doubleValue]];
+        cell.LostMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[TopMoneyArray objectForKey:@"overTotal"]doubleValue]];
+         cell.BackMoneyNumberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[TopMoneyArray objectForKey:@"badTotal"]doubleValue]];
         cell.backgroundColor = [UIColor whiteColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         

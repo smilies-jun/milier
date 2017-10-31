@@ -170,9 +170,9 @@
     NSString *url = [NSString stringWithFormat:@"%@/retrievePassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         NSLog(@"mee = %@",result);
-        if ([result objectForKey:@"statusCode"]) {
+        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             normal_alert(@"提示", @"修改密码成功", @"确定");
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popToRootViewControllerAnimated:NO];
             });
 

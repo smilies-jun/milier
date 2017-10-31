@@ -17,5 +17,8 @@
 
 @property(nonatomic,strong)NSString *title;
 
+
+@property(nonatomic,strong)NSString *payTotal;
+
 @property(nonatomic,strong)NSString *type;
 @end

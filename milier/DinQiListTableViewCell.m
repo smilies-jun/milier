@@ -107,12 +107,24 @@
                 _StateImageView.image = [UIImage imageNamed:@"repayment"];//一到期
                 
                 break;
-            case 4:
-                // StateImageView.image = [UIImage imageNamed:@"repayment"];//已还款
+            case 9:
+                 _StateImageView.image = [UIImage imageNamed:@"yuqi"];//预期
                 
                 break;
             case 5:
                 _StateImageView.image = [UIImage imageNamed:@"assignment"];//转让
+                
+                break;
+            case 7:
+                _StateImageView.image = [UIImage imageNamed:@"daichengbiao"];//待成标
+                
+                break;
+            case 8:
+                _StateImageView.image = [UIImage imageNamed:@"weichengbiao"];//
+                
+                break;
+            case 10:
+                _StateImageView.image = [UIImage imageNamed:@"huaizhang"];//
                 
                 break;
             default:

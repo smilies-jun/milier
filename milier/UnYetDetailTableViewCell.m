@@ -35,10 +35,8 @@
   
     }else if (indexPath.row == 2){
         _DetailLabel.text = @"逾期金额:";
-
     }else{
         _DetailLabel.text = @"收款金额:";
-
     }
     _DetailLabel.font = [UIFont systemFontOfSize:13];
     [self addSubview:_DetailLabel];
@@ -86,7 +84,23 @@
     if (DetailModel != _DetailModel) {
         _DetailModel = DetailModel;
         _TitleLabel.text = [NSString stringWithFormat:@"%@",_DetailModel.title];
-        _DetailMoneyLabel.text = [NSString stringWithFormat:@"¥%@",_DetailModel.total];
+        switch ([_DetailModel.type integerValue]) {
+            case 1:
+                 _DetailLabel.text = @"到期本息:";
+                _DetailMoneyLabel.text = [NSString stringWithFormat:@"+%.2f",[_DetailModel.total doubleValue] ];
+                break;
+            case 2:
+                _DetailLabel.text = @"逾期金额:";
+                 _DetailMoneyLabel.text = [NSString stringWithFormat:@"+%.2f",[_DetailModel.total doubleValue] ];
+                break;
+            case 3:
+                 _DetailLabel.text = @"收款金额:";
+                 _DetailMoneyLabel.text = [NSString stringWithFormat:@"+%.2f",[_DetailModel.total doubleValue] ];
+                break;
+            default:
+                break;
+        }
+       
         NSString *timeStr = [self getTimeStr:_DetailModel.date withForMat:@"yyyy-MM-dd hh:mm"];
 
          _TimeLabel.text = [NSString stringWithFormat:@"%@",timeStr];

@@ -353,6 +353,8 @@
     // 马上进入刷新状态
     [self reloadMyMoney];
     [self reloadMyBankMoney];
+    [self getNetworkData:YES];
+    [self ConfigUI];
     [self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }

@@ -39,10 +39,10 @@
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
-    UIImageView *GorrowView = [[UIImageView alloc]init];
-    GorrowView.image = [UIImage imageNamed:@"goarrow"];
-    [self addSubview:GorrowView];
-    [GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
+    _GorrowView = [[UIImageView alloc]init];
+    _GorrowView.image = [UIImage imageNamed:@"goarrow"];
+    [self addSubview:_GorrowView];
+    [_GorrowView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(self.mas_right).offset(-20);
         make.centerY.mas_equalTo(self.mas_centerY);
         make.width.mas_equalTo(18);
