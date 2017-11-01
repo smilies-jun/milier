@@ -139,14 +139,18 @@
                 if (SurePassWordView.NameTextField.text.length) {
                     if (NewPassWordView.NameTextField.text.length < 6) {
                         normal_alert(@"提示", @"密码不得小于6位", @"确定");
-
-                    }else{
-                        if (SurePassWordView.NameTextField.text == NewPassWordView.NameTextField.text) {
-                            [self postForgetCode];
+                        if (NewPassWordView.NameTextField.text.length > 20) {
+                             normal_alert(@"提示", @"密码不得大于20位", @"确定");
                         }else{
-                            normal_alert(@"提示", @"二次密码不一致请重新输入", @"确定");
-                            
+                            if (SurePassWordView.NameTextField.text == NewPassWordView.NameTextField.text) {
+                                [self postForgetCode];
+                            }else{
+                                normal_alert(@"提示", @"二次密码不一致请重新输入", @"确定");
+                                
+                            }
                         }
+                    }else{
+                        
                     }
                 }else{
                     normal_alert(@"提示", @"确认新密码不可为空", @"确定");
@@ -166,7 +170,9 @@
 }
 
 - (void)postForgetCode{
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",NewPassWordView.NameTextField.text,@"newPassword", nil];
+    NSString *passStr = [NewPassWordView.NameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",passStr,@"newPassword", nil];
     NSString *url = [NSString stringWithFormat:@"%@/retrievePassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         NSLog(@"mee = %@",result);

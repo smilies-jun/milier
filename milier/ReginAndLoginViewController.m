@@ -215,7 +215,18 @@
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
             if (ClickBtn.selected) {
-                [self ReginClicked];
+                if (PassView.NameTextField.text.length <6) {
+                    if (PassView.NameTextField.text.length >20) {
+                        normal_alert(@"提示", @"密码不得大于20位" , @"确定");
+                    }else{
+                         [self ReginClicked];
+                    }
+                }else{
+                    normal_alert(@"提示", @"密码不得小于6位" , @"确定");
+                }
+                
+                
+              
 
             }else{
                 normal_alert(@"提示", @"请同意协议" , @"确定");
@@ -238,7 +249,8 @@
 
 
 - (void)ReginClicked{
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",PassView.NameTextField.text,@"password",PhoneView.NameTextField.text,@"captcha", nil];
+    NSString *passStr = [PassView.NameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",passStr,@"password",PhoneView.NameTextField.text,@"captcha", nil];
     if (callView.NameTextField.text) {
         [YWDDic   setObject:callView.NameTextField.text forKey:@"parentId"];
     }
