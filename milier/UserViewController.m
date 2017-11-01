@@ -1372,7 +1372,10 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self ConfigUI];
+    [self showProgress];
     [self getNetworkData:YES];
+    [self StaticUserData];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
     
 }

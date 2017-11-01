@@ -412,9 +412,13 @@
         NSString *timeString = [NSString stringWithFormat:@"%f", a];
         NSInteger time = [_TimeName integerValue] - [timeString integerValue];
         NSInteger days = time/3600/24/1000;
-        
+        NSLog(@"_TimeName == %ld",(long)[_TimeName integerValue]);
+        NSLog(@"timeString == %ld",(long)[timeString integerValue]);
+        if (days == 0) {
+            days =1;
+        }
         double myPercent = ([_MoneyName doubleValue] - [ChangeView.NameTextField.text doubleValue])*365*100/ [ChangeView.NameTextField.text doubleValue]/days;
-        NSLog(@"my = %f",myPercent);
+        NSLog(@"days = %ld",(long)days);
         
         NSInteger  percentStr = myPercent *100;
         double  resultStr = (double)percentStr/100;

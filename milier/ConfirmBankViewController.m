@@ -36,13 +36,16 @@
     self.TopView.hidden = NO;
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     self.TopTitleLabel.text = @"银行预留手机号码验证";
-    [self.BackButton addTarget:self action:@selector(ForgetBackClick) forControlEvents:UIControlEventTouchUpInside];
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ForgetPassClickBag)];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(nextHideKey)];
     [self.view addGestureRecognizer:tap];
+    [self.BackButton addTarget:self action:@selector(ForgetBackClick) forControlEvents:UIControlEventTouchUpInside];
     
     [self ReloadData];
     //[self initUI];
 
+}
+- (void)nextHideKey{
+    [self HideKeyBoardClick];
 }
 - (void)ReloadData{
 

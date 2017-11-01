@@ -169,12 +169,14 @@
                     }
                 }];
             }else{
+                  [self HideProgress];
                 normal_alert(@"提示", @"交易密码不能为空", @"确定");
                 
             }
             
             
         }else{
+              [self HideProgress];
             normal_alert(@"提示", @"提现金额不能为0", @"确定");
             
         }

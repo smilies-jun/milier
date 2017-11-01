@@ -58,22 +58,25 @@
 }
 - (void)reloadData{
     NSString *url;
-    NSString *BankUrl;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
     
     url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         MyDic = [result objectForKey:@"data"];
-
+        NSLog(@"re == %@",result);
+//         NSString *BankUrl;
+//        NSString *bankID = [MyDic objectForKey:@"bankCardId"];
+//        BankUrl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,bankID];
+//        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:BankUrl withTokenStr:nil  usingBlock:^(NSDictionary *result, NSError *error) {
+//            BankDic = [result objectForKey:@"items"];
+//              BundSetView.DetailLabel.text = [NSString stringWithFormat:@"%@更换银行卡",[result objectForKey:@"message"]];
+//            NSLog(@"message == %@",[result objectForKey:@"message"]);
+//           // [self ConfigUI];
+//        }];
         [self ConfigUI];
     }];
-    NSString *bankID = NSuserUse(@"bankId");
-    BankUrl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,bankID];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:BankUrl withTokenStr:nil  usingBlock:^(NSDictionary *result, NSError *error) {
-        BankDic = [result objectForKey:@"items"];
-        [self ConfigUI];
-    }];
+    
 
 }
 - (void)ConfigUI{
@@ -152,13 +155,14 @@
     }];
     BundSetView = [[UserSetView alloc]init];
     BundSetView.StaticImageView.image = [UIImage imageNamed:@"creditcard"];
-    BundSetView.NameLabel.text  = @"绑定银行卡";
+  
     BundSetView.DetailLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
     NSString *bankCardID = NSuserUse(@"bankCardExist");
     if ([bankCardID integerValue] ==1) {
-        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"更换银行卡"];
-
+        BundSetView.NameLabel.text  = @"更换银行卡";
+        BundSetView.DetailLabel.text = [NSString stringWithFormat:@"(%@)%@",[MyDic objectForKey:@"bankName"],[MyDic objectForKey:@"bankCardNumberSuffix"]];
     }else{
+          BundSetView.NameLabel.text  = @"绑定银行卡";
         BundSetView.DetailLabel.text = @"未绑定银行卡";
         
         //
@@ -205,12 +209,15 @@
        // BundSetView.DetailLabel.text = @"已认证绑定  dsfsdf";
         
         ChangeBankCardViewController*loginVC = [[ChangeBankCardViewController alloc]init];
+        loginVC.BankName = [MyDic objectForKey:@"bankName"];
+        loginVC.BankCard = [MyDic objectForKey:@"bankCardNumberSuffix"];
         [self.navigationController   pushViewController:loginVC animated:NO];
         
     }else{
         BundSetView.DetailLabel.text = @"未绑定银行卡";
         BundCardViewController *bundVC = [[BundCardViewController alloc]init];
         bundVC.MoneyType = @"3";
+        
         [self.navigationController pushViewController:bundVC animated:NO];
         //
         
@@ -488,6 +495,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self reloadData];
+    [self ConfigUI];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

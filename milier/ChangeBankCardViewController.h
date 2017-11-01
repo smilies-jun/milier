@@ -15,6 +15,6 @@
 
 
 @property (nonatomic,strong)NSString *TypeStr;
-
-
+@property (nonatomic,strong)NSString *BankName;
+@property (nonatomic,strong)NSString *BankCard;
 @end

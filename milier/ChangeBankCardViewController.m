@@ -21,6 +21,7 @@
     CustomView *NewPassWordView;
     CustomView *SurePassWordView;
     CustomChooseView *CardBankView;
+    UIButton *ClickBtn;
     NSMutableArray *BankArray;
     NSMutableArray *BankIDArray;
     NSString *bankStr;
@@ -47,8 +48,13 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     BankArray = [[NSMutableArray alloc]init];
     BankIDArray = [[NSMutableArray alloc]init];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(nextHideKey)];
+    [self.view addGestureRecognizer:tap];
     [self getBankCards];
-    //[self initUI];
+    [self initUI];
+}
+- (void)nextHideKey{
+    [self HideKeyBoardClick];
 }
 - (void)getBankCards{
     NSString *url;
@@ -84,23 +90,35 @@
 //    }
 }
 - (void)initUI{
+    UILabel *label = [[UILabel alloc]init];
+    label.text = [NSString stringWithFormat:@"原绑定银行卡 %@(%@)",_BankName,_BankCard];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:14];
+    label.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    [self.view addSubview:label];
+    [label mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(self.view.mas_top).offset(5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(20);
+    }];
+    
     NewPassWordView = [[CustomView alloc]init];
     NewPassWordView.NameLabel.text = @"新银行卡号:";
     NewPassWordView.NameTextField.placeholder = @"请输入持卡人银行卡号";
     NewPassWordView.NameTextField.delegate = self;
-    NewPassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:NewPassWordView];
 
     [NewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.view.mas_top).offset(15);
+        make.top.mas_equalTo(self.view.mas_top).offset(35);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
     CardBankView = [[CustomChooseView alloc]init];
     CardBankView.NameLabel.text = @"选择银行:";
-    CardBankView.ChooseLabel.text = @"选择银行";
     CardBankView.ChooseLabel.userInteractionEnabled = YES;
+    CardBankView.ChooseLabel.text = @"选择银行";
     UITapGestureRecognizer *ChooseTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(chooseTapClick)];
     [CardBankView.ChooseLabel addGestureRecognizer:ChooseTap];
     
@@ -117,7 +135,6 @@
     SurePassWordView.NameLabel.text = @"开户银行:";
     SurePassWordView.NameTextField.placeholder = @"请输入开户银行支行名称";
     SurePassWordView.NameTextField.delegate = self;
-    SurePassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:SurePassWordView];
  
     [SurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -161,8 +178,21 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
+    
+    ClickBtn = [[UIButton alloc]init];
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"uncheck"] forState:UIControlStateNormal];
+    ClickBtn.selected = NO;
+    [ClickBtn setBackgroundImage:[UIImage imageNamed:@"check"] forState:UIControlStateSelected];
+    [ClickBtn addTarget:self action:@selector(SaleclickedChange:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:ClickBtn];
+    [ClickBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(CodeNumView.mas_bottom).offset(10);
+        make.width.mas_equalTo(18);
+        make.height.mas_equalTo(18);
+    }];
     UILabel *nameLabel =[[UILabel alloc]init];
-    nameLabel.font = [UIFont systemFontOfSize:12];
+    nameLabel.font = [UIFont systemFontOfSize:13];
     nameLabel.text = @"我同意服务协议";
     nameLabel.textColor =colorWithRGB(0.95, 0.6, 0.11);
 //    NSMutableAttributedString *ConnectStr = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"我同意服务协议"]];
@@ -174,7 +204,7 @@
     [nameLabel addGestureRecognizer:gesTap];
     [self.view addSubview:nameLabel];
     [nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.left.mas_equalTo(ClickBtn.mas_right).offset(10);
         make.top.mas_equalTo(CodeNumView.mas_bottom).offset(5);
         make.width.mas_equalTo(200);
         make.height.mas_equalTo(30);
@@ -210,7 +240,13 @@
         make.height.mas_equalTo(44);
     }];
 }
-
+- (void)SaleclickedChange:(UIButton *)btn{
+    if (btn.selected) {
+        btn.selected = NO;
+    }else{
+        btn.selected = YES;
+    }
+}
 - (void)saleConnectClick{
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
     vc.TitleStr = @"米粒儿金融投资咨询与管理服务协议(出借人)";
@@ -232,48 +268,91 @@
 }
 #pragma mark - 提交 -
 - (void)PostBtnClick{
-    
-    if (phoneNumView.NameTextField.text.length) {
-        if (CodeNumView.NameTextField.text.length) {
-            if (NewPassWordView.NameTextField.text.length) {
-                if (SurePassWordView.NameTextField.text.length) {
-                    if (NewPassWordView.NameTextField.text.length < 6) {
-                        normal_alert(@"提示", @"密码不得小于6位", @"确定");
-                        
-                    }else{
-                        if (SurePassWordView.NameTextField.text == NewPassWordView.NameTextField.text) {
-                            [self postForgetCode];
-                        }else{
-                            normal_alert(@"提示", @"二次密码不一致请重新输入", @"确定");
-                            
-                        }
-                    }
+    if ([NewPassWordView.NameTextField.text integerValue]) {
+        if (SurePassWordView.NameTextField.text.length) {
+            if ([CodeNumView.NameTextField.text integerValue]) {
+                if (ClickBtn.selected) {
+                    [self postForgetCode];
+
                 }else{
-                    normal_alert(@"提示", @"确认新密码不可为空", @"确定");
-                    
+                   normal_alert(@"提示", @"请同意协议", @"确定");
                 }
             }else{
-                normal_alert(@"提示", @"新登录密码不可为空", @"确定");
-                
+               
             }
         }else{
-            normal_alert(@"提示", @"短信验证码不可为空", @"确定");
-            
+            normal_alert(@"提示", @"开户银行不可为空", @"确定");
         }
     }else{
-        normal_alert(@"提示", @"手机号码不可为空", @"确定");
+        normal_alert(@"提示", @"银行卡号不可为空", @"确定");
     }
+   
+//    if (phoneNumView.NameTextField.text.length) {
+//        if (CodeNumView.NameTextField.text.length) {
+//            if (NewPassWordView.NameTextField.text.length) {
+//                if (SurePassWordView.NameTextField.text.length) {
+//                    if (NewPassWordView.NameTextField.text.length < 6) {
+//                        normal_alert(@"提示", @"密码不得小于6位", @"确定");
+//
+//                    }else{
+//                        if (SurePassWordView.NameTextField.text == NewPassWordView.NameTextField.text) {
+//
+//                        }else{
+//                            normal_alert(@"提示", @"二次密码不一致请重新输入", @"确定");
+//
+//                        }
+//                    }
+//                }else{
+//                    normal_alert(@"提示", @"确认新密码不可为空", @"确定");
+//
+//                }
+//            }else{
+//                normal_alert(@"提示", @"新登录密码不可为空", @"确定");
+//
+//            }
+//        }else{
+//            normal_alert(@"提示", @"短信验证码不可为空", @"确定");
+//
+//        }
+//    }else{
+//        normal_alert(@"提示", @"手机号码不可为空", @"确定");
+//    }
 }
 
 - (void)postForgetCode{
        NSString *userID = NSuserUse(@"userId");
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"code",userID,@"userId",bankStr,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",OrderID,@"orderNo", nil];
- 
-    NSString *url = [NSString stringWithFormat:@"%@/retrieveDealPassword",USER_URL];
-    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+    //银行获取信息
+    int j  = 0;
+    for (int i = 0; i < BankArray.count; i++) {
+        NSString *str = [BankArray objectAtIndex:i];
+        if ([str isEqualToString:bankStr]) {
+            j = i;
+        }
+    }
+    NSInteger bankI = 0;
+    for (int i = 0; i < BankIDArray.count; i++) {
+        if (i  == j) {
+            bankI = [[BankIDArray objectAtIndex:i]integerValue];
+        }
+    }
+     NSString *tokenID = NSuserUse(@"Authorization");
+    NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"code",userID,@"userId",bankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",OrderID,@"orderNo", nil];
+    NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/validateBank",HOST_URL,userID];
+
+    [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
             
-            normal_alert(@"提示", @"验证成功", @"确定");
+            normal_alert(@"提示", @"绑定成功", @"确定");
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                                for (UIViewController *controller in self.navigationController.viewControllers) {
+                                    if ([controller isKindOfClass:[UserSetViewController class]]) {
+                                        [self.navigationController popToViewController:controller animated:YES];
+                                    }
+                                }
+            
+                            });
 //            for (UIViewController *controller in self.navigationController.viewControllers) {
 //                if ([controller isKindOfClass:[UserSetViewController class]]) {
 //                    [self.navigationController popToViewController:controller animated:YES];
@@ -284,14 +363,7 @@
 //                    [self.navigationController popToViewController:controller animated:YES];
 //                }
 //            }
-            //                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            //                    for (UIViewController *controller in self.navigationController.viewControllers) {
-            //                        if ([controller isKindOfClass:[TouUpViewController class]]) {
-            //                            [self.navigationController popToViewController:controller animated:YES];
-            //                        }
-            //                    }
-            //
-            //                });
+   
             
         }else{
             NSString *message = [result objectForKey:@"message"];
@@ -326,15 +398,33 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
-        NSString *userID = NSuserUse(@"userId");
+        //银行获取信息
+        int j  = 0;
+        for (int i = 0; i < BankArray.count; i++) {
+            NSString *str = [BankArray objectAtIndex:i];
+            if ([str isEqualToString:bankStr]) {
+                j = i;
+            }
+        }
+        NSInteger bankI = 0;
+        for (int i = 0; i < BankIDArray.count; i++) {
+            if (i  == j) {
+                bankI = [[BankIDArray objectAtIndex:i]integerValue];
+            }
+        }
+        NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
 
-        NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/unbundling",USER_URL,userID];
+        NSString *userID = NSuserUse(@"userId");
+        NSString *tokenID = NSuserUse(@"Authorization");
+        NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/unbundling",HOST_URL,userID];
         //NSString *tokenID = NSuserUse(@"Authorization");
         _second = 90;
         _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",bankStr,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",nil];
+        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",bankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",nil];
         //验证码获取陈功or失败
-        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"dic == %@",YWDDic);
+        NSLog(@"url = %@",url);
+        [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
             NSLog(@"re == %@",result);
             if ([[result objectForKey:@"statusCode"]integerValue]==200 ) {
                 OrderID = [[result objectForKey:@"data"]objectForKey:@"orderNo"];

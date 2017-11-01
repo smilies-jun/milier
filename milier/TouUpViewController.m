@@ -286,6 +286,7 @@ static LLPayType payType = LLPayTypeVerify;
                 
             });
             NSString *messageStr = [result objectForKey:@"message"];
+             [self HideProgress];
             normal_alert(@"提示", messageStr, @"确定");
         }
         
