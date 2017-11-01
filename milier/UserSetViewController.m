@@ -41,7 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"帐号设置";
+    self.navigationItem.title = @"账号设置";
     self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 7, 18, 18);

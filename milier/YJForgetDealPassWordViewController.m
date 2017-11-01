@@ -112,9 +112,9 @@
     NewPassWordView.NameTextField.delegate = self;
     NewPassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:NewPassWordView];
-    [NewPassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(110);
-    }];
+//    [NewPassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+//        make.width.mas_equalTo(110);
+//    }];
     [NewPassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
         make.top.mas_equalTo(CodeNumView.mas_bottom).offset(15);
@@ -129,7 +129,7 @@
     SurePassWordView.NameTextField.secureTextEntry = YES;
     [self.view addSubview:SurePassWordView];
     [SurePassWordView.NameLabel mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(110);
+        make.width.mas_equalTo(100);
     }];
     [SurePassWordView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
@@ -288,8 +288,8 @@
 }
 #pragma mark -UITextFieldDelegate -
 - (void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.placeholder = @"";
-    textField.textAlignment = NSTextAlignmentLeft;
+//    textField.placeholder = @"";
+//    textField.textAlignment = NSTextAlignmentLeft;
 }
 - (void)ReginAndLoginBackClick{
     [self.navigationController popToRootViewControllerAnimated:NO];

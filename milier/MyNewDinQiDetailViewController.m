@@ -330,7 +330,7 @@
             DinQiModel *model = [DinQiJiXiDetailArray objectAtIndex:indexPath.row - 3];
             NSString *timeStr = [self getTimeStr:model.repaymentTime withForMat:@"yyyy-MM-dd"];
             cell.SaleLabel.text = [NSString stringWithFormat:@"第%ld次付息：%@",indexPath.row - 2,timeStr];
-            cell.MoneyLabel.text = [NSString stringWithFormat:@"%@元",model.amount];
+            cell.MoneyLabel.text = [NSString stringWithFormat:@"%.2f元",[model.amount doubleValue]];
             if ([model.state integerValue]) {
                 cell.SaleImageView.hidden = NO;
             }else{

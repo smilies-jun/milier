@@ -95,7 +95,7 @@
                 break;
             case 3:
                  _DetailLabel.text = @"收款金额:";
-                 _DetailMoneyLabel.text = [NSString stringWithFormat:@"+%.2f",[_DetailModel.total doubleValue] ];
+                 _DetailMoneyLabel.text = [NSString stringWithFormat:@"-%.2f",[_DetailModel.total doubleValue] ];
                 break;
             default:
                 break;

@@ -30,6 +30,7 @@
         NSDictionary *ActivityDic;
         int type;
         MBProgressHUD *hud;
+        UILabel *SaleLbel;
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *DataArray;
@@ -227,7 +228,7 @@
     saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
     [self.view addSubview:saleView];
     
-    UILabel *SaleLbel =  [[UILabel alloc]init];
+    SaleLbel =  [[UILabel alloc]init];
     SaleLbel.text = @"立即购买";
     SaleLbel.userInteractionEnabled = YES;
     
@@ -348,46 +349,51 @@
     
 //}
 - (void)SaleBtnClick{
-    if ([_State integerValue] == 2) {
-        NSString *url;
-        NSString *userID = NSuserUse(@"userId");
-        NSString *tokenID = NSuserUse(@"Authorization");
+    if ([SaleLbel.text isEqualToString:@"售罄"]) {
         
-        url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
-        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-            NSString *state = [result objectForKey:@"statusCode"];
-            if ([state integerValue] == 200) {
-                SaleViewController *SaleVC = [[SaleViewController alloc]init];
-                ProductDetailModel *model = [_DataArray objectAtIndex:0];
-                SaleVC.productID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
-                SaleVC.NameStr = model.name;
-                SaleVC.TotalStr = model.aggregateAmount;
-                SaleVC.SellStr = model.sellTotal;
-                SaleVC.PercentStr = model.interestRate;
-                SaleVC.investmentHorizonStr = model.investmentHorizon;
-                SaleVC.isFullScaleReward = model.isFullScaleReward;
-                SaleVC.fullScaleReward = model.fullScaleReward;
-                SaleVC.riskLevelStr = model.riskLevel;
-                SaleVC.minBuyStr = model.minimumInvestmentAmount;
-                SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
-                SaleVC.aggregateAmount = model.aggregateAmount;
-                SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
-                SaleVC.productCi = model.bondTotal;
-                [self.navigationController pushViewController:SaleVC animated:NO];
-            }else{
-                YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-                UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-                loginNagition.navigationBarHidden = YES;
-                loginVC.Type = 2;
-                [self presentViewController:loginNagition animated:NO completion:nil];
-                
-                
-            }
-        }];
- 
     }else{
-        
+        if ([_State integerValue] == 2) {
+            NSString *url;
+            NSString *userID = NSuserUse(@"userId");
+            NSString *tokenID = NSuserUse(@"Authorization");
+            
+            url = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
+            [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+                NSString *state = [result objectForKey:@"statusCode"];
+                if ([state integerValue] == 200) {
+                    SaleViewController *SaleVC = [[SaleViewController alloc]init];
+                    ProductDetailModel *model = [_DataArray objectAtIndex:0];
+                    SaleVC.productID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
+                    SaleVC.NameStr = model.name;
+                    SaleVC.TotalStr = model.aggregateAmount;
+                    SaleVC.SellStr = model.sellTotal;
+                    SaleVC.PercentStr = model.interestRate;
+                    SaleVC.investmentHorizonStr = model.investmentHorizon;
+                    SaleVC.isFullScaleReward = model.isFullScaleReward;
+                    SaleVC.fullScaleReward = model.fullScaleReward;
+                    SaleVC.riskLevelStr = model.riskLevel;
+                    SaleVC.minBuyStr = model.minimumInvestmentAmount;
+                    SaleVC.productStr = [NSString stringWithFormat:@"%d",_productID];
+                    SaleVC.aggregateAmount = model.aggregateAmount;
+                    SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
+                    SaleVC.productCi = model.bondTotal;
+                    [self.navigationController pushViewController:SaleVC animated:NO];
+                }else{
+                    YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+                    UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+                    loginNagition.navigationBarHidden = YES;
+                    loginVC.Type = 2;
+                    [self presentViewController:loginNagition animated:NO completion:nil];
+                    
+                    
+                }
+            }];
+            
+        }else{
+            
+        }
     }
+   
     
     
     

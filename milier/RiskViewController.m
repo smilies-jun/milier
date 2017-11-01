@@ -615,6 +615,15 @@ static NSString * const ID = @"CollectionCell";
         make.height.mas_equalTo(40);
     }];
 }
+
+- (void)SureBackBtn{
+     [alertView dismissAnimated:NO];
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[UserViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+}
 - (void)ShowAlert{
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 500)];
     view.backgroundColor=[UIColor whiteColor];
@@ -627,7 +636,7 @@ static NSString * const ID = @"CollectionCell";
     label.text = @"风险承受能力测试问卷";
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont systemFontOfSize:15];
-    label.frame = CGRectMake(10, 20, SCREEN_WIDTH - 20, 20);
+    label.frame = CGRectMake(10, 20, SCREEN_WIDTH - 70, 20);
     [view addSubview:label];
     
     UILabel *ScroLabel = [[UILabel alloc]init];
@@ -659,6 +668,15 @@ static NSString * const ID = @"CollectionCell";
         make.height.mas_equalTo(40);
         
     }];
+    UIImageView *CanCelView = [[UIImageView alloc]init];
+    UITapGestureRecognizer *tapClick = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SureBackBtn)];
+    CanCelView.userInteractionEnabled = YES;
+    [CanCelView addGestureRecognizer:tapClick];
+    CanCelView.image = [UIImage imageNamed:@"close"];
+    CanCelView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
+    [view addSubview:CanCelView];
+    
+    
     alertView=[[AwAlertView alloc]initWithContentView:view];
     alertView.isUseHidden=YES;
     [alertView showAnimated:YES];

@@ -47,7 +47,7 @@
     [_TimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.mas_left).offset(20);
         make.top.mas_equalTo(_DetailLabel.mas_bottom);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(400);
         make.height.mas_equalTo(20);
     }];
     
@@ -88,7 +88,7 @@
         _LeftModel = LeftModel;
         _DetailLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.orderNumber];
       _NameLabel.text = [NSString stringWithFormat:@"%@",_LeftModel.desc];
-        NSString *timeStr = [self getTimeStr:_LeftModel.createTime withForMat:@"yyyy-MM-dd"];
+        NSString *timeStr = [self getTimeStr:_LeftModel.createTime withForMat:@"yyyy-MM-dd HH:mm"];
         if ([_LeftModel.type integerValue] == 2) {
             _NumberlLabel.text = [NSString stringWithFormat:@"-%@",_LeftModel.amount];
 
