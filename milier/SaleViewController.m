@@ -50,7 +50,7 @@
     
     UILabel *SaleLabel;//选择道具
     NSString *StageOid;
-    
+    NSString *BankID;
     UILabel *interestLabel;
     UILabel *StageLabel;
     
@@ -143,12 +143,14 @@
     Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statusStr = [result objectForKey:@"statusCode"];
+        NSLog(@"22223333333===%@",result);
+
         if ([statusStr integerValue] == 200) {
             MyMoneyStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"assets"]];
             BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
             PassWordStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dealPasswordExist"]];
             userRiskStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"riskLevel"]];
-
+             BankID = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankId"]];
             [self ConfigUI];
 
         }
@@ -162,6 +164,7 @@
     Statisurl = [NSString stringWithFormat:@"%@/products/%@/props",HOST_URL,_productStr];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statusStr = [result objectForKey:@"statusCode"];
+        NSLog(@"2222===%@",result);
         if ([statusStr integerValue] == 200) {
          NSArray *MyStageArray = [result objectForKey:@"items"];
             [self ConfigUI];
@@ -978,6 +981,7 @@
                             }else{
                                 //跳转充值
                                 TouUpViewController *SaleVC = [[TouUpViewController alloc]init];
+                                SaleVC.bankID = BankID;
                                 [self.navigationController   pushViewController:SaleVC animated:NO];
                             }
                             

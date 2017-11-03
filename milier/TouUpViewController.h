@@ -13,4 +13,6 @@
 
 @property(assign)int type;
 
+@property (nonatomic,strong)NSString *bankID;
+
 @end

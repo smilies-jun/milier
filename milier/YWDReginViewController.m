@@ -136,10 +136,10 @@
     [self HideKeyBoardClick];
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.placeholder = @"";
-    textField.textAlignment = NSTextAlignmentLeft;
-}
+//- (void)textFieldDidBeginEditing:(UITextField *)textField{
+//    textField.placeholder = @"";
+//    textField.textAlignment = NSTextAlignmentLeft;
+//}
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{
     for (UIView *KeyView in self.view.subviews) {

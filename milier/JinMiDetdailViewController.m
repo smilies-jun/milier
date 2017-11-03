@@ -254,6 +254,7 @@
 
 }
 - (void)comeCliCk{
+
     ProductDetailNewViewController *vc = [[ProductDetailNewViewController alloc]init];
     vc.Type = 1;
     vc.productCateID = 8;
@@ -277,15 +278,45 @@
 }
 //累计收益
 - (void)OldClick{
+    
     AddProfitViewController *addVC = [[AddProfitViewController alloc]init];
     addVC.ProductType = 1;
     [self.navigationController pushViewController:addVC animated:NO];
 }
 
 - (void)outCliCk{
-    OutMoneyViewController *addVC = [[OutMoneyViewController alloc]init];
-    addVC.moneyStr = [jinmiDic objectForKey:@"investmentAmount"];
-    [self.navigationController pushViewController:addVC animated:NO];
+    NSString *sucessStr = @"由于晋商银行存管数据对接升级中，您赎回的活期金额将会直接打入您绑定的银行卡中。活期额度暂时不开放购买，开放时间请关注平台公告，谢谢您的配合。";
+    //    NSString *mySucessStr;
+    //    if ([sucessStr isEqualToString:@"(null)"]) {
+    //        mySucessStr = @"请到个人中心查看";
+    //    }else{
+    //        mySucessStr = sucessStr;
+    //
+    //    }
+    
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
+                                                                             message:sucessStr
+                                                                      preferredStyle:UIAlertControllerStyleAlert ];
+    
+//    //添加取消到UIAlertController中
+//    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+//    [alertController addAction:cancelAction];
+    
+    //添加确定到UIAlertController中
+    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        //        for (UIViewController *controller in self.navigationController.viewControllers) {
+        //            if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
+        //                [self.navigationController popToViewController:controller animated:YES];
+        //            }
+        //        }
+        
+    }];
+    [alertController addAction:OKAction];
+    
+    [self presentViewController:alertController animated:YES completion:nil];
+//    OutMoneyViewController *addVC = [[OutMoneyViewController alloc]init];
+//    addVC.moneyStr = [jinmiDic objectForKey:@"investmentAmount"];
+//    [self.navigationController pushViewController:addVC animated:NO];
 }
 - (void)JinMiClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {

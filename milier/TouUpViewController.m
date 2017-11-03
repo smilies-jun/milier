@@ -67,11 +67,12 @@ static LLPayType payType = LLPayTypeVerify;
     NSString *Statisurl;
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *bankID = NSuserUse(@"bankId");
-    
-    Statisurl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,bankID];
+    NSLog(@"id == %@",_bankID);
+    Statisurl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,_bankID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statusStr = [result objectForKey:@"statusCode"];
         if ([statusStr integerValue] == 200) {
+
             myDic = [result objectForKey:@"items"];
             [self configUI];
         }
@@ -137,7 +138,6 @@ static LLPayType payType = LLPayTypeVerify;
     }];
     
     UIImageView *bankImageView = [[UIImageView alloc]init];
-    NSLog(@"mdic== %@",myDic);
     [bankImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[myDic objectForKey:@"icon"]]]];
     [self.view addSubview:bankImageView];
     [bankImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -230,10 +230,11 @@ static LLPayType payType = LLPayTypeVerify;
     NSString *BankStrUrl;
     NSString *bankID = NSuserUse(@"bankCardId");
     NSString *tokenID = NSuserUse(@"Authorization");
-
-    BankStrUrl = [NSString stringWithFormat:@"%@/bankCards/%@",HOST_URL,bankID];
+ NSString *userID = NSuserUse(@"userId");
+    BankStrUrl = [NSString stringWithFormat:@"%@/bankCards/%@",HOST_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:BankStrUrl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *erro) {
         NSString *statuesCode = [result objectForKey:@"statusCode"];
+        NSLog(@"  银行==%@",result);
         if ([statuesCode integerValue] == 200) {
             myBankDic = [result objectForKey:@"data"];
             [self showProgress];
@@ -269,7 +270,7 @@ static LLPayType payType = LLPayTypeVerify;
     NSMutableDictionary  *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:payView.NameTextField.text,@"amount",PassWordView.NameTextField.text,@"dealPassword", nil];
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statuesCode = [result objectForKey:@"statusCode"];
-        NSLog(@"re == %@",result);
+        NSLog(@"re支付- ----- -- - -  %@",result);
         if ([statuesCode integerValue] == 201) {
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self HideProgress];
@@ -368,10 +369,8 @@ static LLPayType payType = LLPayTypeVerify;
                        _order.acct_name =[myBankDic objectForKey:@"username"];
                         _order.card_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"bankCardNumber"]];
                        _order.id_no = [NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"identityCardNumber"]];
-                                           
                        _order.risk_item = [LLOrder llJsonStringOfObj:@{@"user_info_dt_register" : reginStr,@"frms_ware_category":@"2009",@"user_info_mercht_userno":userID,@"user_info_bind_phone":phoneStr,@"user_info_identify_state":@"1",@"user_info_identify_type":@"1",@"user_info_full_name":[myBankDic objectForKey:@"username"],@"user_info_id_no":[NSString stringWithFormat:@"%@",[myBankDic objectForKey:@"identityCardNumber"]]}];
                        _order.user_id = userID;
-                       
                        }
 
 - (void)TouUpTap{

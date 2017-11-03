@@ -123,8 +123,7 @@
 -(void)endRefresh{
     
     if (page == 1) {
-        [self.tableView.mj_header endRefreshing];
-    }
+        [self.tableView.mj_header endRefreshing];    }
     [self.tableView.mj_footer endRefreshing];
 }
 
@@ -144,6 +143,7 @@
         url = [NSString stringWithFormat:@"%@?page=%d&rows=10",ACTIVITIES_URL,page];
 
     }
+    NSLog(@"url ==%@",url);
     if (page == 1) {
         [DataArray removeAllObjects];
     }

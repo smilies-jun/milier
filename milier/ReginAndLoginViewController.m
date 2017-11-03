@@ -215,7 +215,7 @@
     if (PhoneView.NameTextField.text.length) {
         if (PassView.NameTextField.text.length) {
             if (ClickBtn.selected) {
-                if (PassView.NameTextField.text.length <6) {
+                if (PassView.NameTextField.text.length >=6) {
                     if (PassView.NameTextField.text.length >20) {
                         normal_alert(@"提示", @"密码不得大于20位" , @"确定");
                     }else{

@@ -27,6 +27,7 @@
     NSString *bankStr;
     NSString *OrderID;
     int _second;
+     MBProgressHUD *hud;
     
 }
 
@@ -320,7 +321,8 @@
 }
 
 - (void)postForgetCode{
-       NSString *userID = NSuserUse(@"userId");
+    [self showProgress];
+   NSString *userID = NSuserUse(@"userId");
     //银行获取信息
     int j  = 0;
     for (int i = 0; i < BankArray.count; i++) {
@@ -345,7 +347,8 @@
         if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
             
             normal_alert(@"提示", @"绑定成功", @"确定");
-                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self HideProgress];
+                            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                                 for (UIViewController *controller in self.navigationController.viewControllers) {
                                     if ([controller isKindOfClass:[UserSetViewController class]]) {
                                         [self.navigationController popToViewController:controller animated:YES];
@@ -366,6 +369,7 @@
    
             
         }else{
+          [self HideProgress];
             NSString *message = [result objectForKey:@"message"];
             normal_alert(@"提示", message, @"确定　");
         }
@@ -458,11 +462,7 @@
         [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
     }
 }
-#pragma mark -UITextFieldDelegate -
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.placeholder = @"";
-    textField.textAlignment = NSTextAlignmentLeft;
-}
+
 - (void)ReginAndLoginBackClick{
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
@@ -524,7 +524,18 @@
     
     
 }
-
+- (void)HideProgress{
+    [hud hideAnimated:YES];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

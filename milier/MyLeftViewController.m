@@ -22,6 +22,7 @@
     NSMutableArray *MyLeftArray;
     NSString *BankStatus;
     NSString *PassWordStr;
+    NSString *BankIDStr;
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)UIView *BottomView;
@@ -73,7 +74,7 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        
+        NSLog(@"333 == %@",result);
         NSString *statusStr = [result objectForKey:@"statusCode"];
         if ([statusStr integerValue] == 200) {
             MyMoneyDic = [result objectForKey:@"data"];
@@ -155,10 +156,11 @@
     Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statusStr = [result objectForKey:@"statusCode"];
+        NSLog(@"re == %@",result);
         if ([statusStr integerValue] == 200) {
             BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
             PassWordStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dealPasswordExist"]];
-            
+            BankIDStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankId"]];
             [self ConfigUI];
             [self.tableView reloadData];
         }
@@ -171,6 +173,7 @@
     if ([BankStatus integerValue] ==1) {
         if ([PassWordStr integerValue] ==1) {
             TouUpViewController *vc = [[TouUpViewController alloc]init];
+            vc.bankID = BankIDStr;
             [self.navigationController pushViewController:vc animated:NO];
         }else{
             SalePassWordViewController *vc = [[SalePassWordViewController alloc]init];

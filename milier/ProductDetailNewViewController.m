@@ -377,6 +377,7 @@
                     SaleVC.aggregateAmount = model.aggregateAmount;
                     SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                     SaleVC.productCi = model.bondTotal;
+                   
                     [self.navigationController pushViewController:SaleVC animated:NO];
                 }else{
                     YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];

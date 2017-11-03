@@ -11,7 +11,7 @@
 #import "CustomView.h"
 #import "BundCardViewController.h"
 
-@interface MoneyViewController (){
+@interface MoneyViewController ()<UITextFieldDelegate>{
     CustomView *payView;
     CustomView *passWordView;
     NSString *BankStatus;
@@ -64,6 +64,7 @@
     }];
     payView = [[CustomView alloc]init];
     payView.NameLabel.text = @"输入金额:";
+    payView.NameTextField.delegate = self;
     payView.NameTextField.placeholder = [NSString stringWithFormat:@"最多可提现%@元",_moneyStr];
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -191,6 +192,65 @@
 
 
 
+}
+
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
+    //    限制只能输入数字
+    BOOL isHaveDian = YES;
+    if ([string isEqualToString:@" "]) {
+        return NO;
+    }
+    
+    if ([textField.text rangeOfString:@"."].location == NSNotFound) {
+        isHaveDian = NO;
+    }
+    if ([string length] > 0) {
+        
+        unichar single = [string characterAtIndex:0];//当前输入的字符
+        if ((single >= '0' && single <= '9') || single == '.') {//数据格式正确
+            
+            if([textField.text length] == 0){
+                if(single == '.') {
+                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                    return NO;
+                }
+            }
+            
+            //输入的字符是否是小数点
+            if (single == '.') {
+                if(!isHaveDian)//text中还没有小数点
+                {
+                    isHaveDian = YES;
+                    return YES;
+                    
+                }else{
+                    [textField.text stringByReplacingCharactersInRange:range withString:@""];
+                    return NO;
+                }
+            }else{
+                if (isHaveDian) {//存在小数点
+                    
+                    //判断小数点的位数
+                    NSRange ran = [textField.text rangeOfString:@"."];
+                    if (range.location - ran.location <= 2) {
+                        return YES;
+                    }else{
+                        return NO;
+                    }
+                }else{
+                    return YES;
+                }
+            }
+        }else{//输入的数据格式不正确
+            [textField.text stringByReplacingCharactersInRange:range withString:@""];
+            return NO;
+        }
+    }
+    else
+    {
+        return YES;
+    }
 }
 #pragma mark - 隐藏当前页面所有键盘-
 - (void)HideKeyBoardClick{

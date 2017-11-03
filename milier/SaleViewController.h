@@ -42,5 +42,5 @@
 @property (nonatomic,strong)NSString *productCatiID;
 
 @property (nonatomic,strong)NSString *productCi;
-
+@property (nonatomic,strong)NSString *bankID;
 @end

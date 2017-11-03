@@ -735,7 +735,6 @@
     [super viewWillAppear:animated];
     //[self refreshData];
     //[self RequestData];
-  
 //    NSString *refresh =     NSuserUse( @"refresh");
 //    NSLog(@"re == %@",refresh);
 //    if ([refresh integerValue] == 1) {

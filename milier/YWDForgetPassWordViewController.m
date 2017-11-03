@@ -139,8 +139,10 @@
                 if (SurePassWordView.NameTextField.text.length) {
                     if (NewPassWordView.NameTextField.text.length < 6) {
                         normal_alert(@"提示", @"密码不得小于6位", @"确定");
+                      
+                    }else{
                         if (NewPassWordView.NameTextField.text.length > 20) {
-                             normal_alert(@"提示", @"密码不得大于20位", @"确定");
+                            normal_alert(@"提示", @"密码不得大于20位", @"确定");
                         }else{
                             if (SurePassWordView.NameTextField.text == NewPassWordView.NameTextField.text) {
                                 [self postForgetCode];
@@ -149,8 +151,6 @@
                                 
                             }
                         }
-                    }else{
-                        
                     }
                 }else{
                     normal_alert(@"提示", @"确认新密码不可为空", @"确定");
@@ -251,11 +251,11 @@
         [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
     }
 }
-#pragma mark -UITextFieldDelegate -
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.placeholder = @"";
-    textField.textAlignment = NSTextAlignmentLeft;
-}
+//#pragma mark -UITextFieldDelegate -
+//- (void)textFieldDidBeginEditing:(UITextField *)textField{
+//    textField.placeholder = @"";
+//    textField.textAlignment = NSTextAlignmentLeft;
+//}
 - (void)ReginAndLoginBackClick{
     [self.navigationController popToRootViewControllerAnimated:NO];
 }
