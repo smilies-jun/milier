@@ -304,19 +304,15 @@
     
     //添加确定到UIAlertController中
     UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        //        for (UIViewController *controller in self.navigationController.viewControllers) {
-        //            if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
-        //                [self.navigationController popToViewController:controller animated:YES];
-        //            }
-        //        }
+            OutMoneyViewController *addVC = [[OutMoneyViewController alloc]init];
+          addVC.moneyStr = [jinmiDic objectForKey:@"investmentAmount"];
+           [self.navigationController pushViewController:addVC animated:NO];
         
     }];
     [alertController addAction:OKAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
-//    OutMoneyViewController *addVC = [[OutMoneyViewController alloc]init];
-//    addVC.moneyStr = [jinmiDic objectForKey:@"investmentAmount"];
-//    [self.navigationController pushViewController:addVC animated:NO];
+
 }
 - (void)JinMiClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {

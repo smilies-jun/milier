@@ -21,6 +21,7 @@
     UILabel *BondTimeLabel;
     
     UILabel *PercentProfitLabel;
+    UILabel *MoneyPercentLabel;
     UILabel *PercentTimeLabel;
     
     UILabel *StyleLabel;
@@ -34,6 +35,9 @@
     UILabel *DetailInterestLabel;
     UILabel *DetailAddPercentLabel;
 }
+@property (assign)NSInteger state;
+@property (nonatomic ,retain) NSString *increase_type;
+@property (nonatomic ,retain) NSString *percent;
 @property (nonatomic, strong)ProductDetailModel *detailModel;
 
 @property (assign)int  ProductcatID;

@@ -21,6 +21,7 @@ PODS:
   - MBProgressHUD (1.0.0)
   - MJRefresh (3.1.12)
   - MOBFoundation (2.2.15)
+  - MSNumberScrollAnimatedView (0.0.2)
   - RDVTabBarController (1.1.9)
   - SDCycleScrollView (1.65):
     - SDWebImage (~> 3.7)
@@ -51,6 +52,7 @@ DEPENDENCIES:
   - MBProgressHUD (~> 1.0.0)
   - MJRefresh (~> 3.1.12)
   - MOBFoundation
+  - MSNumberScrollAnimatedView
   - RDVTabBarController
   - SDCycleScrollView (~> 1.65)
   - ShareSDK3
@@ -69,12 +71,13 @@ SPEC CHECKSUMS:
   MBProgressHUD: 4890f671c94e8a0f3cf959aa731e9de2f036d71a
   MJRefresh: b96cdb21c4aa75a7b07654311ab2f315c497e806
   MOBFoundation: 4975874f74c991f562151f6a4549e9a6ad743fd8
+  MSNumberScrollAnimatedView: 28c0cb5d10cb0b93b4b9aa421455c22157ac0ed5
   RDVTabBarController: 67794f7a7a37f8e32f046f85ac67d06ab92d624a
   SDCycleScrollView: f72904c77698a7f93a41bcbbc2d78b073bf7326c
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
   ShareSDK3: dea6a14cc4385fa6493e10895ba11d07ef34d149
   SMPageControl: 922892813001cfaf059e86e6801f46a967e9ee29
 
-PODFILE CHECKSUM: 63ff38545e1c74ab111e433be64edd9b14ad0114
+PODFILE CHECKSUM: ecd8df931c0ba191ae1d5b26c8c1175224fa4839
 
 COCOAPODS: 1.2.0

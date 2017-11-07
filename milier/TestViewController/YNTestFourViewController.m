@@ -12,6 +12,9 @@
 #import "ProuctModel.h"
 @implementation YNTestFourViewController{
     NSMutableArray *dataArray;
+    NSString *state;
+    NSString *increase_type;
+    NSString *percent;
 }
 
 
@@ -26,7 +29,16 @@
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    [self getNetworkData:YES];
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re144444 == %@",result);
+
+        state = [result objectForKey:@"state"];
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        [self getNetworkData:YES];
+    }];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -144,6 +156,9 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.state =[state integerValue];
+        cell.increase_type = increase_type;
+        cell.percent = percent;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (dataArray.count) {
             ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];

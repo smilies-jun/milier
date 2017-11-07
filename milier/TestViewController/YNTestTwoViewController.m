@@ -14,6 +14,9 @@
 
 @implementation YNTestTwoViewController{
     NSMutableArray *dataArray;
+    NSString *state;
+    NSString *increase_type;
+    NSString *percent;
 }
 
 
@@ -146,11 +149,13 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.state = 0;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (dataArray.count) {
             ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
             cell.productMoel = model;
         }
+      
         //cell.textLabel.text = @"11111111";
         return cell; 
     }else{

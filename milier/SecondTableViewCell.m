@@ -94,7 +94,8 @@
     
     _MoneyLabel = [[UILabel alloc]init];
     _MoneyLabel.text = @"10.32%";
-    _MoneyLabel.font = [UIFont systemFontOfSize:26];
+    _MoneyLabel.font = [UIFont systemFontOfSize:23];
+    _MoneyLabel.textAlignment = NSTextAlignmentLeft;
     _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
 //    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"12.34%"];
 //    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:26] range:NSMakeRange(0,_MoneyLabel.text.length
@@ -106,10 +107,22 @@
     [_MoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(_ProfitLabel.mas_bottom).offset(5);
         make.left.mas_equalTo(self.contentView.mas_left).offset(20);
-        make.width.mas_equalTo(140);
+        make.width.mas_equalTo(85);
         make.height.mas_equalTo(30);
     }];
-    
+    _MoneyPercentLabel = [[UILabel alloc]init];
+  
+    _MoneyPercentLabel.text = @"1.11%";
+    _MoneyPercentLabel.textAlignment = NSTextAlignmentLeft;
+    _MoneyPercentLabel.font = [UIFont systemFontOfSize:14];
+   // _MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+    [self.contentView addSubview:_MoneyPercentLabel];
+    [_MoneyPercentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.mas_equalTo(_MoneyLabel.mas_bottom);
+        make.left.mas_equalTo(_MoneyLabel.mas_right).offset(-7);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(20);
+    }];
         if (SCREEN_WIDTH == 320) {
             _limitTimeLabel = [[UILabel alloc]init];
             _limitTimeLabel.text = @"投资期限 6个月";
@@ -163,7 +176,6 @@
 
         _ChangeLabel = [[UILabel alloc]init];
         _ChangeLabel.text = @"投资期限 6个月";
-        
         _ChangeLabel.font = [UIFont systemFontOfSize:15];
         _ChangeLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         [self addSubview:_ChangeLabel];
@@ -245,10 +257,17 @@
 }
 
 - (void)setProductMoel:(ProuctModel *)productMoel{
+    if (_state == 0) {
+        _MoneyPercentLabel.hidden = YES;
+    }else{
+        _MoneyPercentLabel.hidden = NO;
+        _MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@%%",_percent];
+        
+    }
     if (productMoel != _productMoel) {
         _productMoel = productMoel;
         _TitleLabel.text = _productMoel.name;
-        float interestRate = [[NSString stringWithFormat:@"%@%%",_productMoel.interestRate]floatValue];
+        float interestRate = [[NSString stringWithFormat:@"%@",_productMoel.interestRate]floatValue];
         _MoneyLabel.text = [NSString stringWithFormat:@"%.2f%%",interestRate];
         NSInteger limitTime = [[NSString stringWithFormat:@"%@",_productMoel.investmentHorizon] integerValue];
         if ([_productMoel.productCategoryId integerValue] == 6) {
@@ -324,42 +343,42 @@
         case 1:
             _MoneyLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
             _PercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
-
+            _MoneyPercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
             _shapeLayer.strokeColor =colorWithRGB(0.62, 0.80, 0.09).CGColor;
 
             break;
         case 2:
             _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-
+             _MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             _shapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
             
             break;
         case 3:
             _MoneyLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
             _PercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
-
+             _MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
             _shapeLayer.strokeColor = colorWithRGB(0.99, 0.52, 0.18).CGColor;
             
             break;
         case 4:
             _MoneyLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
             _PercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
-
+             _MoneyPercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
             _shapeLayer.strokeColor = colorWithRGB(0.27, 0.78, 0.96).CGColor;
             
             break;
         case 5:
             _MoneyLabel.textColor = colorWithRGB(0.31, 0.69, 1);
             _PercentLabel.textColor =  colorWithRGB(0.31, 0.69, 1);
-
+             _MoneyPercentLabel.textColor = colorWithRGB(0.31, 0.69, 1);
             _shapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 1).CGColor;
             
             break;
         case 6:
             _MoneyLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
             _PercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
-
+             _MoneyPercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
             _shapeLayer.strokeColor = colorWithRGB(0.19, 0.39, 0.9).CGColor;
             
             break;
@@ -367,7 +386,7 @@
         case 7:
             _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-            
+              _MoneyPercentLabel.textColor =  colorWithRGB(0.99, 0.79, 0.09);
             _shapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
             
             break;
@@ -376,6 +395,7 @@
         case 8:
             _MoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
+             _MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
             _limitTimeLabel.text = @"随时提现";
             _shapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
             break;

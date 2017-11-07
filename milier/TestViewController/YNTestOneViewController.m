@@ -16,6 +16,9 @@
 @interface YNTestOneViewController (){
     NSMutableArray *dataArray;
     int type;
+    NSString *state;
+    NSString *increase_type;
+    NSString *percent;
 }
 @end
 
@@ -30,7 +33,15 @@
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT -64-49);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    [self getNetworkData:YES];
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re1111 == %@",result);
+        state = [result objectForKey:@"state"];
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+          [self getNetworkData:YES];
+    }];
+  
 
     NSString *wifeStr = NSuserUse(@"Net");
     switch ([wifeStr integerValue]) {
@@ -67,6 +78,7 @@
 
 -(void)getNetworkData:(BOOL)isRefresh
 {
+   
     if (isRefresh) {
         page = 1;
         isFirstCome = YES;
@@ -101,6 +113,8 @@
         [self.tableView reloadData];
         isFirstCome = NO;
     }];
+    
+   
     
 }
 - (void)endRefresh{
@@ -166,11 +180,14 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
+        cell.state = [state integerValue];
+        cell.increase_type = increase_type;
+        cell.percent = percent;
         if (dataArray.count) {
             ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
             cell.productMoel = model;
         }
-        
+       
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         //cell.textLabel.text = @"11111111";

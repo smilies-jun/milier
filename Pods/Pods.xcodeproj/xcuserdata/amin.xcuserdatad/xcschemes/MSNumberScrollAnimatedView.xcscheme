@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '7D08918C803E191B93AD2F99AB042A42'
-               BlueprintName = 'SMPageControl'
+               BlueprintIdentifier = '62CEDF145CC9B33F205EEB640F3A3FC9'
+               BlueprintName = 'MSNumberScrollAnimatedView'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'libSMPageControl.a'>
+               BuildableName = 'libMSNumberScrollAnimatedView.a'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

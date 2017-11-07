@@ -124,11 +124,11 @@
         }
     }
 }
-#pragma mark -UITextFieldDelegate -
-- (void)textFieldDidBeginEditing:(UITextField *)textField{
-    textField.placeholder = @"";
-    textField.textAlignment = NSTextAlignmentLeft;
-}
+//#pragma mark -UITextFieldDelegate -
+//- (void)textFieldDidBeginEditing:(UITextField *)textField{
+//    textField.placeholder = @"";
+//    textField.textAlignment = NSTextAlignmentLeft;
+//}
 - (void)ReginAndLoginBackClick{
     [self.navigationController popToRootViewControllerAnimated:NO];
 }

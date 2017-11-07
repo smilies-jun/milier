@@ -23,6 +23,8 @@
 
 @property (nonatomic , retain) UILabel *MoneyLabel;
 
+@property (nonatomic , retain) UILabel *MoneyPercentLabel;
+
 @property (nonatomic , retain) UILabel *StyleLabel;
 
 @property (nonatomic , retain) UILabel *SaleLabel;
@@ -40,6 +42,9 @@
 
 @property (nonatomic ,retain) UILabel *PercentLabel;
 
+@property (assign)NSInteger state;
+@property (nonatomic ,retain) NSString *increase_type;
+@property (nonatomic ,retain) NSString *percent;
 
 - (void)configUI:(NSIndexPath *)indexPath;
 

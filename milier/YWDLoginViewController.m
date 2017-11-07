@@ -220,11 +220,11 @@
 }
 #pragma Mark - UitextField -
 
-//在UITextField 编辑之前调用方法
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self animateTextField: textField up: YES];
-}
+////在UITextField 编辑之前调用方法
+//- (void)textFieldDidBeginEditing:(UITextField *)textField
+//{
+//    [self animateTextField: textField up: YES];
+//}
 //在UITextField 编辑完成调用方法
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {

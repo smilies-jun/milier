@@ -31,6 +31,10 @@
         int type;
         MBProgressHUD *hud;
         UILabel *SaleLbel;
+        NSString *state;
+        NSString *increase_type;
+        NSString *percent;
+    
 }
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *DataArray;
@@ -52,16 +56,25 @@
     [leftBtn addTarget:self action:@selector(newDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    if (_productCateID == 2) {
+    if (_productCateID == 7) {
+    }else if(_productCateID == 8){
         
     }else{
+
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(DetailRightClick)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     [self reloadData];
     _DataArray = [[NSMutableArray alloc]init];
     _count = 190;
-    [self getNetworkData:YES];
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        state = [result objectForKey:@"state"];
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        [self getNetworkData:YES];
+    }];
    // [self ConfigUI];
 }
 
@@ -115,6 +128,14 @@
         }else{
             
         }
+    }];
+    
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        state = [result objectForKey:@"state"];
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        [self.tableView reloadData];
     }];
 }
 -(void)getNetworkData:(BOOL)isRefresh
@@ -377,6 +398,14 @@
                     SaleVC.aggregateAmount = model.aggregateAmount;
                     SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                     SaleVC.productCi = model.bondTotal;
+                    if (_productCateID ==7) {
+                        SaleVC.Percent = @"0";
+                    }else if (_productCateID == 8){
+                        SaleVC.Percent = @"0";
+                    }else{
+                        SaleVC.Percent = percent;
+
+                    }
                    
                     [self.navigationController pushViewController:SaleVC animated:NO];
                 }else{
@@ -445,6 +474,7 @@
         SecondDetailTopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[SecondDetailTopTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+       
             switch (_productCateID) {
                 case 1:
                     cell.ProductcatID = 1;
@@ -497,11 +527,23 @@
 
             [cell configUI:indexPath];
         }
+        
+        if (_productCateID ==7) {
+            
+        }else if (_productCateID ==8){
+            
+        }else{
+            cell.state = [state integerValue];
+            cell.increase_type = increase_type;
+            cell.percent = percent;
+        }
+       
         if (_DataArray.count) {
             ProductDetailModel *model  = [_DataArray objectAtIndex:0];
             cell.detailModel = model;
             
         }
+      
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         
         return cell;

@@ -219,7 +219,9 @@
         _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
+        NSLog(@"dic == %@",YWDDic);
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+            NSLog(@"re == %@",result);
             if ([[result objectForKey:@"success"]integerValue]==1 ) {
                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{
@@ -242,13 +244,22 @@
     if (_second > 0) {
         _second--; // 时间递减
         NSString* title = [NSString stringWithFormat:@"%dS", _second];
-        _GetCode.enabled = NO;
-        [_GetCode setTitle:title forState:UIControlStateDisabled];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _GetCode.enabled = NO;
+            [_GetCode setTitle:title forState:UIControlStateDisabled];
+        });
+        
+        
+        
     }
     else if (_second == 0) {
         [_securityCodeTimer invalidate];
-        _GetCode.enabled = YES;
-        [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _GetCode.enabled = YES;
+            [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
+        });
+        
+        
     }
 }
 //#pragma mark -UITextFieldDelegate -

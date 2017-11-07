@@ -80,9 +80,21 @@
     [ProfitPercentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(NumberLabel.mas_centerX);
         make.top.mas_equalTo(ProfitLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(150);
+        make.width.mas_equalTo(60);
         make.height.mas_equalTo(30);
     }];
+    MoneyPercentLabel = [[UILabel alloc]init];
+    MoneyPercentLabel.text = @"0.00%";
+    MoneyPercentLabel.font = [UIFont systemFontOfSize:13];
+    MoneyPercentLabel.textAlignment = NSTextAlignmentLeft;
+    [imageView addSubview:MoneyPercentLabel];
+    [MoneyPercentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(ProfitPercentLabel.mas_right);
+        make.bottom.mas_equalTo(ProfitPercentLabel.mas_bottom);
+        make.width.mas_equalTo(50);
+        make.height.mas_equalTo(20);
+    }];
+    
     
     BondLabel = [[UILabel alloc]init];
     BondLabel.text = @"";
@@ -166,7 +178,13 @@
 }
 - (void)setDetailModel:(ProductDetailModel *)detailModel{
     if (detailModel != _detailModel) {
-        
+        if (_state ==0) {
+            MoneyPercentLabel.hidden = YES;
+        }else{
+             MoneyPercentLabel.hidden = NO;
+            MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@%%",_percent];
+
+        }
        
         
         _detailModel = detailModel;
@@ -176,7 +194,7 @@
                 ShapeLayer.strokeColor = colorWithRGB(0.62, 0.80, 0.09).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
                 ProfitPercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
                 
                 
                 break;
@@ -185,42 +203,42 @@
                 ShapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
                 ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
                 break;
             case 3:
                 TitleLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
                 ShapeLayer.strokeColor = colorWithRGB(0.99, 0.52, 0.18).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
                 ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.52, 0.18);
                 break;
             case 4:
                 TitleLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
                 ShapeLayer.strokeColor = colorWithRGB(0.27, 0.78, 0.96).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
                 ProfitPercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.27, 0.78, 0.96);
                 break;
             case 5:
                 TitleLabel.textColor = colorWithRGB(0.31, 0.69, 1);
                 ShapeLayer.strokeColor = colorWithRGB(0.31, 0.69, 1).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.31, 0.69, 1);
                 ProfitPercentLabel.textColor = colorWithRGB(0.31, 0.69, 1);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.31, 0.69, 1);
                 break;
             case 6:
                 TitleLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
                 ShapeLayer.strokeColor = colorWithRGB(0.19, 0.39, 0.9).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
                 ProfitPercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.19, 0.39, 0.9);
                 break;
             case 7:
                 TitleLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
                 ShapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
                 ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-                
+                MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
                 break;
                 
             case 8:
@@ -228,7 +246,7 @@
                 ShapeLayer.strokeColor = colorWithRGB(0.99, 0.79, 0.09).CGColor;
                 LeftMoneyLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
                 ProfitPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
-                
+                MoneyPercentLabel.textColor =  colorWithRGB(0.99, 0.79, 0.09);
                 break;
         
                 
