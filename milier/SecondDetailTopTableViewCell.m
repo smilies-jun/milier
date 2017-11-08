@@ -84,7 +84,6 @@
         make.height.mas_equalTo(30);
     }];
     MoneyPercentLabel = [[UILabel alloc]init];
-    MoneyPercentLabel.text = @"0.00%";
     MoneyPercentLabel.font = [UIFont systemFontOfSize:13];
     MoneyPercentLabel.textAlignment = NSTextAlignmentLeft;
     [imageView addSubview:MoneyPercentLabel];

@@ -142,6 +142,7 @@
 {
     NSString *url;
     [self showProgress];
+    [_DataArray removeAllObjects];
     url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         [_DataArray removeAllObjects];
@@ -230,7 +231,7 @@
     [self.navigationController pushViewController:vc animated:NO];
 }
 -(void)ConfigUI{
-    
+    [self.view.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     page = 1;
     isFirstCome = YES;
     isJuhua = NO;
@@ -398,9 +399,12 @@
                     SaleVC.aggregateAmount = model.aggregateAmount;
                     SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                     SaleVC.productCi = model.bondTotal;
+                    SaleVC.State = state;
                     if (_productCateID ==7) {
                         SaleVC.Percent = @"0";
                     }else if (_productCateID == 8){
+                        SaleVC.Percent = @"0";
+                    }else if (_productCateID == 6){
                         SaleVC.Percent = @"0";
                     }else{
                         SaleVC.Percent = percent;
@@ -532,10 +536,15 @@
             
         }else if (_productCateID ==8){
             
+        }else if (_productCateID ==6){
+            
         }else{
-            cell.state = [state integerValue];
-            cell.increase_type = increase_type;
-            cell.percent = percent;
+            if ([_State integerValue] == 2) {
+                cell.state = [state integerValue];
+                cell.increase_type = increase_type;
+                cell.percent = percent;
+            }
+            
         }
        
         if (_DataArray.count) {
@@ -633,6 +642,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 马上进入刷新状态
+     [self reloadData];
+      [self getNetworkData:YES];
     [self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }

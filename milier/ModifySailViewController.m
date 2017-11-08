@@ -159,7 +159,7 @@ UILabel *SaleLabel;
     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:OldSailView.NameTextField.text,@"dealPassword",NewSailView.NameTextField.text,@"newDealPassword",   nil];
     [[DateSource sharedInstance]requestPutWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *staues = [result objectForKey:@"statusCode"];
-        NSLog(@"re === %@",result);
+     //   NSLog(@"re === %@",result);
         if ([staues integerValue] == 201) {
             //提交
             for (UIViewController *controller in self.navigationController.viewControllers) {

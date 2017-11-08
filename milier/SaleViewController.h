@@ -10,6 +10,7 @@
 
 @interface SaleViewController : UIViewController
 @property (nonatomic,strong)NSString *Percent;
+@property (nonatomic,strong)NSString *State;
 @property (nonatomic,strong)NSString *NameStr;
 
 @property (nonatomic,strong)NSString *TotalStr;

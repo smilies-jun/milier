@@ -25,7 +25,7 @@
 {
     bgView = [[UIView alloc] initWithFrame:UIScreen.mainScreen.bounds];
     bgView.backgroundColor = [UIColor blackColor];
-    bgView.alpha = 0.3f;
+    bgView.alpha = 1.0f;
     [vc.view addSubview:bgView];
     
     CGRect frame = self.frame ;

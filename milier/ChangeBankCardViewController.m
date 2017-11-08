@@ -343,7 +343,7 @@
     NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/validateBank",HOST_URL,userID];
 
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re == %@",result);
+       // NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
             
             normal_alert(@"提示", @"绑定成功", @"确定");
@@ -429,7 +429,7 @@
         NSLog(@"dic == %@",YWDDic);
         NSLog(@"url = %@",url);
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            NSLog(@"re == %@",result);
+          //  NSLog(@"re == %@",result);
             if ([[result objectForKey:@"statusCode"]integerValue]==200 ) {
                 OrderID = [[result objectForKey:@"data"]objectForKey:@"orderNo"];
                 normal_alert(@"提示", @"验证码已发送", @"确定");

@@ -234,10 +234,16 @@
         make.height.mas_equalTo(40);
     }];
     percentLabel = [[UILabel alloc]init];
+    
     if ([_Percent isEqualToString:@"0"]) {
         percentLabel.hidden = YES;
     }else{
          percentLabel.hidden = NO;
+    }
+    if ([_State integerValue]==1) {
+        percentLabel.hidden = NO;
+    }else{
+        percentLabel.hidden = YES;
     }
     percentLabel.text =[NSString stringWithFormat:@"+%.2f%%",[percent doubleValue]];
     percentLabel.textColor = colorWithRGB(0.67, 0.87, 0.1);
@@ -246,7 +252,7 @@
     [percentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(MoneyPercentLabel.mas_right);
         make.bottom.mas_equalTo(MoneyPercentLabel.mas_bottom);
-        make.width.mas_equalTo(55);
+        make.width.mas_equalTo(65);
         make.height.mas_equalTo(20);
     }];
     MoneyPercentLabel.font = [UIFont systemFontOfSize:50];
@@ -943,7 +949,7 @@
   
 }
 - (void)SaleBtn{
-    
+   
     if (ClickBtn.selected) {
         NSString *userID = NSuserUse(@"userId");
         NSString *riskID = NSuserUse(@"riskLevel");
@@ -1101,7 +1107,6 @@
                     [alertController addAction:OKAction];
                     [self presentViewController:alertController animated:YES completion:nil];
                 }else{
-                    mySucessStr = sucessStr;
                     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
                     view.backgroundColor=[UIColor whiteColor];
                     view.layer.masksToBounds = YES;
@@ -1124,17 +1129,18 @@
                     label.font = [UIFont systemFontOfSize:15];
                     [view addSubview:label];
                     UILabel *buyLabel = [[UILabel alloc]init];
-                    buyLabel.text = @"购买成功";
-                    buyLabel.textColor = [UIColor greenColor];
-                    buyLabel.font = [UIFont systemFontOfSize:16];
+                    buyLabel.text = @"购买成功!";
+                    buyLabel.textColor = colorWithRGB(0.62, 0.9, 0.09);
+                    buyLabel.font = [UIFont systemFontOfSize:22];
                     buyLabel.frame = CGRectMake(40, 40, 100, 30);
                     [view addSubview:buyLabel];
                     UILabel *buyLabel1 = [[UILabel alloc]init];
                     NSString *myMessage = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
                     
                     buyLabel1.text = [NSString stringWithFormat:@"%@",myMessage];
-                    buyLabel1.font = [UIFont systemFontOfSize:15];
-                    buyLabel1.frame = CGRectMake(40, 70, 300, 30);
+                    buyLabel1.numberOfLines =0;
+                    buyLabel1.font = [UIFont systemFontOfSize:16];
+                    buyLabel1.frame = CGRectMake(40, 70, SCREEN_WIDTH-80, 60);
                     [view addSubview:buyLabel1];
 //                    UILabel *buyLabel2 = [[UILabel alloc]init];
 //
@@ -1148,7 +1154,7 @@
                     UILabel *SaleLbel =  [[UILabel alloc]init];
                     SaleLbel.text = @"确定";
                     SaleLbel.userInteractionEnabled = YES;
-                    SaleLbel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
+                    SaleLbel.backgroundColor = [UIColor redColor];
                     SaleLbel.textAlignment = NSTextAlignmentCenter;
                     SaleLbel.textColor = [UIColor whiteColor];
                     SaleLbel.layer.cornerRadius = 20;
@@ -1157,7 +1163,7 @@
                     [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
                         make.centerX.mas_equalTo(saleView.mas_centerX);
                         make.centerY.mas_equalTo(saleView.mas_centerY);
-                        make.width.mas_equalTo(SCREEN_WIDTH - 40);
+                        make.width.mas_equalTo(SCREEN_WIDTH - 80);
                         make.height.mas_equalTo(40);
                     }];
                     
@@ -1200,7 +1206,7 @@
                     
                     
                     SureAlertView=[[AwAlertView alloc]initWithContentView:view];
-                    SureAlertView.isUseHidden=YES;
+                    SureAlertView.isUseHidden=NO;
                     [SureAlertView showAnimated:YES];
   
                 }
@@ -1604,6 +1610,7 @@
 }
 - (void)emptyStage{
     NSString *  isfull;
+
     isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
     if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
         if ([_isFullScaleReward integerValue] == 1  ) {
@@ -1619,6 +1626,14 @@
                 
                 
             }
+        }else{
+            float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
+            NSInteger  percentStr = text *100;
+            double  resultStr = (double)percentStr/100;
+            
+            NSInteger jifenStr =[_investmentHorizonStr integerValue]/30;
+            float jifen = [BuyTextField.text integerValue]*jifenStr/100;
+            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
         }
     }else{
         float text =[BuyTextField.text integerValue]*(([_PercentStr doubleValue]+[percent doubleValue])/100*[_investmentHorizonStr doubleValue]/365.0f);

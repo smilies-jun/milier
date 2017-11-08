@@ -95,7 +95,7 @@
     [AddArray removeAllObjects];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
-        NSLog(@"re == %@",result);
+      //  NSLog(@"re == %@",result);
         if (myArray.count) {
             for (NSDictionary *NewDic in myArray) {
                 ProfileModel *model = [[ProfileModel alloc]init];

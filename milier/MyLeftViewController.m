@@ -156,7 +156,7 @@
     Statisurl = [NSString stringWithFormat:@"%@/%@",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statusStr = [result objectForKey:@"statusCode"];
-        NSLog(@"re == %@",result);
+      //  NSLog(@"re == %@",result);
         if ([statusStr integerValue] == 200) {
             BankStatus = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"bankCardExist"]];
             PassWordStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dealPasswordExist"]];

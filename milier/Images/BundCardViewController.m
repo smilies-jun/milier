@@ -162,7 +162,7 @@ static LLPayType payType = LLPayTypeVerify;
     
     CardIphoneView = [[CustomView alloc]init];
     CardIphoneView.NameLabel.text = @"手机号码:";
-    CardIphoneView.NameTextField.placeholder = @"请输入手机号";
+    CardIphoneView.NameTextField.placeholder = @"请输入持卡人银行预留手机号";
     CardIphoneView.NameTextField.delegate = self;
     CardIphoneView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardIphoneView];
@@ -203,7 +203,7 @@ static LLPayType payType = LLPayTypeVerify;
     }];
     CardBankCodeView = [[CustomView alloc]init];
     CardBankCodeView.NameLabel.text = @"银行卡号:";
-    CardBankCodeView.NameTextField.placeholder = @"请输入银行卡号";
+    CardBankCodeView.NameTextField.placeholder = @"请输入持卡人银行卡号";
     CardBankCodeView.NameTextField.delegate = self;
     CardBankCodeView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [BackView addSubview:CardBankCodeView];
@@ -461,7 +461,7 @@ static LLPayType payType = LLPayTypeVerify;
                                     [self payMoney];
                                 
                             }else{
-                                normal_alert(@"提示", @"清选择银行", @"确定");
+                                normal_alert(@"提示", @"请选择银行", @"确定");
 
                             }
                             

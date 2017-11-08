@@ -256,8 +256,8 @@
             MesaageMoel *moel = [_MessageArray objectAtIndex:section];
             
             NameLabel.text =moel.title;
-            
-            NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd"];
+            NSLog(@" == %@",moel.createTime);
+            NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd HH:MM:SS"];
             
             timeLabel.text = timeStr;
         }
@@ -293,7 +293,7 @@
             
              NameLabel.text = moel.title;
 
-             NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd"];
+             NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd HH:MM:SS"];
             
              timeLabel.text = timeStr;
         }

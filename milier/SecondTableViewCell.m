@@ -112,7 +112,6 @@
     }];
     _MoneyPercentLabel = [[UILabel alloc]init];
   
-    _MoneyPercentLabel.text = @"1.11%";
     _MoneyPercentLabel.textAlignment = NSTextAlignmentLeft;
     _MoneyPercentLabel.font = [UIFont systemFontOfSize:14];
    // _MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
@@ -405,6 +404,18 @@
     }
     
     if ([_productMoel.state intValue] == 2) {
+        if ([_productMoel.productCategoryId integerValue] == 7) {
+            _MoneyPercentLabel.hidden = YES;
+        }else if ([_productMoel.productCategoryId integerValue] == 8){
+            _MoneyPercentLabel.hidden = YES;
+
+        }else if ([_productMoel.productCategoryId integerValue] == 6){
+            _MoneyPercentLabel.hidden = YES;
+
+        }else{
+            _MoneyPercentLabel.hidden = NO;
+
+        }
         _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
         _PercentLabel.text = [NSString stringWithFormat:@"%@%%",_productMoel.progressMessage];
         _shapeLayer.strokeEnd = [_productMoel.progress floatValue]/100;
@@ -447,6 +458,8 @@
         
         
     }else{
+        _MoneyPercentLabel.hidden = YES;
+
         _PercentLabel.text = [NSString stringWithFormat:@"%@",_productMoel.progressMessage];
         _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
         _shapeLayer.strokeEnd = 1.0f;

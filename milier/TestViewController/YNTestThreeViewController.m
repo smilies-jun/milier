@@ -32,8 +32,7 @@
     NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re1333331 == %@",result);
-
+        NSLog(@"");
         state = [result objectForKey:@"state"];
         increase_type = [result objectForKey:@"increase_type"];
         percent = [result objectForKey:@"percent"];

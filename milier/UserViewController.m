@@ -179,7 +179,7 @@
     MyScrollView.showsVerticalScrollIndicator = NO;
     MyScrollView.showsHorizontalScrollIndicator = NO;
     MyScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-    MyScrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT+160);
+    MyScrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT+200);
     [self.view addSubview:MyScrollView];
     TopView = [[UIView alloc]init];
     TopView.userInteractionEnabled = YES;
@@ -553,7 +553,7 @@
         [MyGetMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
             make.top.mas_equalTo(MyGetMoneyImageView.mas_bottom).offset(5);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(160);
             make.height.mas_equalTo(20);
         }];
         
@@ -566,7 +566,7 @@
         [MyGetMoneyNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
             make.top.mas_equalTo(MyGetMoneyLabel.mas_bottom);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(160);
             make.height.mas_equalTo(15);
         }];
         
@@ -752,7 +752,7 @@
         [MyGetMoneyImageView addGestureRecognizer:GetMoneyTap];
         [MyScrollView addSubview:MyGetMoneyImageView];
         [MyGetMoneyImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(76);
+            make.left.mas_equalTo(MyLeftMoneyImageView.mas_right).offset(56);
             
             make.top.mas_equalTo(DinQiDetailLabel.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
@@ -767,7 +767,7 @@
         [MyGetMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
             make.top.mas_equalTo(MyGetMoneyImageView.mas_bottom).offset(5);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(160);
             make.height.mas_equalTo(20);
         }];
         
@@ -780,7 +780,7 @@
         [MyGetMoneyNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
             make.top.mas_equalTo(MyGetMoneyLabel.mas_bottom);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(160);
             make.height.mas_equalTo(15);
         }];
 
@@ -831,7 +831,7 @@
         ChangeImageView.image = [UIImage imageNamed:@"attorn"];
         [MyScrollView addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(56);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(28);
             make.top.mas_equalTo(MyLeftMoneyImageView.mas_bottom).offset(40);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -856,8 +856,8 @@
         MyStageImageView.image = [UIImage imageNamed:@"diamond"];
         [MyScrollView addSubview:MyStageImageView];
         [MyStageImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(28);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.left.mas_equalTo(ChangeImageView.mas_right).offset(56);
+            make.top.mas_equalTo(ChangeImageView.mas_top);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -881,7 +881,7 @@
         [MyScrollView addSubview:ShareImageView];
         [ShareImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(MyStageImageView.mas_right).offset(56);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.top.mas_equalTo(ChangeImageView.mas_top);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
@@ -893,7 +893,7 @@
         [MyScrollView addSubview:ShareLabel];
         [ShareLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(ShareImageView.mas_centerX);
-            make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
+            make.top.mas_equalTo(ShareImageView.mas_bottom).offset(5);
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
@@ -906,7 +906,7 @@
         [MyScrollView addSubview:DangerTestImageView];
         [DangerTestImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             
-            make.left.mas_equalTo(MyScrollView.mas_left).offset(40);
+            make.left.mas_equalTo(MyScrollView.mas_left).offset(28);
             make.top.mas_equalTo(ChangeImageView.mas_bottom).offset(60);
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
@@ -985,7 +985,7 @@
         [MyGetMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
             make.top.mas_equalTo(MyGetMoneyImageView.mas_bottom).offset(5);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(160);
             make.height.mas_equalTo(20);
         }];
         
@@ -998,7 +998,7 @@
         [MyGetMoneyNmberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerX.mas_equalTo(MyGetMoneyImageView.mas_centerX);
             make.top.mas_equalTo(MyGetMoneyLabel.mas_bottom);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(180);
             make.height.mas_equalTo(15);
         }];
 
@@ -1176,7 +1176,7 @@
         
     }
     if ([[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue]) {
-        DinQiNumber.text = [NSString stringWithFormat:@"¥%@",[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]];
+        DinQiNumber.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue]];
         
     }else{
         DinQiNumber.text = @"¥0.00";
@@ -1205,9 +1205,9 @@
     
     
     if ([[StaticUserDic objectForKey:@"repaymentTotal"]doubleValue]) {
-        MyGetMoneyNmberLabel.text = [NSString stringWithFormat:@"%.2f",[[StaticUserDic objectForKey:@"repaymentTotal"]doubleValue] ];
+        MyGetMoneyNmberLabel.text = [NSString stringWithFormat:@"¥%.2f",[[StaticUserDic objectForKey:@"repaymentTotal"]doubleValue] ];
     }else{
-        MyGetMoneyNmberLabel.text =@"0.00";
+        MyGetMoneyNmberLabel.text =@"¥0.00";
         
     }
     double   circleTotal  = [[StaticUserDic objectForKey:@"noneCurrentInvestmentAmount"]doubleValue] +[[StaticUserDic objectForKey:@"currentInvestmentAmount"]doubleValue];

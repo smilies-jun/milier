@@ -36,16 +36,17 @@
     NSuserSave(@"6", @"qiye");
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+//    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re6666 == %@",result);
-
-        state = [result objectForKey:@"state"];
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
-        [self getNetworkData:YES];
-    }];
+//    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSLog(@"re6666 == %@",result);
+//
+//        state = [result objectForKey:@"state"];
+//        increase_type = [result objectForKey:@"increase_type"];
+//        percent = [result objectForKey:@"percent"];
+//        [self getNetworkData:YES];
+//    }];
+     [self getNetworkData:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -166,7 +167,7 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        cell.state = [state integerValue];
+        cell.state = 0;
         cell.increase_type = increase_type;
         cell.percent = percent;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;

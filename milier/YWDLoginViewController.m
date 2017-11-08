@@ -220,11 +220,11 @@
 }
 #pragma Mark - UitextField -
 
-////在UITextField 编辑之前调用方法
-//- (void)textFieldDidBeginEditing:(UITextField *)textField
-//{
-//    [self animateTextField: textField up: YES];
-//}
+//在UITextField 编辑之前调用方法
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self animateTextField: textField up: YES];
+}
 //在UITextField 编辑完成调用方法
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -233,7 +233,7 @@
 //视图上移的方法
 - (void) animateTextField: (UITextField *) textField up: (BOOL) up
 {
-    const int movementDistance = 60;
+    const int movementDistance = 100;
     int move = (up ? -movementDistance : 0);
     [UIView beginAnimations: @"Animation" context: nil];
     [UIView setAnimationBeginsFromCurrentState: YES];

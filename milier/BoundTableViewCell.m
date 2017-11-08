@@ -63,7 +63,7 @@
     _AlertBtn.layer.cornerRadius = 20;
     _AlertBtn.layer.masksToBounds = YES;
     _AlertBtn.layer.borderWidth = 1.0;
-    [_AlertBtn setTitle:@"提醒好好友绑卡" forState:UIControlStateNormal];
+    [_AlertBtn setTitle:@"提醒好友绑卡" forState:UIControlStateNormal];
     _AlertBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     [self addSubview:_AlertBtn];
     [_AlertBtn mas_makeConstraints:^(MASConstraintMaker *make) {
