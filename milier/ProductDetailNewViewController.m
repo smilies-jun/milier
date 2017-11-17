@@ -32,6 +32,7 @@
         MBProgressHUD *hud;
         UILabel *SaleLbel;
         NSString *state;
+        NSString *myState;
         NSString *increase_type;
         NSString *percent;
     
@@ -133,6 +134,7 @@
     NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         state = [result objectForKey:@"state"];
+        myState = state;
         increase_type = [result objectForKey:@"increase_type"];
         percent = [result objectForKey:@"percent"];
         [self.tableView reloadData];
@@ -399,14 +401,18 @@
                     SaleVC.aggregateAmount = model.aggregateAmount;
                     SaleVC.productCatiID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                     SaleVC.productCi = model.bondTotal;
-                    SaleVC.State = state;
+                    
                     if (_productCateID ==7) {
                         SaleVC.Percent = @"0";
+                        SaleVC.State = @"0";
                     }else if (_productCateID == 8){
                         SaleVC.Percent = @"0";
+                        SaleVC.State = @"0";
                     }else if (_productCateID == 6){
                         SaleVC.Percent = @"0";
+                        SaleVC.State = @"0";
                     }else{
+                        SaleVC.State = myState;
                         SaleVC.Percent = percent;
 
                     }

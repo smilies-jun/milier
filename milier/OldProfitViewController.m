@@ -36,7 +36,7 @@
     AddArray = [[NSMutableArray alloc]init];
     [self ConfigUI];
 
-   // [self getNetworkData:YES];
+    [self getNetworkData:YES];
 
 }
 

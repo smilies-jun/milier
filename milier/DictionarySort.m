@@ -50,6 +50,7 @@
     NSArray *newKey = [allKey sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         return [(NSString *)obj1 compare:(NSString*)obj2];
     }];
+    NSLog(@"newkeys = %@",newKey);
     //取出所有的value值 按照排序后的key排列,并存入到一个新的数组中
     // NSMutableArray *allValue = [[NSMutableArray alloc] init];
     NSString *newString = secretStr;

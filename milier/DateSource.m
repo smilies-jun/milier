@@ -29,7 +29,6 @@
 - (void)CheckNetWorkinguseingBlock:(void (^)(NSString *staus))block{
     AFNetworkReachabilityManager *Netmanager = [AFNetworkReachabilityManager sharedManager];
     
-//    // 提示：要监控网络连接状态，必须要先调用单例的startMonitoring方法
     [Netmanager startMonitoring];
     
     
@@ -75,10 +74,11 @@
         
        
     }];
- //   __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
-//    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
-//        parameter = result;
-//    }];
+    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
+        parameter = result;
+    }];
+    NSLog(@"pa == %@",parameter);
     manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];
@@ -89,7 +89,7 @@
         [manager.requestSerializer setValue:tokenStr forHTTPHeaderField:@"Authorization"];
     }
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/html",@"text/json",@"text/javascript",@"text/plain", nil];    //发送POST请求
-    [manager POST:url parameters:parameters progress:^(NSProgress * _Nonnull uploadProgress) {
+    [manager POST:url parameters:parameter progress:^(NSProgress * _Nonnull uploadProgress) {
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
 
@@ -200,9 +200,11 @@
     if (manager) {
         manager = nil;
     }
-//    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
-//        parameter = result;
-//    }];
+    __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
+
+    [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
+        parameter = result;
+    }];
     [self CheckNetWorkinguseingBlock:^(NSString *staus) {
         
         if ([staus isEqualToString:@"未连接网络"]) {
@@ -226,7 +228,7 @@
     }
 
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript",@"text/html",@"text/plain",@"application/octet-stream", nil];    //发送get请求
-    [manager PUT:url parameters:parameters success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager PUT:url parameters:parameter success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
        
         if (block) {
             block(responseObject,nil);

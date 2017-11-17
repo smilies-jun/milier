@@ -44,4 +44,9 @@
 
 @property(nonatomic,strong)NSString *fullScaleReward;
 
+@property(nonatomic,strong)NSString *activity_state;
+
+@property(nonatomic,strong)NSString *increase_type;
+
+@property(nonatomic,strong)NSString *percent;
 @end

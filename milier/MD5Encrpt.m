@@ -39,9 +39,10 @@
 - (NSString *)getMd5_32Bit_String:(NSString *)srcString{
     const char *cStr = [srcString UTF8String];
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
-    
+    NSLog(@"scr=== %s",cStr);
     CC_MD5(cStr, (CC_LONG)strlen(cStr), digest);
     NSMutableString *result = [NSMutableString stringWithCapacity:CC_MD5_DIGEST_LENGTH * 2];
+    NSLog(@"re == %@",result);
     for(int i = 0; i < CC_MD5_DIGEST_LENGTH; i++)
         [result appendFormat:@"%02x", digest[i]];
     

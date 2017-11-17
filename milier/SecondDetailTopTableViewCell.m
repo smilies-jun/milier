@@ -68,13 +68,13 @@
     }];
     
     ProfitPercentLabel  = [[UILabel alloc]init];
-    ProfitPercentLabel.text = @"0.00%";
-    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"0.00%"];
-    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:30] range:NSMakeRange(0,ProfitPercentLabel.text.length
-                                                                                                          )];
-    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(ProfitPercentLabel.text.length - 1
-                                                                                                          ,1)];
-    ProfitPercentLabel.attributedText = newAttrStr;
+//    ProfitPercentLabel.text = @"0.00%";
+//    NSMutableAttributedString *newAttrStr = [[NSMutableAttributedString alloc] initWithString:@"0.00%"];
+//    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:30] range:NSMakeRange(0,ProfitPercentLabel.text.length
+//                                                                                                          )];
+//    [newAttrStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:12] range:NSMakeRange(ProfitPercentLabel.text.length - 1
+//                                                                                                          ,1)];
+//    ProfitPercentLabel.attributedText = newAttrStr;
     ProfitPercentLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:ProfitPercentLabel];
     [ProfitPercentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -255,7 +255,14 @@
         if (_ProductcatID == 6) {
             TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
             NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
-            ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
+            NSLog(@"232323232===%@",_detailModel.interestRate);
+            if ([_detailModel.interestRate doubleValue] ==0 ) {
+                ProfitPercentLabel.text = @"0.00%";
+  NSLog(@"1-----------");
+            }else{
+                ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
+  NSLog(@"1++++++++++");
+            }
             
             BondLabel.text = [NSString stringWithFormat:@"%.2f元债权",[_detailModel.bondTotal doubleValue]];
             if ([_detailModel.oid integerValue] == 375) {
@@ -279,7 +286,14 @@
         }else{
             TitleLabel.text = [NSString stringWithFormat:@"%@",_detailModel.name];
             NumberLabel.text = [NSString stringWithFormat:@"项目编号：%@",_detailModel.productNo];
-            ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
+            if ([_detailModel.interestRate doubleValue] ==0 ) {
+                ProfitPercentLabel.text = @"0.00%";
+                NSLog(@"-----------");
+            }else{
+                ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
+                NSLog(@"+++++++++++++");
+
+            }
             BondLabel.text = [NSString stringWithFormat:@"%@元起购",_detailModel.minimumInvestmentAmount];
             if ([_detailModel.oid integerValue] == 375) {
                 BondTimeLabel.text = @"随时提现";

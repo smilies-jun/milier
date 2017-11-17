@@ -175,6 +175,7 @@
     NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",passStr,@"newPassword", nil];
     NSString *url = [NSString stringWithFormat:@"%@/retrievePassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             normal_alert(@"提示", @"修改密码成功", @"确定");
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -186,7 +187,7 @@
             normal_alert(@"提示", mes, @"确定");
 
         }
-        //注册成功or失败
+        //注册成功or失败1
         
     }];
     
@@ -219,7 +220,7 @@
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-           // NSLog(@"re == %@",result);
+            NSLog(@"reSMS == %@",result);
             if ([[result objectForKey:@"success"]integerValue]==1 ) {
                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{

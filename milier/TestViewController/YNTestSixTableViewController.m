@@ -52,11 +52,14 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSuserSave(@"6", @"qiye");
+    NSuserSave(@"0", @"MySatate");
 
+   
 }
 - (void)loadoneNew{
-
-    [self getNetworkData:YES];
+  NSuserSave(@"0", @"MySatate");
+[self getNetworkData:YES];
+  
     
 }
 - (void)loadoneMore{
@@ -167,9 +170,9 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        cell.state = 0;
-        cell.increase_type = increase_type;
-        cell.percent = percent;
+//        cell.state = 0;
+//        cell.increase_type = increase_type;
+//        cell.percent = percent;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (dataArray.count) {
             ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];

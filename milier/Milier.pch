@@ -39,12 +39,12 @@
 #import "UIAlertController+Extend.h"
 #import "UINavigationBar+Awesome.h"
 
-#define APP_SECRET @"6bdaa4031d3013e5a21200163e002615"
+#define APP_SECRET @"cdzbMLE20171115"
 
 #define Text_URL @"https://cs192.168.1.34:8443"
 
 
-//URL
+////URL
 #define SMSAAA_URL @"https://csapp.milibanking.com/app/bankValidate/" //短信验证
 #define SMS_URL @"https://csapp.milibanking.com/app/sms" //短信验证
 #define LOGIN_URL @"https://csapp.milibanking.com/app/tokens/createToken" //登录
@@ -52,11 +52,26 @@
 #define CAROUSSELS_URL @"https://csapp.milibanking.com/app/carousels"
 
 #define PRODUCTS_URL @"https://csapp.milibanking.com/app/products"
-//#define PRODUCTS_URL @"http://192.168.1.110/app/products"
-
 #define USER_URL @"https://csapp.milibanking.com/app/users"
 #define PRODUCTO_RDERS_URL @"https://csapp.milibanking.com/app/productOrders"
 #define ACTIVITIES_URL @"https://csapp.milibanking.com/app/activities"
+
+//URL
+//#define SMSAAA_URL @"http://192.168.1.110/app/bankValidate/" //短信验证
+//#define SMS_URL @"http://192.168.1.110/app/sms" //短信验证
+//#define LOGIN_URL @"http://192.168.1.110/app/tokens/createToken" //登录
+//#define HOST_URL @"http://192.168.1.110/app"
+//#define CAROUSSELS_URL @"http://192.168.1.110/app/carousels"
+//
+//#define PRODUCTS_URL @"http://192.168.1.110/app/products"
+//#define USER_URL @"http://192.168.1.110/app/users"
+//#define PRODUCTO_RDERS_URL @"http://192.168.1.110/app/productOrders"
+//#define ACTIVITIES_URL @"http://192.168.1.110/app/activities"
+
+
+//#define PRODUCTS_URL @"http://192.168.1.110/app/products"
+
+
 
 #define normal_alert(TITLE,MESSAGE,CANCEL) [[[UIAlertView alloc] initWithTitle:TITLE message:MESSAGE delegate:nil cancelButtonTitle:CANCEL otherButtonTitles:nil, nil] show]
 

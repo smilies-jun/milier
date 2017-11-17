@@ -111,7 +111,7 @@
         make.height.mas_equalTo(30);
     }];
     _MoneyPercentLabel = [[UILabel alloc]init];
-  
+    _MoneyPercentLabel.hidden = YES;
     _MoneyPercentLabel.textAlignment = NSTextAlignmentLeft;
     _MoneyPercentLabel.font = [UIFont systemFontOfSize:14];
    // _MoneyPercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
@@ -256,15 +256,36 @@
 }
 
 - (void)setProductMoel:(ProuctModel *)productMoel{
-    if (_state == 0) {
-        _MoneyPercentLabel.hidden = YES;
-    }else{
-        _MoneyPercentLabel.hidden = NO;
-        _MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@%%",_percent];
-        
-    }
+//NSString *MyState = NSuserUse(@"MySatate");
+    
+//    if ([MyState integerValue] == 0) {
+//        _MoneyPercentLabel.hidden = YES;
+//    }else{
+//        _MoneyPercentLabel.hidden = NO;
+//        NSString *MyPercent = NSuserUse(@"percent");
+//        _MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@%%",MyPercent];
+//
+//    }
+    
+    
     if (productMoel != _productMoel) {
+       
         _productMoel = productMoel;
+        
+        NSLog(@"1 = %@   2=%@",_productMoel.activity_state,_productMoel.percent);
+        if ([_productMoel.activity_state integerValue] ==1) {
+            _MoneyPercentLabel.hidden = NO;
+            if ([_productMoel.increase_type integerValue] ==1) {
+                _MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@%%",_productMoel.percent];
+            }else{
+                _MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@元",_productMoel.percent];
+            }
+        }else if ([_productMoel.activity_state integerValue] == 0){
+            _MoneyPercentLabel.hidden = YES;
+
+        }else{
+            _MoneyPercentLabel.hidden = YES;
+        }
         _TitleLabel.text = _productMoel.name;
         float interestRate = [[NSString stringWithFormat:@"%@",_productMoel.interestRate]floatValue];
         _MoneyLabel.text = [NSString stringWithFormat:@"%.2f%%",interestRate];
@@ -405,15 +426,11 @@
     
     if ([_productMoel.state intValue] == 2) {
         if ([_productMoel.productCategoryId integerValue] == 7) {
-            _MoneyPercentLabel.hidden = YES;
         }else if ([_productMoel.productCategoryId integerValue] == 8){
-            _MoneyPercentLabel.hidden = YES;
 
         }else if ([_productMoel.productCategoryId integerValue] == 6){
-            _MoneyPercentLabel.hidden = YES;
 
         }else{
-            _MoneyPercentLabel.hidden = NO;
 
         }
         _PercentLabel.textColor = colorWithRGB(0.99, 0.79, 0.09);
@@ -458,7 +475,6 @@
         
         
     }else{
-        _MoneyPercentLabel.hidden = YES;
 
         _PercentLabel.text = [NSString stringWithFormat:@"%@",_productMoel.progressMessage];
         _PercentLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);

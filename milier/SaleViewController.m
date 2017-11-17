@@ -240,6 +240,7 @@
     }else{
          percentLabel.hidden = NO;
     }
+    NSLog(@"_state == %@",_State);
     if ([_State integerValue]==1) {
         percentLabel.hidden = NO;
     }else{
@@ -1548,13 +1549,14 @@
     
 }
 - (void)MyIsFull{
-
+    NSLog(@"1");
     NSString *  isfull;
     isfull = [NSString stringWithFormat:@"%.2f",[_fullScaleReward doubleValue]];
     if ([BuyTextField.text integerValue] == [_TotalStr integerValue]) {
         if ([_isFullScaleReward integerValue] == 1  ) {
             if ([_fullScaleReward doubleValue]) {
                 if (Type == 1) {
+
                     float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr doubleValue]+[isfull doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
                     
                     NSInteger  percentStr = text *100;
@@ -1562,6 +1564,7 @@
 
                     InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
                 }else if(Type ==2){
+
                     float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[isfull doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
                     NSInteger  percentStr = text *100;
                     double  resultStr = (double)percentStr/100;
@@ -1576,17 +1579,47 @@
                 }
             }else{
                 
+                
+                
+                
             }
         }else{
             
+            
+            if (Type == 1) {
+                
+                float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
+                
+                NSInteger  percentStr = text *100;
+                double  resultStr = (double)percentStr/100;
+                
+                InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
+            }else if(Type ==2){
+                
+                float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[isfull doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
+                NSInteger  percentStr = text *100;
+                double  resultStr = (double)percentStr/100;
+                
+                InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue]-[AddStr integerValue],resultStr+[AddStr integerValue]];
+                
+            }else{
+                //                    float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100+[isfull integerValue])*[_investmentHorizonStr doubleValue]/365.0f;
+                //                    float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
+                //                    InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
+                
+            }
+             NSLog(@"4553");
         }
     }else{
         if (Type == 1) {
+            NSLog(@"3333");
             float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
             NSInteger  percentStr = text *100;
             double  resultStr = (double)percentStr/100;
             InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
         }else if(Type ==2){
+            NSLog(@"444444");
+
             float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
             NSInteger  percentStr = text *100;
             double  resultStr = (double)percentStr/100;
@@ -1594,6 +1627,8 @@
             InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f+%.2f",[BuyTextField.text integerValue]-[AddStr doubleValue],resultStr+[AddStr integerValue]];
             
         }else{
+            NSLog(@"555555");
+
 //            float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
 //            float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;
 //            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];

@@ -45,16 +45,37 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSuserSave(@"1", @"qiye");
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
     
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        state = [result objectForKey:@"state"];
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        NSuserSave([result objectForKey:@"state"], @"MySatate");
+        NSuserSave([result objectForKey:@"percent"], @"percent");
+        [self getNetworkData:YES];
+    }];
 }
 
 
 - (void)loadoneNew{
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-    [self getNetworkData:YES];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"1111111");
+        state = [result objectForKey:@"state"];
+         NSuserSave([result objectForKey:@"state"], @"MySatate");
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        NSuserSave([result objectForKey:@"percent"], @"percent");
+        NSLog(@"sta1111111=== %@",state);
+
+        [self getNetworkData:YES];
+    }];
     
 }
 - (void)loadoneMore{
+    NSLog(@"3");
     [self getNetworkData:NO];
     
 }
@@ -159,12 +180,13 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        cell.state = [state integerValue];
-        cell.increase_type = increase_type;
-        cell.percent = percent;
+//        cell.state = [state integerValue];
+//        cell.increase_type = increase_type;
+//        cell.percent = percent;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (dataArray.count) {
             ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];
+
             cell.productMoel = model;
         }
         //cell.textLabel.text = @"11111111";

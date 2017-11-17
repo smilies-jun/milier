@@ -36,6 +36,8 @@
 
         state = [result objectForKey:@"state"];
         increase_type = [result objectForKey:@"increase_type"];
+        NSuserSave([result objectForKey:@"state"], @"MySatate");
+        NSuserSave([result objectForKey:@"percent"], @"percent");
         percent = [result objectForKey:@"percent"];
         [self getNetworkData:YES];
     }];
@@ -43,11 +45,31 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSuserSave(@"4", @"qiye");
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
     
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        state = [result objectForKey:@"state"];
+        NSuserSave([result objectForKey:@"state"], @"MySatate");
+        NSuserSave([result objectForKey:@"percent"], @"percent");
+
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        [self getNetworkData:YES];
+    }];
 }
 - (void)loadoneNew{
 
-    [self getNetworkData:YES];
+    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+    
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        state = [result objectForKey:@"state"];
+        NSuserSave([result objectForKey:@"state"], @"MySatate");
+        NSuserSave([result objectForKey:@"percent"], @"percent");
+        
+        increase_type = [result objectForKey:@"increase_type"];
+        percent = [result objectForKey:@"percent"];
+        [self getNetworkData:YES];
+    }];
     
 }
 - (void)loadoneMore{
@@ -75,6 +97,7 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         isJuhua = NO;
         [self endRefresh];
+        NSLog(@"re44444444444===========%@",result);
 
         if (page == 1) {
             [dataArray removeAllObjects];
@@ -156,9 +179,9 @@
             cell = [[SecondTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
             [cell configUI:indexPath];
         }
-        cell.state =[state integerValue];
-        cell.increase_type = increase_type;
-        cell.percent = percent;
+//        cell.state =[state integerValue];
+//        cell.increase_type = increase_type;
+//        cell.percent = percent;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         if (dataArray.count) {
             ProuctModel *model  = [dataArray objectAtIndex:indexPath.row];

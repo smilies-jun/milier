@@ -42,10 +42,6 @@
 
 @property (nonatomic ,retain) UILabel *PercentLabel;
 
-@property (assign)NSInteger state;
-@property (nonatomic ,retain) NSString *increase_type;
-@property (nonatomic ,retain) NSString *percent;
-
 - (void)configUI:(NSIndexPath *)indexPath;
 
 
