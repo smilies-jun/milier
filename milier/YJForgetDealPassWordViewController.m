@@ -11,7 +11,7 @@
 #import "TouUpViewController.h"
 #import "ModifySailViewController.h"
 #import "UserSetViewController.h"
-
+#import "MoneyViewController.h"
 
 @interface YJForgetDealPassWordViewController (){
     CustomView *phoneNumView;
@@ -47,6 +47,12 @@
     if ([_TypeStr integerValue] == 1) {
         for (UIViewController *controller in self.navigationController.viewControllers) {
             if ([controller isKindOfClass:[TouUpViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+            
+        }
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[MoneyViewController   class]]) {
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }
@@ -277,20 +283,16 @@
     if (_second > 0) {
         _second--; // 时间递减
         NSString* title = [NSString stringWithFormat:@"%dS", _second];
-        dispatch_async(dispatch_get_main_queue(), ^{
             _GetCode.enabled = NO;
             [_GetCode setTitle:title forState:UIControlStateDisabled];
-        });
         
         
         
     }
     else if (_second == 0) {
         [_securityCodeTimer invalidate];
-        dispatch_async(dispatch_get_main_queue(), ^{
             _GetCode.enabled = YES;
             [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
-        });
         
         
     }

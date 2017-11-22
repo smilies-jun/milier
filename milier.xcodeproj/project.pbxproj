@@ -495,6 +495,23 @@
 		2782CF501F3C049E00896B22 /* xsarrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2782CF4E1F3C049E00896B22 /* xsarrow@2x.png */; };
 		2782CF511F3C049E00896B22 /* xsarrow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2782CF4F1F3C049E00896B22 /* xsarrow@3x.png */; };
 		2782CF571F413C1A00896B22 /* ConfirmBankViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2782CF561F413C1A00896B22 /* ConfirmBankViewController.m */; };
+		2784007B1FC2B77F00F56675 /* UIButton+CountDown.m in Sources */ = {isa = PBXBuildFile; fileRef = 2784007A1FC2B77F00F56675 /* UIButton+CountDown.m */; };
+		2784007F1FC3BC8200F56675 /* ChoseBankTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2784007E1FC3BC8200F56675 /* ChoseBankTableViewCell.m */; };
+		278400821FC3C6CA00F56675 /* ChoseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 278400811FC3C6CA00F56675 /* ChoseModel.m */; };
+		278400861FC403EB00F56675 /* ZSSaveTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 278400851FC403EB00F56675 /* ZSSaveTools.m */; };
+		2784008E1FC4040200F56675 /* UITableViewCell+WHC_AutoHeightForCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 278400891FC4040100F56675 /* UITableViewCell+WHC_AutoHeightForCell.m */; };
+		2784008F1FC4040200F56675 /* UIView+WHC_AutoLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2784008B1FC4040100F56675 /* UIView+WHC_AutoLayout.m */; };
+		278400901FC4040200F56675 /* WHC_StackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2784008D1FC4040100F56675 /* WHC_StackView.m */; };
+		278400931FC4041000F56675 /* SingChooseTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278400911FC4041000F56675 /* SingChooseTableView.m */; };
+		278400961FC4045E00F56675 /* tadayExamCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 278400941FC4045D00F56675 /* tadayExamCollectionViewCell.m */; };
+		278400991FC4047700F56675 /* TadayExamTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 278400971FC4047700F56675 /* TadayExamTableViewCell.m */; };
+		2784009D1FC4071400F56675 /* NewRiskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2784009C1FC4071300F56675 /* NewRiskViewController.m */; };
+		278400A11FC4162000F56675 /* b-_sel@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2784009E1FC4161F00F56675 /* b-_sel@2x.png */; };
+		278400A21FC4162000F56675 /* b-_sel@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2784009F1FC4162000F56675 /* b-_sel@3x.png */; };
+		278400A31FC4162000F56675 /* b-_sel.png in Resources */ = {isa = PBXBuildFile; fileRef = 278400A01FC4162000F56675 /* b-_sel.png */; };
+		278400A71FC4162B00F56675 /* b@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278400A41FC4162A00F56675 /* b@2x.png */; };
+		278400A81FC4162B00F56675 /* b@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 278400A51FC4162A00F56675 /* b@3x.png */; };
+		278400A91FC4162B00F56675 /* b.png in Resources */ = {isa = PBXBuildFile; fileRef = 278400A61FC4162B00F56675 /* b.png */; };
 		279D8CC21F1DDEE5002F4563 /* daishou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279D8CC01F1DDEE5002F4563 /* daishou@2x.png */; };
 		279D8CC31F1DDEE5002F4563 /* daishou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279D8CC11F1DDEE5002F4563 /* daishou@3x.png */; };
 		279D8D131F2EDAEC002F4563 /* MyNewDinQiDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D101F2EDAEC002F4563 /* MyNewDinQiDetailViewController.m */; };
@@ -1361,6 +1378,34 @@
 		2782CF4F1F3C049E00896B22 /* xsarrow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xsarrow@3x.png"; sourceTree = "<group>"; };
 		2782CF551F413C1A00896B22 /* ConfirmBankViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfirmBankViewController.h; sourceTree = "<group>"; };
 		2782CF561F413C1A00896B22 /* ConfirmBankViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConfirmBankViewController.m; sourceTree = "<group>"; };
+		278400791FC2B77F00F56675 /* UIButton+CountDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+CountDown.h"; sourceTree = "<group>"; };
+		2784007A1FC2B77F00F56675 /* UIButton+CountDown.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+CountDown.m"; sourceTree = "<group>"; };
+		2784007D1FC3BC8200F56675 /* ChoseBankTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChoseBankTableViewCell.h; sourceTree = "<group>"; };
+		2784007E1FC3BC8200F56675 /* ChoseBankTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChoseBankTableViewCell.m; sourceTree = "<group>"; };
+		278400801FC3C6CA00F56675 /* ChoseModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChoseModel.h; sourceTree = "<group>"; };
+		278400811FC3C6CA00F56675 /* ChoseModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChoseModel.m; sourceTree = "<group>"; };
+		278400841FC403EB00F56675 /* ZSSaveTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZSSaveTools.h; sourceTree = "<group>"; };
+		278400851FC403EB00F56675 /* ZSSaveTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZSSaveTools.m; sourceTree = "<group>"; };
+		278400881FC4040100F56675 /* UITableViewCell+WHC_AutoHeightForCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+WHC_AutoHeightForCell.h"; sourceTree = "<group>"; };
+		278400891FC4040100F56675 /* UITableViewCell+WHC_AutoHeightForCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+WHC_AutoHeightForCell.m"; sourceTree = "<group>"; };
+		2784008A1FC4040100F56675 /* UIView+WHC_AutoLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WHC_AutoLayout.h"; sourceTree = "<group>"; };
+		2784008B1FC4040100F56675 /* UIView+WHC_AutoLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WHC_AutoLayout.m"; sourceTree = "<group>"; };
+		2784008C1FC4040100F56675 /* WHC_StackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WHC_StackView.h; sourceTree = "<group>"; };
+		2784008D1FC4040100F56675 /* WHC_StackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WHC_StackView.m; sourceTree = "<group>"; };
+		278400911FC4041000F56675 /* SingChooseTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SingChooseTableView.m; sourceTree = "<group>"; };
+		278400921FC4041000F56675 /* SingChooseTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SingChooseTableView.h; sourceTree = "<group>"; };
+		278400941FC4045D00F56675 /* tadayExamCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = tadayExamCollectionViewCell.m; sourceTree = "<group>"; };
+		278400951FC4045E00F56675 /* tadayExamCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tadayExamCollectionViewCell.h; sourceTree = "<group>"; };
+		278400971FC4047700F56675 /* TadayExamTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TadayExamTableViewCell.m; sourceTree = "<group>"; };
+		278400981FC4047700F56675 /* TadayExamTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TadayExamTableViewCell.h; sourceTree = "<group>"; };
+		2784009B1FC4071300F56675 /* NewRiskViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewRiskViewController.h; sourceTree = "<group>"; };
+		2784009C1FC4071300F56675 /* NewRiskViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NewRiskViewController.m; sourceTree = "<group>"; };
+		2784009E1FC4161F00F56675 /* b-_sel@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b-_sel@2x.png"; sourceTree = "<group>"; };
+		2784009F1FC4162000F56675 /* b-_sel@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b-_sel@3x.png"; sourceTree = "<group>"; };
+		278400A01FC4162000F56675 /* b-_sel.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b-_sel.png"; sourceTree = "<group>"; };
+		278400A41FC4162A00F56675 /* b@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b@2x.png"; sourceTree = "<group>"; };
+		278400A51FC4162A00F56675 /* b@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "b@3x.png"; sourceTree = "<group>"; };
+		278400A61FC4162B00F56675 /* b.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = b.png; sourceTree = "<group>"; };
 		279D8CC01F1DDEE5002F4563 /* daishou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daishou@2x.png"; sourceTree = "<group>"; };
 		279D8CC11F1DDEE5002F4563 /* daishou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daishou@3x.png"; sourceTree = "<group>"; };
 		279D8D0F1F2EDAEC002F4563 /* MyNewDinQiDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNewDinQiDetailViewController.h; sourceTree = "<group>"; };
@@ -1874,6 +1919,8 @@
 		27032EF81EADAD5A00A4233B /* cell */ = {
 			isa = PBXGroup;
 			children = (
+				2784009A1FC404DE00F56675 /* 风险 */,
+				2784007C1FC3BC1000F56675 /* 银行卡 */,
 				279D8D291F3059AE002F4563 /* 代收金额 */,
 				279D8D1E1F2F2EF7002F4563 /* 投资 */,
 				272A0EBA1EE55F5800E36B40 /* 收益 */,
@@ -2104,6 +2151,8 @@
 				27032F451EB0410A00A4233B /* RiskViewController.m */,
 				27032F4D1EB0936F00A4233B /* RiskComplyViewController.h */,
 				27032F4E1EB0936F00A4233B /* RiskComplyViewController.m */,
+				2784009B1FC4071300F56675 /* NewRiskViewController.h */,
+				2784009C1FC4071300F56675 /* NewRiskViewController.m */,
 			);
 			name = "风险评估";
 			sourceTree = "<group>";
@@ -2852,6 +2901,8 @@
 				27E229921EC4429800B1034D /* ProductDetailModel.m */,
 				27DCC7ED1ED808B0005DD560 /* ChooseStageModel.h */,
 				27DCC7EE1ED808B0005DD560 /* ChooseStageModel.m */,
+				278400801FC3C6CA00F56675 /* ChoseModel.h */,
+				278400811FC3C6CA00F56675 /* ChoseModel.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -2943,6 +2994,12 @@
 		2755DA641E5BD45500C75656 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				278400A61FC4162B00F56675 /* b.png */,
+				278400A41FC4162A00F56675 /* b@2x.png */,
+				278400A51FC4162A00F56675 /* b@3x.png */,
+				278400A01FC4162000F56675 /* b-_sel.png */,
+				2784009E1FC4161F00F56675 /* b-_sel@2x.png */,
+				2784009F1FC4162000F56675 /* b-_sel@3x.png */,
 				2782CF4E1F3C049E00896B22 /* xsarrow@2x.png */,
 				2782CF4F1F3C049E00896B22 /* xsarrow@3x.png */,
 				279D8D391F31673C002F4563 /* 产品状态图标 */,
@@ -3040,6 +3097,60 @@
 				27404D641EA7564E00DAFFC2 /* ProtocalViewController.m */,
 			);
 			name = home;
+			sourceTree = "<group>";
+		};
+		278400781FC2B75F00F56675 /* time */ = {
+			isa = PBXGroup;
+			children = (
+				278400791FC2B77F00F56675 /* UIButton+CountDown.h */,
+				2784007A1FC2B77F00F56675 /* UIButton+CountDown.m */,
+			);
+			name = time;
+			sourceTree = "<group>";
+		};
+		2784007C1FC3BC1000F56675 /* 银行卡 */ = {
+			isa = PBXGroup;
+			children = (
+				2784007D1FC3BC8200F56675 /* ChoseBankTableViewCell.h */,
+				2784007E1FC3BC8200F56675 /* ChoseBankTableViewCell.m */,
+			);
+			name = "银行卡";
+			sourceTree = "<group>";
+		};
+		278400831FC403D600F56675 /* riskanswer */ = {
+			isa = PBXGroup;
+			children = (
+				278400921FC4041000F56675 /* SingChooseTableView.h */,
+				278400911FC4041000F56675 /* SingChooseTableView.m */,
+				278400871FC4040100F56675 /* WHC_AutoLayoutKit */,
+				278400841FC403EB00F56675 /* ZSSaveTools.h */,
+				278400851FC403EB00F56675 /* ZSSaveTools.m */,
+			);
+			name = riskanswer;
+			sourceTree = "<group>";
+		};
+		278400871FC4040100F56675 /* WHC_AutoLayoutKit */ = {
+			isa = PBXGroup;
+			children = (
+				278400881FC4040100F56675 /* UITableViewCell+WHC_AutoHeightForCell.h */,
+				278400891FC4040100F56675 /* UITableViewCell+WHC_AutoHeightForCell.m */,
+				2784008A1FC4040100F56675 /* UIView+WHC_AutoLayout.h */,
+				2784008B1FC4040100F56675 /* UIView+WHC_AutoLayout.m */,
+				2784008C1FC4040100F56675 /* WHC_StackView.h */,
+				2784008D1FC4040100F56675 /* WHC_StackView.m */,
+			);
+			path = WHC_AutoLayoutKit;
+			sourceTree = "<group>";
+		};
+		2784009A1FC404DE00F56675 /* 风险 */ = {
+			isa = PBXGroup;
+			children = (
+				278400981FC4047700F56675 /* TadayExamTableViewCell.h */,
+				278400971FC4047700F56675 /* TadayExamTableViewCell.m */,
+				278400951FC4045E00F56675 /* tadayExamCollectionViewCell.h */,
+				278400941FC4045D00F56675 /* tadayExamCollectionViewCell.m */,
+			);
+			name = "风险";
 			sourceTree = "<group>";
 		};
 		279D8D1E1F2F2EF7002F4563 /* 投资 */ = {
@@ -3488,6 +3599,8 @@
 		27FB50B21E5D857D0090AB69 /* until */ = {
 			isa = PBXGroup;
 			children = (
+				278400831FC403D600F56675 /* riskanswer */,
+				278400781FC2B75F00F56675 /* time */,
 				271E83121EFE9122004F005C /* YNPageScrollViewController */,
 				273D78541EF7737F0024B61B /* NoData */,
 				27C7C35B1EEA8EBC008CDDD2 /* WSDaePickerView */,
@@ -3724,6 +3837,7 @@
 				274A85DC1EBC2731002B7069 /* welcome2-667h@2x.png in Resources */,
 				274A85351EBC26E0002B7069 /* jxq_01@3x.png in Resources */,
 				279D8D511F31673C002F4563 /* daichengbiao@3x.png in Resources */,
+				278400A21FC4162000F56675 /* b-_sel@3x.png in Resources */,
 				2705AF991E9F96EB008C20CA /* backarrow@2x.png in Resources */,
 				27032FAB1EB97CC900A4233B /* diamond@3x.png in Resources */,
 				274A854F1EBC26EB002B7069 /* loginbg@2x.png in Resources */,
@@ -3761,6 +3875,7 @@
 				274A85221EBC26E0002B7069 /* quan_content@2x.png in Resources */,
 				27C7C3661EEA8EBC008CDDD2 /* WSDatePickerView.xib in Resources */,
 				27D296661EEE3EB2001DAB5F /* manbiaojl@3x.png in Resources */,
+				278400A31FC4162000F56675 /* b-_sel.png in Resources */,
 				271288E51E5A9FBC00DCB546 /* LaunchScreen.storyboard in Resources */,
 				27404DA81EA75A5B00DAFFC2 /* login_logo@2x.png in Resources */,
 				271288E21E5A9FBC00DCB546 /* Assets.xcassets in Resources */,
@@ -3777,6 +3892,7 @@
 				27E229B21EC592CC00B1034D /* icon_none@3x.png in Resources */,
 				274A85511EBC26EB002B7069 /* phone@2x.png in Resources */,
 				2782CF511F3C049E00896B22 /* xsarrow@3x.png in Resources */,
+				278400A81FC4162B00F56675 /* b@3x.png in Resources */,
 				274A854D1EBC26EB002B7069 /* key@2x.png in Resources */,
 				274A852E1EBC26E0002B7069 /* geren_xmq_03@3x.png in Resources */,
 				274A85441EBC26E0002B7069 /* zhaiquan_xmq_01@3x.png in Resources */,
@@ -3810,6 +3926,7 @@
 				274A853D1EBC26E0002B7069 /* random_xmq_03@3x.png in Resources */,
 				273D78681EF7796B0024B61B /* nonedata@2x.png in Resources */,
 				27DFC84B1E9E1E7E008E6098 /* huodong_hover@2x.png in Resources */,
+				278400A71FC4162B00F56675 /* b@2x.png in Resources */,
 				274A84D61EBC26D4002B7069 /* gift@3x.png in Resources */,
 				274A84B01EBC26C8002B7069 /* ing@2x.png in Resources */,
 				274A85B91EBC2719002B7069 /* 6zhe@3x.png in Resources */,
@@ -3931,6 +4048,7 @@
 				27DFC84E1E9E1E7E008E6098 /* licai_empty@3x.png in Resources */,
 				274A84B51EBC26C8002B7069 /* raise@3x.png in Resources */,
 				27E229AF1EC592CC00B1034D /* icon_jx@2x.png in Resources */,
+				278400A11FC4162000F56675 /* b-_sel@2x.png in Resources */,
 				271D37191EE7982900F99664 /* Icon-60@3x.png in Resources */,
 				274A85C51EBC2719002B7069 /* 9zhe@3x.png in Resources */,
 				27032FAD1EB97CC900A4233B /* portfolio@3x.png in Resources */,
@@ -3992,6 +4110,7 @@
 				27404DB01EA75A5B00DAFFC2 /* success_icon@2x.png in Resources */,
 				274A84B11EBC26C8002B7069 /* ing@3x.png in Resources */,
 				274A85281EBC26E0002B7069 /* wangdai_xmq_03@2x.png in Resources */,
+				278400A91FC4162B00F56675 /* b.png in Resources */,
 				271D370E1EE78F6C00F99664 /* Default@2x.png in Resources */,
 				2705AF9D1E9F96EB008C20CA /* explain@2x.png in Resources */,
 				279D8CC31F1DDEE5002F4563 /* daishou@3x.png in Resources */,
@@ -4089,6 +4208,7 @@
 				271F27581EDEC566001245C3 /* DuiHuanModel.m in Sources */,
 				27032EC61EA8B41C00A4233B /* ZFBarChart.m in Sources */,
 				27C7C3521EEA88C1008CDDD2 /* DataChoseView.m in Sources */,
+				278400991FC4047700F56675 /* TadayExamTableViewCell.m in Sources */,
 				27E229E71ECD96AF00B1034D /* SepartViewController.m in Sources */,
 				274A860B1EC0603F002B7069 /* ZJPageViewController.m in Sources */,
 				272A0EB61EE168E300E36B40 /* YJForgetDealPassWordViewController.m in Sources */,
@@ -4112,6 +4232,7 @@
 				27032F0B1EADE49100A4233B /* MyLeftDetailTableViewCell.m in Sources */,
 				27404D711EA7564E00DAFFC2 /* YWDForgetPassWordViewController.m in Sources */,
 				27E229A71EC569EA00B1034D /* ChoiceStageTableViewCell.m in Sources */,
+				278400931FC4041000F56675 /* SingChooseTableView.m in Sources */,
 				2752134E1EA0AC0E00A36B0F /* SnailSheetCell.m in Sources */,
 				27E229E41ECD910300B1034D /* AllMoneyViewController.m in Sources */,
 				2752134F1EA0AC0E00A36B0F /* SnailSheetView.m in Sources */,
@@ -4140,6 +4261,7 @@
 				27FB50BE1E5D872B0090AB69 /* MD5Encrpt.m in Sources */,
 				274A86041EC05E41002B7069 /* ZJContentView.m in Sources */,
 				275213511EA0AC0E00A36B0F /* SnailSidebarView.m in Sources */,
+				278400861FC403EB00F56675 /* ZSSaveTools.m in Sources */,
 				27032ED51EA8B41C00A4233B /* ZFRadar.m in Sources */,
 				2755DA5D1E5BD00600C75656 /* SecondViewController.m in Sources */,
 				27032F8E1EB8640800A4233B /* YNTestFiveTableViewController.m in Sources */,
@@ -4162,6 +4284,7 @@
 				27DFC8051E9CD363008E6098 /* SecondTableViewCell.m in Sources */,
 				27032ED41EA8B41C00A4233B /* ZFPolygon.m in Sources */,
 				27032EC01EA8B41C00A4233B /* ZFYAxisLine.m in Sources */,
+				2784008F1FC4040200F56675 /* UIView+WHC_AutoLayout.m in Sources */,
 				27032EBB1EA8B41C00A4233B /* UIColor+Zirkfied.m in Sources */,
 				279D8D321F305BAA002F4563 /* UnYetListTableViewCell.m in Sources */,
 				27032F851EB821E000A4233B /* ProductDetailNewViewController.m in Sources */,
@@ -4178,6 +4301,7 @@
 				27DFC81C1E9CD858008E6098 /* TWRefreshIndicatorView.m in Sources */,
 				271E830E1EFC1302004F005C /* DeveloperTableViewCell.m in Sources */,
 				275213791EA4A35800A36B0F /* ProductViewController.m in Sources */,
+				278400821FC3C6CA00F56675 /* ChoseModel.m in Sources */,
 				279D8D1D1F2EDB24002F4563 /* DinQiTopTableViewCell.m in Sources */,
 				272A0EB31EE114EC00E36B40 /* MyLeftModel.m in Sources */,
 				27C70BC51EEE898B00120AEE /* NSObject+YYModel.m in Sources */,
@@ -4221,8 +4345,10 @@
 				27032F051EADE36F00A4233B /* MyLeftViewController.m in Sources */,
 				27E22A0F1ED6C13E00B1034D /* README.md in Sources */,
 				279D8D241F2F314C002F4563 /* DinQiJiXiTableViewCell.m in Sources */,
+				278400901FC4040200F56675 /* WHC_StackView.m in Sources */,
 				27032F121EADF59900A4233B /* JiFenRecordViewController.m in Sources */,
 				27032FBD1EB9BA0500A4233B /* JiFenRecordTableViewCell.m in Sources */,
+				278400961FC4045E00F56675 /* tadayExamCollectionViewCell.m in Sources */,
 				2752134B1EA0AC0E00A36B0F /* SnailCurtainView.m in Sources */,
 				275213601EA0B26500A36B0F /* MyPopView.m in Sources */,
 				27032ED81EA8B41C00A4233B /* ZFWaveChart.m in Sources */,
@@ -4289,6 +4415,7 @@
 				274A86061EC05E41002B7069 /* ZJScrollSegmentView.m in Sources */,
 				27FB50BF1E5D872B0090AB69 /* NSObject+Property.m in Sources */,
 				27E229D41ECA9A0F00B1034D /* SGQRCodeConst.m in Sources */,
+				2784007F1FC3BC8200F56675 /* ChoseBankTableViewCell.m in Sources */,
 				27032F2D1EAF3ECB00A4233B /* InterentViewController.m in Sources */,
 				27032F3E1EB039A700A4233B /* BoundViewController.m in Sources */,
 				2752137F1EA4A3A200A36B0F /* ProductHistoryViewController.m in Sources */,
@@ -4312,6 +4439,7 @@
 				2755DA5A1E5BCFEF00C75656 /* FirstViewController.m in Sources */,
 				271D36FD1EE78E9E00F99664 /* OutMoneyViewController.m in Sources */,
 				27E229D61ECA9A0F00B1034D /* SGQRCodeTool.m in Sources */,
+				2784007B1FC2B77F00F56675 /* UIButton+CountDown.m in Sources */,
 				27032F711EB1E09D00A4233B /* UIImageEffects.m in Sources */,
 				27DFC81B1E9CD858008E6098 /* TWRefreshTableView.m in Sources */,
 				27032EBF1EA8B41C00A4233B /* ZFXAxisLine.m in Sources */,
@@ -4338,6 +4466,7 @@
 				27032ED61EA8B41C00A4233B /* ZFRadarChart.m in Sources */,
 				27DCC7EF1ED808B0005DD560 /* ChooseStageModel.m in Sources */,
 				27404D7D1EA7567C00DAFFC2 /* customWithStatic.m in Sources */,
+				2784008E1FC4040200F56675 /* UITableViewCell+WHC_AutoHeightForCell.m in Sources */,
 				275213371EA0AAFB00A36B0F /* UIView+AddConstraints.m in Sources */,
 				27032F4B1EB0854F00A4233B /* CYXPhotoCell.m in Sources */,
 				2705AFAC1E9FA669008C20CA /* JKRBubbleDelegate.m in Sources */,
@@ -4357,6 +4486,7 @@
 				27DFC8221E9CDA38008E6098 /* SecondTopTableViewCell.m in Sources */,
 				27032F461EB0410A00A4233B /* RiskViewController.m in Sources */,
 				27E22A161ED6CB5B00B1034D /* LLOrder.m in Sources */,
+				2784009D1FC4071400F56675 /* NewRiskViewController.m in Sources */,
 				27032F0E1EADF48300A4233B /* MyJiFenViewController.m in Sources */,
 				27032EC31EA8B41C00A4233B /* ZFConst.m in Sources */,
 			);

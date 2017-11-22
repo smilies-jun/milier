@@ -217,12 +217,12 @@
                 if (userImageStr.length) {
                     [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
                 }else{
-                    LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
+                    LeftBtn.image = [UIImage imageNamed:@"headpicUser@2x"];
                 }
                 [self RequestHead];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }else{
-                LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
+                LeftBtn.image = [UIImage imageNamed:@"headpicUser@2x"];
                 self.navigationItem.rightBarButtonItem = nil;
             }
             
@@ -353,7 +353,7 @@
     
     YNTestFourViewController *four = [[YNTestFourViewController alloc]init];
     
-    YNTestFiveTableViewController  *five = [[YNTestFiveTableViewController alloc]init];
+   // YNTestFiveTableViewController  *five = [[YNTestFiveTableViewController alloc]init];
     
     YNTestSixTableViewController  *six = [[YNTestSixTableViewController alloc]init];
     //配置信息
@@ -378,7 +378,7 @@
     configration.showGradientColor = NO;//取消渐变
     configration.showNavigation = YES;
     configration.showTabbar = YES;//设置显示tabbar
-    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款",@"购车贷款",@"债权转让"] Configration:configration];
+    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,six] titles:@[@"网贷基金",@"特色产品",@"企业贷款",@"个人贷款",@"债权转让"] Configration:configration];
     vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
     vc.dataSource = self;
     vc.delegate = self;
@@ -527,35 +527,35 @@
             make.width.mas_equalTo(60);
             make.height.mas_equalTo(20);
         }];
-        BuyCarImageView = [[UIImageView alloc]init];
-        BuyCarImageView.tag = 5;
-        BuyCarImageView.userInteractionEnabled = YES;
-        UITapGestureRecognizer *BuyTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BuyClick)];
-        [BuyCarImageView addGestureRecognizer:BuyTap];
-        BuyCarImageView.image = [UIImage imageNamed:@"carloan"];
-        [view addSubview:BuyCarImageView];
-        [BuyCarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            if (SCREEN_WIDTH == 320) {
-                make.left.mas_equalTo(PersonImageView.mas_right).offset(45);
- 
-            }else{
-                make.left.mas_equalTo(PersonImageView.mas_right).offset(55);
-
-            }
-            make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
-            make.width.mas_equalTo(68);
-            make.height.mas_equalTo(68);
-        }];
-        BuyCarLabel = [[UILabel alloc]init];
-        BuyCarLabel.text = @"购车贷款";
-        BuyCarLabel.font = [UIFont systemFontOfSize:13];
-        [view addSubview:BuyCarLabel];
-        [BuyCarLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.centerX.mas_equalTo(BuyCarImageView.mas_centerX);
-            make.top.mas_equalTo(BuyCarImageView.mas_bottom).offset(10);
-            make.width.mas_equalTo(60);
-            make.height.mas_equalTo(20);
-        }];
+//        BuyCarImageView = [[UIImageView alloc]init];
+//        BuyCarImageView.tag = 5;
+//        BuyCarImageView.userInteractionEnabled = YES;
+//        UITapGestureRecognizer *BuyTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(BuyClick)];
+//        [BuyCarImageView addGestureRecognizer:BuyTap];
+//        BuyCarImageView.image = [UIImage imageNamed:@"carloan"];
+//        [view addSubview:BuyCarImageView];
+//        [BuyCarImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            if (SCREEN_WIDTH == 320) {
+//                make.left.mas_equalTo(PersonImageView.mas_right).offset(45);
+//
+//            }else{
+//                make.left.mas_equalTo(PersonImageView.mas_right).offset(55);
+//
+//            }
+//            make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);
+//            make.width.mas_equalTo(68);
+//            make.height.mas_equalTo(68);
+//        }];
+//        BuyCarLabel = [[UILabel alloc]init];
+//        BuyCarLabel.text = @"购车贷款";
+//        BuyCarLabel.font = [UIFont systemFontOfSize:13];
+//        [view addSubview:BuyCarLabel];
+//        [BuyCarLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.centerX.mas_equalTo(BuyCarImageView.mas_centerX);
+//            make.top.mas_equalTo(BuyCarImageView.mas_bottom).offset(10);
+//            make.width.mas_equalTo(60);
+//            make.height.mas_equalTo(20);
+//        }];
         ChangeImageView = [[UIImageView alloc]init];
         ChangeImageView.tag = 6;
         ChangeImageView.userInteractionEnabled = YES;
@@ -565,10 +565,10 @@
         [view addSubview:ChangeImageView];
         [ChangeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             if (SCREEN_WIDTH == 320) {
-                make.left.mas_equalTo(BuyCarImageView.mas_right).offset(45);
+                make.left.mas_equalTo(PersonImageView.mas_right).offset(45);
    
             }else{
-                make.left.mas_equalTo(BuyCarImageView.mas_right).offset(55);
+                make.left.mas_equalTo(PersonImageView.mas_right).offset(55);
 
             }
             make.top.mas_equalTo(NetImageView.mas_bottom).offset(50);

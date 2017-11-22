@@ -14,8 +14,11 @@
 #import "CustomChooseView.h"
 #import "ZHPickView.h"
 #import "BundProfileViewController.h"
-@interface ChangeBankCardViewController (){
+#import <AwAlertViewlib/AwAlertViewlib.h>
+#import "ChoseBankTableViewCell.h"
+#import "ChoseModel.h"
 
+@interface ChangeBankCardViewController ()<UITableViewDelegate,UITableViewDataSource>{
     CustomView *phoneNumView;
     CustomView *CodeNumView;
     CustomView *NewPassWordView;
@@ -27,8 +30,12 @@
     NSString *bankStr;
     NSString *OrderID;
     int _second;
-     MBProgressHUD *hud;
+    MBProgressHUD *hud;
+    AwAlertView *alertView;
+    UITableView *StageTableView;
+    NSMutableArray *stageArray;
     
+    NSString *BankID;
 }
 
 
@@ -49,6 +56,7 @@
     self.navigationItem.leftBarButtonItem = leftItem;
     BankArray = [[NSMutableArray alloc]init];
     BankIDArray = [[NSMutableArray alloc]init];
+    stageArray = [[NSMutableArray alloc]init];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(nextHideKey)];
     [self.view addGestureRecognizer:tap];
     [self getBankCards];
@@ -61,12 +69,13 @@
     NSString *url;
     url = [NSString stringWithFormat:@"%@/banks?page=1&rows=100",HOST_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
-        NSArray *myArray = [result objectForKey:@"items"];
-        for (NSDictionary *dic in myArray) {
-            [BankArray addObject:[dic objectForKey:@"name"]];
-            [BankIDArray addObject:[dic objectForKey:@"oid"]];
-            
+        NSArray *MyStageArray = [result objectForKey:@"items"];
+        for (NSDictionary *NewDic in MyStageArray) {
+            ChoseModel *model = [[ChoseModel alloc]init];
+            model.dataDictionary = NewDic;
+            [stageArray addObject:model];
         }
+        [StageTableView reloadData];
        [self initUI];
     }];
 }
@@ -257,16 +266,101 @@
 }
 - (void)chooseTapClick{
     [self HideKeyBoardClick];
-    ZHPickView *pickView = [[ZHPickView alloc] init];
-    [pickView setDataViewWithItem:BankArray title:@"选择银行"];
-    [pickView showPickView:self];
-    
-    pickView.block = ^(NSString *selectedStr)
-    {
-        CardBankView.ChooseLabel.text = selectedStr;
-        bankStr = [NSString stringWithFormat:@"%@",selectedStr];
-    };
+     [self showAlert];
+//    ZHPickView *pickView = [[ZHPickView alloc] init];
+//    [pickView setDataViewWithItem:BankArray title:@"选择银行"];
+//    [pickView showPickView:self];
+//
+//    pickView.block = ^(NSString *selectedStr)
+//    {
+//        CardBankView.ChooseLabel.text = selectedStr;
+//        bankStr = [NSString stringWithFormat:@"%@",selectedStr];
+//    };
 }
+
+- (void)showAlert{
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 100, SCREEN_WIDTH, 280)];
+    view.backgroundColor=[UIColor whiteColor];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 5.0f;
+    view.alpha = 0.9;
+    
+    UIImageView*  CancelImageView = [[UIImageView alloc]init];
+    CancelImageView.image = [UIImage imageNamed:@"close"];
+    CancelImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(CancelClick)];
+    [CancelImageView addGestureRecognizer:CancelTap];
+    CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
+    [view addSubview:CancelImageView];
+    
+    
+    StageTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH,230) style:UITableViewStylePlain];
+    StageTableView.delegate = self;
+    StageTableView.dataSource = self;
+    StageTableView.tableFooterView = [UIView new];
+    StageTableView.backgroundColor = [UIColor whiteColor];
+    [view addSubview:StageTableView];
+    
+    
+    UILabel *label = [[UILabel alloc]init];
+    label.frame = CGRectMake(20, 10, 80, 20);
+    label.text = @"选择银行卡";
+    label.font = [UIFont systemFontOfSize:15];
+    [view addSubview:label];
+    
+    alertView=[[AwAlertView alloc]initWithContentView:view];
+    alertView.isUseHidden=NO;
+    [alertView showAnimated:YES];
+}
+- (void)CancelClick{
+    [alertView dismissAnimated:YES];
+}
+//设置行数
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    return  stageArray.count;
+}
+
+
+//组头高度
+-(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 0;
+}
+//cell的高度
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    return 50;
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    static NSString *identifier = @"ChoseStageMyidentifier";
+    
+    ChoseBankTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[ChoseBankTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+         [cell configUI:indexPath];
+    }
+    if (stageArray.count) {
+        ChoseModel *model  = [stageArray objectAtIndex:indexPath.row];
+        cell.ChoseModel = model;
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
+    
+    return cell;
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    ChoseModel *model = [stageArray objectAtIndex:indexPath.row];
+    CardBankView.ChooseLabel.text = [NSString stringWithFormat:@"%@",model.name];
+    BankID =[NSString stringWithFormat:@"%@",model.oid];
+    [alertView dismissAnimated:NO];
+    
+    
+}
+
 #pragma mark - 提交 -
 - (void)PostBtnClick{
     if ([NewPassWordView.NameTextField.text integerValue]) {
@@ -323,23 +417,23 @@
 - (void)postForgetCode{
     [self showProgress];
    NSString *userID = NSuserUse(@"userId");
-    //银行获取信息
-    int j  = 0;
-    for (int i = 0; i < BankArray.count; i++) {
-        NSString *str = [BankArray objectAtIndex:i];
-        if ([str isEqualToString:bankStr]) {
-            j = i;
-        }
-    }
-    NSInteger bankI = 0;
-    for (int i = 0; i < BankIDArray.count; i++) {
-        if (i  == j) {
-            bankI = [[BankIDArray objectAtIndex:i]integerValue];
-        }
-    }
-     NSString *tokenID = NSuserUse(@"Authorization");
-    NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"code",userID,@"userId",bankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",OrderID,@"orderNo", nil];
+//    //银行获取信息
+//    int j  = 0;
+//    for (int i = 0; i < BankArray.count; i++) {
+//        NSString *str = [BankArray objectAtIndex:i];
+//        if ([str isEqualToString:bankStr]) {
+//            j = i;
+//        }
+//    }
+//    NSInteger bankI = 0;
+//    for (int i = 0; i < BankIDArray.count; i++) {
+//        if (i  == j) {
+//            bankI = [[BankIDArray objectAtIndex:i]integerValue];
+//        }
+//    }
+    NSString *tokenID = NSuserUse(@"Authorization");
+//    NSString *bankID = [NSString stringWithFormat:@"%ld",(long)bankI];
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"code",userID,@"userId",BankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",OrderID,@"orderNo", nil];
     NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/validateBank",HOST_URL,userID];
 
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
@@ -426,8 +520,6 @@
         _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",bankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",nil];
         //验证码获取陈功or失败
-        NSLog(@"dic == %@",YWDDic);
-        NSLog(@"url = %@",url);
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
           //  NSLog(@"re == %@",result);
             if ([[result objectForKey:@"statusCode"]integerValue]==200 ) {

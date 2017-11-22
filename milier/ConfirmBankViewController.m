@@ -272,20 +272,16 @@
     if (_second > 0) {
         _second--; // 时间递减
         NSString* title = [NSString stringWithFormat:@"%dS", _second];
-        dispatch_async(dispatch_get_main_queue(), ^{
             _GetCode.enabled = NO;
             [_GetCode setTitle:title forState:UIControlStateDisabled];
-        });
         
         
         
     }
     else if (_second == 0) {
         [_securityCodeTimer invalidate];
-        dispatch_async(dispatch_get_main_queue(), ^{
             _GetCode.enabled = YES;
             [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
-        });
         
         
     }

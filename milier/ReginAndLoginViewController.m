@@ -251,8 +251,10 @@
 - (void)ReginClicked{
     NSString *passStr = [PassView.NameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",passStr,@"password",PhoneView.NameTextField.text,@"captcha", nil];
-    if (callView.NameTextField.text) {
+    if (callView.NameTextField.text.length) {
         [YWDDic   setObject:callView.NameTextField.text forKey:@"parentId"];
+    }else{
+        [YWDDic   setObject:@"1" forKey:@"parentId"];
     }
     
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:USER_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
@@ -288,6 +290,7 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
+
         _second = 90;
         _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
@@ -305,7 +308,6 @@
 
         
     
-    
     }
 }
 
@@ -313,26 +315,20 @@
 - (void)timing
 {
     if (_second > 0) {
-        _second--; // 时间递减
-        NSString* title = [NSString stringWithFormat:@"%dS", _second];
-        dispatch_async(dispatch_get_main_queue(), ^{
+            _second--; // 时间递减
+            NSString* title = [NSString stringWithFormat:@"%dS", _second];
             _GetCode.enabled = NO;
             [_GetCode setTitle:title forState:UIControlStateDisabled];
-        });
-        
-  
       
     }
     else if (_second == 0) {
         [_securityCodeTimer invalidate];
-        dispatch_async(dispatch_get_main_queue(), ^{
             _GetCode.enabled = YES;
             [_GetCode setTitle:@"重新发送" forState:UIControlStateNormal];
-        });
-    
-       
+                    
     }
 }
+
 //#pragma mark -UITextFieldDelegate -
 //- (void)textFieldDidBeginEditing:(UITextField *)textField{
 //    textField.placeholder = @"";

@@ -325,7 +325,8 @@
     
     
     if ([_productID integerValue] == 6) {
-        
+        ExplainLabel.hidden= NO;
+
        
         SaleView = [[UIView alloc]init];
         SaleView.backgroundColor = [UIColor whiteColor];
@@ -383,7 +384,7 @@
         }];
 
     }else if([_productID integerValue] == 7 || [_productID integerValue] == 8 ){
-        
+        ExplainLabel.hidden= YES;
         SaleView = [[UIView alloc]init];
         SaleView.backgroundColor = [UIColor whiteColor];
         [BootmView addSubview:SaleView];
@@ -502,6 +503,8 @@
     
     
     else{
+        ExplainLabel.hidden= NO;
+
         ChoceStageView = [[UIView alloc]init];
         ChoceStageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *choiceTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(MyChoceClcik)];
@@ -1068,181 +1071,197 @@
 
 - (void)WriteSailPassWord{
    
-    if ([BuyTextField.text integerValue] >= [StageChoseStr integerValue]) {
-        NSString *Bottomurl;
-        NSString *tokenID = NSuserUse(@"Authorization");
-        Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
-        
-        if (StageOid.length) {
-            
-        }else{
+    
+    
+    NSLog(@" == %@",StageOid);
+    
+    
+        if ([StageOid isEqualToString:@"-1"]) {
             StageOid = @"-1";
-        }
-        NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
-        [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            NSLog(@"re 购买== %@",result);
-            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
-                [self HideProgress];
-                //UIAlertController风格：UIAlertControllerStyleAlert
-                NSString *sucessStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
-                NSString *mySucessStr;
-                if ([sucessStr isEqualToString:@"(null)"]) {
-                    mySucessStr = @"请到个人中心查看";
-                    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"购买成功"
-                                                                                             message:mySucessStr
-                                                                                      preferredStyle:UIAlertControllerStyleAlert ];
-                    
-                    //添加取消到UIAlertController中
-                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
-                    [alertController addAction:cancelAction];
-                    
-                    //添加确定到UIAlertController中
-                    UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                        for (UIViewController *controller in self.navigationController.viewControllers) {
-                            if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
-                                [self.navigationController popToViewController:controller animated:YES];
-                            }
-                        }
-                        
-                    }];
-                    [alertController addAction:OKAction];
-                    [self presentViewController:alertController animated:YES completion:nil];
-                }else{
-                    UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
-                    view.backgroundColor=[UIColor whiteColor];
-                    view.layer.masksToBounds = YES;
-                    view.layer.cornerRadius = 5.0f;
-                    view.alpha = 0.9;
-                    
-                    
-                    UIImageView *  CancelImageView = [[UIImageView alloc]init];
-                    CancelImageView.image = [UIImage imageNamed:@"close"];
-                    CancelImageView.userInteractionEnabled = YES;
-                    UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(sureClick)];
-                    [CancelImageView addGestureRecognizer:CancelTap];
-                    CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
-                    [view addSubview:CancelImageView];
-                    
-                    
-                    UILabel *label = [[UILabel alloc]init];
-                    label.frame = CGRectMake(20, 10, 80, 20);
-                    label.text = @"提示";
-                    label.font = [UIFont systemFontOfSize:15];
-                    [view addSubview:label];
-                    UILabel *buyLabel = [[UILabel alloc]init];
-                    buyLabel.text = @"购买成功!";
-                    buyLabel.textColor = colorWithRGB(0.62, 0.9, 0.09);
-                    buyLabel.font = [UIFont systemFontOfSize:22];
-                    buyLabel.frame = CGRectMake(40, 40, 100, 30);
-                    [view addSubview:buyLabel];
-                    UILabel *buyLabel1 = [[UILabel alloc]init];
-                    NSString *myMessage = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
-                    
-                    buyLabel1.text = [NSString stringWithFormat:@"%@",myMessage];
-                    buyLabel1.numberOfLines =0;
-                    buyLabel1.font = [UIFont systemFontOfSize:16];
-                    buyLabel1.frame = CGRectMake(40, 70, SCREEN_WIDTH-80, 60);
-                    [view addSubview:buyLabel1];
-//                    UILabel *buyLabel2 = [[UILabel alloc]init];
-//
-//                    buyLabel2.font = [UIFont systemFontOfSize:15];
-//                    buyLabel2.frame = CGRectMake(40, 100, 300, 30);
-//                    [view addSubview:buyLabel2];
-                    UIView *saleView = [[UIView alloc]init];
-                    saleView.backgroundColor = [UIColor whiteColor];
-                    saleView.frame = CGRectMake(0, 200, SCREEN_WIDTH, 60);
-                    [view addSubview:saleView];
-                    UILabel *SaleLbel =  [[UILabel alloc]init];
-                    SaleLbel.text = @"确定";
-                    SaleLbel.userInteractionEnabled = YES;
-                    SaleLbel.backgroundColor = [UIColor redColor];
-                    SaleLbel.textAlignment = NSTextAlignmentCenter;
-                    SaleLbel.textColor = [UIColor whiteColor];
-                    SaleLbel.layer.cornerRadius = 20;
-                    SaleLbel.layer.masksToBounds = YES;
-                    [saleView addSubview:SaleLbel];
-                    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.centerX.mas_equalTo(saleView.mas_centerX);
-                        make.centerY.mas_equalTo(saleView.mas_centerY);
-                        make.width.mas_equalTo(SCREEN_WIDTH - 80);
-                        make.height.mas_equalTo(40);
-                    }];
-                    
-                    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(MySureClick
-                                                                                                                    )];
-                    [SaleLbel addGestureRecognizer:SaleTap];
-                    numberAnimatedV = [[MSNumberScrollAnimatedView alloc] initWithFrame:CGRectMake(20, 130, SCREEN_WIDTH-40, 60)];
-                    numberAnimatedV.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:42];
-                    numberAnimatedV.textColor = [UIColor redColor];
-                    numberAnimatedV.minLength = 7;
-                    NSString *myPercent = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"percent"]];
-                    numberAnimatedV.number = @([myPercent integerValue]);
-                    [numberAnimatedV startAnimation];
-                    [view addSubview:numberAnimatedV];
-                    
-                    
-                    UILabel *yuanLabel = [[UILabel alloc]init];
-                    yuanLabel.text = @"元";
-                    yuanLabel.textColor = [UIColor redColor];
-                    [view addSubview:yuanLabel];
-                    [yuanLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
-                        make.left.mas_equalTo(numberAnimatedV.mas_right);
-                        make.bottom.mas_equalTo(numberAnimatedV.mas_bottom);
-                        make.width.mas_equalTo(30);
-                        make.height.mas_equalTo(20);
-                    }];
-                    
-                    //    UIImageView *UseImageView = [[UIImageView alloc]init];
-                    //    UseImageView.image = [UIImage imageNamed:@"tip"];
-                    //    [view addSubview:UseImageView];
-                    //    [UseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                    //        make.centerX.mas_equalTo(view.mas_centerX);
-                    //        make.top.mas_equalTo(view.mas_top).offset(40);
-                    //        make.width.mas_equalTo(40);
-                    //        make.height.mas_equalTo(40);
-                    //
-                    //    }];
-                    
-                    
-                    
-                    
-                    SureAlertView=[[AwAlertView alloc]initWithContentView:view];
-                    SureAlertView.isUseHidden=NO;
-                    [SureAlertView showAnimated:YES];
-  
-                }
+              [self BUY];
                 
-               
+        }else{
+            if ([BuyTextField.text integerValue] >= [StageChoseStr integerValue]) {
                 
-               
-                //            normal_alert(@"提示", @"购买成功　", @"确定");
-                //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                //                //  返回指定页面
-                //                for (UIViewController *controller in self.navigationController.viewControllers) {
-                //                    if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
-                //                        [self.navigationController popToViewController:controller animated:YES];
-                //                    }
-                //                }
-                //            });
+                [self BUY];
                 
             }else{
-                 [self HideProgress];
-                NSString *message = [result objectForKey:@"message"];
-                normal_alert(@"提示", message, @"确定");
+                [self HideProgress];
+                NSString *str = [NSString stringWithFormat:@"该道具使用的最低额度为%@元",StageChoseStr];
+                normal_alert(@"提示", str, @"确定");
             }
-        }];
+           
+        }
+    
+    
+    
+    
 
-    }else{
-        [self HideProgress];
-        NSString *str = [NSString stringWithFormat:@"该道具使用的最低额度为%@元",StageChoseStr];
-        normal_alert(@"提示", str, @"确定");
-    }
+   
     
     
     
 }
 
-
+- (void)BUY{
+    NSString *Bottomurl;
+    NSString *tokenID = NSuserUse(@"Authorization");
+    Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
+    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
+    NSLog(@"dic ==%@",dic);
+    [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re 购买== %@",result);
+        if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+            [self HideProgress];
+            //UIAlertController风格：UIAlertControllerStyleAlert
+            NSString *sucessStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
+            NSString *mySucessStr;
+            if ([sucessStr isEqualToString:@"(null)"]) {
+                mySucessStr = @"请到个人中心查看";
+                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"购买成功"
+                                                                                         message:mySucessStr
+                                                                                  preferredStyle:UIAlertControllerStyleAlert ];
+                
+                //添加取消到UIAlertController中
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
+                [alertController addAction:cancelAction];
+                
+                //添加确定到UIAlertController中
+                UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    for (UIViewController *controller in self.navigationController.viewControllers) {
+                        if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
+                            [self.navigationController popToViewController:controller animated:YES];
+                        }
+                    }
+                    
+                }];
+                [alertController addAction:OKAction];
+                [self presentViewController:alertController animated:YES completion:nil];
+            }else{
+                UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
+                view.backgroundColor=[UIColor whiteColor];
+                view.layer.masksToBounds = YES;
+                view.layer.cornerRadius = 5.0f;
+                view.alpha = 0.9;
+                
+                
+                UIImageView *  CancelImageView = [[UIImageView alloc]init];
+                CancelImageView.image = [UIImage imageNamed:@"close"];
+                CancelImageView.userInteractionEnabled = YES;
+                UITapGestureRecognizer *CancelTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(sureClick)];
+                [CancelImageView addGestureRecognizer:CancelTap];
+                CancelImageView.frame = CGRectMake(SCREEN_WIDTH - 30, 10, 20, 20);
+                [view addSubview:CancelImageView];
+                
+                
+                UILabel *label = [[UILabel alloc]init];
+                label.frame = CGRectMake(20, 10, 80, 20);
+                label.text = @"提示";
+                label.font = [UIFont systemFontOfSize:15];
+                [view addSubview:label];
+                UILabel *buyLabel = [[UILabel alloc]init];
+                buyLabel.text = @"购买成功!";
+                buyLabel.textColor = colorWithRGB(0.62, 0.9, 0.09);
+                buyLabel.font = [UIFont systemFontOfSize:22];
+                buyLabel.frame = CGRectMake(40, 40, 100, 30);
+                [view addSubview:buyLabel];
+                UILabel *buyLabel1 = [[UILabel alloc]init];
+                NSString *myMessage = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
+                
+                buyLabel1.text = [NSString stringWithFormat:@"%@",myMessage];
+                buyLabel1.numberOfLines =0;
+                buyLabel1.font = [UIFont systemFontOfSize:16];
+                buyLabel1.frame = CGRectMake(40, 70, SCREEN_WIDTH-80, 60);
+                [view addSubview:buyLabel1];
+                //                    UILabel *buyLabel2 = [[UILabel alloc]init];
+                //
+                //                    buyLabel2.font = [UIFont systemFontOfSize:15];
+                //                    buyLabel2.frame = CGRectMake(40, 100, 300, 30);
+                //                    [view addSubview:buyLabel2];
+                UIView *saleView = [[UIView alloc]init];
+                saleView.backgroundColor = [UIColor whiteColor];
+                saleView.frame = CGRectMake(0, 200, SCREEN_WIDTH, 60);
+                [view addSubview:saleView];
+                UILabel *SaleLbel =  [[UILabel alloc]init];
+                SaleLbel.text = @"确定";
+                SaleLbel.userInteractionEnabled = YES;
+                SaleLbel.backgroundColor = [UIColor redColor];
+                SaleLbel.textAlignment = NSTextAlignmentCenter;
+                SaleLbel.textColor = [UIColor whiteColor];
+                SaleLbel.layer.cornerRadius = 20;
+                SaleLbel.layer.masksToBounds = YES;
+                [saleView addSubview:SaleLbel];
+                [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.mas_equalTo(saleView.mas_centerX);
+                    make.centerY.mas_equalTo(saleView.mas_centerY);
+                    make.width.mas_equalTo(SCREEN_WIDTH - 80);
+                    make.height.mas_equalTo(40);
+                }];
+                
+                UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(MySureClick
+                                                                                                                      )];
+                [SaleLbel addGestureRecognizer:SaleTap];
+                numberAnimatedV = [[MSNumberScrollAnimatedView alloc] initWithFrame:CGRectMake(20, 130, SCREEN_WIDTH-40, 60)];
+                numberAnimatedV.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:42];
+                numberAnimatedV.textColor = [UIColor redColor];
+                numberAnimatedV.minLength = 7;
+                NSString *myPercent = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"percent"]];
+                numberAnimatedV.number = @([myPercent integerValue]);
+                [numberAnimatedV startAnimation];
+                [view addSubview:numberAnimatedV];
+                
+                
+                UILabel *yuanLabel = [[UILabel alloc]init];
+                yuanLabel.text = @"元";
+                yuanLabel.textColor = [UIColor redColor];
+                [view addSubview:yuanLabel];
+                [yuanLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.mas_equalTo(numberAnimatedV.mas_right);
+                    make.bottom.mas_equalTo(numberAnimatedV.mas_bottom);
+                    make.width.mas_equalTo(30);
+                    make.height.mas_equalTo(20);
+                }];
+                
+                //    UIImageView *UseImageView = [[UIImageView alloc]init];
+                //    UseImageView.image = [UIImage imageNamed:@"tip"];
+                //    [view addSubview:UseImageView];
+                //    [UseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+                //        make.centerX.mas_equalTo(view.mas_centerX);
+                //        make.top.mas_equalTo(view.mas_top).offset(40);
+                //        make.width.mas_equalTo(40);
+                //        make.height.mas_equalTo(40);
+                //
+                //    }];
+                
+                
+                
+                
+                SureAlertView=[[AwAlertView alloc]initWithContentView:view];
+                SureAlertView.isUseHidden=NO;
+                [SureAlertView showAnimated:YES];
+                
+            }
+            
+            
+            
+            
+            //            normal_alert(@"提示", @"购买成功　", @"确定");
+            //            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            //                //  返回指定页面
+            //                for (UIViewController *controller in self.navigationController.viewControllers) {
+            //                    if ([controller isKindOfClass:[ProductDetailNewViewController class]]) {
+            //                        [self.navigationController popToViewController:controller animated:YES];
+            //                    }
+            //                }
+            //            });
+            
+        }else{
+            [self HideProgress];
+            NSString *message = [result objectForKey:@"message"];
+            normal_alert(@"提示", message, @"确定");
+        }
+    }];
+}
 - (void)SureSale{
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
     view.backgroundColor=[UIColor whiteColor];
@@ -1608,17 +1627,14 @@
                 //                    InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,(text*100)/100,(jifen*100)/100];
                 
             }
-             NSLog(@"4553");
         }
     }else{
         if (Type == 1) {
-            NSLog(@"3333");
             float text =[BuyTextField.text integerValue]*([_PercentStr doubleValue]+[AddStr doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
             NSInteger  percentStr = text *100;
             double  resultStr = (double)percentStr/100;
             InterestMoneyLabel.text  = [NSString stringWithFormat:@"%ld+%.2f",[BuyTextField.text integerValue],resultStr];
         }else if(Type ==2){
-            NSLog(@"444444");
 
             float text = [BuyTextField.text integerValue]*([_PercentStr doubleValue]+[percent doubleValue])*[_investmentHorizonStr doubleValue]/36500.0f;
             NSInteger  percentStr = text *100;
@@ -1627,7 +1643,6 @@
             InterestMoneyLabel.text  = [NSString stringWithFormat:@"%.2f+%.2f",[BuyTextField.text integerValue]-[AddStr doubleValue],resultStr+[AddStr integerValue]];
             
         }else{
-            NSLog(@"555555");
 
 //            float text =[BuyTextField.text integerValue] + [BuyTextField.text integerValue]*([_PercentStr doubleValue]/100)*[_investmentHorizonStr doubleValue]/365.0f;
 //            float jifen = [BuyTextField.text integerValue]*[_investmentHorizonStr doubleValue]/3000;

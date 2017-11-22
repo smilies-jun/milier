@@ -10,6 +10,7 @@
 #import "MyLeftViewController.h"
 #import "CustomView.h"
 #import "BundCardViewController.h"
+#import "YJForgetDealPassWordViewController.h"
 
 @interface MoneyViewController ()<UITextFieldDelegate>{
     CustomView *payView;
@@ -85,6 +86,24 @@
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(44);
     }];
+    
+   UILabel *  ForgetPayLabel = [[UILabel alloc]init];
+    ForgetPayLabel.text = @"忘记交易密码？";
+    ForgetPayLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *forgetSaleWordTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ForgetClick)];
+    [ForgetPayLabel addGestureRecognizer:forgetSaleWordTap];
+    
+    ForgetPayLabel.textColor = [UIColor orangeColor];
+    ForgetPayLabel.textAlignment = NSTextAlignmentLeft;
+    ForgetPayLabel.font = [UIFont systemFontOfSize:14];
+    [self.view addSubview:ForgetPayLabel];
+    [ForgetPayLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left).offset(20);
+        make.top.mas_equalTo(passWordView.mas_bottom).offset(5);
+        make.width.mas_equalTo(100);
+        make.height.mas_equalTo(20);
+    }];
+    
     UILabel *TestLabel =  [[UILabel alloc]init];
     TestLabel.text = @"提现";
     TestLabel.userInteractionEnabled = YES;
@@ -96,7 +115,7 @@
     [self.view addSubview:TestLabel];
     [TestLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(40);
-        make.top.mas_equalTo(passWordView.mas_bottom).offset(20);
+        make.top.mas_equalTo(passWordView.mas_bottom).offset(30);
         make.width.mas_equalTo(SCREEN_WIDTH - 80);
         make.height.mas_equalTo(40);
     }];
@@ -106,7 +125,11 @@
     [TestLabel addGestureRecognizer:SaleTap];
     
 }
-
+- (void)ForgetClick{
+    YJForgetDealPassWordViewController  *vc = [[YJForgetDealPassWordViewController alloc]init];
+    vc.TypeStr = @"1";
+    [self.navigationController pushViewController:vc animated:NO];
+}
 - (void)reloadMyMoney{
     NSString *Statisurl;
     NSString *userID = NSuserUse(@"userId");
