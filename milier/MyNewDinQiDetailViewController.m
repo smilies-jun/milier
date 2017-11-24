@@ -15,7 +15,7 @@
 #import "DinQiJiXiDetailTableViewCell.h"
 #import "BundProfileViewController.h"
 #import "ChangeSailDetailViewController.h"
-
+#import "DinQiMoneyViewController.h"
 
 @interface MyNewDinQiDetailViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSMutableArray *DinQiTopArray;
@@ -366,7 +366,7 @@
 
 - (void)DinQiDetailClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
+        if ([controller isKindOfClass:[DinQiMoneyViewController  class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

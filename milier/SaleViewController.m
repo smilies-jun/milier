@@ -23,7 +23,6 @@
 
 
 
-
 @interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate>{
     
     UIView *TopView;
@@ -363,13 +362,14 @@
         BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
+        BuyTextField.delegate =self;
         BuyTextField.delegate = self;
         BuyTextField.placeholder = @"请输入购买金额";
         [SaleView addSubview:BuyTextField];
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(buyLabel.mas_right);
-            make.width.mas_equalTo(200);
+            make.width.mas_equalTo(250);
             make.height.mas_equalTo(20);
         }];
         
@@ -427,7 +427,7 @@
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(buyLabel.mas_right);
-            make.width.mas_equalTo(200);
+            make.width.mas_equalTo(250);
             make.height.mas_equalTo(20);
         }];
         
@@ -484,7 +484,7 @@
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(buyLabel.mas_right);
-            make.width.mas_equalTo(200);
+            make.width.mas_equalTo(250);
             make.height.mas_equalTo(20);
         }];
         
@@ -601,6 +601,7 @@
         BuyTextField.backgroundColor = [UIColor whiteColor];
         BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
+        [BuyTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.tag = 100;
         BuyTextField.delegate = self;
@@ -609,7 +610,7 @@
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(SaleView.mas_centerY);
             make.left.mas_equalTo(buyLabel.mas_right);
-            make.width.mas_equalTo(130);
+            make.width.mas_equalTo(250);
             make.height.mas_equalTo(20);
         }];
         
@@ -652,6 +653,7 @@
         InterestMoneyLabel = [[UILabel alloc]init];
         InterestMoneyLabel.text = @"0.00";
         InterestMoneyLabel.font = [UIFont systemFontOfSize:15];
+        
         [InterestView addSubview:InterestMoneyLabel];
         [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(InterestView.mas_centerY);
@@ -676,13 +678,14 @@
         }];
         InterestMoneyLabel = [[UILabel alloc]init];
         InterestMoneyLabel.text = @"0.00";
-        InterestMoneyLabel.font = [UIFont systemFontOfSize:15];
+        InterestMoneyLabel.numberOfLines = 0;
+        InterestMoneyLabel.font = [UIFont systemFontOfSize:13];
         [InterestView addSubview:InterestMoneyLabel];
         [InterestMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(InterestView.mas_centerY);
             make.left.mas_equalTo(InterestLabel.mas_right);
-            make.width.mas_equalTo(300);
-            make.height.mas_equalTo(20);
+            make.width.mas_equalTo(250);
+            make.height.mas_equalTo(40);
             
         }];
 
@@ -1070,12 +1073,6 @@
 }
 
 - (void)WriteSailPassWord{
-   
-    
-    
-    NSLog(@" == %@",StageOid);
-    
-    
         if ([StageOid isEqualToString:@"-1"]) {
             StageOid = @"-1";
               [self BUY];
@@ -1093,14 +1090,6 @@
            
         }
     
-    
-    
-    
-
-   
-    
-    
-    
 }
 
 - (void)BUY{
@@ -1108,7 +1097,6 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
     NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
-    NSLog(@"dic ==%@",dic);
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSLog(@"re 购买== %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
@@ -1672,8 +1660,21 @@
 
                 NSInteger jifenStr =[_investmentHorizonStr integerValue]/30;
                 float jifen = [BuyTextField.text integerValue]*jifenStr/100;
-                InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+                if ([_ScrollPercent isEqualToString:@"1"]) {
+                   InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+                }else{
+                    NSString *MoneyStr = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f×%@)",BuyTextField.text,resultStr,(jifen*1000)/1000,_ScrollPercent];
+                    NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",MoneyStr]];
+                    NSRange redRange = NSMakeRange([[noteStr string] rangeOfString:@"×"].location, [noteStr string].length-[[noteStr string] rangeOfString:@"×"].location-1);
+                    //需要设置的位置
+                    [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
+                    [noteStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:redRange];
+
+                    //设置颜色
+                    [InterestMoneyLabel setAttributedText:noteStr];
+                }
                 
+              
                 
             }
         }else{
@@ -1683,7 +1684,20 @@
             
             NSInteger jifenStr =[_investmentHorizonStr integerValue]/30;
             float jifen = [BuyTextField.text integerValue]*jifenStr/100;
-            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+           // InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+            if ([_ScrollPercent isEqualToString:@"1"]) {
+                InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+            }else{
+                NSString *MoneyStr = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f×%@)",BuyTextField.text,resultStr,(jifen*1000)/1000,_ScrollPercent];
+                NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",MoneyStr]];
+                NSRange redRange = NSMakeRange([[noteStr string] rangeOfString:@"×"].location, [noteStr string].length-[[noteStr string] rangeOfString:@"×"].location-1);
+                //需要设置的位置
+                [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
+                [noteStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:redRange];
+
+                //设置颜色
+                [InterestMoneyLabel setAttributedText:noteStr];
+            }
         }
     }else{
         float text =[BuyTextField.text integerValue]*(([_PercentStr doubleValue]+[percent doubleValue])/100*[_investmentHorizonStr doubleValue]/365.0f);
@@ -1692,7 +1706,20 @@
 
         NSInteger jifenStr =[_investmentHorizonStr integerValue]/30;
         float jifen = [BuyTextField.text integerValue]*jifenStr/100;
-        InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+       // InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+        if ([_ScrollPercent isEqualToString:@"1"]) {
+            InterestMoneyLabel.text = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f)",BuyTextField.text,resultStr,(jifen*1000)/1000];
+        }else{
+            NSString *MoneyStr = [NSString stringWithFormat:@"%@+%.2f(积分:%.1f×%@)",BuyTextField.text,resultStr,(jifen*1000)/1000,_ScrollPercent];
+            NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@",MoneyStr]];
+            NSRange redRange = NSMakeRange([[noteStr string] rangeOfString:@"×"].location, [noteStr string].length-[[noteStr string] rangeOfString:@"×"].location-1);
+            //需要设置的位置
+            [noteStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:redRange];
+            [noteStr addAttribute:NSFontAttributeName value:[UIFont boldSystemFontOfSize:14] range:redRange];
+
+            //设置颜色
+            [InterestMoneyLabel setAttributedText:noteStr];
+        }
     }
 
 }
@@ -1849,6 +1876,13 @@
     [self refreshInvest];
     [alertView dismissAnimated:NO];
 
+}
+- (void) textFieldDidChange:(id) sender {
+    
+    
+//    [self ConfigInverest];
+//    [self refreshInvest];
+    
 }
 
 #pragma mark - 隐藏当前页面所有键盘-

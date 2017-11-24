@@ -207,8 +207,8 @@
      //   cell.connentLabel.text = [_dataArr objectAtIndex:indexPath.row];
     cell.connentLabel.text = [NSString stringWithFormat:@"%@",_dataArr[indexPath.row]];
   //  HQLAppLog(@"***%ld***",self.dex);
-    [cell.selectBtn setBackgroundImage:[UIImage imageNamed:@"b"] forState:UIControlStateNormal];
-    [cell.selectBtn setBackgroundImage:[UIImage imageNamed:@"b-_sel"] forState:UIControlStateSelected];
+    [cell.selectBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"empty_%ld",indexPath.row+1]] forState:UIControlStateNormal];
+    [cell.selectBtn setBackgroundImage:[UIImage imageNamed:[NSString stringWithFormat:@"hover_%ld",indexPath.row+1]] forState:UIControlStateSelected];
 
     
     NSDictionary *answerDict = [ZSSaveTools getUserInfoValueForKey:@"answerDict"];

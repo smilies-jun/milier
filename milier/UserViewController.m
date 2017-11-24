@@ -24,6 +24,8 @@
 #import "MyNewDinQiViewController.h"
 #import "UnYetMoneyViewController.h"
 #import "NewRiskViewController.h"
+#import "NewUnYetViewController.h"
+#import "DinQiMoneyViewController.h"
 
 
 @interface UserViewController ()<ZFCirqueChartDataSource, ZFCirqueChartDelegate>{
@@ -74,6 +76,8 @@
     //我的道具
     UIImageView *MyStageImageView;
     UILabel *MyStageLabel;
+    UILabel *ChoseLabel;
+    
     //分享邀请
     UIImageView *ShareImageView;
     UILabel *ShareLabel;
@@ -120,11 +124,7 @@
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
-    
     // Set the label text.
-    
     hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
 }
 - (void)StaticUserData{
@@ -648,6 +648,22 @@
             make.width.mas_equalTo(50);
             make.height.mas_equalTo(50);
         }];
+        
+        
+        ChoseLabel = [[UILabel alloc]init];
+        ChoseLabel.backgroundColor = [UIColor redColor];
+        ChoseLabel.textAlignment = NSTextAlignmentCenter;
+        ChoseLabel.layer.masksToBounds = YES;
+        ChoseLabel.textColor = [UIColor whiteColor];
+        ChoseLabel.layer.cornerRadius = 10;
+        [MyStageImageView addSubview:ChoseLabel];
+        [ChoseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.mas_equalTo(MyStageImageView.mas_right);
+            make.top.mas_equalTo(MyStageImageView.mas_top);
+            make.width.mas_equalTo(20);
+            make.height.mas_equalTo(20);
+        }];
+        
         MyStageLabel = [[UILabel alloc]init];
         MyStageLabel.text =  @"我的道具";
         MyStageLabel.textAlignment = NSTextAlignmentCenter;
@@ -1184,6 +1200,15 @@
         DinQiNumber.text = @"¥0.00";
         
     }
+    if ([[StaticUserDic objectForKey:@"increaseOrderCount"]doubleValue]) {
+       
+        ChoseLabel.hidden= NO;
+        ChoseLabel.text = [NSString stringWithFormat:@"%ld",[[StaticUserDic objectForKey:@"increaseOrderCount"]integerValue]];
+    }else{
+        ChoseLabel.hidden = YES;
+        
+    }
+    
     NSString *usernameStr = [UserDic objectForKey:@"realName"];
     if (usernameStr.length) {
         UserLabel.text = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"realName"]];
@@ -1235,8 +1260,10 @@
 }
 
 - (void)DaiShouClick{
-    UnYetMoneyViewController   *SetVC = [[UnYetMoneyViewController alloc]init];
+    NewUnYetViewController   *SetVC = [[NewUnYetViewController alloc]init];
     [self.navigationController   pushViewController:SetVC animated:NO];
+//    UnYetMoneyViewController   *SetVC = [[UnYetMoneyViewController alloc]init];
+//    [self.navigationController   pushViewController:SetVC animated:NO];
 }
 //金米宝详情
 - (void)jinmiClick{
@@ -1245,8 +1272,10 @@
 }
 //定期详情
 - (void)DinQiClick{
-    MyNewDinQiViewController *SetVC = [[MyNewDinQiViewController alloc]init];
+    DinQiMoneyViewController *SetVC = [[DinQiMoneyViewController alloc]init];
     [self.navigationController   pushViewController:SetVC animated:NO];
+//    MyNewDinQiViewController *SetVC = [[MyNewDinQiViewController alloc]init];
+//    [self.navigationController   pushViewController:SetVC animated:NO];
 }
 //余额
 - (void)LeftClick{

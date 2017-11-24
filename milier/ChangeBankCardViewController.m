@@ -17,6 +17,7 @@
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "ChoseBankTableViewCell.h"
 #import "ChoseModel.h"
+#import "UIButton+CountDown.h"
 
 @interface ChangeBankCardViewController ()<UITableViewDelegate,UITableViewDataSource>{
     CustomView *phoneNumView;
@@ -220,7 +221,7 @@
         make.height.mas_equalTo(30);
     }];
     _GetCode = [[UIButton alloc] init];
-    [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
+     [_GetCode fireWithTime:0 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
     [_GetCode setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     [_GetCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -517,7 +518,7 @@
         NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/unbundling",HOST_URL,userID];
         //NSString *tokenID = NSuserUse(@"Authorization");
         _second = 90;
-        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+        [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",bankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {

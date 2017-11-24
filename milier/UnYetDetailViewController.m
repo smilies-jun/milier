@@ -12,6 +12,7 @@
 #import "UnYetDetailTableViewCell.h"
 #import "MoneyModel.h"
 #import "YetDetailModel.h"
+#import "NewUnYetViewController.h"
 
 @interface UnYetDetailViewController ()<UITableViewDelegate,UITableViewDataSource>{
     NSMutableArray *YetListArray;
@@ -179,7 +180,7 @@
 
 - (void)UnYetDetailClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[UnYetMoneyViewController   class]]) {
+        if ([controller isKindOfClass:[NewUnYetViewController   class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

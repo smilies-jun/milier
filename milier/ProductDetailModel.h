@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface ProductDetailModel : NSObject
+@property(nonatomic,strong)NSString *scorePercent;//
 
 @property(nonatomic,strong)NSString *interestRate;//
 

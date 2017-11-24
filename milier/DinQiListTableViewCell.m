@@ -22,13 +22,17 @@
 - (void)configUI:(NSIndexPath *)indexPath{
     _ImageView = [[UIView alloc]init];
     _ImageView.backgroundColor = [UIColor orangeColor];
-    _ImageView.frame = CGRectMake(0, 25, 2, 60);
+    _ImageView.frame = CGRectMake(0, 25, 2, 80);
     [self addSubview:_ImageView];
+    
+    _iconImageView = [[UIImageView alloc]init];
+    _iconImageView.frame = CGRectMake(10, 32, 17, 17);
+    [self addSubview:_iconImageView];
     
     _DinQiLabel = [[UILabel alloc]init];
     _DinQiLabel.text = @"21324";
     _DinQiLabel.font = [UIFont systemFontOfSize:13];
-    _DinQiLabel.frame = CGRectMake(10, 32, SCREEN_WIDTH-20, 20);
+    _DinQiLabel.frame = CGRectMake(35, 32, SCREEN_WIDTH-20, 20);
     [self addSubview:_DinQiLabel];
     
     _DinQiDetailLabel = [[UILabel alloc]init];
@@ -71,7 +75,7 @@
 
     _RowImageView = [[UIImageView alloc]init];
     _RowImageView.image = [UIImage imageNamed:@"goarrow"];
-    _RowImageView.frame = CGRectMake(SCREEN_WIDTH - 38, 50, 18, 18);
+    _RowImageView.frame = CGRectMake(SCREEN_WIDTH - 38, 50, 10, 10);
     [self addSubview:_RowImageView];
 
 
@@ -126,7 +130,7 @@
             case 10:
                 _StateImageView.image = [UIImage imageNamed:@"huaizhang"];//
                 
-                break;
+                break;  
             default:
                 _StateImageView.image = [UIImage imageNamed:@"repayment"];//已到期
                 
@@ -135,32 +139,35 @@
         switch ([_DinqiModel.productCategoryId integerValue]) {
             case 1:
                 _ImageView.backgroundColor =  colorWithRGB(0.62, 0.80, 0.09);
-                
+                _iconImageView.image = [UIImage imageNamed:@"ge"];
                 break;
             case 2:
                 _ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
-                
+                _iconImageView.image = [UIImage imageNamed:@"qi"];
                 break;
             case 3:
                 _ImageView.backgroundColor =  colorWithRGB(0.99, 0.52, 0.18);
-                
+                _iconImageView.image = [UIImage imageNamed:@"qi"];
                 break;
             case 4:
                 _ImageView.backgroundColor =colorWithRGB(0.27, 0.78, 0.96);
-                
+                _iconImageView.image = [UIImage imageNamed:@"ge"];
                 break;
             case 5:
                 _ImageView.backgroundColor = colorWithRGB(0.31, 0.69, 1);
-                
+                _iconImageView.image = [UIImage imageNamed:@"wang"];
                 break;
             case 6:
                 _ImageView.backgroundColor = colorWithRGB(0.19, 0.39, 1);
+                _iconImageView.image = [UIImage imageNamed:@"zhai"];
                 break;
             case 7:
                 _ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+                _iconImageView.image = [UIImage imageNamed:@"xin"];
                 break;
             case 8:
                 _ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);
+                _iconImageView.image = [UIImage imageNamed:@"xin"];
                 break;
             default:
                 break;

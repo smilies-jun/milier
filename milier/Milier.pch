@@ -56,7 +56,7 @@
 #define PRODUCTO_RDERS_URL @"https://csapp.milibanking.com/app/productOrders"
 #define ACTIVITIES_URL @"https://csapp.milibanking.com/app/activities"
 
-//URL
+////URL
 //#define SMSAAA_URL @"http://192.168.1.110/app/bankValidate/" //短信验证
 //#define SMS_URL @"http://192.168.1.110/app/sms" //短信验证
 //#define LOGIN_URL @"http://192.168.1.110/app/tokens/createToken" //登录

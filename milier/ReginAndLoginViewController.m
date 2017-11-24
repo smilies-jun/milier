@@ -16,6 +16,7 @@
 #import "RegionProfileViewController.h"
 #import "ActivityDetailViewController.h"
 #import "YWDLoginViewController.h"
+#import "UIButton+CountDown.h"
 
 @interface ReginAndLoginViewController (){
     customWithStatic  *UsertPhoneView;
@@ -81,10 +82,12 @@
     
     
     _GetCode = [[UIButton alloc] init];
-    [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
+   // [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
+    [_GetCode fireWithTime:0 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
     [_GetCode setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     [_GetCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
     [_GetCode addTarget:self action:@selector(senderInputSecurityCodeBtnClicked) forControlEvents:UIControlEventTouchUpInside];
     [PhoneView addSubview:_GetCode];
     
@@ -282,6 +285,8 @@
 - (void)senderInputSecurityCodeBtnClicked
 
 {
+    
+    
    
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
@@ -290,9 +295,9 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
-
-        _second = 90;
-        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+           [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
+//        _second = 90;
+//        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
@@ -305,7 +310,7 @@
             }
             
         }];
-
+        
         
     
     }

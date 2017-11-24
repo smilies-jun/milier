@@ -33,25 +33,16 @@
     
     dataArray = [[NSMutableArray alloc]init];
     self.tableView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-    NSuserSave(@"6", @"qiye");
+    NSuserSave(@"3", @"qiye");
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-//    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-//    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-//        NSLog(@"re6666 == %@",result);
-//
-//        state = [result objectForKey:@"state"];
-//        increase_type = [result objectForKey:@"increase_type"];
-//        percent = [result objectForKey:@"percent"];
-//        [self getNetworkData:YES];
-//    }];
      [self getNetworkData:YES];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    NSuserSave(@"6", @"qiye");
+    NSuserSave(@"3", @"qiye");
     NSuserSave(@"0", @"MySatate");
 
    

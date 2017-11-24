@@ -11,6 +11,7 @@
 #import "TouUpViewController.h"
 #import "ModifySailViewController.h"
 #import "UserSetViewController.h"
+#import "UIButton+CountDown.h"
 
 @interface ConfirmBankViewController (){
     CustomView *phoneNumView;
@@ -138,7 +139,7 @@
     }];
     
     _GetCode = [[UIButton alloc] init];
-    [_GetCode setTitle:@"获取" forState:UIControlStateNormal];
+     [_GetCode fireWithTime:0 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
     _GetCode.titleLabel.font = [UIFont systemFontOfSize:16];
     [_GetCode setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     [_GetCode setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -245,7 +246,7 @@
         NSString *userID = NSuserUse(@"userId");
         NSString *url = [NSString stringWithFormat:@"%@/bankValidate/%@/validateBank",HOST_URL,userID];
 
-        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
+        [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {

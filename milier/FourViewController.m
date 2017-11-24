@@ -102,7 +102,6 @@
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             MesaageMoel *model = [[MesaageMoel alloc]init];
             model.dataDictionary = dic;
@@ -257,7 +256,7 @@
             
             NameLabel.text =moel.title;
             NSLog(@" == %@",moel.createTime);
-            NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd HH:MM:SS"];
+            NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd HH:mm"];
             
             timeLabel.text = timeStr;
         }
@@ -293,7 +292,7 @@
             
              NameLabel.text = moel.title;
 
-             NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd HH:MM:SS"];
+             NSString *timeStr = [self getTimeStr:moel.createTime withForMat:@"yyyy-MM-dd HH:mm"];
             
              timeLabel.text = timeStr;
         }

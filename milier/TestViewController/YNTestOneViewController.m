@@ -16,9 +16,7 @@
 @interface YNTestOneViewController (){
     NSMutableArray *dataArray;
     int type;
-    NSString *state;
-    NSString *increase_type;
-    NSString *percent;
+    
 }
 @end
 
@@ -33,14 +31,9 @@
     self.tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT -64-49);
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re1111 == %@",result);
-        state = [result objectForKey:@"state"];
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
-          [self getNetworkData:YES];
-    }];
+
+    [self getNetworkData:YES];
+
   
 
     NSString *wifeStr = NSuserUse(@"Net");
@@ -62,16 +55,9 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSuserSave(@"2", @"qiye");
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        state = [result objectForKey:@"state"];
-        NSuserSave([result objectForKey:@"state"], @"MySatate");
-        NSuserSave([result objectForKey:@"percent"], @"percent");
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
         [self getNetworkData:YES];
-    }];
+
     
 }
 - (void)loadoneNew{

@@ -148,6 +148,7 @@
     url = [NSString stringWithFormat:@"%@/%d",PRODUCTS_URL,_productID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         [_DataArray removeAllObjects];
+ 
             NSDictionary *dic = [result objectForKey:@"data"];
             ProductDetailModel *model = [[ProductDetailModel alloc]init];
             model.dataDictionary = dic;
@@ -389,6 +390,7 @@
                     ProductDetailModel *model = [_DataArray objectAtIndex:0];
                     SaleVC.productID = [NSString stringWithFormat:@"%ld",(long)_productCateID];
                     SaleVC.NameStr = model.name;
+                    SaleVC.ScrollPercent = model.scorePercent;
                     SaleVC.TotalStr = model.aggregateAmount;
                     SaleVC.SellStr = model.sellTotal;
                     SaleVC.PercentStr = model.interestRate;

@@ -178,7 +178,7 @@
 
 - (void)refreshData{
     UIImageView *LeftBtn = [[UIImageView alloc]init];
-    LeftBtn.frame = CGRectMake(0, 0, 28, 28);
+    LeftBtn.frame = CGRectMake(0, 0, 20, 20);
     LeftBtn.layer.masksToBounds = YES;
     LeftBtn.layer.cornerRadius = 14;
 //    if (@available(iOS 11.0, *)) {
@@ -215,14 +215,17 @@
                 NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
                 NSString *userImageStr = NSuserUse(@"avatar");
                 if (userImageStr.length) {
+                    LeftBtn.frame = CGRectMake(0, 0, 20, 20);
+                    LeftBtn.layer.masksToBounds = YES;
+                    LeftBtn.layer.cornerRadius = 14;
                     [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
                 }else{
-                    LeftBtn.image = [UIImage imageNamed:@"headpicUser@2x"];
+                    LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
                 }
                 [self RequestHead];
                 self.navigationItem.rightBarButtonItem = rightItem;
             }else{
-                LeftBtn.image = [UIImage imageNamed:@"headpicUser@2x"];
+                LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
                 self.navigationItem.rightBarButtonItem = nil;
             }
             
@@ -557,7 +560,7 @@
 //            make.height.mas_equalTo(20);
 //        }];
         ChangeImageView = [[UIImageView alloc]init];
-        ChangeImageView.tag = 6;
+        ChangeImageView.tag = 5;
         ChangeImageView.userInteractionEnabled = YES;
         UITapGestureRecognizer *ChangeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ChangeClick)];
         [ChangeImageView addGestureRecognizer:ChangeTap];
@@ -652,13 +655,13 @@
     [vc setPageScrollViewMenuSelectPageIndex:3 animated:NO];
     [alertView dismissAnimated:NO];
 }
-- (void)BuyClick{
+//- (void)BuyClick{
+//    [vc setPageScrollViewMenuSelectPageIndex:4 animated:NO];
+//    [alertView dismissAnimated:NO];
+//}
+- (void)ChangeClick{
     [vc setPageScrollViewMenuSelectPageIndex:4 animated:NO];
     [alertView dismissAnimated:NO];
-}
-- (void)ChangeClick{
-    [vc setPageScrollViewMenuSelectPageIndex:5 animated:NO];
-    [alertView dismissAnimated:NO];    
 }
 - (void)CancelClick{
     [alertView dismissAnimated:YES];
@@ -760,7 +763,7 @@
             [self NetClick];
             break;
         case 3:
-            [self BuyClick];
+            [self ChangeClick];
             break;
         case 4:
             [self PersonClick];
@@ -768,9 +771,7 @@
         case 5:
             [self ProClick];
             break;
-        case 6:
-            [self ChangeClick];
-            break;
+        
         default:
             break;
     }

@@ -29,15 +29,9 @@
 
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"");
-        state = [result objectForKey:@"state"];
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
         [self getNetworkData:YES];
-    }];
+
     
     
 }
@@ -45,33 +39,17 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     NSuserSave(@"1", @"qiye");
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
-    
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        state = [result objectForKey:@"state"];
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
-        NSuserSave([result objectForKey:@"state"], @"MySatate");
-        NSuserSave([result objectForKey:@"percent"], @"percent");
+
         [self getNetworkData:YES];
-    }];
+
 }
 
 
 - (void)loadoneNew{
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"1111111");
-        state = [result objectForKey:@"state"];
-         NSuserSave([result objectForKey:@"state"], @"MySatate");
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
-        NSuserSave([result objectForKey:@"percent"], @"percent");
-        NSLog(@"sta1111111=== %@",state);
 
         [self getNetworkData:YES];
-    }];
+
     
 }
 - (void)loadoneMore{

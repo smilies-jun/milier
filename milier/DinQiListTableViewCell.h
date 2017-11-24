@@ -10,7 +10,7 @@
 #import "DinQiModel.h"
 
 @interface DinQiListTableViewCell : UITableViewCell
-
+@property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UIView *ImageView;
 @property (nonatomic, strong) UILabel *DinQiLabel;
 @property (nonatomic, strong) UILabel *DinQiDetailLabel;

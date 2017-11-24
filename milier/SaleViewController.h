@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface SaleViewController : UIViewController
+@property (nonatomic,strong)NSString *ScrollPercent;
 @property (nonatomic,strong)NSString *Percent;
 @property (nonatomic,strong)NSString *State;
 @property (nonatomic,strong)NSString *NameStr;

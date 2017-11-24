@@ -13,6 +13,8 @@
 #import "ProfileModel.h"
 #import "MyNewDinQiDetailViewController.h"
 #import "MyNewDinQiViewController.h"
+#import "DinQiMoneyViewController.h"
+
 @interface OldProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *AddArray;
 
@@ -173,6 +175,11 @@
 - (void)OldProfitClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
         if ([controller isKindOfClass:[MyNewDinQiViewController   class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[DinQiMoneyViewController  class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

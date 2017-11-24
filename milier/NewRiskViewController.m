@@ -298,7 +298,7 @@
     [leftBtn addTarget:self action:@selector(RiskTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    self.view.backgroundColor = colorWithRGB(0.87, 0.87, 0.87);
+    self.view.backgroundColor = colorWithRGB(0.94, 0.94, 0.94);
     [self reloadData];
     self.IsPractice = YES;
     
@@ -328,7 +328,7 @@
     [self.view addSubview:_TotalImageView];
     [_TotalImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(80);
-        make.top.mas_equalTo(self.view.mas_top).offset(10);
+        make.top.mas_equalTo(self.view.mas_top).offset(15);
         make.width.mas_equalTo(13);
         make.height.mas_equalTo(13);
     }];
@@ -396,7 +396,7 @@
     
     static NSString *Idenfire = @"tadayExamCollectionViewCell";
     UICollectionViewCell *mycell = [collectionView dequeueReusableCellWithReuseIdentifier:Idenfire forIndexPath:indexPath];
-    
+    mycell.layer.cornerRadius = 20;
     if (mycell) {
         
         for (UIView *view in mycell.contentView.subviews) {
@@ -404,7 +404,7 @@
                 [view removeFromSuperview];
             }}}
     
-    
+  
     __weak typeof(self)weakSelf = self;
     self.pathArr = [NSMutableArray array];
         //单选
@@ -418,7 +418,7 @@
     
     
         _MyTable = [SingChooseTableView ShareTableWithFrame:CGRectMake(0, 40, SCREEN_WIDTH-40, self.view.frame.size.height-160)];
-    
+    _MyTable.layer.cornerRadius =20;
         NSMutableArray *dateArray = [[NSMutableArray alloc]init];
         NSArray *myArray = [OptionesArray objectAtIndex:indexPath.row];
         for (int i=0; i<5; i++) {
@@ -470,6 +470,8 @@
     ResultBtn.backgroundColor = [UIColor orangeColor];
     ResultBtn.tintColor = [UIColor whiteColor];
     [mycell.contentView addSubview:ResultBtn];
+   
+    
     return mycell;
 }
 
