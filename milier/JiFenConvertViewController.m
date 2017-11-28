@@ -100,20 +100,25 @@ static NSString * const cellId = @"CovertcellID";
             [SectionArray addObject:[NSString stringWithFormat:@"%d",rows]];
 
         }
-        NSLog(@"=====%@",result);
         if (DuiHuanArray.count) {
             [self makeData];
             [self.tableView reloadData];
-            [self endRefresh];
         }
-        
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
          [self endRefresh];
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
 }
 
-
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+}
 
 
 /**
@@ -174,7 +179,7 @@ static NSString * const cellId = @"CovertcellID";
                 
                 CGFloat statuesFloat = [DuiHuanTableViewCell tableView:tableView rowHeightForObject:[SectionArray objectAtIndex:indexPath.section]];
                 
-                return statuesFloat;
+                return statuesFloat+20;
             }else{
                 return 100;
             }

@@ -125,7 +125,9 @@
         
         [self.tableView reloadData];
 
-
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];
     }];
@@ -133,7 +135,12 @@
 
 
 }
-
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
+}
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (MyChangeArray.count) {

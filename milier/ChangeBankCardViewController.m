@@ -479,11 +479,12 @@
 
 
 - (void)forgetSenderCodeBtnClicked{
-    if (phoneNumView.NameTextField.text.length) {
-        [self codeGet];
-    }else{
-        normal_alert(@"提示", @"手机号码不可为空", @"确定");
-    }
+//    if (phoneNumView.NameTextField.text.length) {
+//
+//    }else{
+//        normal_alert(@"提示", @"手机号码不可为空", @"确定");
+//    }
+     [self codeGet];
 }
 
 
@@ -518,14 +519,16 @@
         NSString *url = [NSString stringWithFormat:@"%@/bankCards/%@/unbundling",HOST_URL,userID];
         //NSString *tokenID = NSuserUse(@"Authorization");
         _second = 90;
-        [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
+     
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",bankID,@"bankId",SurePassWordView.NameTextField.text,@"branchBank",NewPassWordView.NameTextField.text,@"bankCardNumber",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
           //  NSLog(@"re == %@",result);
+               [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
             if ([[result objectForKey:@"statusCode"]integerValue]==200 ) {
                 OrderID = [[result objectForKey:@"data"]objectForKey:@"orderNo"];
                 normal_alert(@"提示", @"验证码已发送", @"确定");
+                   [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
             }else{
                 NSString *ErrorMessage = [result objectForKey:@"message"];
                 normal_alert(@"提示", ErrorMessage, @"确定");

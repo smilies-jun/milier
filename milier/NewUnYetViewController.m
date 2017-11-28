@@ -101,7 +101,7 @@
     configration.showNavigation = YES;
     configration.showTabbar = NO;//设置显示tabbar
     configration.showPersonTab = NO;
-    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five] titles:@[@"全部  ",@"计息中  ",@"逾期中  ",@"坏账  ",@"已还款  "] Configration:configration];
+    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five] titles:@[@"全部  ",@"计息中  ",@"逾期  ",@"坏账  ",@"已还款  "] Configration:configration];
     vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 44);
     vc.dataSource = self;
     vc.delegate = self;

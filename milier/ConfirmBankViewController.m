@@ -246,12 +246,15 @@
         NSString *userID = NSuserUse(@"userId");
         NSString *url = [NSString stringWithFormat:@"%@/bankValidate/%@/validateBank",HOST_URL,userID];
 
-        [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
+     
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",userID,@"userId",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+               [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
             if ([[result objectForKey:@"success"]integerValue]==200 ) {
+                
                 orderStr = [[result objectForKey:@"data"]objectForKey:@"orderNo"];
+           
                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{
                 NSString *ErrorMessage = [result objectForKey:@"message"];

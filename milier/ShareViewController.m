@@ -175,7 +175,7 @@
     titlelabel.textAlignment = NSTextAlignmentCenter;
     titlelabel.font = [UIFont systemFontOfSize:15];
     titlelabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
-    titlelabel.text =[NSString stringWithFormat:@"已获得%@个红包，还有%@个红包未领取",[UserDic objectForKey:@"receivedPropsCount"],[UserDic objectForKey:@"noneReceivedPropsCount"]] ;
+    titlelabel.text =[NSString stringWithFormat:@"已获得%@个道具，还有%@个道具未领取",[UserDic objectForKey:@"receivedPropsCount"],[UserDic objectForKey:@"noneReceivedPropsCount"]] ;
     [titleview addSubview:titlelabel];
     [titlelabel  mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(titleview.mas_centerX);

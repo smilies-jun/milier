@@ -74,6 +74,7 @@
         
        
     }];
+    NSLog(@"pa==%@",parameters);
     __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
     [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
         parameter = result;

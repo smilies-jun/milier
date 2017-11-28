@@ -18,9 +18,8 @@
 #import "BundCardViewController.h"
 #import "TouUpViewController.h"
 #import "BundProfileViewController.h"
-#import "RiskViewController.h"
 #import "MSNumberScrollAnimatedView.h"
-
+#import "NewRiskViewController.h"
 
 
 @interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate>{
@@ -959,7 +958,7 @@
    
     if (ClickBtn.selected) {
         NSString *userID = NSuserUse(@"userId");
-        NSString *riskID = NSuserUse(@"riskLevel");
+        NSString *riskID = userRiskStr;
     
         if ([userID integerValue] > 0) {
             if ([BankStatus integerValue] ==1) {
@@ -1015,7 +1014,7 @@
 
                                 }else{
                                     //风险测试
-                                    RiskViewController *RiskVC = [[RiskViewController alloc]init];
+                                    NewRiskViewController *RiskVC = [[NewRiskViewController alloc]init];
                                     [self.navigationController   pushViewController:RiskVC animated:NO];
                                 }
                                 
@@ -1075,12 +1074,23 @@
 - (void)WriteSailPassWord{
         if ([StageOid isEqualToString:@"-1"]) {
             StageOid = @"-1";
-              [self BUY];
+            if (PassWordTextField.text.length) {
+                [self BUY];
+            }else{
+                  [self HideProgress];
+                  normal_alert(@"提示", @"交易密码不得为空", @"确定");
+            }
+            
                 
         }else{
             if ([BuyTextField.text integerValue] >= [StageChoseStr integerValue]) {
-                
-                [self BUY];
+                if (PassWordTextField.text.length) {
+                    [self BUY];
+                }else{
+                      [self HideProgress];
+                      normal_alert(@"提示", @"交易密码不得为空", @"确定");
+                }
+               
                 
             }else{
                 [self HideProgress];
@@ -1096,9 +1106,15 @@
     NSString *Bottomurl;
     NSString *tokenID = NSuserUse(@"Authorization");
     Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
-    NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
+    NSMutableDictionary   *dic;
+    if ([StageOid integerValue]) {
+          dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
+    }else{
+         dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",@"-1",@"propId",PassWordTextField.text,@"dealPassword",nil];
+    }
+    NSLog(@"dic = %@",dic);
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re 购买== %@",result);
+        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             [self HideProgress];
             //UIAlertController风格：UIAlertControllerStyleAlert

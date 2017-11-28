@@ -261,6 +261,7 @@
     }
     
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:USER_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             NSDictionary *dic = [result objectForKey:@"data"];
             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
@@ -295,13 +296,15 @@
         normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
-           [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
+        
 //        _second = 90;
 //        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+               [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
                         if ([[result objectForKey:@"success"]integerValue]==1 ) {
+                          
                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{
                 NSString *ErrorMessage = [result objectForKey:@"message"];

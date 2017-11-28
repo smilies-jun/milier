@@ -17,6 +17,7 @@
 
 @interface OldProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *AddArray;
+    NSMutableArray *MyArray;
 
 }
 @property (nonatomic,strong)UITableView *tableView;
@@ -36,9 +37,10 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     AddArray = [[NSMutableArray alloc]init];
+    MyArray  = [[NSMutableArray alloc]init];
     [self ConfigUI];
 
-    [self getNetworkData:YES];
+    //[self getNetworkData:YES];
 
 }
 
@@ -91,15 +93,16 @@
 //            url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?page=%d&rows=20&userId=2&productCategoryId=0",HOST_URL,userID,page];
 //            
 //        }
-    [AddArray removeAllObjects];
     url = [NSString stringWithFormat:@"%@/users/%@/yesterdayEarnings?productCategoryId=0",HOST_URL,userID];
 
     [AddArray removeAllObjects];
+    [MyArray removeAllObjects];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSArray *myArray = [result objectForKey:@"items"];
-      //  NSLog(@"re == %@",result);
-        if (myArray.count) {
-            for (NSDictionary *NewDic in myArray) {
+    
+        MyArray = [result objectForKey:@"items"];
+       NSLog(@"re == %@",result);
+        if (MyArray.count) {
+            for (NSDictionary *NewDic in MyArray) {
                 ProfileModel *model = [[ProfileModel alloc]init];
                 model.dataDictionary = NewDic;
                 [AddArray addObject:model];
@@ -108,9 +111,18 @@
 
         }
         [self endRefresh];
-        
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
        
     }];
+}
+
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

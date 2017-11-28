@@ -66,18 +66,18 @@
     }
 }
 - (void)initUI{
-    phoneNumView = [[CustomView alloc]init];
-    phoneNumView.NameLabel.text = @"手机号码:";
-    phoneNumView.NameTextField.placeholder = @"请输入手机号";
-    phoneNumView.NameTextField.delegate = self;
-    phoneNumView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
-    [self.view addSubview:phoneNumView];
-    [phoneNumView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.view.mas_top).offset(15);
-        make.width.mas_equalTo(SCREEN_WIDTH);
-        make.height.mas_equalTo(40);
-    }];
+//    phoneNumView = [[CustomView alloc]init];
+//    phoneNumView.NameLabel.text = @"手机号码:";
+//    phoneNumView.NameTextField.placeholder = @"请输入手机号";
+//    phoneNumView.NameTextField.delegate = self;
+//    phoneNumView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
+//    [self.view addSubview:phoneNumView];
+//    [phoneNumView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.mas_equalTo(self.view.mas_left);
+//        make.top.mas_equalTo(self.view.mas_top).offset(15);
+//        make.width.mas_equalTo(SCREEN_WIDTH);
+//        make.height.mas_equalTo(40);
+//    }];
     
     CodeNumView = [[CustomView alloc]init];
     CodeNumView.NameLabel.text = @"短信验证码:";
@@ -94,7 +94,7 @@
     [self.view addSubview:CodeNumView];
     [CodeNumView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(phoneNumView.mas_bottom).offset(15);
+        make.top.mas_equalTo(self.view.mas_top).offset(15);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(40);
     }];
@@ -239,30 +239,35 @@
 
 
 - (void)forgetSenderCodeBtnClicked{
-    if (phoneNumView.NameTextField.text.length) {
-        [self codeGet];
-    }else{
-        normal_alert(@"提示", @"手机号码不可为空", @"确定");
-    }
+//    if (phoneNumView.NameTextField.text.length) {
+//
+//    }else{
+//        normal_alert(@"提示", @"手机号码不可为空", @"确定");
+//    }
+     [self codeGet];
 }
 
 
 
 - (void)codeGet{
-   
+   NSString *phone =  NSuserUse(@"phone_My");
+    NSLog(@"ph == %@",phone);
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
-    BOOL isMatch  = [phoneTest evaluateWithObject:phoneNumView.NameTextField.text];
+    BOOL isMatch  = [phoneTest evaluateWithObject:phone];
     if (!isMatch) {
-        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
+       //normal_alert(@"提示", @"请输入正确的手机号", @"确定");
         
     }else{
-        [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
-        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"6",@"type",nil];
+    
+        NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phone,@"phoneNumber",@"6",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+               [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
             if ([[result objectForKey:@"success"]integerValue]==1 ) {
-                normal_alert(@"提示", @"验证码已发送", @"确定");
+               
+                
+                 normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{
                 NSString *ErrorMessage = [result objectForKey:@"message"];
                 normal_alert(@"提示", ErrorMessage, @"确定");

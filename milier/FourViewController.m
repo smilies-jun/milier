@@ -115,6 +115,9 @@
         }
         
         [self endRefresh];
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
 //        _MessageArray = [result objectForKey:@"items"];
 //        [self makeData];
 //        [self HideProgress];
@@ -124,6 +127,12 @@
     }];
     
     
+}
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 - (void)loadoneNew{
     [self getNetworkData:YES];

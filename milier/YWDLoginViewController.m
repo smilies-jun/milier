@@ -292,12 +292,14 @@
                 if (_PassWordTextField.text.length >= 6) {
                     NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithObjectsAndKeys:_PhoneTextField.text,@"username",_PassWordTextField.text,@"password",nil];
                     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:LOGIN_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+                        NSLog(@"re == %@",result);
                         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
                             NSDictionary *dic = [result objectForKey:@"data"];
                             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
                             NSuserSave([dic objectForKey:@"userId"], @"userId");
                             NSuserSave(@"1", @"heafresh");
                             NSuserRemove(@"tokenIDisOraNo");
+                            NSuserSave(_PhoneTextField.text, @"phone_My");
                             //                        if (_Type == 1) {
                             //                            //  返回指定页面
                             ////                            for (UIViewController *controller in self.navigationController.viewControllers) {

@@ -113,13 +113,23 @@
             model.dataDictionary = dic;
             [JiFenArray addObject:model];
         }
+        
         [self.tableView reloadData];
         
         [self endRefresh];
-       
+        if ([[result objectForKey:@"items"]count]==0    ) {
+            [self reset];
+        }
     }];
     
     
+}
+
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -134,7 +144,7 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    return 100;
+    return 110;
     
 }
 

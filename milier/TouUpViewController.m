@@ -234,7 +234,6 @@ static LLPayType payType = LLPayTypeVerify;
     BankStrUrl = [NSString stringWithFormat:@"%@/bankCards/%@",HOST_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:BankStrUrl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *erro) {
         NSString *statuesCode = [result objectForKey:@"statusCode"];
-        NSLog(@"  银行==%@",result);
         if ([statuesCode integerValue] == 200) {
             myBankDic = [result objectForKey:@"data"];
             [self showProgress];

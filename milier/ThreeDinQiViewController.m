@@ -43,7 +43,7 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     
-    [self getNetworkData:YES];
+   // [self getNetworkData:YES];
     
     
     
@@ -84,10 +84,10 @@
     NSString *url;
     
     if (isRefresh) {
-        url = [NSString stringWithFormat:@"%@?page=1&rows=20&userId=%@&productCategoryId=0&state=2",PRODUCTO_RDERS_URL,userID];
+        url = [NSString stringWithFormat:@"%@?page=1&rows=20&userId=%@&productCategoryId=0&state=5",PRODUCTO_RDERS_URL,userID];
         
     }else{
-        url = [NSString stringWithFormat:@"%@?page=%d&rows=20&userId=%@&productCategoryId=0&state=2",PRODUCTO_RDERS_URL,page,userID];
+        url = [NSString stringWithFormat:@"%@?page=%d&rows=20&userId=%@&productCategoryId=0&state=5",PRODUCTO_RDERS_URL,page,userID];
         
     }
     
@@ -103,11 +103,19 @@
         [self endRefresh];
         [self.tableView reloadData];
         
-        
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
         
         
     }];
     
+}
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 - (void)endRefresh{
     [self.tableView.mj_header endRefreshing];
@@ -165,12 +173,14 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     
-    MyNewDinQiDetailViewController *sVC = [[MyNewDinQiDetailViewController alloc] init];
-    DinQiModel *model = [dataArray objectAtIndex:indexPath.row];
-    sVC.oid = model.oid;
-    sVC.Type = model.transferable;
-    sVC.State = model.state;
-    [self.navigationController pushViewController:sVC animated:NO];
+    if (dataArray.count) {
+        MyNewDinQiDetailViewController *sVC = [[MyNewDinQiDetailViewController alloc] init];
+        DinQiModel *model = [dataArray objectAtIndex:indexPath.row];
+        sVC.oid = model.oid;
+        sVC.Type = model.transferable;
+        sVC.State = model.state;
+        [self.navigationController pushViewController:sVC animated:NO];
+    }
     
     
 }

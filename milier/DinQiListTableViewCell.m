@@ -139,7 +139,7 @@
         switch ([_DinqiModel.productCategoryId integerValue]) {
             case 1:
                 _ImageView.backgroundColor =  colorWithRGB(0.62, 0.80, 0.09);
-                _iconImageView.image = [UIImage imageNamed:@"ge"];
+                _iconImageView.image = [UIImage imageNamed:@"wang"];
                 break;
             case 2:
                 _ImageView.backgroundColor = colorWithRGB(0.99, 0.79, 0.09);

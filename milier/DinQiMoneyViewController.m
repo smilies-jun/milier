@@ -123,7 +123,7 @@
     configration.showNavigation = YES;
     configration.showTabbar = NO;//设置显示tabbar
     configration.showPersonTab = NO;
-    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six,seven] titles:@[@"全部",@"募集期",@"转让中",@"计息期",@"已到期",@"逾期",@"坏账"] Configration:configration];
+    vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:@[one,two,three,four,five,six,seven] titles:@[@"全部",@"募集期",@"转让中",@"计息中",@"已还款",@"逾期",@"坏账"] Configration:configration];
     vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-44);
     vc.dataSource = self;
     vc.delegate = self;
@@ -264,7 +264,7 @@
             make.height.mas_equalTo(68);
         }];
         PersonLabel = [[UILabel alloc]init];
-        PersonLabel.text = @"计息期";
+        PersonLabel.text = @"计息中";
         PersonLabel.textAlignment = NSTextAlignmentCenter;
 
         PersonLabel.font = [UIFont systemFontOfSize:13];
@@ -295,7 +295,7 @@
                     make.height.mas_equalTo(68);
                 }];
                 BuyCarLabel = [[UILabel alloc]init];
-                BuyCarLabel.text = @"已到期";
+                BuyCarLabel.text = @"已还款";
                 BuyCarLabel.textAlignment = NSTextAlignmentCenter;
         
                 BuyCarLabel.font = [UIFont systemFontOfSize:13];

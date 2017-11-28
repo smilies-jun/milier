@@ -32,7 +32,7 @@
     NumberLabel = [[UILabel alloc]init];
     NumberLabel.text = @"";
     NumberLabel.textColor = colorWithRGB(0.63, 0.63, 0.63);
-    NumberLabel.font = [UIFont systemFontOfSize:12];
+    NumberLabel.font = [UIFont systemFontOfSize:14];
     NumberLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:NumberLabel];
     [NumberLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -84,7 +84,7 @@
         make.height.mas_equalTo(30);
     }];
     MoneyPercentLabel = [[UILabel alloc]init];
-    MoneyPercentLabel.font = [UIFont systemFontOfSize:13];
+    MoneyPercentLabel.font = [UIFont systemFontOfSize:14];
     MoneyPercentLabel.textAlignment = NSTextAlignmentLeft;
     [imageView addSubview:MoneyPercentLabel];
     [MoneyPercentLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -97,7 +97,7 @@
     
     BondLabel = [[UILabel alloc]init];
     BondLabel.text = @"";
-    BondLabel.font = [UIFont systemFontOfSize:12];
+    BondLabel.font = [UIFont systemFontOfSize:14];
     BondLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:BondLabel];
     [BondLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -109,7 +109,7 @@
     
     BondTimeLabel = [[UILabel alloc]init];
     BondTimeLabel.text = @"";
-    BondTimeLabel.font = [UIFont systemFontOfSize:12];
+    BondTimeLabel.font = [UIFont systemFontOfSize:14];
     BondTimeLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:BondTimeLabel];
     [BondTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -121,13 +121,13 @@
     
     PercentProfitLabel = [[UILabel alloc]init];
     PercentProfitLabel.text = @"";
-    PercentProfitLabel.font = [UIFont systemFontOfSize:12];
+    PercentProfitLabel.font = [UIFont systemFontOfSize:14];
     PercentProfitLabel.textAlignment = NSTextAlignmentCenter;
     [imageView addSubview:PercentProfitLabel];
     [PercentProfitLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(BondLabel.mas_centerX);
         make.top.mas_equalTo(BondTimeLabel.mas_bottom).offset(2);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     

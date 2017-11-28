@@ -272,7 +272,6 @@
        
         _productMoel = productMoel;
         
-        NSLog(@"1 = %@   2=%@",_productMoel.activity_state,_productMoel.percent);
         if ([_productMoel.activity_state integerValue] ==1) {
             _MoneyPercentLabel.hidden = NO;
             if ([_productMoel.increase_type integerValue] ==1) {

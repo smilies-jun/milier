@@ -7,7 +7,6 @@
 //
 
 #import "MyNewDinQiDetailViewController.h"
-#import "MyNewDinQiViewController.h"
 #import "DinQiModel.h"
 #import "DinQiListTableViewCell.h"
 #import "DinQiSaleTableViewCell.h"
@@ -124,7 +123,7 @@
         make.width.mas_equalTo(SCREEN_WIDTH/2-30);
         make.height.mas_equalTo(40);
     }];
-        UILabel *CashLabel =[[UILabel alloc]init];
+    UILabel *CashLabel =[[UILabel alloc]init];
     CashLabel.text = @"查看协议";
     CashLabel.userInteractionEnabled = YES;
     UITapGestureRecognizer *CashTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(SayClick)];
@@ -144,14 +143,14 @@
         make.height.mas_equalTo(40);
     }];
     if ([_Type integerValue] == 1) {
-        PayLabel.hidden = NO;
-        if ([_State integerValue]  == 2) {
+//        PayLabel.hidden = NO;
+//        if ([_State integerValue]  == 2) {
             [PayLabel setTitle:@"债权转让" forState:UIControlStateNormal];
-            
-        }else{
-            
-            
-        }
+//
+//        }else{
+//
+//            //[PayLabel setTitle:@"取消转让" forState:UIControlStateNormal];
+//        }
     }else{
         if ([_State integerValue]  == 5) {
             [PayLabel setTitle:@"取消转让" forState:UIControlStateNormal];
@@ -216,7 +215,7 @@
                     if ([state integerValue]  == 201) {
                         [self getNetworkData:YES];
                         for (UIViewController *controller in self.navigationController.viewControllers) {
-                            if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
+                            if ([controller isKindOfClass:[DinQiMoneyViewController class]]) {
                                 [self.navigationController popToViewController:controller animated:YES];
                             }
                         }

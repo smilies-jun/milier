@@ -40,7 +40,7 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
 
-        [self getNetworkData:YES];
+       // [self getNetworkData:YES];
 
     
     
@@ -89,7 +89,6 @@
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"date =%@",dataArray);
         NSArray *myArray = [result objectForKey:@"items"];
         for (NSDictionary *JinMidic in myArray) {
             
@@ -99,12 +98,20 @@
         }
         [self endRefresh];
         [self.tableView reloadData];
-        
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
         
         
         
     }];
     
+}
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 - (void)endRefresh{
     [self.tableView.mj_header endRefreshing];
@@ -167,13 +174,15 @@
     
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-
+    if (dataArray.count) {
         MyNewDinQiDetailViewController *sVC = [[MyNewDinQiDetailViewController alloc] init];
         DinQiModel *model = [dataArray objectAtIndex:indexPath.row];
         sVC.oid = model.oid;
         sVC.Type = model.transferable;
         sVC.State = model.state;
         [self.navigationController pushViewController:sVC animated:NO];
+    }
+    
 
     
 }

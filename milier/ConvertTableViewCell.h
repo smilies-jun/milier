@@ -18,12 +18,12 @@
 @property (nonatomic , retain) UILabel *NameDetailLabel;
 
 @property (nonatomic , retain) UILabel *MyJiFenLabel;
-
+@property (nonatomic , retain) UILabel *OldZheLabel;
 @property (nonatomic , retain) UILabel *ProductLabel;
 
 @property (nonatomic , retain) UIImageView *GorrowView;
 
-
+@property (nonatomic , retain) UIImageView *zheImageView;
 @property(nonatomic, retain)giftModel *GiftModel;
 
 - (void)setGiftModel:(giftModel *)GiftModel;

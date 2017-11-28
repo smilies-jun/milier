@@ -25,7 +25,16 @@
         make.width.mas_equalTo(90);
         make.height.mas_equalTo(90);
     }];
-    
+    _zheImageView = [[UIImageView alloc]init];
+    _zheImageView.image= [UIImage imageNamed:@"65zhe"];
+    _zheImageView.backgroundColor = [UIColor clearColor];
+    [_NameImageView addSubview:_zheImageView];
+    [_zheImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_NameImageView.mas_left);
+        make.top.mas_equalTo(_NameImageView.mas_top);
+        make.width.mas_equalTo(45);
+        make.height.mas_equalTo(45);
+    }];
     _NameLabel = [[UILabel alloc]init];
     _NameLabel.text =@"";
     _NameLabel.numberOfLines = 0;
@@ -53,6 +62,8 @@
         make.width.mas_equalTo(SCREEN_WIDTH-150);
         make.height.mas_equalTo(40);
     }];
+  
+    
     
     _MyJiFenLabel = [[UILabel alloc]init];
     _MyJiFenLabel.text= @"积分：";
@@ -64,11 +75,22 @@
     [self addSubview:_MyJiFenLabel];
     [_MyJiFenLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
-        make.top.mas_equalTo(_NameDetailLabel.mas_bottom);
-        make.width.mas_equalTo(100);
+        make.bottom.mas_equalTo(self.mas_bottom);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
+    _OldZheLabel = [[UILabel alloc]init];
+    _OldZheLabel.text= @"积分：";
+    _OldZheLabel.textColor = colorWithRGB(0.53, 0.53, 0.53);
+    _OldZheLabel.font = [UIFont systemFontOfSize:15];
     
+    [self addSubview:_OldZheLabel];
+    [_OldZheLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_NameImageView.mas_right).offset(10);
+        make.bottom.mas_equalTo(_MyJiFenLabel.mas_top);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(20);
+    }];
     _GorrowView = [[UIImageView alloc]init];
     _GorrowView.image = [UIImage imageNamed:@"goarrow"];
     [self addSubview:_GorrowView];
@@ -97,7 +119,26 @@
         [_NameImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_GiftModel.image]] placeholderImage:[UIImage imageNamed:@"jifenpic"]];
         _NameLabel.text =[NSString stringWithFormat:@"%@",_GiftModel.name];
         _NameDetailLabel.text =[NSString stringWithFormat:@"%@",_GiftModel.desc];
-        _MyJiFenLabel.text= [NSString stringWithFormat:@"积分:%@",_GiftModel.score];
+        if ([_GiftModel.oldScore integerValue]) {
+            NSString *myStr =[NSString stringWithFormat:@"积分:%@",_GiftModel.oldScore];
+            NSDictionary *attribtDic = @{NSStrikethroughStyleAttributeName: [NSNumber numberWithInteger:NSUnderlineStyleSingle]};
+            NSMutableAttributedString *attribtStr = [[NSMutableAttributedString alloc]initWithString:myStr attributes:attribtDic];
+            _OldZheLabel.attributedText = attribtStr;
+            _OldZheLabel.hidden = NO;
+            _MyJiFenLabel.text= [NSString stringWithFormat:@"促销积分:%@",_GiftModel.score];
+        }else{
+             _MyJiFenLabel.text= [NSString stringWithFormat:@"积分:%@",_GiftModel.score];
+            _OldZheLabel.hidden = YES;
+        }
+       
+      
+        if ([_GiftModel.promotion integerValue]) {
+            _zheImageView.hidden= NO;
+            _zheImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@zhe",_GiftModel.discount]];
+        }else{
+            _zheImageView.hidden= YES;
+
+        }
 
     }
 }

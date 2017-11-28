@@ -618,11 +618,11 @@ static NSString * const ID = @"CollectionCell";
 
 - (void)SureBackBtn{
      [alertView dismissAnimated:NO];
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[UserViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
+//    for (UIViewController *controller in self.navigationController.viewControllers) {
+//        if ([controller isKindOfClass:[UserViewController class]]) {
+//            [self.navigationController popToViewController:controller animated:YES];
+//        }
+//    }
 }
 - (void)ShowAlert{
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 500)];

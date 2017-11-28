@@ -93,10 +93,20 @@
             model.dataDictionary = NewDic;
             [dataArray addObject:model];
         }
-        [self.tableView reloadData];
-        isFirstCome = NO;
+        if (myArray.count) {
+            [self.tableView reloadData];
+            isFirstCome = NO;
+        }else{
+            [self reset];
+        }
     }];
     
+}
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 - (void)endRefresh{
     [self.tableView.mj_header endRefreshing];

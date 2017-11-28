@@ -110,6 +110,9 @@
         }
         
     }
+    if (page == 1) {
+        [AddArray removeAllObjects];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *myArray = [result objectForKey:@"items"];
         isJuhua = NO;
@@ -130,12 +133,22 @@
             [self endRefresh];
             [self.tableView reloadData];
             isFirstCome = NO;
+            if ([[result objectForKey:@"items"]count]==0) {
+                [self reset];
+            }
         }
         
     }];
     
 
 
+}
+
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 //设置行数
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{

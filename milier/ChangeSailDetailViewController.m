@@ -13,7 +13,7 @@
 #import "DataChoseView.h"
 #import "WSDatePickerView.h"
 #import "DinQiDeatilViewController.h"
-#import "MyNewDinQiViewController.h"
+#import "DinQiMoneyViewController.h"
 
 @interface ChangeSailDetailViewController ()<UITextFieldDelegate>{
     UIView *TopView;
@@ -359,7 +359,7 @@
                                 [self HideProgress];
                                 normal_alert(@"提示", @"提交成功", @"确定");
                                     for (UIViewController *controller in self.navigationController.viewControllers) {
-                                        if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
+                                        if ([controller isKindOfClass:[DinQiMoneyViewController class]]) {
                                             [self.navigationController popToViewController:controller animated:YES];
                                         }
                                     }
@@ -435,7 +435,7 @@
 }
 - (void)DetailChangeClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[MyNewDinQiViewController class]]) {
+        if ([controller isKindOfClass:[DinQiMoneyViewController class]]) {
             [self.navigationController popToViewController:controller animated:YES];
         }
     }

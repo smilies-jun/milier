@@ -86,8 +86,17 @@
         }
         [self endRefresh];
         [self.tableView reloadData];
+        if ([[result objectForKey:@"items"]count]==0) {
+            [self reset];
+        }
     }];
     
+}
+- (void)reset{
+    [self.tableView reloadData];
+    
+    // 拿到当前的上拉刷新控件，变为没有更多数据的状态
+    [self.tableView.mj_footer endRefreshingWithNoMoreData];
 }
 - (void)endRefresh{
     [self.tableView.mj_header endRefreshing];
@@ -187,10 +196,12 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
  
+    if (dataArray.count) {
         MoneyModel *model = [dataArray objectAtIndex:indexPath.row];
         UnYetDetailViewController *vc = [[UnYetDetailViewController alloc]init];
         vc.ProDateId = model.oid;
         [self.navigationController pushViewController:vc animated:YES];
+    }
 
     
     

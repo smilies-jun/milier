@@ -104,7 +104,7 @@
     
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    leftBtn.frame = CGRectMake(0, 7, 28, 28);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(UserBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
@@ -1308,27 +1308,27 @@
 
 //风险评  测试不同的情况进行跳转
 - (void)DangerClick{
-    NewRiskViewController *VC = [[NewRiskViewController alloc]init];
-    [self.navigationController   pushViewController:VC animated:NO];
-//    NSString *riskType = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"riskLevel"]];
-//    if ([riskType integerValue] == 0) {
-//        RiskViewController *VC = [[RiskViewController alloc]init];
-//        [self.navigationController   pushViewController:VC animated:NO];
-//    }else if ([riskType integerValue] == 1){
-//        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
-//        RiskVC.type =1;
-//        [self.navigationController   pushViewController:RiskVC animated:NO];
-//    }else if ([riskType integerValue] == 2){
-//        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
-//        RiskVC.type =2;
-//        [self.navigationController   pushViewController:RiskVC animated:NO];
-//
-//    }else{
-//        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
-//        RiskVC.type =3;
-//        [self.navigationController   pushViewController:RiskVC animated:NO];
-//
-//    }
+//    NewRiskViewController *VC = [[NewRiskViewController alloc]init];
+//    [self.navigationController   pushViewController:VC animated:NO];
+    NSString *riskType = [NSString stringWithFormat:@"%@",[UserDic objectForKey:@"riskLevel"]];
+    if ([riskType integerValue] == 0) {
+        NewRiskViewController *VC = [[NewRiskViewController alloc]init];
+        [self.navigationController   pushViewController:VC animated:NO];
+    }else if ([riskType integerValue] == 1){
+        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
+        RiskVC.type =1;
+        [self.navigationController   pushViewController:RiskVC animated:NO];
+    }else if ([riskType integerValue] == 2){
+        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
+        RiskVC.type =2;
+        [self.navigationController   pushViewController:RiskVC animated:NO];
+
+    }else{
+        RiskComplyViewController *RiskVC = [[RiskComplyViewController alloc]init];
+        RiskVC.type =3;
+        [self.navigationController   pushViewController:RiskVC animated:NO];
+
+    }
     
     
 }

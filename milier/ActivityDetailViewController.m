@@ -13,10 +13,10 @@
 #import "SecondViewController.h"
 #import "ReginAndLoginViewController.h"
 #import "ActivityRefinViewController.h"
+#import <WebKit/WebKit.h>
 
-
-@interface ActivityDetailViewController ()<UIWebViewDelegate>{
-    UIWebView *ActivityWebView;
+@interface ActivityDetailViewController ()<WKUIDelegate>{
+    WKWebView *ActivityWebView;
     MBProgressHUD *hud;
 }
 
@@ -36,10 +36,9 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     
-    ActivityWebView  = [[UIWebView alloc]init];
+    ActivityWebView  = [[WKWebView alloc]init];
     ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64);
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
-    ActivityWebView.delegate= self;
     [self.view addSubview:ActivityWebView];
    // ActivityWebView.scalesPageToFit  = YES;
     [ActivityWebView loadRequest:request];
@@ -118,7 +117,7 @@
 }
 
 - (void)webViewDidFinishLoad:(UIWebView *)webView{
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+  //  [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self HideProgress];
   //  [webView sizeToFit];
 
