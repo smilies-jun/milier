@@ -26,6 +26,7 @@
     NSString *state;
     NSString *increase_type;
     NSString *percent;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -54,7 +55,15 @@
     [self getNetworkData:YES];
 }
 
-
+- (void)HideProgress{
+    [hud hideAnimated:YES afterDelay:1.0];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)loadoneNew{
     [self getNetworkData:YES];
 }
@@ -69,7 +78,7 @@
     NSString *Bottomurl;
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
-    
+   //  [self showProgress];
     //定期 0 活期 8
     if (isRefresh) {
         page = 1;
@@ -92,7 +101,7 @@
     }
     
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re==%@",result);
+      //   [self HideProgress];
         NSArray *myArray = [result objectForKey:@"items"];
         for (NSDictionary *JinMidic in myArray) {
             

@@ -61,9 +61,15 @@ static NSString * const cellId = @"cellID";
     [self getNetworkData:YES];
     
 }
+
 - (void)loadoneMore{
     [self getNetworkData:NO];
     
+}
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"1");
+    [self getNetworkData:YES];
 }
 /**
  *  停止刷新
@@ -99,7 +105,6 @@ static NSString * const cellId = @"cellID";
         [MyArray removeAllObjects];
     }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-      //  NSLog(@"left result = %@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
             JiFenModel *model = [[JiFenModel alloc]init];
             model.dataDictionary = dic;

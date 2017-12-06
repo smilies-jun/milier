@@ -164,7 +164,7 @@
 #pragma mark - 提交 -
 - (void)PostBtnClick{
     
-    if (phoneNumView.NameTextField.text.length) {
+  
         if (CodeNumView.NameTextField.text.length) {
             if (NewPassWordView.NameTextField.text.length) {
                 if (SurePassWordView.NameTextField.text.length) {
@@ -191,15 +191,14 @@
             normal_alert(@"提示", @"短信验证码不可为空", @"确定");
             
         }
-    }else{
-        normal_alert(@"提示", @"手机号码不可为空", @"确定");
-    }
+    
 }
 
 - (void)postForgetCode{
     NSString *passStr = [NewPassWordView.NameTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-
-    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",passStr,@"newDealPassword", nil];
+    NSString *phone =  NSuserUse(@"phone_My");
+    NSLog(@"ph == %@",phone);
+    NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phone,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",passStr,@"newDealPassword", nil];
     NSString *url = [NSString stringWithFormat:@"%@/retrieveDealPassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
@@ -263,9 +262,9 @@
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phone,@"phoneNumber",@"6",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-               [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
-            if ([[result objectForKey:@"success"]integerValue]==1 ) {
-               
+            
+            if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+                 [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
                 
                  normal_alert(@"提示", @"验证码已发送", @"确定");
             }else{

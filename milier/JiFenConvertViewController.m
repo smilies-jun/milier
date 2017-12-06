@@ -349,6 +349,11 @@ static NSString * const cellId = @"CovertcellID";
     
     
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"2");
+    [self getNetworkData:YES];
+}
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     //    SectionViewController *sVC = [[SectionViewController alloc] init];
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];

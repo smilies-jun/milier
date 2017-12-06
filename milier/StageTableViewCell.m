@@ -359,12 +359,12 @@
                                 
                                 break;
                             case 4:
-                                _BuyTitleLable.text = @"车贷";
+                                _BuyTitleLable.text = @"个人贷";
                                 _BuyTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
                                 
                                 break;
                             case 5:
-                                _BuyTitleLable.text = @"个人贷";
+                                _BuyTitleLable.text = @"网贷";
                                 _BuyTitleLable.backgroundColor = colorWithRGB(0.27, 0.78, 0.96);
                                 
                                 break;
@@ -390,7 +390,7 @@
                                 
                                 break;
                             case 4:
-                                _InterentTitleLable.text = @"车贷";
+                                _InterentTitleLable.text = @"个人贷";
                                 _InterentTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
                                 
                                 break;
@@ -419,7 +419,7 @@
                                 
                                 break;
                             case 4:
-                                _QiYeTitleLable.text = @"车贷";
+                                _QiYeTitleLable.text = @"个人贷";
                                 _QiYeTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
                                 
                                 break;
@@ -447,7 +447,7 @@
                                 
                                 break;
                             case 4:
-                                _PersonTitleLable.text = @"车贷";
+                                _PersonTitleLable.text = @"个人贷";
                                 _PersonTitleLable.backgroundColor = colorWithRGB(0.31, 0.69, 0.10);
                                 
                                 break;

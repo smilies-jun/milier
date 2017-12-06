@@ -23,6 +23,7 @@
     
     
     customWithStatic *ChangeView;
+    UITextField *ChangeTextField;
     customWithStatic *DealPassWordView;
     DataChoseView *OutSailView;
     UILabel *SaleLabel;
@@ -41,11 +42,13 @@
     self.navigationItem.title = @"债权转让";
     self.view.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(DetailChangeClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+     NSuserSave(@"2", @"change");
     [self ConfigUI];
 
 }
@@ -154,7 +157,7 @@
     [ChangeView addGestureRecognizer:tapChange];
     ChangeView.NameLabel.text = @"转让金额";
     ChangeView.NameTextField.placeholder = @"请输入转让金额";
-    ChangeView.NameTextField.delegate = self;
+    ChangeView.NameTextField.hidden = YES;
     ChangeView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     [self.view addSubview:ChangeView];
     [ChangeView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -163,6 +166,25 @@
         make.width.mas_equalTo(SCREEN_WIDTH -20);
         make.height.mas_equalTo(44);
     }];
+    ChangeTextField = [[UITextField alloc]init];
+    ChangeTextField.backgroundColor = [UIColor whiteColor];
+    ChangeTextField.font = [UIFont systemFontOfSize:14];
+    ChangeTextField.textAlignment = NSTextAlignmentLeft;
+    ChangeTextField.delegate = self;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(textFieldDidChangeValue:)
+                                                 name:UITextFieldTextDidChangeNotification
+                                               object:ChangeTextField];
+    ChangeTextField.placeholder = @"请输入转让金额";
+    [ChangeView addSubview:ChangeTextField];
+    [ChangeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(ChangeView.mas_left).offset(110);
+        make.top.mas_equalTo(ChangeView.mas_top);
+        make.right.mas_equalTo(ChangeView.mas_right).offset(-40);
+        make.height.mas_equalTo(40);
+    }];
+    
+    
     
     OutSailView = [[DataChoseView alloc]init];
     UITapGestureRecognizer *tapChose = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(tapClick)];
@@ -251,7 +273,7 @@
 
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+   [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -296,7 +318,7 @@
 }
 //提交
 - (void)TiJiaoBtn{
-    if ([ChangeView.NameTextField.text integerValue] > 0) {
+    if ([ChangeTextField.text integerValue] > 0) {
         if ([ChangeView.NameTextField.text integerValue] <= [_MoneyName integerValue]) {
             
             
@@ -351,13 +373,14 @@
                         //url = [NSString stringWithFormat:@"%@/%@/password",USER_URL,userID];
                         url = [NSString stringWithFormat:@"%@/products/action/addDebentureTransferProduct",HOST_URL];
                         
-                        NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:ChangeView.NameTextField.text,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
+                        NSMutableDictionary   *dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:ChangeTextField.text,@"amount",RateView.DetailLabel.text,@"fee", _OrderNumber ,@"orderNo",ExpirTimeStr,@"expireTime",DealPassWordView.NameTextField.text,@"dealPassword",nil];
                         [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
                             NSString *state = [result objectForKey:@"statusCode"];
                             [self showProgress];
                             if ([state integerValue] == 201) {
                                 [self HideProgress];
                                 normal_alert(@"提示", @"提交成功", @"确定");
+                                  NSuserSave(@"1", @"change");
                                     for (UIViewController *controller in self.navigationController.viewControllers) {
                                         if ([controller isKindOfClass:[DinQiMoneyViewController class]]) {
                                             [self.navigationController popToViewController:controller animated:YES];
@@ -406,32 +429,39 @@
     
 }
 - (void)relreshUI{
-    if ([ChangeView.NameTextField.text integerValue] > 0) {
+    if ([ChangeTextField.text integerValue] > 0) {
         NSDate* dat = [NSDate dateWithTimeIntervalSinceNow:0];
         NSTimeInterval a=[dat timeIntervalSince1970]*1000;
         NSString *timeString = [NSString stringWithFormat:@"%f", a];
         NSInteger time = [_TimeName integerValue] - [timeString integerValue];
         NSInteger days = time/3600/24/1000;
-        NSLog(@"_TimeName == %ld",(long)[_TimeName integerValue]);
-        NSLog(@"timeString == %ld",(long)[timeString integerValue]);
         if (days == 0) {
             days =1;
         }
-        double myPercent = ([_MoneyName doubleValue] - [ChangeView.NameTextField.text doubleValue])*365*100/ [ChangeView.NameTextField.text doubleValue]/days;
-        NSLog(@"days = %ld",(long)days);
-        
+        double myPercent = ([_MoneyName doubleValue] - [ChangeTextField.text doubleValue])*365*100/ [ChangeTextField.text doubleValue]/days;
         NSInteger  percentStr = myPercent *100;
         double  resultStr = (double)percentStr/100;
         OneDayView.DetailLabel.text = [NSString stringWithFormat:@"%.2f%%",resultStr];
         
-        double rate = [ChangeView.NameTextField.text doubleValue]*0.02;
+        double rate = [ChangeTextField.text doubleValue]*0.02;
         RateView.DetailLabel.text = [NSString stringWithFormat:@"%.2f",rate];
         
-        double comeBack = [ChangeView.NameTextField.text doubleValue] - rate;
+        double comeBack = [ChangeTextField.text doubleValue] - rate;
         ComeBackMoneyView.DetailLabel.text = [NSString stringWithFormat:@"%.2f",comeBack];
     }
     
     
+}
+//检测输入
+- (void) textFieldDidChange:(id) sender {
+    NSLog(@"232323");
+    [self relreshUI];
+}
+
+//这里可以通过发送object消息获取注册时指定的UITextField对象
+- (void)textFieldDidChangeValue:(NSNotification *)notification
+{
+    [self relreshUI];
 }
 - (void)DetailChangeClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
@@ -448,7 +478,9 @@
     }
     
 }
-
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 - (BOOL)dismissAllKeyBoard:(UIView *)view{
     if([view isFirstResponder])
     {
@@ -469,7 +501,6 @@
     
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
-
 - (void)viewWillDisappear:(BOOL)animated {
     [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
     

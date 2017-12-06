@@ -49,4 +49,9 @@
 @property(nonatomic,strong)NSString *bondTotal;//
 
 @property(nonatomic,strong)NSString *ci;//
+
+@property(nonatomic,strong)NSArray *dataList;//
+
+@property(nonatomic,strong)NSString *dataIndex;//
+
 @end

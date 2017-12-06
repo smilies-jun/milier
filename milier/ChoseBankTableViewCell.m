@@ -56,7 +56,26 @@
         _ChoseModel = ChoseModel;
         [_BankImageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_ChoseModel.icon]] placeholderImage:[UIImage imageNamed:@"headpic"]];
         _BankLabel.text= [NSString stringWithFormat:@"%@",_ChoseModel.name];
-        _BankDayLabel.text = [NSString stringWithFormat:@"限额: 单笔:%ld万  单日:%ld万  单月:%ld万",[_ChoseModel.singleLimit integerValue]/10000 ,[_ChoseModel.dailyLimit integerValue]/10000,[_ChoseModel.monthLimit integerValue]/10000];
+        NSString *str1; NSString *str2; NSString *str3;
+        NSString *singleStr1 = [NSString stringWithFormat:@"%ld",(long)[_ChoseModel.singleLimit integerValue]];
+        NSString *singleStt2 = [NSString stringWithFormat:@"%ld",(long)[_ChoseModel.dailyLimit integerValue]];
+        NSString *singleStr3 = [NSString stringWithFormat:@"%ld",(long)[_ChoseModel.monthLimit integerValue]];
+        if ([singleStr1 integerValue] >= 10000) {
+            str1 = [NSString stringWithFormat:@"%ld万",[_ChoseModel.singleLimit integerValue]/10000];
+        }else{
+            str1 = [NSString stringWithFormat:@"%ld",[_ChoseModel.singleLimit integerValue]];
+        }
+        if ([singleStt2 integerValue] >= 10000) {
+            str2 = [NSString stringWithFormat:@"%ld万",[_ChoseModel.dailyLimit integerValue]/10000];
+        }else{
+            str2 = [NSString stringWithFormat:@"%ld",[_ChoseModel.dailyLimit integerValue]];
+        }
+        if ([singleStr3 integerValue] >= 10000) {
+            str3 = [NSString stringWithFormat:@"%ld万",[_ChoseModel.monthLimit integerValue]/10000];
+        }else{
+            str3 = [NSString stringWithFormat:@"%ld",[_ChoseModel.monthLimit integerValue]];
+        }
+        _BankDayLabel.text = [NSString stringWithFormat:@"限额: 单笔:%@  单日:%@  单月:%@",str1 ,str2,str3];
         
     }
 }

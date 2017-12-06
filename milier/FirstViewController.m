@@ -43,8 +43,8 @@
 //    if ([self checkCardNo:@"9558881202000216808"]) {
 //        NSLog(@"22");
 //    }
-    
-
+     NSString *userID = NSuserUse(@"userId");
+    NSLog(@"usert==%@",userID);
        [self getNetworkData:YES];
     [self ConfigUI];
    
@@ -143,7 +143,6 @@
         url = [NSString stringWithFormat:@"%@?page=%d&rows=10",ACTIVITIES_URL,page];
 
     }
-    NSLog(@"url ==%@",url);
     if (page == 1) {
         [DataArray removeAllObjects];
     }
@@ -163,7 +162,10 @@
             Model.dataDictionary = NewArray;
             [DataArray addObject:Model];
         }
-
+         NSString *userID = NSuserUse(@"userId");
+        if ([userID integerValue] == 49389) {
+             [DataArray removeAllObjects];
+        }
         [_tableView reloadData];
         isFirstCome = NO;
     }];

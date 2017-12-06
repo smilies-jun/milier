@@ -18,6 +18,6 @@
 
 @property (nonatomic, retain) NSString *OrderNumber;
 
-
+@property (nonatomic, retain) NSString *State;
 
 @end

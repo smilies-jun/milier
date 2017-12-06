@@ -40,7 +40,8 @@
     
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+    [hud hideAnimated:YES afterDelay:1.0];
+
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -102,17 +103,17 @@
             model.dataDictionary = dic;
             [DataArray addObject:model];
         }
-        if (DataArray.count) {
-            [self endRefresh];
-
-            [self.tableView reloadData];
-            
-        }
-    
+//        if (DataArray.count) {
+//            [self endRefresh];
+//
+//            [self.tableView reloadData];
+//            
+//        }
+     [self.tableView reloadData];
         if ([[result objectForKey:@"items"]count]==0) {
             [self reset];
         }
-        [self HideProgress];
+       // [self HideProgress];
 
         // UserDic = [result objectForKey:@"data"];
         // [self reloadData];

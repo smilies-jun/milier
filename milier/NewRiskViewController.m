@@ -279,11 +279,11 @@
 }
 - (void)SureBackBtn{
     [alertView dismissAnimated:NO];
-    for (UIViewController *controller in self.navigationController.viewControllers) {
-        if ([controller isKindOfClass:[UserViewController class]]) {
-            [self.navigationController popToViewController:controller animated:YES];
-        }
-    }
+//    for (UIViewController *controller in self.navigationController.viewControllers) {
+//        if ([controller isKindOfClass:[UserViewController class]]) {
+//            [self.navigationController popToViewController:controller animated:YES];
+//        }
+//    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -293,8 +293,9 @@
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(RiskTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;

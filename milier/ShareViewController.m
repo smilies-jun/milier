@@ -51,8 +51,9 @@
     }];
 
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(ShareTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -66,55 +67,55 @@
         UserDic = [result objectForKey:@"data"];
         
         [self ConFigUI];
-        
-        UIView *saleView = [[UIView alloc]init];
-        saleView.backgroundColor = [UIColor whiteColor];
-        saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64 - 44-10, SCREEN_WIDTH, 64);
-        [self.view addSubview:saleView];
-        
-        UILabel *SaleLbel =  [[UILabel alloc]init];
-        SaleLbel.text = @"使用道具";
-        SaleLbel.userInteractionEnabled = YES;
-        SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
-        SaleLbel.textAlignment = NSTextAlignmentCenter;
-        SaleLbel.textColor = [UIColor whiteColor];
-        SaleLbel.layer.cornerRadius = 20;
-        SaleLbel.layer.masksToBounds = YES;
-        [saleView addSubview:SaleLbel];
-        [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.mas_equalTo(saleView.mas_left).offset(10);
-            make.centerY.mas_equalTo(saleView.mas_centerY).offset(-5);
-            make.width.mas_equalTo(SCREEN_WIDTH/2-20);
-            make.height.mas_equalTo(40);
-        }];
-        
-        UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseBtnClick
-                                                                                                              )];
-        [SaleLbel addGestureRecognizer:SaleTap];
-        
-        
-        
-        
-        UILabel *getLabel =  [[UILabel alloc]init];
-        getLabel.text = @"获得道具";
-        getLabel.userInteractionEnabled = YES;
-        getLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
-        getLabel.textAlignment = NSTextAlignmentCenter;
-        getLabel.textColor = [UIColor whiteColor];
-        getLabel.layer.cornerRadius = 20;
-        getLabel.layer.masksToBounds = YES;
-        [saleView addSubview:getLabel];
-        [getLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.mas_equalTo(saleView.mas_right).offset(-10);
-            make.centerY.mas_equalTo(saleView.mas_centerY).offset(-5);
-            make.width.mas_equalTo(SCREEN_WIDTH/2-20);
-            make.height.mas_equalTo(40);
-        }];
-        
-        UITapGestureRecognizer *GetTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(GetBtnClick
-                                                                                                              )];
-        [getLabel addGestureRecognizer:GetTap];
-        
+//
+//        UIView *saleView = [[UIView alloc]init];
+//        saleView.backgroundColor = [UIColor whiteColor];
+//        saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64 - 44-10, SCREEN_WIDTH, 64);
+//        [self.view addSubview:saleView];
+//
+//        UILabel *SaleLbel =  [[UILabel alloc]init];
+//        SaleLbel.text = @"使用道具";
+//        SaleLbel.userInteractionEnabled = YES;
+//        SaleLbel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
+//        SaleLbel.textAlignment = NSTextAlignmentCenter;
+//        SaleLbel.textColor = [UIColor whiteColor];
+//        SaleLbel.layer.cornerRadius = 20;
+//        SaleLbel.layer.masksToBounds = YES;
+//        [saleView addSubview:SaleLbel];
+//        [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.mas_equalTo(saleView.mas_left).offset(10);
+//            make.centerY.mas_equalTo(saleView.mas_centerY).offset(-5);
+//            make.width.mas_equalTo(SCREEN_WIDTH/2-20);
+//            make.height.mas_equalTo(40);
+//        }];
+//
+//        UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseBtnClick
+//                                                                                                              )];
+//        [SaleLbel addGestureRecognizer:SaleTap];
+//
+//
+//
+//
+//        UILabel *getLabel =  [[UILabel alloc]init];
+//        getLabel.text = @"获得道具";
+//        getLabel.userInteractionEnabled = YES;
+//        getLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
+//        getLabel.textAlignment = NSTextAlignmentCenter;
+//        getLabel.textColor = [UIColor whiteColor];
+//        getLabel.layer.cornerRadius = 20;
+//        getLabel.layer.masksToBounds = YES;
+//        [saleView addSubview:getLabel];
+//        [getLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.mas_equalTo(saleView.mas_right).offset(-10);
+//            make.centerY.mas_equalTo(saleView.mas_centerY).offset(-5);
+//            make.width.mas_equalTo(SCREEN_WIDTH/2-20);
+//            make.height.mas_equalTo(40);
+//        }];
+//
+//        UITapGestureRecognizer *GetTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(GetBtnClick
+//                                                                                                              )];
+//        [getLabel addGestureRecognizer:GetTap];
+//
     }];
 
    }
@@ -139,15 +140,13 @@
     configration.selectedItemColor = [UIColor blackColor];
     configration.normalItemColor = [UIColor grayColor];
     configration.selectedItemColor = [UIColor blackColor];
-    //configration.showConver = YES;
-    //configration.converColor = colorWithRGB(1,0.87, 0.01);
-    //设置平分不滚动   默认会居中
-    // configration.aligmentModeCenter = YES;
-    //configration.showScrollLine = NO;
+    configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
+    configration.aligmentModeCenter = YES;
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
     configration.showNavigation = YES;
-    configration.showTabbar = YES;//设置显示tabbar
+    configration.showTabbar = NO;//设置显示tabbar
+    configration.showPersonTab = NO;
     
     //创建控制器
     YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"未绑卡",@"已绑卡"] Configration:configration];
@@ -175,6 +174,8 @@
     titlelabel.textAlignment = NSTextAlignmentCenter;
     titlelabel.font = [UIFont systemFontOfSize:15];
     titlelabel.textColor = colorWithRGB(0.61, 0.32, 0.05);
+    
+    
     titlelabel.text =[NSString stringWithFormat:@"已获得%@个道具，还有%@个道具未领取",[UserDic objectForKey:@"receivedPropsCount"],[UserDic objectForKey:@"noneReceivedPropsCount"]] ;
     [titleview addSubview:titlelabel];
     [titlelabel  mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -185,7 +186,7 @@
     }];
     
     UILabel *SaleLbel =  [[UILabel alloc]init];
-    SaleLbel.text = @"马上领取";
+    SaleLbel.text = @"立即分享，获得道具";
     SaleLbel.userInteractionEnabled = YES;
     SaleLbel.backgroundColor = colorWithRGB(0.91, 0.31, 0.24);
     SaleLbel.textAlignment = NSTextAlignmentCenter;
@@ -200,7 +201,7 @@
         make.height.mas_equalTo(40);
     }];
     if ([[UserDic objectForKey:@"noneReceivedPropsCount"]integerValue]==0) {
-        SaleLbel.text = @"立即使用";
+        SaleLbel.text = @"立即分享，获得道具";
         Type =1;
     }
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseNowBtnClick
@@ -393,9 +394,10 @@
 
 - (void)UseNowBtnClick{
     if (Type == 1) {
-        MyStageViewController *StageVC= [[MyStageViewController alloc]init];
-        StageVC.Type = 1;
-        [self.navigationController pushViewController:StageVC animated:NO];
+        [self ShareClick];
+//        MyStageViewController *StageVC= [[MyStageViewController alloc]init];
+//        StageVC.Type = 1;
+//        [self.navigationController pushViewController:StageVC animated:NO];
     }else{
         NSString *url;
         url = [NSString stringWithFormat:@"%@/tools/shareMessage",HOST_URL];

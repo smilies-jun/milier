@@ -16,8 +16,10 @@
 #import "JinMiDetdailViewController.h"
 #import "MyNewDinQiDetailViewController.h"
 #import "ChangeBankCardViewController.h"
-@interface BundProfileViewController ()<UIWebViewDelegate>{
-    UIWebView *ActivityWebView;
+#import <WebKit/WebKit.h>
+
+@interface BundProfileViewController ()<WKUIDelegate>{
+    WKWebView *ActivityWebView;
     MBProgressHUD *hud;
 }
 
@@ -33,19 +35,19 @@
 
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(BundDetailTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
-    ActivityWebView  = [[UIWebView alloc]init];
+    ActivityWebView  = [[WKWebView alloc]init];
     ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64);
     if ([_TypeStr integerValue] == 1) {
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithTitle:@"下载" style:UIBarButtonItemStylePlain target:self action:@selector(bunRightClick)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
-    ActivityWebView.delegate= self;
     [self.view addSubview:ActivityWebView];
     [ActivityWebView loadRequest:request];
 //        [ActivityWebView mas_makeConstraints:^(MASConstraintMaker *make) {

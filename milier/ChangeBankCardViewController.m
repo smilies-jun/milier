@@ -50,8 +50,9 @@
     self.navigationItem.title = @"更换银行卡";
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(ForgetBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -524,8 +525,8 @@
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
           //  NSLog(@"re == %@",result);
-               [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
-            if ([[result objectForKey:@"statusCode"]integerValue]==200 ) {
+             //  [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
+            if ([[result objectForKey:@"statusCode"]integerValue] == 200 ) {
                 OrderID = [[result objectForKey:@"data"]objectForKey:@"orderNo"];
                 normal_alert(@"提示", @"验证码已发送", @"确定");
                    [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];
@@ -630,7 +631,7 @@
     
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+    [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

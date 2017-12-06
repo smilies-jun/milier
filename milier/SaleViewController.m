@@ -93,8 +93,9 @@
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(SaleOnTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -134,7 +135,7 @@
 //    });
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+   [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -238,7 +239,6 @@
     }else{
          percentLabel.hidden = NO;
     }
-    NSLog(@"_state == %@",_State);
     if ([_State integerValue]==1) {
         percentLabel.hidden = NO;
     }else{
@@ -323,7 +323,7 @@
     
     
     if ([_productID integerValue] == 6) {
-        ExplainLabel.hidden= NO;
+        ExplainLabel.hidden= YES;
 
        
         SaleView = [[UIView alloc]init];
@@ -362,7 +362,6 @@
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.delegate =self;
-        BuyTextField.delegate = self;
         BuyTextField.placeholder = @"请输入购买金额";
         [SaleView addSubview:BuyTextField];
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -1112,9 +1111,7 @@
     }else{
          dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",@"-1",@"propId",PassWordTextField.text,@"dealPassword",nil];
     }
-    NSLog(@"dic = %@",dic);
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             [self HideProgress];
             //UIAlertController风格：UIAlertControllerStyleAlert
@@ -1893,11 +1890,11 @@
     [alertView dismissAnimated:NO];
 
 }
+//检测输入
 - (void) textFieldDidChange:(id) sender {
     
-    
-//    [self ConfigInverest];
-//    [self refreshInvest];
+    [self ConfigInverest];
+    [self refreshInvest];
     
 }
 

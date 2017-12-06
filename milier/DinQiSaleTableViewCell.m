@@ -21,7 +21,7 @@
 }
 - (void)configUI:(NSIndexPath *)indexPath{
     _SaleLabel = [[UILabel alloc]init];
-    _SaleLabel.text = @"购买时间: 2017-08-23 12:20";
+    _SaleLabel.text = @"";
     _SaleLabel.font = [UIFont systemFontOfSize:14];
     _SaleLabel.frame = CGRectMake(20, 10, SCREEN_WIDTH - 20, 25);
     [self addSubview:_SaleLabel];

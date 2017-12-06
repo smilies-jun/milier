@@ -9,7 +9,7 @@
 #import "RiskComplyViewController.h"
 #import "UserViewController.h"
 #import "RiskViewController.h"
-
+#import "NewRiskViewController.h"
 
 @interface RiskComplyViewController ()
 
@@ -151,7 +151,7 @@
     [TestLabel addGestureRecognizer:SaleTap];
 }
 - (void)TestSureBtnClick{
-    RiskViewController *risk = [[RiskViewController alloc]init];
+    NewRiskViewController *risk = [[NewRiskViewController alloc]init];
     [self.navigationController   pushViewController:risk animated:NO];
 }
 - (void)RiskComplyTap{

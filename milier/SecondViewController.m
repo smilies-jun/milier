@@ -30,6 +30,7 @@
 #import <EAIntroView/EAIntroView.h>
 #import "ActivityDetailViewController.h"
 #import "ConfirmBankViewController.h"
+#import "DDAlertView.h"
 
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
@@ -95,7 +96,7 @@
     EAIntroPage *page3 = [EAIntroPage page];
     page3.bgImage = [UIImage imageNamed:@"welcome_select@2x"];
     
-  
+    
     
     EAIntroView *intro = [[EAIntroView alloc] initWithFrame:rootView.bounds andPages:@[page1,page2,page3]];
     intro.pageControlY = 42.f;
@@ -118,7 +119,7 @@
         
     
     }
- 
+    
     [self.navigationController.navigationBar setTranslucent:NO];
     [self.navigationController.navigationBar setBarTintColor:[UIColor blackColor]];
     self.navigationItem.title = @"米粒儿金融";
@@ -131,14 +132,14 @@
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
    
-    
+    [self GetVersion];
     [self refreshData];
     
     [self RequestData];
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeWife) name:@"changeWife" object:nil];
     NSString *userID = NSuserUse(@"userId");
     if ([userID integerValue]) {
-        
+    
         NSString *url;
         NSString *tokenID = NSuserUse(@"Authorization");
         url = [NSString stringWithFormat:@"%@/bankValidate/%@",HOST_URL,userID];
@@ -156,7 +157,30 @@
     }
     
     
-   }
+}
+- (void)GetVersion{
+    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
+        NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
+        NSString *desc = [[result objectForKey:@"data"]objectForKey:@"desc"];
+        if ([VersionNumber isEqualToString:@"2.3"]) {
+            if ([updateStatus integerValue]==3) {
+                DDAlertView *view = [[DDAlertView alloc]initWithTitle:@"提示" message:desc cancelButtonTitle:@"立即更新" cancelBlock:^(){
+                    [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/米粒儿金融/id1142042774?l=zh&ls=1&mt=8"]];
+                    //        [DDAlertView dismiss];
+                } otherButtonTitle:nil otherBlock:nil];
+                view.mode = DDAlertViewClosedNoAllowed ;
+                [view show];
+            }
+            
+            
+          
+        }
+        
+    }];
+}
+
 - (void)changeWife{
     [self refreshData];
     [self RequestData];
@@ -164,28 +188,27 @@
 
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+     [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
-    
     // Set the label text.
-    
     hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
 }
 
 - (void)refreshData{
     UIImageView *LeftBtn = [[UIImageView alloc]init];
     LeftBtn.frame = CGRectMake(0, 0, 20, 20);
-    LeftBtn.layer.masksToBounds = YES;
-    LeftBtn.layer.cornerRadius = 14;
-//    if (@available(iOS 11.0, *)) {
-//        LeftBtn.layer.maskedCorners = kCALayerMaxXMaxYCorner | kCALayerMaxXMinYCorner;
-//    } else {
-//        // Fallback on earlier versions
-//    }
+   
+    if (@available(iOS 11.0, *)) {
+        LeftBtn.layer.masksToBounds = YES;
+        LeftBtn.layer.cornerRadius = 20;
+        LeftBtn.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner |kCALayerMinXMaxYCorner|kCALayerMaxXMaxYCorner;
+    } else {
+        LeftBtn.layer.masksToBounds = YES;
+        LeftBtn.layer.cornerRadius = 20;
+        // Fallback on earlier versions
+    }
     LeftBtn.userInteractionEnabled = YES;
      LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(LeftBtnClick)];
@@ -215,10 +238,17 @@
                 NSuserSave([UserDic objectForKey:@"avatar"], @"avatar");
                 NSString *userImageStr = NSuserUse(@"avatar");
                 if (userImageStr.length) {
-                    LeftBtn.frame = CGRectMake(0, 0, 20, 20);
-                    LeftBtn.layer.masksToBounds = YES;
-                    LeftBtn.layer.cornerRadius = 14;
-                    [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
+                      [LeftBtn sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",[UserDic objectForKey:@"avatar"]]] placeholderImage:[UIImage imageNamed:@"headpicUser"]options:SDWebImageAllowInvalidSSLCertificates];
+                    if (@available(iOS 11.0, *)) {
+                        LeftBtn.layer.masksToBounds = YES;
+                        LeftBtn.layer.cornerRadius = 20;
+                        LeftBtn.layer.maskedCorners = kCALayerMinXMinYCorner | kCALayerMaxXMinYCorner |kCALayerMinXMaxYCorner|kCALayerMaxXMaxYCorner;
+                    } else {
+                        LeftBtn.layer.masksToBounds = YES;
+                        LeftBtn.layer.cornerRadius = 10;
+                        // Fallback on earlier versions
+                    }
+                  
                 }else{
                     LeftBtn.image = [UIImage imageNamed:@"headpicUser"];
                 }
@@ -747,7 +777,7 @@
 //        NSuserSave(@"0", @"refresh");
 //    }
     
-  
+    [self GetVersion];
     NSString *heafresh =     NSuserUse( @"heafresh");
     if ([heafresh integerValue] ==1) {
         [self refreshData];

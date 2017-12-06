@@ -30,13 +30,13 @@
     [self addSubview:_iconImageView];
     
     _DinQiLabel = [[UILabel alloc]init];
-    _DinQiLabel.text = @"21324";
+    _DinQiLabel.text = @"";
     _DinQiLabel.font = [UIFont systemFontOfSize:13];
     _DinQiLabel.frame = CGRectMake(35, 32, SCREEN_WIDTH-20, 20);
     [self addSubview:_DinQiLabel];
     
     _DinQiDetailLabel = [[UILabel alloc]init];
-    _DinQiDetailLabel.text = @"555555";
+    _DinQiDetailLabel.text = @"";
     _DinQiDetailLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     _DinQiDetailLabel.font = [UIFont systemFontOfSize:13];
     _DinQiDetailLabel.frame = CGRectMake(10, 55, SCREEN_WIDTH-20, 20);
@@ -50,7 +50,7 @@
     
     
     _DinQiNnumberLabel = [[UILabel alloc]init];
-    _DinQiNnumberLabel.text = @"232323";
+    _DinQiNnumberLabel.text = @"";
     _DinQiNnumberLabel.textColor = colorWithRGB(0.96, 0.6, 0.11);
     _DinQiNnumberLabel.textAlignment = NSTextAlignmentRight;
     _DinQiNnumberLabel.font = [UIFont systemFontOfSize:12];
@@ -58,7 +58,7 @@
     [self addSubview:_DinQiNnumberLabel];
     
     _DinQiTotalNnumberLabel = [[UILabel alloc]init];
-    _DinQiTotalNnumberLabel.text = @"232323";
+    _DinQiTotalNnumberLabel.text = @"";
     _DinQiTotalNnumberLabel.textColor = [UIColor blackColor];
     _DinQiTotalNnumberLabel.textAlignment = NSTextAlignmentLeft;
     _DinQiTotalNnumberLabel.font = [UIFont systemFontOfSize:12];
@@ -84,7 +84,7 @@
     _processView.transform = CGAffineTransformMakeScale(1.0f, 2.0f);
     _processView.progressTintColor = colorWithRGB(0.96, 0.6, 0.12);
 
-    [_processView setProgress:0.5 animated:YES];
+    [_processView setProgress:0.0 animated:YES];
     _processView.trackTintColor = colorWithRGB(0.93, 0.93, 0.93);
     [self addSubview:_processView]; 
 }

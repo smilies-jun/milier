@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ProductDetailModel.h"
+#import "ZYProgressView.h"
 
 @interface SecondDetailTopTableViewCell : UITableViewCell{
     UILabel *TitleLabel;
@@ -34,12 +35,18 @@
     UILabel *DetailStyleLabel;
     UILabel *DetailInterestLabel;
     UILabel *DetailAddPercentLabel;
+    UIView *BottomLineView1;
+    ZYProgressView *progressView;
+    
 }
+
+@property (nonatomic, weak) ZYProgressView *progressView;
+@property (nonatomic, strong) NSArray *titles;
+
 @property (assign)NSInteger state;
 @property (nonatomic ,retain) NSString *increase_type;
 @property (nonatomic ,retain) NSString *percent;
 @property (nonatomic, strong)ProductDetailModel *detailModel;
-
 @property (assign)int  ProductcatID;
 
 

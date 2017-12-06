@@ -35,13 +35,10 @@
     [self getNetworkData:YES];
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+    [hud hideAnimated:YES afterDelay:1.0];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
-    
     // Set the label text.
     
     hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
@@ -89,26 +86,29 @@
     }
     NSLog(@"page = %d",page);
     NSLog(@"count1 == %lu",(unsigned long)DataArray.count);
+    
     [self HideProgress];
 
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
         if (page ==1) {
             [DataArray removeAllObjects];
         }
+        NSLog(@"re==%@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
           
             StageModel *model = [[StageModel alloc]init];
             model.dataDictionary = dic;
             [DataArray addObject:model];
         }
-        [self HideProgress];
+       // [self HideProgress];
         NSLog(@"count2 == %lu",(unsigned long)DataArray.count);
 
-        if (DataArray.count) {
-            [self endRefresh];
-            [self.tableView reloadData];
-           
-        }
+//        if (DataArray.count) {
+//            [self endRefresh];
+//            [self.tableView reloadData];
+//           
+//        }
+          [self.tableView reloadData];
         if ([[result objectForKey:@"items"]count]==0) {
             [self reset];
         }
@@ -175,6 +175,7 @@
 //cell-tableview
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (DataArray.count) {
+    
         if (indexPath.row == 0) {
             static NSString *identifier = @"QiyeStageTotalidentifier";
             

@@ -62,13 +62,10 @@
     [self showProgress];
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+    [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
-    
     // Set the label text.
     
     hud.label.text = NSLocalizedString(@"正在加载中", @"HUD loading title");

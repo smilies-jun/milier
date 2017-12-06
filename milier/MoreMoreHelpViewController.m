@@ -41,7 +41,7 @@
     
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+    [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

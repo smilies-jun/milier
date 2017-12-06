@@ -33,8 +33,9 @@
     self.navigationItem.title = @"兑换礼品";
     self.view.backgroundColor = [UIColor grayColor];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(ConvertClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -106,7 +107,9 @@
     if (page == 1) {
         [JiFenArray removeAllObjects];
     }
+    NSLog(@"url ==%@",url);
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"==%lu", [[result objectForKey:@"items"]count]);
         for (NSDictionary *dic  in [result objectForKey:@"items"]) {
             
             giftModel *model = [[giftModel alloc]init];
@@ -207,7 +210,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 马上进入刷新状态
-    [self.tableView.mj_header beginRefreshing];
+   //[self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

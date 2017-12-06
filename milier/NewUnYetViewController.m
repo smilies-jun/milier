@@ -23,6 +23,7 @@
       YNJianShuDemoViewController *vc;
      AwAlertView *alertView;
      NSDictionary *TopMoneyArray;
+    MBProgressHUD *hud;
 }
 
 @end
@@ -37,14 +38,24 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     
     [leftBtn addTarget:self action:@selector(UnYetClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem* leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     [self getNetworkData:YES];
    
+}
+- (void)HideProgress{
+    [hud hideAnimated:YES afterDelay:1.5];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
 }
 -(void)getNetworkData:(BOOL)isRefresh
 {
@@ -56,6 +67,8 @@
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         TopMoneyArray = [result objectForKey:@"data"];
          [self CreateUI];
+        [self showProgress];
+        [self HideProgress];
     }];
     
 

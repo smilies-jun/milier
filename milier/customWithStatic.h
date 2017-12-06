@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface customWithStatic : UIView
+@interface customWithStatic : UIView<UITextFieldDelegate>
 
 @property (nonatomic,strong)UIImageView *StaticImageView;
 

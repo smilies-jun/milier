@@ -29,6 +29,7 @@
     NSDictionary *UserDic;
     NSDictionary *ShareDic;
     int Type;
+    MBProgressHUD *hud;
 }
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
@@ -43,16 +44,19 @@
     self.navigationItem.title = @"我的积分";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(jiFenTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];
+   
     YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
-
+    [self showProgress];
+    [self HideProgress];
     UIView *saleView = [[UIView alloc]init];
     saleView.backgroundColor = [UIColor whiteColor];
     saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
@@ -78,6 +82,15 @@
     [SaleLbel addGestureRecognizer:SaleTap];
     
   }
+- (void)HideProgress{
+    [hud hideAnimated:YES afterDelay:1.5];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
 - (void)jiFenTap{
     for (UIViewController *controller in self.navigationController.viewControllers) {
              if ([controller isKindOfClass:[UserViewController class]]) {
@@ -92,6 +105,7 @@
 
 }
 - (void)ConFigUI{
+   
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];
     YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];

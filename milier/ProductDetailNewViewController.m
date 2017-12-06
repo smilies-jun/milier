@@ -22,21 +22,25 @@
 #import "YWDLoginViewController.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "ActivityDetailViewController.h"
+#import "ZYProgressView.h"
 
-
-@interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate>{
-        AwAlertView *RiskAlertView;
-        UIWebView *ActivityWebView;
-        NSDictionary *ActivityDic;
-        int type;
-        MBProgressHUD *hud;
-        UILabel *SaleLbel;
-        NSString *state;
-        NSString *myState;
-        NSString *increase_type;
-        NSString *percent;
+@interface ProductDetailNewViewController ()<UITableViewDataSource,UITableViewDelegate,UIWebViewDelegate,ZYProgressViewDataSource, ZYProgressViewDelegate>{
+    AwAlertView *RiskAlertView;
+    UIWebView *ActivityWebView;
+    NSDictionary *ActivityDic;
+    int type;
+    MBProgressHUD *hud;
+    UILabel *SaleLbel;
+    NSString *state;
+    NSString *myState;
+    NSString *increase_type;
+    NSString *percent;
+    NSMutableArray *myTitleArrray;
+    NSMutableArray *TitleArrray1;
+    NSString *titleInt;
     
 }
+@property (nonatomic, strong) NSArray *titles;
 @property (nonatomic,strong)UITableView *tableView;
 @property (nonatomic,strong)NSMutableArray *DataArray;
 
@@ -51,12 +55,25 @@
     self.navigationItem.title = @"产品详情";
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     type = 0;
+//    MyBtn   * leftBtn = [MyBtn buttonWithType:UIButtonTypeRoundedRect];
+//    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+//    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+//    [leftBtn addTarget:self action:@selector(newDetailTap) forControlEvents:UIControlEventTouchUpInside];
+//    UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
+//    self.navigationItem.leftBarButtonItem = leftItem;
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+     [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(newDetailTap) forControlEvents:UIControlEventTouchUpInside];
+   
+    
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+    
+    myTitleArrray = [[NSMutableArray alloc]init];
+    
     if (_productCateID == 7) {
     }else if(_productCateID == 8){
         
@@ -79,8 +96,66 @@
    // [self ConfigUI];
 }
 
+
+
+
+
+#pragma mark ----ZYProgressViewDataSource
+
+//告诉progressView,总共要显示多少个进度
+- (NSUInteger)numberOfProgressInProgressView
+{
+    if (myTitleArrray.count) {
+        return myTitleArrray.count;
+    }else{
+        return 4;
+    }
+    
+}
+
+//告诉progressView，每个进度的title，索引从0开始
+- (NSString *)progressView:(ZYProgressView *)progressView titleAtIndex:(NSUInteger)index
+{
+    return TitleArrray1[index];
+}
+
+#pragma mark ----ZYProgressViewDelegate
+- (UIColor *)highlightColorForCircleViewInProgressView:(ZYProgressView *)progressView
+{
+    switch (_productCateID) {
+        case 1:
+            return colorWithRGB(0.62, 0.80, 0.09);
+            break;
+        case 3:
+            return  colorWithRGB(0.99, 0.52, 0.18);
+            break;
+        case 4:
+            return colorWithRGB(0.27, 0.78, 0.96);
+            break;
+        default:
+            return colorWithRGB(0.62, 0.80, 0.09);
+            break;
+    }
+}
+- (UIColor *)highlightColorForTitleViewInProgressView:(ZYProgressView *)progressView{
+    switch (_productCateID) {
+        case 1:
+            return colorWithRGB(0.62, 0.80, 0.09);
+            break;
+        case 3:
+            return  colorWithRGB(0.99, 0.52, 0.18);
+            break;
+        case 4:
+            return colorWithRGB(0.27, 0.78, 0.96);
+            break;
+        default:
+            return colorWithRGB(0.62, 0.80, 0.09);
+            break;
+    }
+    
+}
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+     [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -157,7 +232,24 @@
         }else{
             _count = 190;
         }
+        titleInt = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"dataIndex"] ];
+        if ([titleInt integerValue]) {
+           
+        }else{
+            titleInt = @"4";
+        }
         
+        myTitleArrray = [[result objectForKey:@"data"]objectForKey:@"dataList"];
+    TitleArrray1 = [[NSMutableArray alloc]init];
+        if (myTitleArrray.count) {
+            for (int i =0; i<myTitleArrray.count; i++) {
+                NSDictionary *dic = [myTitleArrray objectAtIndex:i];
+                [TitleArrray1 addObject:[NSString stringWithFormat:@"%@\n%@",[dic objectForKey:@"dataName"],[dic objectForKey:@"dataTime"]]];
+            }
+        }else{
+             TitleArrray1 = @[@"产品发布\n2017-10-23", @"产品发布\n2017-10-23", @"产品发布\n2017-10-23", @"产品发布\n2017-10-23"];
+        }
+    
         [_DataArray addObject:model];
 
         [_tableView reloadData];
@@ -468,7 +560,16 @@
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        return 320;
+        if (_productCateID == 7) {
+            return 320;
+        }else if (_productCateID ==8){
+              return 320;
+        }else if (_productCateID ==6){
+             return 320;
+        }else{
+              return 400;
+        }
+      
     }else if (indexPath.row == 1){
         return _count;
     }
@@ -486,7 +587,6 @@
         SecondDetailTopTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
         if (!cell) {
             cell = [[SecondDetailTopTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-       
             switch (_productCateID) {
                 case 1:
                     cell.ProductcatID = 1;
@@ -536,10 +636,14 @@
                 default:
                     break;
             }
-
+           // cell.titles = @[@"菜鸟\n菜鸟", @"码农\n码农", @"高级工程师", @"项目经理", @"CTO", @"迎娶白富美"];
             [cell configUI:indexPath];
         }
-        
+        cell.progressView.delegate = self;
+        cell.progressView.dataSource = self;
+        [cell.progressView reloadData];
+        cell.progressView.currentProgress = [titleInt integerValue];
+        //cell.progressView.items = @[@(3),@(4)];
         if (_productCateID ==7) {
             
         }else if (_productCateID ==8){
@@ -614,6 +718,8 @@
     }
     
 }
+
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row == 2) {
         BundProfileViewController *vc= [[BundProfileViewController alloc]init];
@@ -645,6 +751,8 @@
     //    sVC.rowLabelText = [NSString stringWithFormat:@"第%ld组的第%ld个cell",(long)indexPath.section,(long)indexPath.row];
     //    [self presentViewController:sVC animated:YES completion:nil];
 }
+
+
 
 
 - (void)viewWillAppear:(BOOL)animated {

@@ -20,6 +20,7 @@
     NSMutableArray *DinQiTopArray;
     NSMutableArray *DinQiDetailArray;
     NSMutableArray *DinQiJiXiDetailArray;
+     MBProgressHUD *hud;
 }
 @property (nonatomic,strong)UITableView *tableView;
 
@@ -31,11 +32,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"定期投资详情";
+    NSuserSave(@"2", @"change");
+    
     self.view.backgroundColor = [UIColor whiteColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
+    leftBtn.frame = CGRectMake(0, 0, 24, 44);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
     
     [leftBtn addTarget:self action:@selector(DinQiDetailClick) forControlEvents:UIControlEventTouchUpInside];
@@ -44,9 +47,10 @@
     DinQiTopArray  =  [[NSMutableArray alloc]init];
     DinQiDetailArray = [[NSMutableArray alloc]init];
     DinQiJiXiDetailArray = [[NSMutableArray alloc]init];
-    
+   
     [self getNetworkData:YES];
     [self ConfigUI];
+     [self showProgress];
 }
 
 
@@ -58,20 +62,20 @@
     NSString *tokenID = NSuserUse(@"Authorization");
         Bottomurl = [NSString stringWithFormat:@"%@/productOrders/%@/details",HOST_URL,_oid];
         [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-            NSLog(@"result列表 === %@",result);
 
                 DinQiModel *model = [[DinQiModel alloc]init];
                 model.dataDictionary = [result objectForKey:@"items"];
                 [DinQiDetailArray addObject:model];
             [_tableView reloadData];
-        }];
+             [self HideProgress];
+            
+        }]; 
 
     
     NSString *url;
     url = [NSString stringWithFormat:@"%@/productOrders/%@/detailsSub",HOST_URL,_oid];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSArray *DinQiArray = [result objectForKey:@"items"];
-        NSLog(@"result计息 ==%@",result);
         if (DinQiArray.count) {
             for (NSDictionary *dic in DinQiArray) {
                 DinQiModel *model = [[DinQiModel alloc]init];
@@ -80,10 +84,23 @@
 
             }
             [_tableView reloadData];
+            [self HideProgress];
 
         }
         
     }];
+}
+- (void)HideProgress{
+    [hud hideAnimated:YES afterDelay:1.0];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    
+    
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
 }
 -(void)ConfigUI{
     
@@ -188,6 +205,7 @@
             ChangeVC.MoneyName = [NSString stringWithFormat:@"%@",model.ci];
             ChangeVC.TimeName = [NSString stringWithFormat:@"%@",model.InterestBearingEndTime];
             ChangeVC.OrderNumber = [NSString stringWithFormat:@"%@",model.orderNo];
+            ChangeVC.State = [NSString stringWithFormat:@"%@",model.state];
             [self.navigationController pushViewController:ChangeVC animated:NO];
         }
         

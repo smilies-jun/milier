@@ -104,8 +104,9 @@
     
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 28, 28);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(UserBackClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -133,6 +134,7 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re==%@",result);
         StaticUserDic = [result objectForKey:@"data"];
         [self ConfigUI];
         [self reloadData];
@@ -651,11 +653,12 @@
         
         
         ChoseLabel = [[UILabel alloc]init];
-        ChoseLabel.backgroundColor = [UIColor redColor];
+        ChoseLabel.backgroundColor = colorWithRGB(0.96, 0.6, 0.00);
         ChoseLabel.textAlignment = NSTextAlignmentCenter;
         ChoseLabel.layer.masksToBounds = YES;
         ChoseLabel.textColor = [UIColor whiteColor];
         ChoseLabel.layer.cornerRadius = 10;
+        ChoseLabel.layer.borderColor = [UIColor whiteColor].CGColor;
         [MyStageImageView addSubview:ChoseLabel];
         [ChoseLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.mas_equalTo(MyStageImageView.mas_right);

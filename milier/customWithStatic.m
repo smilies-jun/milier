@@ -55,6 +55,7 @@
     _NameTextField.backgroundColor = [UIColor whiteColor];
     _NameTextField.font = [UIFont systemFontOfSize:14];
     _NameTextField.textAlignment = NSTextAlignmentLeft;
+    _NameTextField.delegate = self;
     _NameTextField.placeholder = @"请输入验证码";
     [self addSubview:_NameTextField];
     [_NameTextField mas_makeConstraints:^(MASConstraintMaker *make) {

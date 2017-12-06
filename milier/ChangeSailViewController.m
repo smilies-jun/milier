@@ -30,8 +30,9 @@
     self.navigationItem.title = @"债权转让";
     self.view.backgroundColor = colorWithRGB(0.56, 0.56, 0.56);
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    leftBtn.frame = CGRectMake(0, 7, 18, 18);
-    [leftBtn setImage:[UIImage imageNamed:@"backarrow@2x.png"] forState:UIControlStateNormal];
+    leftBtn.frame = CGRectMake(0, 0, 44, 44);
+    [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
+    [leftBtn setImageEdgeInsets:UIEdgeInsetsMake(0,0,0,8 *SCREEN_WIDTH/375.0)];
     [leftBtn addTarget:self action:@selector(MyChangeClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
@@ -44,7 +45,6 @@
     page = 1;
     isFirstCome = YES;
     isJuhua = NO;
-
     _tableView = [[MyTableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT- 64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -233,12 +233,13 @@
            
            //添加确定到UIAlertController中
            UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-               for (UIViewController *controller in self.navigationController.viewControllers) {
-                   if ([controller isKindOfClass:[UserViewController class]]) {
-                       [self.navigationController popToViewController:controller animated:YES];
-                   }
-               }
+//               for (UIViewController *controller in self.navigationController.viewControllers) {
+//                   if ([controller isKindOfClass:[UserViewController class]]) {
+//                       [self.navigationController popToViewController:controller animated:YES];
+//                   }
+//               }
                [self getNetworkData:YES];
+               [self ConfigUI];
            }];
            [alertController addAction:OKAction];
            

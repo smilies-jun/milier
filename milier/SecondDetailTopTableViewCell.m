@@ -171,10 +171,27 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(5);
     }];
+    progressView = [[ZYProgressView alloc] init];
+    progressView.frame = CGRectMake(40, 320, SCREEN_WIDTH-80, 40);
+    //纯代码实现，这个方法可调，可不调。但是如果是通过xib创建，必须要调用此方法
+    [progressView reloadData];
+    self.progressView = progressView;
+    [imageView addSubview:progressView];
     
-   
+    BottomLineView1 = [[UIView alloc]init];
+    BottomLineView1.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    [self.contentView addSubview:BottomLineView1];
+    [BottomLineView1 mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.mas_left);
+        make.top.mas_equalTo(progressView.mas_bottom).offset(35);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(5);
+    }];
  
 }
+
+
+
 - (void)setDetailModel:(ProductDetailModel *)detailModel{
     if (detailModel != _detailModel) {
         if (_state ==0) {
@@ -184,9 +201,23 @@
             MoneyPercentLabel.text = [NSString stringWithFormat:@"+%@%%",_percent];
 
         }
-       
+        if (_ProductcatID ==7) {
+            progressView.hidden = YES;
+            BottomLineView1.hidden = YES;
+        }else if (_ProductcatID ==8){
+            progressView.hidden = YES;
+            BottomLineView1.hidden = YES;
+        }else if (_ProductcatID ==6){
+            progressView.hidden = YES;
+            BottomLineView1.hidden = YES;
+        }else{
+            progressView.hidden = NO;
+            BottomLineView1.hidden = NO;
+        }
         
         _detailModel = detailModel;
+        
+ 
         switch (_ProductcatID) {
             case 1:
                 TitleLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
@@ -258,10 +289,8 @@
             NSLog(@"232323232===%@",_detailModel.interestRate);
             if ([_detailModel.interestRate doubleValue] ==0 ) {
                 ProfitPercentLabel.text = @"0.00%";
-  NSLog(@"1-----------");
             }else{
                 ProfitPercentLabel.text = [NSString stringWithFormat:@"%.2f%%",[_detailModel.interestRate doubleValue] ];
-  NSLog(@"1++++++++++");
             }
             
             BondLabel.text = [NSString stringWithFormat:@"%.2f元债权",[_detailModel.bondTotal doubleValue]];
