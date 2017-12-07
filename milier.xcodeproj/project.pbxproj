@@ -155,6 +155,7 @@
 		27152C181FD7C16700885A5A /* NSString+DD.m in Sources */ = {isa = PBXBuildFile; fileRef = 27152C141FD7C16600885A5A /* NSString+DD.m */; };
 		27152C191FD7C16700885A5A /* DDAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 27152C151FD7C16600885A5A /* DDAlertView.m */; };
 		27152C1D1FD7E1A500885A5A /* MyBtn.m in Sources */ = {isa = PBXBuildFile; fileRef = 27152C1C1FD7E1A500885A5A /* MyBtn.m */; };
+		27152C201FD8C8BF00885A5A /* MessageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27152C1F1FD8C8BE00885A5A /* MessageViewController.m */; };
 		271D36FD1EE78E9E00F99664 /* OutMoneyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 271D36FC1EE78E9E00F99664 /* OutMoneyViewController.m */; };
 		271D37071EE78F6C00F99664 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271D36FF1EE78F6C00F99664 /* Default-568h@2x.png */; };
 		271D37081EE78F6C00F99664 /* Default-667h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 271D37001EE78F6C00F99664 /* Default-667h@2x.png */; };
@@ -1026,6 +1027,8 @@
 		27152C171FD7C16700885A5A /* NSString+DD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+DD.h"; path = "aler/NSString+DD.h"; sourceTree = "<group>"; };
 		27152C1B1FD7E1A500885A5A /* MyBtn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MyBtn.h; sourceTree = "<group>"; };
 		27152C1C1FD7E1A500885A5A /* MyBtn.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MyBtn.m; sourceTree = "<group>"; };
+		27152C1E1FD8C8BE00885A5A /* MessageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MessageViewController.h; sourceTree = "<group>"; };
+		27152C1F1FD8C8BE00885A5A /* MessageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MessageViewController.m; sourceTree = "<group>"; };
 		271D36FB1EE78E9E00F99664 /* OutMoneyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutMoneyViewController.h; sourceTree = "<group>"; };
 		271D36FC1EE78E9E00F99664 /* OutMoneyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OutMoneyViewController.m; sourceTree = "<group>"; };
 		271D36FF1EE78F6C00F99664 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -3201,6 +3204,8 @@
 				27E229F01ECE82E100B1034D /* MessageTableViewCell.h */,
 				27E229F11ECE82E100B1034D /* MessageTableViewCell.m */,
 				271E83291F02A01F004F005C /* MesaageMoel.m */,
+				27152C1E1FD8C8BE00885A5A /* MessageViewController.h */,
+				27152C1F1FD8C8BE00885A5A /* MessageViewController.m */,
 			);
 			name = "消息";
 			sourceTree = "<group>";
@@ -4732,6 +4737,7 @@
 				27032EB81EA8B41C00A4233B /* NSNumber+Zirkfied.m in Sources */,
 				27032F341EAF484700A4233B /* StageTableViewCell.m in Sources */,
 				27032E5F1EA8A8A700A4233B /* ZHPickView.m in Sources */,
+				27152C201FD8C8BF00885A5A /* MessageViewController.m in Sources */,
 				27DFC8251E9CDA50008E6098 /* SecondMainTableViewCell.m in Sources */,
 				27032F231EAEFF1900A4233B /* ChangeSailDetailViewController.m in Sources */,
 				27E22A001ED5319E00B1034D /* MoneyViewController.m in Sources */,

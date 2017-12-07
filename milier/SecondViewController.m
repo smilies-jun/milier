@@ -31,7 +31,7 @@
 #import "ActivityDetailViewController.h"
 #import "ConfirmBankViewController.h"
 #import "DDAlertView.h"
-
+#import "MessageViewController.h"
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
     SDCycleScrollView *autoScrollView;
@@ -352,7 +352,10 @@
 
 }
 - (void)RightClick{
-    FourViewController *fourVC = [[FourViewController alloc]init];
+//    FourViewController *fourVC = [[FourViewController alloc]init];
+//    [self.navigationController pushViewController:fourVC animated:YES];
+    
+    MessageViewController *fourVC = [[MessageViewController alloc]init];
     [self.navigationController pushViewController:fourVC animated:YES];
 
 }

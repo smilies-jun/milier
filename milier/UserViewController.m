@@ -134,7 +134,6 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re==%@",result);
         StaticUserDic = [result objectForKey:@"data"];
         [self ConfigUI];
         [self reloadData];
