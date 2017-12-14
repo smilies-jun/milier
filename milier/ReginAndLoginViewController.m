@@ -261,7 +261,7 @@
     }
     
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:USER_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re == %@",result);
+        NSLog(@"%@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             NSDictionary *dic = [result objectForKey:@"data"];
             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");

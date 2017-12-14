@@ -44,8 +44,7 @@
 //        NSLog(@"22");
 //    }
      NSString *userID = NSuserUse(@"userId");
-    NSLog(@"usert==%@",userID);
-       [self getNetworkData:YES];
+    [self getNetworkData:YES];
     [self ConfigUI];
    
    
@@ -233,6 +232,11 @@
         ActivityDetailViewController *vc = [[ActivityDetailViewController alloc]init];
         ActivityModel *model = [DataArray objectAtIndex:indexPath.row];
         vc.WebStr = model.url;
+        vc.Type = @"1";
+        
+        vc.activioid = model.oid;
+        //vc.activioid = @"29";
+      
         vc.TitleStr = model.name;
         [self.navigationController   pushViewController:vc animated:NO];
     }

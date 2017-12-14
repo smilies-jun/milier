@@ -19,6 +19,8 @@
 #import "ApplyAllMoneyViewController.h"
 #import "ConvertViewController.h"
 #import "YWDLoginViewController.h"
+#import <AwAlertViewlib/AwAlertViewlib.h>
+#import "MSNumberScrollAnimatedView.h"
 
 @interface ThirdViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     CustomMoreView *AboutUsView;
@@ -29,8 +31,12 @@
     CustomMoreView *ShareView;
     CustomMoreView *DuiHuanView;
     CustomMoreView *TellUsView;
+    CustomMoreView *JiFenView;
     NSDictionary    *MyDic;
     NSDictionary *ShareDic;
+    
+     AwAlertView *SureAlertView;
+     MSNumberScrollAnimatedView *numberAnimatedV;
 }
 
 @end
@@ -54,6 +60,7 @@
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
     [self ConfigUI];
+
 }
 - (void)ConfigUI{
     AboutUsView = [[CustomMoreView alloc]init];
@@ -144,19 +151,19 @@
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);
     }];
-//    DuiHuanView  = [[CustomMoreView alloc]init];
-//    DuiHuanView.StaticImageView.image = [UIImage imageNamed:@"gift"];
-//    DuiHuanView.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *DuiHuanTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DuiHuanClick)];
-//    [DuiHuanView addGestureRecognizer:DuiHuanTap];
-//    DuiHuanView.NameLabel.text = @"积分换礼品";
-//    [self.view addSubview:DuiHuanView];
-//    [DuiHuanView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(self.view.mas_left);
-//        make.top.mas_equalTo(ShareView.mas_bottom).offset(0.5);
-//        make.width.mas_equalTo(SCREEN_WIDTH);
-//        make.height.mas_equalTo(40);
-//    }];
+    DuiHuanView  = [[CustomMoreView alloc]init];
+    DuiHuanView.StaticImageView.image = [UIImage imageNamed:@"gift"];
+    DuiHuanView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *DuiHuanTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(DuiHuanClick)];
+    [DuiHuanView addGestureRecognizer:DuiHuanTap];
+    DuiHuanView.NameLabel.text = @"积分换礼品";
+    [self.view addSubview:DuiHuanView];
+    [DuiHuanView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(ShareView.mas_bottom).offset(0.5);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
+    }];
     TellUsView  = [[CustomMoreView alloc]init];
     TellUsView.StaticImageView.image = [UIImage imageNamed:@"feedback"];
     TellUsView.userInteractionEnabled = YES;
@@ -166,7 +173,7 @@
     [self.view addSubview:TellUsView];
     [TellUsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(ShareView.mas_bottom).offset(10);
+        make.top.mas_equalTo(DuiHuanView.mas_bottom).offset(10);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);
     }];
@@ -175,7 +182,15 @@
 }
 
 - (void)DuiHuanClick{
-    ConvertViewController    *ConvertVC = [[ConvertViewController alloc]init];
+     NSString *userID = NSuserUse(@"userId");
+    
+    ConvertViewController  *ConvertVC = [[ConvertViewController alloc]init];
+    if ([userID integerValue]) {
+         ConvertVC.Type = @"1";
+    }else{
+        ConvertVC.Type = @"0";
+    }
+    ConvertVC.MyUIType = @"1";
     [self.navigationController pushViewController:ConvertVC animated:NO];
 }
 //关于我们

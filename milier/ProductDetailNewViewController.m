@@ -82,22 +82,24 @@
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc]initWithImage:[UIImage imageNamed:@"explain"] style:UIBarButtonItemStylePlain target:self action:@selector(DetailRightClick)];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
+   
+   // [self ConfigUI];
+}
+
+
+- (void)reloadMyUi{
     [self reloadData];
     _DataArray = [[NSMutableArray alloc]init];
     _count = 190;
     NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
-
+    
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
         state = [result objectForKey:@"state"];
         increase_type = [result objectForKey:@"increase_type"];
         percent = [result objectForKey:@"percent"];
         [self getNetworkData:YES];
     }];
-   // [self ConfigUI];
 }
-
-
-
 
 
 #pragma mark ----ZYProgressViewDataSource
@@ -458,7 +460,16 @@
         }
   
     }
-    
+    if (_productCateID == 7) {
+        NSString *newProductInfoPayFlag = NSuserUse(@"newProductInfoPayFlag");
+        if ([newProductInfoPayFlag integerValue] ==0) {
+            SaleLbel.text = @"您已购买过新手产品";
+            SaleLbel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
+        }else{
+           SaleLbel.text = @"立即购买";
+        }
+    }
+   
 }
 
     
@@ -467,6 +478,8 @@
 //}
 - (void)SaleBtnClick{
     if ([SaleLbel.text isEqualToString:@"售罄"]) {
+        
+    }else if ([SaleLbel.text isEqualToString:@"您已购买过新手产品"]){
         
     }else{
         if ([_State integerValue] == 2) {
@@ -758,8 +771,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     // 马上进入刷新状态
-     [self reloadData];
-      [self getNetworkData:YES];
+    [self reloadMyUi];
     [self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }

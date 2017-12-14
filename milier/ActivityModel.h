@@ -22,4 +22,6 @@
 
 @property(nonatomic,strong)NSString *url;
 
+@property(nonatomic,strong)NSString *oid;
+
 @end

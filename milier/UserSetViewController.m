@@ -455,8 +455,10 @@
     NSuserRemove(@"type");
     NSuserRemove(@"activityOid");
     NSuserRemove(@"Risk");
+     NSuserSave(@"1", @"newProductInfoPayFlag");
     NSuserSave(@"2", @"qiye");
     NSuserSave(@"1", @"heafresh");
+    
     [self.navigationController popToRootViewControllerAnimated:NO];
 
 }

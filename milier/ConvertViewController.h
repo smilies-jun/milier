@@ -24,4 +24,7 @@
 -(void)getNetworkData:(BOOL)isRefresh;
 
 @property(nonatomic,strong)NSString *JifenStr;
+@property(nonatomic,strong)NSString *Type;
+@property(nonatomic,strong)NSString *MyType;
+@property(nonatomic,strong)NSString *MyUIType;
 @end

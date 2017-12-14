@@ -55,7 +55,11 @@
     [self.view addSubview:NameChooseView];
     [NameChooseView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.view.mas_top).offset(10);
+        if ([_TypeUI integerValue] ==1) {
+            make.top.mas_equalTo(self.view.mas_top).offset(74);
+        }else{
+            make.top.mas_equalTo(self.view.mas_top).offset(10);
+        }
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);
     }];
@@ -192,7 +196,7 @@
                             normal_alert(@"提示", @"兑换成功", @"确定");
 
                             for (UIViewController *controller in self.navigationController.viewControllers) {
-                                if ([controller isKindOfClass:[MyJiFenNewViewController   class]]) {
+                                if ([controller isKindOfClass:[ConvertViewController   class]]) {
                                     [self.navigationController popToViewController:controller animated:YES];
                                 }
                             }

@@ -38,18 +38,34 @@
     [self.view addSubview:ActivityWebView];
     // ActivityWebView.scalesPageToFit  = YES;
     [ActivityWebView loadRequest:request];
+    
+    
+    
 }
 - (void)messageTap{
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+- (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType{
+    NSLog(@"REQUEST.URL = %@",request.URL);
+    return YES;
+}
+- (void)webViewDidStartLoad:(UIWebView *)webView{
+    // NSLog(@"webView start load");
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView{
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+}
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    // NSLog(@"webview fail load");
+    [webView sizeToFit];
 }
 - (void)HideProgress{
     [hud hideAnimated:YES afterDelay:1.f];
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    
-    
     // Set the label text.
     
     hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");

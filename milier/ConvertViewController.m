@@ -16,9 +16,18 @@
 #import "giftModel.h"
 #import "ConvertViewController.h"
 #import "FYLCityPickView.h"
+#import "ThirdViewController.h"
+#import "YWDLoginViewController.h"
+
 
 @interface ConvertViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *JiFenArray;
+    NSString *jifenStr;
+    UILabel *topView;
+    NSDictionary* StaticUserDic;
+    NSString *mYjifenStr;
+    MBProgressHUD *hud;
+    NSString *myTypeJifen;
 }
 @property (nonatomic,strong)UITableView *tableView;
 
@@ -40,8 +49,22 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     JiFenArray = [[NSMutableArray alloc]init];
-    [self getNetworkData:YES];
+    myTypeJifen = @"0";
     [self ConfigUI];
+    [self showProgress];
+    [self HideProgress];
+}
+- (void)HideProgress{
+    [hud hideAnimated:YES afterDelay:1.0];
+}
+- (void)showProgress{
+    hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    // Set the label text.
+    
+    hud.label.text = NSLocalizedString(@"正在请求中", @"HUD loading title");
+}
+- (void)clear{
+    NSLog(@"123");
 }
 - (void)ConvertClick{
     for (UIViewController *controller in self.navigationController.viewControllers) {
@@ -49,21 +72,80 @@
             [self.navigationController popToViewController:controller animated:YES];
         }
     }
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[ThirdViewController class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 }
 -(void)ConfigUI{
+    int myWidth;   int myHeight;
+    if ([myTypeJifen integerValue] ==1) {
+        self.view.backgroundColor = [UIColor whiteColor];
+        topView = [[UILabel alloc]init];
+        topView.backgroundColor = colorWithRGB(0.97, 0.93, 0.89);
+        topView.frame = CGRectMake(0, 64, SCREEN_WIDTH, 40);
+        topView.layer.borderWidth = 0.5;
+        topView.layer.borderColor = [colorWithRGB(0.95, 0.6, 0.11) CGColor];
+        topView.textAlignment = NSTextAlignmentCenter;
+        topView.font = [UIFont systemFontOfSize:13];
+        topView.textColor = colorWithRGB(0.95, 0.6, 0.11);
+        [self.view addSubview:topView];
+    if ([_Type integerValue] ==1) {
+        myWidth = SCREEN_HEIGHT - 60 -40;
+        myHeight = 104;
+         topView.hidden = NO;
+    }else{
+        topView.hidden = YES;
+        myWidth = SCREEN_HEIGHT;
+        myHeight = 0;
+       
+    }
+    if ([_MyType integerValue] ==2) {
+        topView.hidden = YES;
+        myWidth = SCREEN_HEIGHT-60;
+        myHeight = 0;
+    }else{
+         NSString *userID = NSuserUse(@"userId");
+        if ([userID integerValue]) {
+            myWidth = SCREEN_HEIGHT - 60-40;
+            myHeight = 104;
+            topView.hidden = NO;
+        }else{
+            topView.hidden = YES;
+            myWidth = SCREEN_HEIGHT;
+            myHeight = 0;
+        }
+       
+    }
+    }else{
+        if ([_MyUIType integerValue] ==1) {
+            myWidth = SCREEN_HEIGHT;
+            myHeight = 0;
+            topView.hidden = YES;
+        }else{
+            myWidth = SCREEN_HEIGHT-60;
+            myHeight = 0;
+            topView.hidden = YES;
+        }
+       
+    }
     
-    page = 0;
-    isFirstCome = YES;
-    isJuhua = NO;
+        page = 0;
+        isFirstCome = YES;
+        isJuhua = NO;
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,myHeight, SCREEN_WIDTH, myWidth) style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
+        self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
+        _tableView.tableFooterView = [UIView new];
+        _tableView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:_tableView];
+        
+    [self HideProgress];
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64) style:UITableViewStylePlain];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoconNew)];
-    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadconMore)];
-    _tableView.tableFooterView = [UIView new];
-    _tableView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_tableView];
+    
 }
 - (void)loadoconNew{
     [self getNetworkData:YES];
@@ -84,7 +166,36 @@
     [self.tableView.mj_footer endRefreshing];
 }
 
-
+- (void)requestUSer{
+        NSString *url;
+        NSString *tokenID = NSuserUse(@"Authorization");
+        url = [NSString stringWithFormat:@"%@/commodities/expire",HOST_URL];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
+                if ([[result objectForKey:@"state"]integerValue] == 1) {
+                    jifenStr = [result objectForKey:@"introduction"];
+                    mYjifenStr = @"1";
+                    [self ConfigUI];
+                }else{
+                    mYjifenStr = @"0";
+                    [self ConfigUI];
+                }
+                
+            }
+            
+        }];
+        NSString *Statisurl;
+        NSString *userID = NSuserUse(@"userId");
+        if ([userID integerValue]) {
+            Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
+            [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+               StaticUserDic = [result objectForKey:@"data"];
+                
+                [self requestHead];
+            }];
+        }
+        
+}
 -(void)getNetworkData:(BOOL)isRefresh
 {
     if (isRefresh) {
@@ -107,9 +218,16 @@
     if (page == 1) {
         [JiFenArray removeAllObjects];
     }
-    NSLog(@"url ==%@",url);
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue]) {
+        Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            StaticUserDic = [result objectForKey:@"data"];
+            mYjifenStr = [StaticUserDic objectForKey:@"points"];
+        }];
+    }
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID  usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"==%lu", [[result objectForKey:@"items"]count]);
         for (NSDictionary *dic  in [result objectForKey:@"items"]) {
             
             giftModel *model = [[giftModel alloc]init];
@@ -125,9 +243,94 @@
         }
     }];
     
+   
+    
+  
+    
     
 }
-
+- (void)requestHead{
+    
+    if ([myTypeJifen integerValue] ==1) {
+        if ([_Type integerValue]== 1) {
+            UIView * viewBackInNavi=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 90, 30)];
+            viewBackInNavi.backgroundColor=[UIColor clearColor];
+            viewBackInNavi.userInteractionEnabled=YES;
+            //重做按钮
+            UIButton *myRightRePaintBtn=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 18, 30)];
+            [myRightRePaintBtn addTarget:self action:@selector(clear) forControlEvents:UIControlEventTouchUpInside];
+            [myRightRePaintBtn setBackgroundColor:[UIColor whiteColor]];
+            [myRightRePaintBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+            [myRightRePaintBtn setImage:[UIImage imageNamed:@"sstar"] forState:UIControlStateNormal];
+            [myRightRePaintBtn setTitle:[NSString stringWithFormat:@" %@",NSLocalizedString(@"local_paintAgain", nil)] forState:UIControlStateNormal];
+            myRightRePaintBtn.titleLabel.adjustsFontSizeToFitWidth=YES;
+            [viewBackInNavi addSubview:myRightRePaintBtn];
+            
+            //提交按钮
+            UILabel *myRightSubmitBtn=[[UILabel alloc]initWithFrame:CGRectMake(18, 0, 90-18, 30)];
+            myRightSubmitBtn.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
+            myRightSubmitBtn.userInteractionEnabled = YES;
+            UITapGestureRecognizer *mtTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clear)];
+            [myRightSubmitBtn addGestureRecognizer:mtTap];
+            myRightSubmitBtn.backgroundColor = [UIColor whiteColor ];
+            myRightSubmitBtn.textColor = colorWithRGB(0.95, 0.6, 0.0);
+            myRightSubmitBtn.textAlignment = NSTextAlignmentLeft;
+            
+            [viewBackInNavi addSubview:myRightSubmitBtn];
+            
+            
+            UIBarButtonItem * right=[[UIBarButtonItem alloc]initWithCustomView:viewBackInNavi];
+            //将整个viewBackInNavi右移10
+            UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]   initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace   target:nil action:nil];
+            //negativeSpacer.width =-10;//负数为右移，正数为左移
+            self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer,right, nil];
+            
+            
+        }else{
+            if ([_MyType integerValue] == 0) {
+                NSString *userID = NSuserUse(@"userId");
+                if ([userID integerValue]) {
+                    UIView * viewBackInNavi=[[UIView alloc]initWithFrame:CGRectMake(0, 0, 90, 30)];
+                    viewBackInNavi.backgroundColor=[UIColor clearColor];
+                    viewBackInNavi.userInteractionEnabled=YES;
+                    //重做按钮
+                    UIButton *myRightRePaintBtn=[[UIButton alloc]initWithFrame:CGRectMake(0, 0, 18, 30)];
+                    [myRightRePaintBtn addTarget:self action:@selector(clear) forControlEvents:UIControlEventTouchUpInside];
+                    [myRightRePaintBtn setBackgroundColor:[UIColor whiteColor]];
+                    [myRightRePaintBtn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+                    [myRightRePaintBtn setImage:[UIImage imageNamed:@"sstar"] forState:UIControlStateNormal];
+                    [myRightRePaintBtn setTitle:[NSString stringWithFormat:@" %@",NSLocalizedString(@"local_paintAgain", nil)] forState:UIControlStateNormal];
+                    myRightRePaintBtn.titleLabel.adjustsFontSizeToFitWidth=YES;
+                    [viewBackInNavi addSubview:myRightRePaintBtn];
+                    
+                    //提交按钮
+                    UILabel *myRightSubmitBtn=[[UILabel alloc]initWithFrame:CGRectMake(18, 0, 90-18, 30)];
+                    myRightSubmitBtn.text = [NSString stringWithFormat:@"%@",[StaticUserDic objectForKey:@"points"]];
+                    myRightSubmitBtn.userInteractionEnabled = YES;
+                    UITapGestureRecognizer *mtTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(clear)];
+                    [myRightSubmitBtn addGestureRecognizer:mtTap];
+                    myRightSubmitBtn.backgroundColor = [UIColor whiteColor ];
+                    myRightSubmitBtn.textColor = colorWithRGB(0.95, 0.6, 0.0);
+                    myRightSubmitBtn.textAlignment = NSTextAlignmentLeft;
+                    
+                    [viewBackInNavi addSubview:myRightSubmitBtn];
+                    
+                    
+                    UIBarButtonItem * right=[[UIBarButtonItem alloc]initWithCustomView:viewBackInNavi];
+                    //将整个viewBackInNavi右移10
+                    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]   initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace   target:nil action:nil];
+                    //negativeSpacer.width =-10;//负数为右移，正数为左移
+                    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer,right, nil];
+                }
+                
+            }
+            
+        }
+    }else {
+        
+    }
+    
+}
 - (void)reset{
     [self.tableView reloadData];
     
@@ -146,9 +349,7 @@
 }
 //cell的高度
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    
     return 110;
-    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -171,33 +372,47 @@
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    giftModel *model = [JiFenArray objectAtIndex:indexPath.row];
-    if ([_JifenStr integerValue]<[model.score integerValue]) {
-        normal_alert(@"提示", @"您的积分不足", @"确定");
-    }else{
-        if ([model.type integerValue] == 1) {
-            CostViewController *vc = [[CostViewController alloc]init];
-            vc.NameStr = model.name;
-            vc.TypeStr = model.type;
-            vc.ProductID = model.oid;
-            vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
-            [self.navigationController   pushViewController:vc animated:NO];
-        }else if([model.type integerValue] == 3)  {
-            SubstanceViewController *vc = [[SubstanceViewController alloc]init];
-            vc.NameStr = model.name;
-            vc.ProductID = model.oid;
-            vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
-            [self.navigationController   pushViewController:vc animated:NO];
-            
+   NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue]) {
+        giftModel *model = [JiFenArray objectAtIndex:indexPath.row];
+        if ([mYjifenStr integerValue]<[model.score integerValue]) {
+            normal_alert(@"提示", @"您的积分不足", @"确定");
         }else{
-            CostViewController *vc = [[CostViewController alloc]init];
-            vc.NameStr = model.name;
-            vc.TypeStr = model.type;
-            vc.ProductID = model.oid;
-            vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
-            [self.navigationController   pushViewController:vc animated:NO];
+            if ([model.type integerValue] == 1) {
+                CostViewController *vc = [[CostViewController alloc]init];
+                vc.NameStr = model.name;
+                vc.TypeUI = _MyUIType;
+                vc.TypeStr = model.type;
+                vc.ProductID = model.oid;
+                vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+                [self.navigationController   pushViewController:vc animated:NO];
+            }else if([model.type integerValue] == 3)  {
+                SubstanceViewController *vc = [[SubstanceViewController alloc]init];
+                vc.NameStr = model.name;
+                vc.TypeUI = _MyUIType;
+                vc.ProductID = model.oid;
+                vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+                [self.navigationController   pushViewController:vc animated:NO];
+                
+            }else{
+                CostViewController *vc = [[CostViewController alloc]init];
+                vc.NameStr = model.name;
+                vc.TypeUI = _MyUIType;
+                vc.TypeStr = model.type;
+                vc.ProductID = model.oid;
+                vc.ScoreStr = [NSString stringWithFormat:@"%@",model.score];
+                [self.navigationController   pushViewController:vc animated:NO];
+            }
         }
+        
+    }else{
+        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+        loginNagition.navigationBarHidden = YES;
+        [self presentViewController:loginNagition animated:NO completion:nil];
     }
+   
+   
     
    
     
@@ -209,6 +424,10 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self requestHead];
+    [self requestUSer];
+    [self getNetworkData:YES];
+   
     // 马上进入刷新状态
    //[self.tableView.mj_header beginRefreshing];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];

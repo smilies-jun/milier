@@ -74,12 +74,10 @@
         
        
     }];
-    NSLog(@"pa==%@",parameters);
     __block NSMutableDictionary *parameter = [[NSMutableDictionary alloc] init];
     [self md5WithParameters:parameters usingBlock:^(NSMutableDictionary *result, NSError *error) {
         parameter = result;
     }];
-    NSLog(@"pa == %@",parameter);
     manager = [AFHTTPSessionManager manager];
     manager.requestSerializer = [AFJSONRequestSerializer serializer];
     manager.securityPolicy = [AFSecurityPolicy policyWithPinningMode:AFSSLPinningModeNone];

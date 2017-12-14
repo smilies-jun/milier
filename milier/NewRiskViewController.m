@@ -416,10 +416,10 @@
         [mycell.contentView addSubview:titleLabel];
     
   
-    
+    __block NSIndexPath *test =[NSIndexPath indexPathForRow:indexPath.row+1 inSection:0];
     
         _MyTable = [SingChooseTableView ShareTableWithFrame:CGRectMake(0, 40, SCREEN_WIDTH-40, self.view.frame.size.height-160)];
-    _MyTable.layer.cornerRadius =20;
+        _MyTable.layer.cornerRadius =20;
         NSMutableArray *dateArray = [[NSMutableArray alloc]init];
         NSArray *myArray = [OptionesArray objectAtIndex:indexPath.row];
         for (int i=0; i<5; i++) {
@@ -436,8 +436,6 @@
   
     //选中内容
         _MyTable.block = ^(NSString *chooseContent,NSIndexPath *indePath){
-        
-        
         //weakSelf.removeTag = 1024;
         weakSelf.tableIndex = indePath.row+1;
         //存储
@@ -448,8 +446,14 @@
         [defaults synchronize];
         NSString *str = [NSString stringWithFormat:@"%ld",indexPath.row+1];
         [ZSSaveTools setObject:str forKey:@"string"];
-        
-        
+     
+//            if (indexPath.row <9) {
+//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                     [self.collectionView setContentOffset:CGPointMake((SCREEN_WIDTH-40)*(indexPath.row +1), 0)];
+//                });
+//
+//            }
+           
     };
         
         
@@ -485,7 +489,7 @@
  *  @param JieXi      解析
  */
 -(void)ExamAnswerWith:(NSString *)flast andWith:(NSString *)tureAnswer AndWith:(NSString *)JieXi andWithTitle:(NSString *)title andWith:(NSString *)seqStr{
-    
+    NSLog(@"");
     
     
 }
@@ -641,6 +645,8 @@
   
     
 }
+
+
 - (void)ComClick{
     
     
@@ -664,7 +670,7 @@
 }
 -(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     
-    //HQLAppLog(@"点击%ld",indexPath.row);
+   NSLog(@"点击%ld",indexPath.row);
     
 }
 
@@ -677,7 +683,6 @@
 #pragma mark --设置每个cell的大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     return CGSizeMake(SCREEN_WIDTH-40 , SCREEN_HEIGHT-100);
 }
 

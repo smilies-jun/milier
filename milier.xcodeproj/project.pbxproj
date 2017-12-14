@@ -266,6 +266,11 @@
 		27404DB31EA75A5B00DAFFC2 /* uncheck_box@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27404D9B1EA75A5B00DAFFC2 /* uncheck_box@3x.png */; };
 		27404DB61EA7634D00DAFFC2 /* SalePassWordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27404DB51EA7634D00DAFFC2 /* SalePassWordViewController.m */; };
 		27404DB91EA7698700DAFFC2 /* BundCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27404DB81EA7698700DAFFC2 /* BundCardViewController.m */; };
+		274645E21FDF7A34005330DC /* RCDraggableButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 274645E11FDF7A34005330DC /* RCDraggableButton.m */; };
+		274645E51FDFBA8A005330DC /* sstar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274645E31FDFBA89005330DC /* sstar@2x.png */; };
+		274645E61FDFBA8A005330DC /* sstar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274645E41FDFBA89005330DC /* sstar@3x.png */; };
+		274645E91FE21DC3005330DC /* goumaicg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274645E71FE21DC3005330DC /* goumaicg@2x.png */; };
+		274645EA1FE21DC3005330DC /* goumaicg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274645E81FE21DC3005330DC /* goumaicg@3x.png */; };
 		274A84AA1EBC26C8002B7069 /* assignment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274A849A1EBC26C8002B7069 /* assignment@2x.png */; };
 		274A84AB1EBC26C8002B7069 /* assignment@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274A849B1EBC26C8002B7069 /* assignment@3x.png */; };
 		274A84AC1EBC26C8002B7069 /* begin@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274A849C1EBC26C8002B7069 /* begin@2x.png */; };
@@ -1189,6 +1194,12 @@
 		27404DB51EA7634D00DAFFC2 /* SalePassWordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SalePassWordViewController.m; sourceTree = "<group>"; };
 		27404DB71EA7698700DAFFC2 /* BundCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BundCardViewController.h; path = Images/BundCardViewController.h; sourceTree = "<group>"; };
 		27404DB81EA7698700DAFFC2 /* BundCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BundCardViewController.m; path = Images/BundCardViewController.m; sourceTree = "<group>"; };
+		274645E01FDF7A34005330DC /* RCDraggableButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDraggableButton.h; sourceTree = "<group>"; };
+		274645E11FDF7A34005330DC /* RCDraggableButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCDraggableButton.m; sourceTree = "<group>"; };
+		274645E31FDFBA89005330DC /* sstar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sstar@2x.png"; sourceTree = "<group>"; };
+		274645E41FDFBA89005330DC /* sstar@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sstar@3x.png"; sourceTree = "<group>"; };
+		274645E71FE21DC3005330DC /* goumaicg@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goumaicg@2x.png"; sourceTree = "<group>"; };
+		274645E81FE21DC3005330DC /* goumaicg@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "goumaicg@3x.png"; sourceTree = "<group>"; };
 		274A849A1EBC26C8002B7069 /* assignment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "assignment@2x.png"; sourceTree = "<group>"; };
 		274A849B1EBC26C8002B7069 /* assignment@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "assignment@3x.png"; sourceTree = "<group>"; };
 		274A849C1EBC26C8002B7069 /* begin@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "begin@2x.png"; sourceTree = "<group>"; };
@@ -2773,6 +2784,15 @@
 			path = login;
 			sourceTree = "<group>";
 		};
+		274645DF1FDF7A11005330DC /* DrogBtn */ = {
+			isa = PBXGroup;
+			children = (
+				274645E01FDF7A34005330DC /* RCDraggableButton.h */,
+				274645E11FDF7A34005330DC /* RCDraggableButton.m */,
+			);
+			name = DrogBtn;
+			sourceTree = "<group>";
+		};
 		274A84991EBC26C8002B7069 /* 产品活动状态图标 */ = {
 			isa = PBXGroup;
 			children = (
@@ -3213,6 +3233,10 @@
 		2755DA641E5BD45500C75656 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				274645E71FE21DC3005330DC /* goumaicg@2x.png */,
+				274645E81FE21DC3005330DC /* goumaicg@3x.png */,
+				274645E31FDFBA89005330DC /* sstar@2x.png */,
+				274645E41FDFBA89005330DC /* sstar@3x.png */,
 				278401471FC6C7FB00F56675 /* daicheng1@2x.png */,
 				278401481FC6C7FC00F56675 /* daicheng1@3x.png */,
 				278401491FC6C7FC00F56675 /* huaizhang1@2x.png */,
@@ -3947,6 +3971,7 @@
 		27FB50B21E5D857D0090AB69 /* until */ = {
 			isa = PBXGroup;
 			children = (
+				274645DF1FDF7A11005330DC /* DrogBtn */,
 				27152C1A1FD7E18E00885A5A /* Btn */,
 				27152C131FD7BE6B00885A5A /* alert */,
 				278C1C4D1FCE423F00ACA690 /* progress */,
@@ -4131,6 +4156,7 @@
 			files = (
 				27404DA51EA75A5B00DAFFC2 /* icon_required@3x.png in Resources */,
 				278401091FC5525200F56675 /* empty_3@3x.png in Resources */,
+				274645E51FDFBA8A005330DC /* sstar@2x.png in Resources */,
 				274A85BE1EBC2719002B7069 /* 8.5zhe@2x.png in Resources */,
 				278400D21FC54BFE00F56675 /* 2@3x.png in Resources */,
 				274A85241EBC26E0002B7069 /* random_xmq_03@2x.png in Resources */,
@@ -4307,6 +4333,7 @@
 				27032E501EA89E5700A4233B /* businessloans@2x.png in Resources */,
 				274A853D1EBC26E0002B7069 /* random_xmq_03@3x.png in Resources */,
 				273D78681EF7796B0024B61B /* nonedata@2x.png in Resources */,
+				274645E61FDFBA8A005330DC /* sstar@3x.png in Resources */,
 				27DFC84B1E9E1E7E008E6098 /* huodong_hover@2x.png in Resources */,
 				278400A71FC4162B00F56675 /* b@2x.png in Resources */,
 				274A84D61EBC26D4002B7069 /* gift@3x.png in Resources */,
@@ -4415,12 +4442,14 @@
 				278400F91FC5525200F56675 /* hover_5@2x.png in Resources */,
 				274A859F1EBC2704002B7069 /* up_arrow_gray@2x.png in Resources */,
 				2784012D1FC5720500F56675 /* qi@2x.png in Resources */,
+				274645E91FE21DC3005330DC /* goumaicg@2x.png in Resources */,
 				27032E511EA89E5700A4233B /* businessloans@3x.png in Resources */,
 				279D8CC21F1DDEE5002F4563 /* daishou@2x.png in Resources */,
 				27032FAE1EB97CC900A4233B /* security@2x.png in Resources */,
 				274A858C1EBC2704002B7069 /* goarrow@3x.png in Resources */,
 				271E83041EFBC2AB004F005C /* huodong@3x.png in Resources */,
 				274A85D61EBC2731002B7069 /* welcome1-568h@2x.png in Resources */,
+				274645EA1FE21DC3005330DC /* goumaicg@3x.png in Resources */,
 				271E82FF1EFBAEDC004F005C /* welcome2_select@2x.png in Resources */,
 				279D8D5F1F31673C002F4563 /* yijieshu@3x.png in Resources */,
 				27404D9F1EA75A5B00DAFFC2 /* fail_icon@3x.png in Resources */,
@@ -4782,6 +4811,7 @@
 				27032ED81EA8B41C00A4233B /* ZFWaveChart.m in Sources */,
 				271288DA1E5A9FBC00DCB546 /* AppDelegate.m in Sources */,
 				27032EC91EA8B41C00A4233B /* ZFGenericAxis.m in Sources */,
+				274645E21FDF7A34005330DC /* RCDraggableButton.m in Sources */,
 				27404D621EA7115F00DAFFC2 /* SaleViewController.m in Sources */,
 				27032F941EB88BD500A4233B /* PersonViewController.m in Sources */,
 				27032EBE1EA8B41C00A4233B /* ZFPopoverLabel.m in Sources */,

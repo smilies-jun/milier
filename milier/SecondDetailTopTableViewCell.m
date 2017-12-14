@@ -103,7 +103,7 @@
     [BondLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(ProfitLabel.mas_centerX);
         make.top.mas_equalTo(ProfitPercentLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(100);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     

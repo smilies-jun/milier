@@ -176,7 +176,6 @@
     NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text,@"phoneNumber",CodeNumView.NameTextField.text,@"captcha",passStr,@"newPassword", nil];
     NSString *url = [NSString stringWithFormat:@"%@/retrievePassword",USER_URL];
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:url withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re == %@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             normal_alert(@"提示", @"修改密码成功", @"确定");
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -220,7 +219,6 @@
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:phoneNumView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
         //验证码获取陈功or失败
         [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:SMS_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-            NSLog(@"reSMS == %@",result);
             
             if ([[result objectForKey:@"statusCode"]integerValue] == 201 ) {
                 [_GetCode fireWithTime:60 title:@"获取" countDownTitle:@"秒" mainBGColor:colorWithRGB(0.95, 0.6, 0.11) countBGColor:colorWithRGB(0.95, 0.6, 0.11) mainTextColor:[UIColor whiteColor] countTextColor:[UIColor whiteColor]];

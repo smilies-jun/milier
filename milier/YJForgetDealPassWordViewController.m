@@ -250,7 +250,6 @@
 
 - (void)codeGet{
    NSString *phone =  NSuserUse(@"phone_My");
-    NSLog(@"ph == %@",phone);
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     BOOL isMatch  = [phoneTest evaluateWithObject:phone];

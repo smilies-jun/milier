@@ -30,6 +30,9 @@
     NSDictionary *ShareDic;
     int Type;
     MBProgressHUD *hud;
+    NSString *jifenStr;
+    NSString *MyjifenStr;
+    NSString *MyTypeJifen;
 }
 
 @property (nonatomic, strong) UIActivityIndicatorView *loadingView;
@@ -50,9 +53,15 @@
     [leftBtn addTarget:self action:@selector(jiFenTap) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
+    
+    
+   
+    
+  }
+-(void)requestUi{
     [self.loadingView startAnimating];
     [self.loadingView stopAnimating];
-   
+    
     YNJianShuDemoViewController *viewController = [self getJianShuDemoViewController];
     [viewController addSelfToParentViewController:self isAfterLoadData:YES];
     [self showProgress];
@@ -80,8 +89,41 @@
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JiFenBtnClick
                                                                                                           )];
     [SaleLbel addGestureRecognizer:SaleTap];
+}
+- (void)requestJifen{
     
-  }
+    NSString *tokenID = NSuserUse(@"Authorization");
+
+    NSString *Statisurl;
+    NSString *userID = NSuserUse(@"userId");
+    if ([userID integerValue]) {
+        Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
+        [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+            MyjifenStr = [[result objectForKey:@"data"] objectForKey:@"points"];
+            [self requestUi];
+
+        }];
+    }
+    NSString *url;
+    url = [NSString stringWithFormat:@"%@/commodities/expire",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+        if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
+            if ([[result objectForKey:@"state"]integerValue] == 1) {
+                 jifenStr = [result objectForKey:@"introduction"];
+                MyTypeJifen = @"1";
+                 [self requestUi];
+            }else{
+                 MyTypeJifen = @"0";
+                [self requestUi];
+            }
+           
+            
+        }
+        
+    }];
+   
+    
+}
 - (void)HideProgress{
     [hud hideAnimated:YES afterDelay:1.5];
 }
@@ -100,7 +142,8 @@
 }
 - (void)JiFenBtnClick{
     ConvertViewController    *ConvertVC = [[ConvertViewController alloc]init];
-    ConvertVC.JifenStr =  _JiFenStr;
+    ConvertVC.JifenStr =  MyjifenStr;
+    ConvertVC.MyType = @"2";
     [self.navigationController pushViewController:ConvertVC animated:NO];
 
 }
@@ -137,43 +180,65 @@
     
     //创建控制器
     YNJianShuDemoViewController *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"积分记录",@"兑换记录"] Configration:configration];
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 150)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 180)];
     imageView.userInteractionEnabled = YES;
     
-            UILabel *label = [[UILabel alloc] init];
-            label.frame = CGRectMake(0, 40, SCREEN_WIDTH, 40);
-            label.text =_JiFenStr;
-            label.font = [UIFont systemFontOfSize:26];
-            label.textAlignment = NSTextAlignmentCenter;
-            label.textColor = [UIColor orangeColor];
-            [imageView addSubview:label];
-            UILabel *jifenlabel = [[UILabel alloc]init];
-            jifenlabel.text = @"积分规则>>";
-            jifenlabel.userInteractionEnabled = YES;
-            UITapGestureRecognizer *jifenTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JifenProTap)];
-            [jifenlabel addGestureRecognizer:jifenTap];
-            jifenlabel.font = [UIFont systemFontOfSize:13];
-            jifenlabel.textAlignment = NSTextAlignmentCenter;
-            jifenlabel.frame = CGRectMake(0, 90, SCREEN_WIDTH, 20);
-            jifenlabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
-            [imageView addSubview:jifenlabel];
+    UILabel *label = [[UILabel alloc] init];
+    label.frame = CGRectMake(0, 40, SCREEN_WIDTH, 40);
+    
+    if ([MyjifenStr integerValue]) {
+        label.text =[NSString   stringWithFormat:@"%@",MyjifenStr];
+
+    }else{
+        label.text  = @"0";
+    }
+    label.font = [UIFont systemFontOfSize:26];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.textColor = [UIColor orangeColor];
+    [imageView addSubview:label];
+    UILabel *jifenlabel = [[UILabel alloc]init];
+    jifenlabel.text = @"积分规则>>";
+    jifenlabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *jifenTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(JifenProTap)];
+    [jifenlabel addGestureRecognizer:jifenTap];
+    jifenlabel.font = [UIFont systemFontOfSize:13];
+    jifenlabel.textAlignment = NSTextAlignmentCenter;
+    jifenlabel.frame = CGRectMake(0, 90, SCREEN_WIDTH, 20);
+    jifenlabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    [imageView addSubview:jifenlabel];
     //        [jifenlabel mas_makeConstraints:^(MASConstraintMaker *make) {
     //            make.top.mas_equalTo(label.mas_bottom);
     //            make.left.mas_equalTo(label.mas_left);
     //            make.width.mas_equalTo(200);
     //            make.height.mas_equalTo(20);
     //        }];
+    UILabel *topView = [[UILabel alloc]init];
+    topView.backgroundColor = colorWithRGB(0.97, 0.93, 0.89);
+    topView.frame = CGRectMake(0, 130, SCREEN_WIDTH, 40);
+    topView.layer.borderWidth = 0.5;
+    topView.font = [UIFont systemFontOfSize:13];
+    topView.layer.borderColor = [colorWithRGB(0.95, 0.6, 0.11) CGColor];
+    topView.textAlignment = NSTextAlignmentCenter;
+    topView.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    if ([MyTypeJifen integerValue] ==1) {
+        if (jifenStr.length) {
+            topView.text= jifenStr;
+            topView.hidden = NO;
+        }else{
+            topView.hidden = YES;
+        }
+    }else{
+        topView.hidden = YES;
+    }
     
-            imageView.backgroundColor = [UIColor whiteColor];
-    
-            UIView *bottomView = [[UIView alloc]init];
-            bottomView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
-            bottomView.frame = CGRectMake(0, 140, SCREEN_WIDTH, 10);
-            [imageView addSubview:bottomView];
+   
+    [imageView addSubview:topView];
+    imageView.backgroundColor = [UIColor whiteColor];
+    UIView *bottomView = [[UIView alloc]init];
+    bottomView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    bottomView.frame = CGRectMake(0, 170, SCREEN_WIDTH, 10);
+    [imageView addSubview:bottomView];
 
-    
-
-    
     //footer用来当做内容高度
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
     footerView.backgroundColor = [UIColor groupTableViewBackgroundColor];
@@ -266,7 +331,7 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self requestJifen];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 

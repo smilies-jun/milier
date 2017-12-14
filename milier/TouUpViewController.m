@@ -68,7 +68,6 @@ static LLPayType payType = LLPayTypeVerify;
     NSString *Statisurl;
     NSString *tokenID = NSuserUse(@"Authorization");
     NSString *bankID = NSuserUse(@"bankId");
-    NSLog(@"id == %@",_bankID);
     Statisurl = [NSString stringWithFormat:@"%@/banks/%@",HOST_URL,_bankID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *statusStr = [result objectForKey:@"statusCode"];

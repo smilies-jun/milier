@@ -109,6 +109,7 @@
 //            [self.tableView reloadData];
 //            
 //        }
+    [self endRefresh];
      [self.tableView reloadData];
         if ([[result objectForKey:@"items"]count]==0) {
             [self reset];

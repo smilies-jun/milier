@@ -92,6 +92,7 @@
     self.navigationItem.title = @"购买";
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
     
+    
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     leftBtn.frame = CGRectMake(0, 0, 44, 44);
     [leftBtn setImage:[UIImage imageNamed:@"backarrow"] forState:UIControlStateNormal];
@@ -112,6 +113,7 @@
         [self reloadMyMoney];
         [self reloadMyStage];
         [self ConfigUI];
+        
     }];
    
     //[self ConfigInverest];
@@ -188,6 +190,13 @@
 
 }
 - (void)ConfigUI{
+    
+    
+    
+    
+    
+    
+    
     TopView = [[UIView alloc]init];
     TopView.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HideKeyBoardClick)];
@@ -802,6 +811,9 @@
                                                                                                           )];
     [SaleLabel addGestureRecognizer:SaleTap];
     
+
+    
+    
     switch ([_productID integerValue]) {
         case 1:
             TitleLabel.textColor = colorWithRGB(0.62, 0.80, 0.09);
@@ -892,8 +904,7 @@
 //    AddMoneyLabel.textAlignment = NSTextAlignmentLeft;
     AddMoneyLabel.frame = CGRectMake(SCREEN_WIDTH/2+65, 50, 100, 40);
     [TopView addSubview:AddMoneyLabel];
-    
-    
+   
     
 
 }
@@ -954,7 +965,7 @@
   
 }
 - (void)SaleBtn{
-   
+
     if (ClickBtn.selected) {
         NSString *userID = NSuserUse(@"userId");
         NSString *riskID = userRiskStr;
@@ -1113,8 +1124,14 @@
     }
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
+            
+            //  如果是新手添加
+            if ([_productCatiID integerValue] == 7) {
+                 NSuserSave(@"0", @"newProductInfoPayFlag");
+            }
             [self HideProgress];
             //UIAlertController风格：UIAlertControllerStyleAlert
+            NSLog(@"rrr == %@",result);
             NSString *sucessStr = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
             NSString *mySucessStr;
             if ([sucessStr isEqualToString:@"(null)"]) {
@@ -1139,7 +1156,7 @@
                 [alertController addAction:OKAction];
                 [self presentViewController:alertController animated:YES completion:nil];
             }else{
-                UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];
+                UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 320)];
                 view.backgroundColor=[UIColor whiteColor];
                 view.layer.masksToBounds = YES;
                 view.layer.cornerRadius = 5.0f;
@@ -1155,66 +1172,115 @@
                 [view addSubview:CancelImageView];
                 
                 
-                UILabel *label = [[UILabel alloc]init];
-                label.frame = CGRectMake(20, 10, 80, 20);
-                label.text = @"提示";
-                label.font = [UIFont systemFontOfSize:15];
-                [view addSubview:label];
+                
+                UIImageView *myImage = [[UIImageView alloc]init];
+                myImage.image = [UIImage imageNamed:@"goumaicg"];
+                [view addSubview:myImage];
+                [myImage mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.mas_equalTo(view.mas_centerX);
+                    make.top.mas_equalTo(view.mas_top).offset(40);
+                    make.width.mas_equalTo(60);
+                    make.height.mas_equalTo(60);
+                }];
+                
                 UILabel *buyLabel = [[UILabel alloc]init];
                 buyLabel.text = @"购买成功!";
+                buyLabel.textAlignment = NSTextAlignmentCenter;
                 buyLabel.textColor = colorWithRGB(0.62, 0.9, 0.09);
-                buyLabel.font = [UIFont systemFontOfSize:22];
-                buyLabel.frame = CGRectMake(40, 40, 100, 30);
+                buyLabel.font = [UIFont systemFontOfSize:18];
                 [view addSubview:buyLabel];
-                UILabel *buyLabel1 = [[UILabel alloc]init];
-                NSString *myMessage = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]];
                 
-                buyLabel1.text = [NSString stringWithFormat:@"%@",myMessage];
-                buyLabel1.numberOfLines =0;
-                buyLabel1.font = [UIFont systemFontOfSize:16];
-                buyLabel1.frame = CGRectMake(40, 70, SCREEN_WIDTH-80, 60);
-                [view addSubview:buyLabel1];
-                //                    UILabel *buyLabel2 = [[UILabel alloc]init];
-                //
-                //                    buyLabel2.font = [UIFont systemFontOfSize:15];
-                //                    buyLabel2.frame = CGRectMake(40, 100, 300, 30);
-                //                    [view addSubview:buyLabel2];
+                [buyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.mas_equalTo(view.mas_centerX);
+                    make.top.mas_equalTo(myImage.mas_bottom).offset(5);
+                    make.width.mas_equalTo(230);
+                    make.height.mas_equalTo(30);
+                }];
+                
+                UILabel *buy = [[UILabel alloc]init];
+                
+               buy.text = [NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"award"]]];
+               // buy.text = @"恭喜你购买成功";
+                buy.numberOfLines =0;
+                buy.textColor = colorWithRGB(0.4, 0.4, 0.4);
+                buy.textAlignment = NSTextAlignmentCenter;
+                buy.font = [UIFont systemFontOfSize:16];
+                [view addSubview:buy];
+                [buy mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.mas_equalTo(view.mas_centerX);
+                    make.top.mas_equalTo(buyLabel.mas_bottom);
+                    make.width.mas_equalTo(SCREEN_WIDTH - 40);
+                    make.height.mas_equalTo(40);
+                }];
+                
+                UIView *percentBackView = [[UIView alloc]init];
+                percentBackView.backgroundColor = colorWithRGB(0.96, 0.6, 0.12);
+                percentBackView.layer.cornerRadius = 5;
+                [view addSubview:percentBackView];
+                [percentBackView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.mas_equalTo(view.mas_centerX);
+                    make.top.mas_equalTo(buy.mas_bottom).offset(20);
+                    make.width.mas_equalTo(SCREEN_WIDTH - 200);
+                    make.height.mas_equalTo(40);
+                }];
+                numberAnimatedV = [[MSNumberScrollAnimatedView alloc] init];
+                numberAnimatedV.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:22];
+                numberAnimatedV.textColor = [UIColor whiteColor];
+                numberAnimatedV.backgroundColor = colorWithRGB(0.96, 0.6, 0.12);;
+                numberAnimatedV.frame = CGRectMake(40, 10, SCREEN_WIDTH-200-80, 20);
+                numberAnimatedV.minLength = 5;
+                NSString *myPercent = [NSString stringWithFormat:@"%@", [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"percent"]]];
+                NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+                [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                NSNumber *numTemp = [numberFormatter numberFromString:myPercent];
+                numberAnimatedV.number = numTemp;
+                [numberAnimatedV startAnimation];
+                [percentBackView addSubview:numberAnimatedV];
+                
                 UIView *saleView = [[UIView alloc]init];
                 saleView.backgroundColor = [UIColor whiteColor];
-                saleView.frame = CGRectMake(0, 200, SCREEN_WIDTH, 60);
                 [view addSubview:saleView];
+                [saleView mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.centerX.mas_equalTo(view.mas_centerX);
+                    make.top.mas_equalTo(percentBackView.mas_bottom).offset(20);
+                    make.width.mas_equalTo(SCREEN_WIDTH - 40);
+                    make.height.mas_equalTo(40);
+                }];
                 UILabel *SaleLbel =  [[UILabel alloc]init];
-                SaleLbel.text = @"确定";
+                SaleLbel.text = @"完成";
                 SaleLbel.userInteractionEnabled = YES;
-                SaleLbel.backgroundColor = [UIColor redColor];
+                SaleLbel.backgroundColor = colorWithRGB(0.96, 0.6, 0.12);
                 SaleLbel.textAlignment = NSTextAlignmentCenter;
                 SaleLbel.textColor = [UIColor whiteColor];
-                SaleLbel.layer.cornerRadius = 20;
+                SaleLbel.layer.cornerRadius = 25;
                 SaleLbel.layer.masksToBounds = YES;
                 [saleView addSubview:SaleLbel];
                 [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.centerX.mas_equalTo(saleView.mas_centerX);
                     make.centerY.mas_equalTo(saleView.mas_centerY);
                     make.width.mas_equalTo(SCREEN_WIDTH - 80);
-                    make.height.mas_equalTo(40);
+                    make.height.mas_equalTo(50);
                 }];
-                
+
                 UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(MySureClick
                                                                                                                       )];
                 [SaleLbel addGestureRecognizer:SaleTap];
-                numberAnimatedV = [[MSNumberScrollAnimatedView alloc] initWithFrame:CGRectMake(20, 130, SCREEN_WIDTH-40, 60)];
-                numberAnimatedV.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:42];
-                numberAnimatedV.textColor = [UIColor redColor];
-                numberAnimatedV.minLength = 7;
-                NSString *myPercent = [NSString stringWithFormat:@"%@",[[result objectForKey:@"data"]objectForKey:@"percent"]];
-                numberAnimatedV.number = @([myPercent integerValue]);
-                [numberAnimatedV startAnimation];
-                [view addSubview:numberAnimatedV];
                 
                 
+
+
+
                 UILabel *yuanLabel = [[UILabel alloc]init];
-                yuanLabel.text = @"元";
-                yuanLabel.textColor = [UIColor redColor];
+
+                if ([[[result objectForKey:@"data"]objectForKey:@"type"]integerValue] ==1) {
+                  yuanLabel.text = @"%";
+                }else if([[[result objectForKey:@"data"]objectForKey:@"type"]integerValue] ==2){
+                  yuanLabel.text = @"元";
+                }else{
+                    
+                }
+
+                yuanLabel.textColor = [UIColor whiteColor];
                 [view addSubview:yuanLabel];
                 [yuanLabel   mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.mas_equalTo(numberAnimatedV.mas_right);
@@ -1222,18 +1288,11 @@
                     make.width.mas_equalTo(30);
                     make.height.mas_equalTo(20);
                 }];
+
+             
                 
-                //    UIImageView *UseImageView = [[UIImageView alloc]init];
-                //    UseImageView.image = [UIImage imageNamed:@"tip"];
-                //    [view addSubview:UseImageView];
-                //    [UseImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-                //        make.centerX.mas_equalTo(view.mas_centerX);
-                //        make.top.mas_equalTo(view.mas_top).offset(40);
-                //        make.width.mas_equalTo(40);
-                //        make.height.mas_equalTo(40);
-                //
-                //    }];
                 
+              
                 
                 
                 
@@ -1262,6 +1321,24 @@
             normal_alert(@"提示", message, @"确定");
         }
     }];
+}
+
+- (int)convertToInt:(NSString*)strtemp
+{
+    int strlength = 0;
+    char* p = (char*)[strtemp cStringUsingEncoding:NSUnicodeStringEncoding];
+    for (int i=0 ; i<[strtemp lengthOfBytesUsingEncoding:NSUnicodeStringEncoding] ;i++) {
+        if (*p) {
+            p++;
+            strlength++;
+        }
+        else {
+            p++;
+        }
+        
+    }
+    return strlength;
+
 }
 - (void)SureSale{
     UIView *view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 260)];

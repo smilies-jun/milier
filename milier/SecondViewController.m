@@ -57,6 +57,7 @@
     NSMutableArray *ImageArray;
     NSMutableArray *ActivityArray;
      NSMutableArray *TitleArray;
+    NSMutableArray *OidArray;
     MBProgressHUD *hud;
 }
 @property(nonatomic, strong) MBProgressHUD *aProgressHUD;
@@ -86,6 +87,9 @@
     ImageArray = [[NSMutableArray alloc]init];
     ActivityArray = [[NSMutableArray alloc]init];
     TitleArray = [[NSMutableArray alloc]init];
+    OidArray = [[NSMutableArray alloc]init];
+    
+    
     
     EAIntroPage *page1 = [EAIntroPage page];
     page1.bgImage = [UIImage imageNamed:@"welcome1_select@2x"];
@@ -159,12 +163,12 @@
     
 }
 - (void)GetVersion{
-    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest",HOST_URL];
+    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest?type=2",HOST_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
         NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
         NSString *desc = [[result objectForKey:@"data"]objectForKey:@"desc"];
-        if ([VersionNumber isEqualToString:@"2.3"]) {
+        if ([VersionNumber isEqualToString:@"1.0"]) {
             if ([updateStatus integerValue]==3) {
                 DDAlertView *view = [[DDAlertView alloc]initWithTitle:@"提示" message:desc cancelButtonTitle:@"立即更新" cancelBlock:^(){
                     [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/米粒儿金融/id1142042774?l=zh&ls=1&mt=8"]];
@@ -294,6 +298,7 @@
             [ImageArray addObject:[dic objectForKey:@"image"]];
             [ActivityArray addObject:[dic objectForKey:@"href"]];
             [TitleArray addObject:[dic objectForKey:@"desc"]];
+            [OidArray addObject:[dic objectForKey:@"activityId"]];
         }
         [self CreateUI];
     }];
@@ -703,6 +708,7 @@
     ActivityDetailViewController *fourVC = [[ActivityDetailViewController alloc]init];
     fourVC.WebStr = [ActivityArray objectAtIndex:index];
     fourVC.TitleStr = [TitleArray objectAtIndex:index];
+    fourVC.activioid  = [OidArray  objectAtIndex:index];
     [self.navigationController pushViewController:fourVC animated:YES];
 }
 - (void)pageScrollViewMenuItemOnClick:(UILabel *)label index:(NSInteger)index{

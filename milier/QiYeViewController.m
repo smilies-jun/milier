@@ -56,9 +56,9 @@
  */
 -(void)endRefresh{
     
-    if (page == 1) {
+
         [self.tableView.mj_header endRefreshing];
-    }
+
     [self.tableView.mj_footer endRefreshing];
 }
 
@@ -84,8 +84,7 @@
     if (page ==1) {
         [DataArray removeAllObjects];
     }
-    NSLog(@"page = %d",page);
-    NSLog(@"count1 == %lu",(unsigned long)DataArray.count);
+  
     
     [self HideProgress];
 
@@ -93,7 +92,6 @@
         if (page ==1) {
             [DataArray removeAllObjects];
         }
-        NSLog(@"re==%@",result);
         for (NSDictionary *dic in [result objectForKey:@"items"]) {
           
             StageModel *model = [[StageModel alloc]init];
@@ -101,13 +99,13 @@
             [DataArray addObject:model];
         }
        // [self HideProgress];
-        NSLog(@"count2 == %lu",(unsigned long)DataArray.count);
 
 //        if (DataArray.count) {
 //            [self endRefresh];
 //            [self.tableView reloadData];
 //           
 //        }
+        [self endRefresh];
           [self.tableView reloadData];
         if ([[result objectForKey:@"items"]count]==0) {
             [self reset];

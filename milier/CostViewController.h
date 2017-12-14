@@ -18,5 +18,5 @@
 @property (nonatomic,strong)NSString *ProductID;
 
 @property(nonatomic,strong)NSString *TypeStr;
-
+@property(nonatomic,strong)NSString *TypeUI;
 @end

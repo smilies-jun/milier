@@ -264,8 +264,9 @@
     
     [cell UpdateCellWithState:!cell.isSelected];
     _currentSelectIndex = indexPath;
-    
+
     _block(cell.connentLabel.text,indexPath);
+    
 }
 
 -(void)ReloadData{

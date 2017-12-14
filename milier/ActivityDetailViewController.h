@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RCDraggableButton.h"
 
 @interface ActivityDetailViewController : UIViewController
 
@@ -14,6 +15,12 @@
 @property(nonatomic, strong)NSString *WebStr;
 
 @property(nonatomic, strong)NSString *TitleStr;
+
+
+@property(nonatomic,strong)NSString *Type;
+
+
+@property(nonatomic,strong)NSString *activioid;
 
 
 
