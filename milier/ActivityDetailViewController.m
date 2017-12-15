@@ -17,6 +17,7 @@
 #import "YWDLoginViewController.h"
 #import <ShareSDK/ShareSDK.h>
 #import <ShareSDKUI/ShareSDK+SSUI.h>
+#import "ApplyAllMoneyViewController.h"
 
 @interface ActivityDetailViewController ()<WKUIDelegate>{
     WKWebView *ActivityWebView;
@@ -134,72 +135,90 @@
 }
 //领取
 - (void)ActiveClick{
-    if ([[MyDIC objectForKey:@"type"]integerValue] ==1) {
-        [self.navigationController popToRootViewControllerAnimated:YES];
-        switch ([[MyDIC objectForKey:@"productid"]integerValue]) {
-            case 1:
-                 NSuserSave(@"1", @"qiye");
-                break;
-            case 2:
-                NSuserSave(@"2", @"qiye");
-                break;
-            case 3:
-                NSuserSave(@"3", @"qiye");
-                break;
-            case 4:
-                NSuserSave(@"4", @"qiye");
-                break;
-            case 6:
-                NSuserSave(@"5", @"qiye");
-//            case 6:
-//                NSuserSave(@"6", @"qiye");
-//                break;
-            default:
-                break;
-        }
+    if ([SaleLbel.text isEqualToString:@"今日已领取"]) {
         
-        [self.rdv_tabBarController setSelectedIndex:0];
-        [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
-    }else if ([[MyDIC objectForKey:@"type"]integerValue] ==3){
-        NSString *url;
-        NSString *tokenID = NSuserUse(@"Authorization");
-        url = [NSString stringWithFormat:@"%@/props/activity/receiveProps",HOST_URL];
-        
-        [[DateSource sharedInstance]requestHomeWithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-               //领取成功
-            if ([[result objectForKey:@"statusCode"]integerValue] ==201) {
-                NSString *sucessStr = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
+    }
+    else{
+        if ([[MyDIC objectForKey:@"type"]integerValue] ==1) {
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+            switch ([[MyDIC objectForKey:@"productId"]integerValue]) {
+                case 1:
+                    NSLog(@"1111111");
+                    NSuserSave(@"2", @"qiye");
+                    break;
+                case 2:
+                    NSuserSave(@"5", @"qiye");
+                    break;
+                case 3:
+                    NSuserSave(@"1", @"qiye");
+                    break;
+                case 4:
+                    NSuserSave(@"4", @"qiye");
+                    break;
+                case 6:
+                    NSuserSave(@"3", @"qiye");
+                    //            case 6:
+                    //                NSuserSave(@"6", @"qiye");
+                    //                break;
+                default:
+                    break;
+            }
+            
+            [self.rdv_tabBarController setSelectedIndex:0];
+            [[self rdv_tabBarController] setTabBarHidden:NO animated:YES];
+        }else if ([[MyDIC objectForKey:@"type"]integerValue] ==2){
+            
+           
+            NSString *url;
+            NSString *tokenID = NSuserUse(@"Authorization");
+            url = [NSString stringWithFormat:@"%@/props/activity/receiveProps",HOST_URL];
+
+            [[DateSource sharedInstance]requestHomeWithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                //领取成功
+                if ([[result objectForKey:@"statusCode"]integerValue] ==201) {
+                    NSString *sucessStr = [NSString stringWithFormat:@"%@",[result objectForKey:@"message"]];
                     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示"
                                                                                              message:sucessStr
                                                                                       preferredStyle:UIAlertControllerStyleAlert ];
-                    
+
                     //添加取消到UIAlertController中
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:nil];
                     [alertController addAction:cancelAction];
-                    
+
                     //添加确定到UIAlertController中
                     UIAlertAction *OKAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         SaleLbel.text = @"今日已领取";
                         SaleLbel.backgroundColor = colorWithRGB(0.85, 0.85, 0.85);
-                        
+
                     }];
                     [alertController addAction:OKAction];
                     [self presentViewController:alertController animated:YES completion:nil];
-                
-            }else{
-                 normal_alert(@"提示",@"领取失败", @"确定");
-            }
-            
-            
-        }];
-    }else if ([[MyDIC objectForKey:@"type"]integerValue] ==0){
-        YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-        UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-        loginNagition.navigationBarHidden = YES;
-        [self presentViewController:loginNagition animated:NO completion:nil];
-    }else{
-        [self shareClick];
+
+                }else{
+                    normal_alert(@"提示",@"领取失败", @"确定");
+                }
+
+
+            }];
+        }else if ([[MyDIC objectForKey:@"type"]integerValue] ==0){
+            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+            loginNagition.navigationBarHidden = YES;
+            [self presentViewController:loginNagition animated:NO completion:nil];
+        }else if ([[MyDIC objectForKey:@"type"]integerValue] ==4){
+            ApplyAllMoneyViewController *vc = [[ApplyAllMoneyViewController alloc]init];
+            vc.type = @"1";
+            [self.navigationController   pushViewController:vc animated:NO];
+        }
+        
+        else{
+          
+            [self shareClick];
+        }
     }
+    
+    
     
    
 }
@@ -264,7 +283,7 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     url = [NSString stringWithFormat:@"%@/activities/%@/isButton",HOST_URL,_activioid];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        
+        NSLog(@"ac == %@",result);
         MyDIC = result;
         [self configUi];
         

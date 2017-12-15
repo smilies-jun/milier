@@ -54,7 +54,7 @@ static NSString * const cellId = @"cellID";
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(loadoneNew)];
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadoneMore)];
     
-    [self getNetworkData:YES];
+   // [self getNetworkData:YES];
 }
 
 - (void)loadoneNew{

@@ -10,4 +10,5 @@
 
 @interface ApplyAllMoneyViewController : UIViewController
 
+@property (nonatomic,retain)NSString *type;
 @end

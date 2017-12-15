@@ -203,6 +203,8 @@
     if ([[UserDic objectForKey:@"noneReceivedPropsCount"]integerValue]==0) {
         SaleLbel.text = @"立即分享，获得道具";
         Type =1;
+    }else{
+        SaleLbel.text = @"立即领取，获得道具";
     }
     UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(UseNowBtnClick
                                                                                                           )];

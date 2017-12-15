@@ -19,7 +19,7 @@
     _NameLabel.text =@"";
     _NameLabel.textAlignment = NSTextAlignmentCenter;
     _NameLabel.textColor = [UIColor orangeColor];
-    _NameLabel.font = [UIFont systemFontOfSize:50];
+    _NameLabel.font = [UIFont systemFontOfSize:40];
     [self addSubview:_NameLabel];
     [_NameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(self.mas_centerX);

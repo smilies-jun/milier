@@ -75,7 +75,6 @@
     NSString *tokenID = NSuserUse(@"Authorization");
     Statisurl = [NSString stringWithFormat:@"%@/%@/statistics",USER_URL,userID];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:Statisurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"333 == %@",result);
         NSString *statusStr = [result objectForKey:@"statusCode"];
         if ([statusStr integerValue] == 200) {
             MyMoneyDic = [result objectForKey:@"data"];

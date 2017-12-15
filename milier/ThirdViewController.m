@@ -293,10 +293,16 @@
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
+    //configration.showConver = YES;
+    //configration.converColor = colorWithRGB(1,0.87, 0.01);
+    //设置平分不滚动   默认会居中
+    // configration.aligmentModeCenter = YES;
+    //configration.showScrollLine = NO;
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
-    configration.showNavigation = NO;
-    configration.showTabbar = NO;//设置显示tabbar
+    configration.showNavigation = YES;
+    configration.showTabbar = YES;//设置显示tabbar
+    configration.showPersonTab = NO;
     
     AllMoneyViewController *vc = [AllMoneyViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"分成列表",@"转出记录"] Configration:configration];
     // 头部是否能伸缩效果   要伸缩效果就不要有下拉刷新控件 默认NO*/
@@ -314,7 +320,7 @@
    
     UILabel *MyScorLabel = [[UILabel alloc]init];
     if ( [[MyDic objectForKey:@"totalIncome"]doubleValue]) {
-        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%@元", [MyDic objectForKey:@"totalIncome"]];
+        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]];
 
     }else{
         MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
@@ -341,7 +347,7 @@
     }];
     UILabel *myMoneyLabel = [[UILabel alloc]init];
     if ([[MyDic objectForKey:@"assets"]doubleValue]) {
-        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%@元", [MyDic objectForKey:@"assets"]];
+        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
 
     }else{
         myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:0元"];

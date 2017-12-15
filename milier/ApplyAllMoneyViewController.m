@@ -13,6 +13,9 @@
 #import "SepartViewController.h"
 #import "OutViewController.h"
 #import "YWDLoginViewController.h"
+#import "ThirdViewController.h"
+#import "ActivityDetailViewController.h"
+
 
 @interface ApplyAllMoneyViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     UIButton *ClickBtn;
@@ -44,7 +47,12 @@
 }
 - (void)configUI{
     UIScrollView *scrollView = [[UIScrollView alloc]init];
-    scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64-20);
+    if ([_type integerValue] == 1) {
+         scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64-20- 60);
+    }else{
+         scrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64-20);
+    }
+   
     scrollView.showsHorizontalScrollIndicator = NO;
     scrollView.showsVerticalScrollIndicator = NO;
     scrollView.contentSize = CGSizeMake(0, SCREEN_HEIGHT + 620);
@@ -95,7 +103,7 @@
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 20.0f;
-    [reginBtn setTitle:@"成全民理财师" forState:UIControlStateNormal];
+    [reginBtn setTitle:@"成为全民理财师" forState:UIControlStateNormal];
     [reginBtn addTarget:self action:@selector(agreeClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -164,10 +172,16 @@
     configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
     //设置平分不滚动   默认会居中
     // configration.aligmentModeCenter = YES;
+    //configration.showConver = YES;
+    //configration.converColor = colorWithRGB(1,0.87, 0.01);
+    //设置平分不滚动   默认会居中
+    // configration.aligmentModeCenter = YES;
+    //configration.showScrollLine = NO;
     configration.scrollMenu = YES;
     configration.showGradientColor = NO;//取消渐变
-    configration.showNavigation = NO;
-    configration.showTabbar = NO;//设置显示tabbar
+    configration.showNavigation = YES;
+    configration.showTabbar = YES;//设置显示tabbar
+    configration.showPersonTab = NO;
     
     AllMoneyViewController *vc = [AllMoneyViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"分成列表",@"转出记录"] Configration:configration];
     // 头部是否能伸缩效果   要伸缩效果就不要有下拉刷新控件 默认NO*/
@@ -186,7 +200,7 @@
     UILabel *MyScorLabel = [[UILabel alloc]init];
     MyScorLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     if ([[MyDic objectForKey:@"totalIncome"]doubleValue]) {
-        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%@元", [MyDic objectForKey:@"totalIncome"]];
+        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元",[ [MyDic objectForKey:@"totalIncome"]floatValue]];
 
     }else{
         MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
@@ -215,7 +229,7 @@
     UILabel *myMoneyLabel = [[UILabel alloc]init];
     myMoneyLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
     if ([[MyDic objectForKey:@"assets"]doubleValue]) {
-        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%@元", [MyDic objectForKey:@"assets"]];
+        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
  
     }else{
         myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:0元"];
@@ -317,7 +331,17 @@
 
 
 - (void)AllTap{
-    [self.navigationController    popToRootViewControllerAnimated:NO];
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[ThirdViewController  class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
+    
+    for (UIViewController *controller in self.navigationController.viewControllers) {
+        if ([controller isKindOfClass:[ActivityDetailViewController  class]]) {
+            [self.navigationController popToViewController:controller animated:YES];
+        }
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated {
