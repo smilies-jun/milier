@@ -17,6 +17,7 @@
 @interface FirstViewController ()<UITableViewDataSource,UITableViewDelegate>{
     ActivityModel *Model;
     NSMutableArray *DataArray;
+    NSString *MyType;
 }
 @property (nonatomic,strong)UITableView *tableView;
 
@@ -43,9 +44,26 @@
 //    if ([self checkCardNo:@"9558881202000216808"]) {
 //        NSLog(@"22");
 //    }
-     NSString *userID = NSuserUse(@"userId");
-    [self getNetworkData:YES];
-    [self ConfigUI];
+   //  NSString *userID = NSuserUse(@"userId");
+    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest?type=2",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+        NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
+        NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
+        if ([VersionNumber isEqualToString:@"1.0"]) {
+            
+            if ([updateStatus integerValue]==2) {
+                MyType = @"1";
+            }else{
+                MyType = @"0";
+            }
+            [self getNetworkData:YES];
+            [self ConfigUI];
+            
+            
+        }
+      
+    }];
+  
    
    
 
@@ -122,7 +140,9 @@
 -(void)endRefresh{
     
     if (page == 1) {
-        [self.tableView.mj_header endRefreshing];    }
+    [self.tableView.mj_header endRefreshing];
+        
+    }
     [self.tableView.mj_footer endRefreshing];
 }
 
@@ -163,6 +183,9 @@
         }
          NSString *userID = NSuserUse(@"userId");
         if ([userID integerValue] == 49389) {
+             [DataArray removeAllObjects];
+        }
+        if ([MyType integerValue] == 1 ) {
              [DataArray removeAllObjects];
         }
         [_tableView reloadData];

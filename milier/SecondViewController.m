@@ -168,7 +168,9 @@
         NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
         NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
         NSString *desc = [[result objectForKey:@"data"]objectForKey:@"desc"];
+        NSLog(@"re ==== %@",result);
         if ([VersionNumber isEqualToString:@"1.0"]) {
+            
             if ([updateStatus integerValue]==3) {
                 DDAlertView *view = [[DDAlertView alloc]initWithTitle:@"提示" message:desc cancelButtonTitle:@"立即更新" cancelBlock:^(){
                     [[UIApplication sharedApplication]openURL:[NSURL URLWithString:@"https://itunes.apple.com/us/app/米粒儿金融/id1142042774?l=zh&ls=1&mt=8"]];
@@ -184,7 +186,7 @@
         
     }];
 }
-
+    
 - (void)changeWife{
     [self refreshData];
     [self RequestData];
@@ -706,10 +708,14 @@
 }
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
     ActivityDetailViewController *fourVC = [[ActivityDetailViewController alloc]init];
+
     fourVC.WebStr = [ActivityArray objectAtIndex:index];
-    fourVC.TitleStr = [TitleArray objectAtIndex:index];
-    fourVC.activioid  = [OidArray  objectAtIndex:index];
-    [self.navigationController pushViewController:fourVC animated:YES];
+    if ( fourVC.WebStr.length) {
+        fourVC.TitleStr = [TitleArray objectAtIndex:index];
+        fourVC.activioid  = [OidArray  objectAtIndex:index];
+        [self.navigationController pushViewController:fourVC animated:YES];
+    }
+  
 }
 - (void)pageScrollViewMenuItemOnClick:(UILabel *)label index:(NSInteger)index{
     

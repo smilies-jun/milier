@@ -55,8 +55,8 @@
 #define USER_URL @"https://app.milibanking.com/app/users"
 #define PRODUCTO_RDERS_URL @"https://app.milibanking.com/app/productOrders"
 #define ACTIVITIES_URL @"https://app.milibanking.com/app/activities"
-//
-//
+
+
 //#define SMSAAA_URL @"https://csapp.milibanking.com/app/bankValidate/" //短信验证
 //#define SMS_URL @"https://csapp.milibanking.com/app/sms" //短信验证
 //#define LOGIN_URL @"https://csapp.milibanking.com/app/tokens/createToken" //登录
@@ -67,7 +67,7 @@
 //#define USER_URL @"https://csapp.milibanking.com/app/users"
 //#define PRODUCTO_RDERS_URL @"https://csapp.milibanking.com/app/productOrders"
 //#define ACTIVITIES_URL @"https://csapp.milibanking.com/app/activities"
-////
+//////
 ////URL
 //#define SMSAAA_URL @"http://192.168.1.110/app/bankValidate/" //短信验证
 //#define SMS_URL @"http://192.168.1.110/app/sms" //短信验证
