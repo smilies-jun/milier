@@ -1,4 +1,4 @@
-//
+                                  //
 //  SecondViewController.m
 //  milier
 //
@@ -35,6 +35,7 @@
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
     SDCycleScrollView *autoScrollView;
+    SDCycleScrollView *BannerAutoScrollView;
     UIImageView *CancelImageView;
     
     UIImageView *NetImageView;//网贷基金
@@ -51,13 +52,19 @@
     UILabel *ChangeLabel;
     YNJianShuDemoViewController *vc;
     AwAlertView *alertView;
-    
+    AwAlertView *BannerAlertView;
      UIView *rootView;
     
     NSMutableArray *ImageArray;
     NSMutableArray *ActivityArray;
      NSMutableArray *TitleArray;
     NSMutableArray *OidArray;
+    
+    NSMutableArray *AcImageArray;
+    NSMutableArray *AcActivityArray;
+    NSMutableArray *AcTitleArray;
+    NSMutableArray *AcOidArray;
+    
     MBProgressHUD *hud;
 }
 @property(nonatomic, strong) MBProgressHUD *aProgressHUD;
@@ -89,7 +96,10 @@
     TitleArray = [[NSMutableArray alloc]init];
     OidArray = [[NSMutableArray alloc]init];
     
-    
+    AcImageArray = [[NSMutableArray alloc]init];
+    AcActivityArray = [[NSMutableArray alloc]init];
+    AcTitleArray = [[NSMutableArray alloc]init];
+    AcOidArray = [[NSMutableArray alloc]init];
     
     EAIntroPage *page1 = [EAIntroPage page];
     page1.bgImage = [UIImage imageNamed:@"welcome1_select@2x"];
@@ -118,9 +128,10 @@
     if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstLaunch"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstLaunch"];
         [intro showInView:rootView animateDuration:0.3];
-
+        [self showMyaActivity];
     }else {
-        
+        [self showMyaActivity];
+
     
     }
     
@@ -162,13 +173,70 @@
     
     
 }
+- (void)showMyaActivity{
+    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/activities/isHomeAddActivity",HOST_URL];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+        NSLog(@"re === %@",result);
+        [AcImageArray removeAllObjects];
+        [AcActivityArray removeAllObjects];
+        [AcTitleArray removeAllObjects];
+        NSArray *array = [result objectForKey:@"items"];
+        for (NSDictionary *dic in array) {
+            [AcImageArray addObject:[dic objectForKey:@"image"]];
+            [AcActivityArray addObject:[dic objectForKey:@"href"]];
+            [AcTitleArray addObject:[dic objectForKey:@"title"]];
+            [AcOidArray addObject:[dic objectForKey:@"oid"]];
+        }
+        
+        NSString *stateStr = [result objectForKey:@"activity_state"];
+        if ([stateStr integerValue] ==1) {
+              [self ShowMySucess];
+        }else{
+            
+        }
+       
+    }];
+}
+- (void)ShowMySucess{
+    UIView *view=[[UIView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-315)/2, 0, 315, 470)];
+    view.backgroundColor=[UIColor clearColor];
+    view.layer.masksToBounds = YES;
+    view.layer.cornerRadius = 10.0f;
+    view.alpha = 0.9;
+    
+    BannerAutoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,315, 420) imageURLStringsGroup:AcImageArray];
+    BannerAutoScrollView.delegate = self;
+    BannerAutoScrollView.tag = 100;
+    BannerAutoScrollView.layer.masksToBounds = YES;
+    BannerAutoScrollView.layer.cornerRadius = 10.0f;
+    BannerAutoScrollView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
+    [BannerAutoScrollView setPlaceholderImage:[UIImage imageNamed:@"bannerpic"]];
+    [view addSubview:BannerAutoScrollView];
+    
+    UIButton *MyBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    [MyBtn addTarget:self action:@selector(bunnerDis) forControlEvents:UIControlEventTouchUpInside];
+    [MyBtn setImage:[UIImage imageNamed:@"tcolse"] forState:UIControlStateNormal];
+    [view addSubview:MyBtn];
+    [MyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.mas_equalTo(view.mas_centerX);
+        make.top.mas_equalTo(BannerAutoScrollView.mas_bottom).offset(10);
+        make.width.mas_equalTo(34);
+        make.height.mas_equalTo(34);
+    }];
+    
+    BannerAlertView=[[AwAlertView alloc]initWithContentView:view];
+    BannerAlertView.isUseHidden=NO;
+    [BannerAlertView showAnimated:YES];
+}
+- (void)bunnerDis{
+    [BannerAlertView dismissAnimated:YES];
+}
 - (void)GetVersion{
     NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest?type=2",HOST_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
         NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
         NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
         NSString *desc = [[result objectForKey:@"data"]objectForKey:@"desc"];
-        NSLog(@"re ==== %@",result);
         if ([VersionNumber isEqualToString:@"1.0"]) {
             
             if ([updateStatus integerValue]==3) {
@@ -302,6 +370,7 @@
             [TitleArray addObject:[dic objectForKey:@"desc"]];
             [OidArray addObject:[dic objectForKey:@"activityId"]];
         }
+        // [self ShowMySucess];
         [self CreateUI];
     }];
 
@@ -672,6 +741,7 @@
     //轮播器
     autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 375/2) imageURLStringsGroup:ImageArray];
     autoScrollView.delegate = self;
+    autoScrollView.tag = 200;
     autoScrollView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     [autoScrollView setPlaceholderImage:[UIImage imageNamed:@"bannerpic"]];
     [headerView2 addSubview:autoScrollView];
@@ -707,14 +777,24 @@
     [alertView dismissAnimated:YES];
 }
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index{
+    [BannerAlertView dismissAnimated:YES];
     ActivityDetailViewController *fourVC = [[ActivityDetailViewController alloc]init];
-
-    fourVC.WebStr = [ActivityArray objectAtIndex:index];
-    if ( fourVC.WebStr.length) {
-        fourVC.TitleStr = [TitleArray objectAtIndex:index];
-        fourVC.activioid  = [OidArray  objectAtIndex:index];
-        [self.navigationController pushViewController:fourVC animated:YES];
+    if (cycleScrollView.tag == 200) {
+        fourVC.WebStr = [ActivityArray objectAtIndex:index];
+        if ( fourVC.WebStr.length) {
+            fourVC.TitleStr = [TitleArray objectAtIndex:index];
+            fourVC.activioid  = [OidArray  objectAtIndex:index];
+            [self.navigationController pushViewController:fourVC animated:YES];
+        }
+    }else{
+        fourVC.WebStr = [AcActivityArray objectAtIndex:index];
+        if ( fourVC.WebStr.length) {
+            fourVC.TitleStr = [AcTitleArray objectAtIndex:index];
+            fourVC.activioid  = [AcOidArray  objectAtIndex:index];
+            [self.navigationController pushViewController:fourVC animated:YES];
+        }
     }
+    
   
 }
 - (void)pageScrollViewMenuItemOnClick:(UILabel *)label index:(NSInteger)index{

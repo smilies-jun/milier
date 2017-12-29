@@ -28,10 +28,20 @@
     [_TitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(_TotalImageView.mas_right).offset(5);
         make.top.mas_equalTo(self.mas_top).offset(10);
+        make.width.mas_equalTo(70);
+        make.height.mas_equalTo(15);
+    }];
+    _DaoQiTitleLable = [[UILabel alloc]init];
+    _DaoQiTitleLable.text = @"(10元小米卷)";
+    _DaoQiTitleLable.font = [UIFont systemFontOfSize:13];
+    _DaoQiTitleLable.textColor = colorWithRGB(0.63, 0.63, 0.63);
+    [self addSubview:_DaoQiTitleLable];
+    [_DaoQiTitleLable mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(_TitleLable.mas_right);
+        make.top.mas_equalTo(self.mas_top).offset(10);
         make.width.mas_equalTo(180);
         make.height.mas_equalTo(15);
     }];
-    
     _DetailLable  = [[UILabel alloc]init];
     _DetailLable.text = @"投资50元以上可以使用，适用于短期理财";
     _DetailLable.font = [UIFont systemFontOfSize:13];
@@ -44,7 +54,16 @@
         make.height.mas_equalTo(15);
     }];
 
-    
+    _IConImageView = [[UIImageView alloc]init];
+    _IConImageView.hidden = YES;
+    _IConImageView.image = [UIImage imageNamed:@"choosequan"];
+    [self addSubview:_IConImageView];
+    [_IConImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(self.mas_right).offset(-20);
+        make.top.mas_equalTo(self.mas_top).offset(20);
+        make.width.mas_equalTo(21);
+        make.height.mas_equalTo(15);
+    }];
 
 }
 - (void)setStageModel:(ChooseStageModel *)stageModel{
@@ -99,7 +118,7 @@
         _DetailLable.hidden = NO;
 
     }
-
+_DaoQiTitleLable.text =[NSString stringWithFormat:@"(%@天后到期)",_stageModel.day];
     
 }
 }

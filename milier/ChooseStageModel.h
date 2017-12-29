@@ -23,5 +23,5 @@
 
 @property(nonatomic,strong)NSString *value;
 
-
+@property(nonatomic,strong)NSString *day;
 @end

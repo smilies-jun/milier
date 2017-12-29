@@ -17,8 +17,9 @@
 @property (nonatomic,strong)UIImageView *TotalImageView;
 
 @property (nonatomic,strong)UILabel *TitleLable;
-
+@property (nonatomic,strong)UILabel *DaoQiTitleLable;
 @property (nonatomic,strong)UILabel *DetailLable;
+@property (nonatomic,strong)UIImageView *IConImageView;
 
 @property (nonatomic,strong)ChooseStageModel *stageModel;
 

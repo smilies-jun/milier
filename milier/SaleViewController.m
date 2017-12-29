@@ -46,7 +46,7 @@
     
     UILabel *TotalMoneyLabel;
     UILabel *AgreementLabel;
-    
+    int *ChoseOid;
     UILabel *SaleLabel;//选择道具
     NSString *StageOid;
     NSString *BankID;
@@ -103,6 +103,7 @@
     stageArray = [[NSMutableArray alloc]init];
     agreeOrNo = 0;
     riskOrNo = 0;
+    ChoseOid = 0;
     AddStr = @"";
     NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
@@ -321,7 +322,7 @@
     ExplainLabel.text = @"注：若支付失败道具将在15分钟内返还";
     ExplainLabel.textColor =  colorWithRGB(0.67, 0.87, 0.1);
     ExplainLabel.textAlignment = NSTextAlignmentCenter;
-    ExplainLabel.font = [UIFont systemFontOfSize:11];
+    ExplainLabel.font = [UIFont systemFontOfSize:13];
     [BootmView addSubview:ExplainLabel];
     [ExplainLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.mas_equalTo(BootmView.mas_centerX);
@@ -559,7 +560,7 @@
         [StageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.centerY.mas_equalTo(ChoceStageView.mas_centerY);
             make.left.mas_equalTo(choceLabel.mas_right);
-            make.width.mas_equalTo(100);
+            make.width.mas_equalTo(200);
             make.height.mas_equalTo(20);
             
         }];
@@ -1891,6 +1892,16 @@
         ChooseStageModel *model  = [stageArray objectAtIndex:indexPath.row];
         cell.stageModel = model;
     }
+    if (indexPath.row == 0) {
+        cell.DaoQiTitleLable.hidden = YES;
+    }else{
+        cell.DaoQiTitleLable.hidden = NO;
+    }
+    if (indexPath.row == ChoseOid) {
+        cell.IConImageView.hidden = NO;
+    }else{
+        cell.IConImageView.hidden = YES;
+    }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
@@ -1900,6 +1911,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSString *StageStr;
+    ChoseOid = indexPath.row;
     if (indexPath.row == 0) {
         StageStr = @"";
         StageLabel.text = @"不使用道具";
@@ -1916,21 +1928,21 @@
         switch ([model.type integerValue]) {
             case 1:
                 Type = 1;
-                StageStr = [NSString stringWithFormat:@"%@%%%@",model.value,model.name];
+                StageStr = [NSString stringWithFormat:@"%@%%%@(%@天后到期)",model.value,model.name,model.day];
    
                 break;
             case  2:
                 Type =2;
-                StageStr = [NSString stringWithFormat:@"%@元%@",model.value,model.name];
+                StageStr = [NSString stringWithFormat:@"%@元%@(%@天后到期)",model.value,model.name,model.day];
                 break;
 
             case 3:
                 Type =2;
-                StageStr = [NSString stringWithFormat:@"%@元%@",model.value,model.name];
+                StageStr = [NSString stringWithFormat:@"%@元%@(%@天后到期)",model.value,model.name,model.day];
                 break;
             case 4:
                 Type =2;
-                StageStr = [NSString stringWithFormat:@"%@元%@",model.value,model.name];
+                StageStr = [NSString stringWithFormat:@"%@元%@(%@天后到期)",model.value,model.name,model.day];
                 break;
             default:
                 break;
