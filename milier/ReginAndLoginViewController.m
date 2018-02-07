@@ -28,6 +28,7 @@
     UIView *alphaBagView;//遮罩
     YWDAlertView *alertView;
     popupFade *fadeSort;
+    UIButton *reginBtn;
 
 }
 
@@ -153,7 +154,7 @@
         make.height.mas_equalTo(15);
     }];
 
-    UIButton *reginBtn = [[UIButton alloc]init];
+    reginBtn = [[UIButton alloc]init];
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 5.0f;
@@ -170,8 +171,10 @@
 -(void)Agreeclicked:(UIButton *)btn{
     if (btn.selected) {
         btn.selected = NO;
+         [reginBtn setBackgroundColor:colorWithRGB(0.83, 0.83, 0.83)];
     }else{
         btn.selected = YES;
+         [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     }
 
 }
@@ -261,7 +264,6 @@
     }
     
     [[DateSource sharedInstance]requestHomeWithParameters:YWDDic withUrl:USER_URL withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"%@",result);
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
             NSDictionary *dic = [result objectForKey:@"data"];
             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
@@ -286,9 +288,7 @@
 - (void)senderInputSecurityCodeBtnClicked
 
 {
-    
-    
-   
+
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     BOOL isMatch  = [phoneTest evaluateWithObject:UsertPhoneView.NameTextField.text];

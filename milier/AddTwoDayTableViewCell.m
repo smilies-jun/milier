@@ -1,14 +1,14 @@
 //
-//  AddOneDayTableViewCell.m
+//  AddTwoDayTableViewCell.m
 //  milier
 //
-//  Created by amin on 2017/6/5.
-//  Copyright © 2017年 yj. All rights reserved.
+//  Created by amin on 2018/2/6.
+//  Copyright © 2018年 yj. All rights reserved.
 //
 
-#import "AddOneDayTableViewCell.h"
+#import "AddTwoDayTableViewCell.h"
 
-@implementation AddOneDayTableViewCell
+@implementation AddTwoDayTableViewCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -17,7 +17,7 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-
+    
     // Configure the view for the selected state
 }
 - (void)configUI:(NSIndexPath *)indexPath{
@@ -33,20 +33,6 @@
         make.width.mas_equalTo(300);
         make.height.mas_equalTo(20);
     }];
-    _DetailNameLabel = [[UILabel alloc]init];
-    _DetailNameLabel.text =@"昨日收益29999";
-    _DetailNameLabel.textAlignment = NSTextAlignmentLeft;
-    _DetailNameLabel.textColor = [UIColor blackColor];
-    _DetailNameLabel.font = [UIFont systemFontOfSize:13];
-    [self addSubview:_DetailNameLabel];
-    [_DetailNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(self.mas_left).offset(20);
-        make.top.mas_equalTo(_NameLabel.mas_bottom);
-        make.width.mas_equalTo(300);
-        make.height.mas_equalTo(20);
-    }];
-    
-    
     _DetailLabel = [[UILabel alloc]init];
     _DetailLabel.text =@"昨日收益29999";
     _DetailLabel.textAlignment = NSTextAlignmentRight;
@@ -73,7 +59,6 @@
         _AddModel = AddModel;
         //NSString *timeStr = [self getTimeStr:_AddModel.createTime withForMat:@"yyyy-MM-dd HH:mm:ss"];
         _NameLabel.text =[NSString stringWithFormat:@"%@,%.2f",_AddModel.targetOrderName,[_AddModel.amount doubleValue]];
-        _DetailNameLabel.text =[NSString stringWithFormat:@"投资金额:%@",_AddModel.amount];
         _DetailLabel.text =[NSString stringWithFormat:@"+%.2f",[_AddModel.interest floatValue]];
         
     }

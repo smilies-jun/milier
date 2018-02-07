@@ -350,20 +350,26 @@
     
     return YES;
 }
-- (void)webViewDidStartLoad:(UIWebView *)webView{
-    // NSLog(@"webView start load");
-    [self showProgress];
+// 在收到响应后，决定是否跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
+    
+    NSLog(@"允许跳转1%@",navigationResponse.response.URL.absoluteString);
+    //允许跳转
+    decisionHandler(WKNavigationResponsePolicyAllow);
+    //不允许跳转
+    //decisionHandler(WKNavigationResponsePolicyCancel);
+}
+// 在发送请求之前，决定是否跳转
+- (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
+    
+    NSLog(@"允许跳转2%@",navigationAction.request.URL.absoluteString);
+    //允许跳转
+    decisionHandler(WKNavigationActionPolicyAllow);
+    //不允许跳转
+    //decisionHandler(WKNavigationActionPolicyCancel);
 }
 
-- (void)webViewDidFinishLoad:(UIWebView *)webView{
-  //  [[NSURLCache sharedURLCache] removeAllCachedResponses];
-    [self HideProgress];
-  //  [webView sizeToFit];
 
-}
-- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    // NSLog(@"webview fail load");
-}
 - (void)ActivityDetailTap{
     
    // [self.navigationController popToRootViewControllerAnimated:NO];

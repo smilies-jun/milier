@@ -610,6 +610,7 @@
 		2784015D1FC6C7FE00F56675 /* huankuan1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2784014F1FC6C7FD00F56675 /* huankuan1@3x.png */; };
 		278401611FC7D0AE00F56675 /* CKShimmerLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2784015F1FC7D0AD00F56675 /* CKShimmerLabel.m */; };
 		278C1C561FCE935C00ACA690 /* ZYProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 278C1C551FCE935B00ACA690 /* ZYProgressView.m */; };
+		27954D8820293FE800B9030B /* AddTwoDayTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 27954D8720293FE800B9030B /* AddTwoDayTableViewCell.m */; };
 		279D8CC21F1DDEE5002F4563 /* daishou@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279D8CC01F1DDEE5002F4563 /* daishou@2x.png */; };
 		279D8CC31F1DDEE5002F4563 /* daishou@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 279D8CC11F1DDEE5002F4563 /* daishou@3x.png */; };
 		279D8D131F2EDAEC002F4563 /* MyNewDinQiDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D101F2EDAEC002F4563 /* MyNewDinQiDetailViewController.m */; };
@@ -1625,6 +1626,8 @@
 		278401601FC7D0AD00F56675 /* CKShimmerLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CKShimmerLabel.h; sourceTree = "<group>"; };
 		278C1C541FCE935B00ACA690 /* ZYProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZYProgressView.h; sourceTree = "<group>"; };
 		278C1C551FCE935B00ACA690 /* ZYProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZYProgressView.m; sourceTree = "<group>"; };
+		27954D8620293FE800B9030B /* AddTwoDayTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AddTwoDayTableViewCell.h; sourceTree = "<group>"; };
+		27954D8720293FE800B9030B /* AddTwoDayTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AddTwoDayTableViewCell.m; sourceTree = "<group>"; };
 		279D8CC01F1DDEE5002F4563 /* daishou@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daishou@2x.png"; sourceTree = "<group>"; };
 		279D8CC11F1DDEE5002F4563 /* daishou@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "daishou@3x.png"; sourceTree = "<group>"; };
 		279D8D0F1F2EDAEC002F4563 /* MyNewDinQiDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyNewDinQiDetailViewController.h; sourceTree = "<group>"; };
@@ -1936,7 +1939,6 @@
 				27032F351EB033D700A4233B /* 分享邀请 */,
 				27032F1A1EADFCAD00A4233B /* 余额 */,
 				27032F161EADFC7800A4233B /* 债券转让 */,
-				27032F0F1EADF53300A4233B /* 积分 */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -2688,6 +2690,8 @@
 				27032F1F1EAEEF3C00A4233B /* DinQiDetailTableViewCell.m */,
 				272A0EBB1EE55F7700E36B40 /* AddOneDayTableViewCell.h */,
 				272A0EBC1EE55F7700E36B40 /* AddOneDayTableViewCell.m */,
+				27954D8620293FE800B9030B /* AddTwoDayTableViewCell.h */,
+				27954D8720293FE800B9030B /* AddTwoDayTableViewCell.m */,
 			);
 			name = "收益";
 			sourceTree = "<group>";
@@ -3193,6 +3197,7 @@
 			isa = PBXGroup;
 			children = (
 				27DFC8021E9CD334008E6098 /* cell */,
+				27032F0F1EADF53300A4233B /* 积分 */,
 				2752136B1EA2108800A36B0F /* Model */,
 				27DFC8061E9CD36B008E6098 /* VC */,
 			);
@@ -4815,6 +4820,7 @@
 				271E83221EFE9122004F005C /* UIViewController+YNCategory.m in Sources */,
 				27032F081EADE48300A4233B /* MyLeftTopViewTableViewCell.m in Sources */,
 				274A85ED1EBC846C002B7069 /* SecondDetailTableViewCell.m in Sources */,
+				27954D8820293FE800B9030B /* AddTwoDayTableViewCell.m in Sources */,
 				27032EEB1EA9F3C800A4233B /* JinMiDetdailViewController.m in Sources */,
 				27032E3B1EA7B92F00A4233B /* PayViewController.m in Sources */,
 				27E229F61ECEDBDD00B1034D /* SepartTableViewCell.m in Sources */,

@@ -175,6 +175,8 @@
                                              selector:@selector(textFieldDidChangeValue:)
                                                  name:UITextFieldTextDidChangeNotification
                                                object:ChangeTextField];
+    [ChangeTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+
     ChangeTextField.placeholder = @"请输入转让金额";
     [ChangeView addSubview:ChangeTextField];
     [ChangeTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -272,6 +274,9 @@
    
 
 }
+
+
+
 - (void)HideProgress{
    [hud hideAnimated:YES afterDelay:1.f];
 }
@@ -454,7 +459,11 @@
 }
 //检测输入
 - (void) textFieldDidChange:(id) sender {
-    NSLog(@"232323");
+    if ([ChangeTextField.text integerValue] > [_MoneyName integerValue]) {
+        ComeBackMoneyView.DetailLabel.text  = @"转出金额不能大于债权包价值";
+    }else{
+        
+    }
     [self relreshUI];
 }
 

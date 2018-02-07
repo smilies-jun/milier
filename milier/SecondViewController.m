@@ -176,24 +176,25 @@
 - (void)showMyaActivity{
     NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/activities/isHomeAddActivity",HOST_URL];
     [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
-        NSLog(@"re === %@",result);
-        [AcImageArray removeAllObjects];
-        [AcActivityArray removeAllObjects];
-        [AcTitleArray removeAllObjects];
-        NSArray *array = [result objectForKey:@"items"];
-        for (NSDictionary *dic in array) {
-            [AcImageArray addObject:[dic objectForKey:@"image"]];
-            [AcActivityArray addObject:[dic objectForKey:@"href"]];
-            [AcTitleArray addObject:[dic objectForKey:@"title"]];
-            [AcOidArray addObject:[dic objectForKey:@"oid"]];
-        }
-        
         NSString *stateStr = [result objectForKey:@"activity_state"];
         if ([stateStr integerValue] ==1) {
-              [self ShowMySucess];
+            [AcImageArray removeAllObjects];
+            [AcActivityArray removeAllObjects];
+            [AcTitleArray removeAllObjects];
+            NSArray *array = [result objectForKey:@"items"];
+            for (NSDictionary *dic in array) {
+                [AcImageArray addObject:[dic objectForKey:@"image"]];
+                [AcActivityArray addObject:[dic objectForKey:@"href"]];
+                [AcTitleArray addObject:[dic objectForKey:@"title"]];
+                [AcOidArray addObject:[dic objectForKey:@"oid"]];
+            }
+            
+            [self ShowMySucess];
         }else{
             
         }
+        
+       
        
     }];
 }

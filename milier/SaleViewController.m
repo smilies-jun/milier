@@ -372,6 +372,7 @@
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.delegate =self;
+         [BuyTextField addTarget:self action:@selector(onEditing:) forControlEvents:UIControlEventEditingDidBegin];
         BuyTextField.placeholder = @"请输入购买金额";
         [SaleView addSubview:BuyTextField];
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -430,6 +431,7 @@
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.delegate = self;
         BuyTextField.tag = 100;
+         [BuyTextField addTarget:self action:@selector(onEditing:) forControlEvents:UIControlEventEditingDidBegin];
         BuyTextField.placeholder = @"请输入购买金额";
         [SaleView addSubview:BuyTextField];
         [BuyTextField mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -485,6 +487,7 @@
         BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
+        [BuyTextField addTarget:self action:@selector(onEditing:) forControlEvents:UIControlEventEditingDidBegin];
         BuyTextField.delegate = self;
         BuyTextField.tag = 100;
         BuyTextField.placeholder = @"请输入购买金额";
@@ -609,6 +612,7 @@
         BuyTextField.backgroundColor = [UIColor whiteColor];
         BuyTextField.font = [UIFont systemFontOfSize:15];
         BuyTextField.textAlignment = NSTextAlignmentLeft;
+         [BuyTextField addTarget:self action:@selector(onEditing:) forControlEvents:UIControlEventEditingDidBegin];
         [BuyTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         BuyTextField.keyboardType = UIKeyboardTypeNumberPad;
         BuyTextField.tag = 100;
@@ -909,6 +913,11 @@
     
 
 }
+
+
+- (void)onEditing:(UITextField *)text{
+    NSLog(@"=====%@",text.text);
+}
 - (void)SaleConnectClick{
     //协议
     BundProfileViewController *vc= [[BundProfileViewController alloc]init];
@@ -930,8 +939,10 @@
 - (void)Saleclicked:(UIButton *)btn{
     if (btn.selected) {
         btn.selected = NO;
+         SaleLabel.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
     }else{
         btn.selected = YES;
+         SaleLabel.backgroundColor = colorWithRGB(0.28, 0.46, 0.91);
     }
 }
 - (void)ConfigInverest{
@@ -1643,7 +1654,6 @@
            // normal_alert(@"提示", @"购买金额少于最低购买金额", @"确定");
         };
     }
-   
     
 }
 - (void)MyIsFull{
@@ -1980,10 +1990,23 @@
 
 }
 //检测输入
-- (void) textFieldDidChange:(id) sender {
+- (void) textFieldDidChange:(UITextField *) sender {
+    NSString *totalStr = [NSString stringWithFormat:@"%@",_TotalStr];
+    double totalDouble = [totalStr doubleValue];
+    NSString *sellStr = [NSString stringWithFormat:@"%@",_SellStr];
+    double sellDouble = [sellStr doubleValue];
+    double MyMoney = totalDouble - sellDouble;
+    if ([sender.text integerValue] >= MyMoney) {
+        //normal_alert(@"提示",@"产品额度不足", @"确定");
+        InterestMoneyLabel.text = @"产品额度不足";
+    }else{
+        [self ConfigInverest];
+        [self refreshInvest];
+    }
     
-    [self ConfigInverest];
-    [self refreshInvest];
+    
+    
+ 
     
 }
 

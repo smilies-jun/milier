@@ -60,7 +60,7 @@
         _OutModel = OutModel;
         NSString *timeStr = [self getTimeStr:_OutModel.createTime withForMat:@"yyyy-MM-dd"];
         _TitleLabel.text= [NSString stringWithFormat:@"%@",timeStr];;
-        _TimeLabel.text  =[NSString stringWithFormat:@"-%@",_OutModel.amount];
+        _TimeLabel.text  =[NSString stringWithFormat:@"-%.2f",[_OutModel.amount doubleValue]];
     }
 }
 @end

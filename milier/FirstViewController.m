@@ -45,27 +45,28 @@
 //        NSLog(@"22");
 //    }
    //  NSString *userID = NSuserUse(@"userId");
-    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest?type=2",HOST_URL];
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
-        NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
-        NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
-        if ([VersionNumber isEqualToString:@"1.0"]) {
-            
-            if ([updateStatus integerValue]==2) {
-                MyType = @"1";
-            }else{
-                MyType = @"0";
-            }
-            [self getNetworkData:YES];
-            [self ConfigUI];
-            
-            
-        }
-      
-    }];
+//    NSString *CarouselsUrl = [NSString stringWithFormat:@"%@/versions/latest?type=2",HOST_URL];
+//    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:CarouselsUrl withTokenStr:@"" usingBlock:^(NSDictionary *result, NSError *error) {
+//        NSString *VersionNumber = [[result objectForKey:@"data"]objectForKey:@"versionNumber"];
+//        NSString *updateStatus = [[result objectForKey:@"data"]objectForKey:@"updateStatus"];
+//        if ([VersionNumber isEqualToString:@"1.0"]) {
+//
+//            if ([updateStatus integerValue]==2) {
+//                MyType = @"1";
+//            }else{
+//                MyType = @"0";
+//            }
+//            [self getNetworkData:YES];
+//            [self ConfigUI];
+//
+//
+//        }
+//
+//    }];
   
    
-   
+    [self getNetworkData:YES];
+    [self ConfigUI];
 
 }
 

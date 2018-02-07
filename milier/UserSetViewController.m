@@ -429,6 +429,8 @@
             NSuserSave([responseObject objectForKey:@"avatar"], @"avatar");
             //请求成功
             NSLog(@"请求成功：%@",responseObject);
+             normal_alert(@"提示", @"头像上传成功", @"确定");
+            
             
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             

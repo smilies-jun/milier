@@ -48,7 +48,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.5</string>
+	<string>2.0</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -93,7 +93,7 @@ sinaweibosso,
 	<key>NSCalendarsUsageDescription</key>
 	<string>需要使用您的日历权限</string>
 	<key>NSCameraUsageDescription</key>
-	<string>你可以拍摄照片</string>
+	<string>你可以拍摄照片进行头像保存</string>
 	<key>NSContactsUsageDescription</key>
 	<string>需要使用您的通讯录权限</string>
 	<key>NSHealthShareUsageDescription</key>
@@ -111,7 +111,7 @@ sinaweibosso,
 	<key>NSMotionUsageDescription</key>
 	<string>需要使用您的运动权限</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>需要使用相册</string>
+	<string>需要使用您的相册进行保存</string>
 	<key>NSSiriUsageDescription</key>
 	<string>需要使用您的Siri权限</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

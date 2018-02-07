@@ -118,7 +118,7 @@
     NewPassWordView = [[CustomView alloc]init];
     NewPassWordView.NameLabel.text = @"新银行卡号:";
     NewPassWordView.NameTextField.placeholder = @"请输入持卡人银行卡号";
-    NewPassWordView.NameTextField.keyboardType = UIKeyboardTypeNamePhonePad;
+    NewPassWordView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     NewPassWordView.NameTextField.delegate = self;
     [self.view addSubview:NewPassWordView];
 

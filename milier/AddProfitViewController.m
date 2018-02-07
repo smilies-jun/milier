@@ -16,6 +16,7 @@
 #import "UIView+frameAdjust.h"
 #import "MyNewDinQiViewController.h"
 #import "DinQiMoneyViewController.h"
+#import "AddTwoDayTableViewCell.h"
 
 @interface AddProfitViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSMutableArray *AddArray;

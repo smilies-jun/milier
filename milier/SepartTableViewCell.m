@@ -81,7 +81,7 @@
         _SepartModel = SepartModel;
         NSString *timeStr = [self getTimeStr:_SepartModel.createTime withForMat:@"yyyy-MM-dd"];
         _TitleLabel.text= [NSString stringWithFormat:@"%@",timeStr];;
-        _TimeLabel.text  =[NSString stringWithFormat:@"+%@",_SepartModel.amount];
+        _TimeLabel.text  =[NSString stringWithFormat:@"+%.2f",[_SepartModel.amount doubleValue]];
         _TypeLabel.text = [NSString stringWithFormat:@"%.2f",[_SepartModel.stock doubleValue]];
     }
 }

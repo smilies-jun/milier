@@ -198,6 +198,8 @@
 }
 - (void)CancelClick:(UIButton *)btn{
     if ([btn.titleLabel.text isEqualToString:@"债权转让"]) {
+        
+        
         if ([DinQiDetailArray count]) {
             ChangeSailDetailViewController *ChangeVC = [[ChangeSailDetailViewController alloc]init];
             DinQiModel *model = [DinQiDetailArray objectAtIndex:0];

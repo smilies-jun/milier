@@ -76,7 +76,7 @@
     payView = [[CustomView alloc]init];
     payView.NameLabel.text = @"转出金额:";
     payView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
-    payView.NameTextField.placeholder = [NSString stringWithFormat:@"最多可转出%@元",_moneyStr];;
+    payView.NameTextField.placeholder = [NSString stringWithFormat:@"最多%@元",_moneyStr];;
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);

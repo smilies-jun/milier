@@ -447,12 +447,12 @@
         NSString *str = [NSString stringWithFormat:@"%ld",indexPath.row+1];
         [ZSSaveTools setObject:str forKey:@"string"];
      
-//            if (indexPath.row <9) {
-//                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//                     [self.collectionView setContentOffset:CGPointMake((SCREEN_WIDTH-40)*(indexPath.row +1), 0)];
-//                });
-//
-//            }
+            if (indexPath.row <9) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                     [self.collectionView setContentOffset:CGPointMake((SCREEN_WIDTH-40)*(indexPath.row +1), 0)];
+                });
+
+            }
            
     };
         

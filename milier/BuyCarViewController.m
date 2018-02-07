@@ -59,7 +59,7 @@
     [self.tableView.mj_footer endRefreshing];
 }
 - (void)HideProgress{
-    [hud hideAnimated:YES];
+   
 }
 - (void)showProgress{
     hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
