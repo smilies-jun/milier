@@ -19,7 +19,7 @@
 #import <ShareSDKUI/ShareSDK+SSUI.h>
 #import "ApplyAllMoneyViewController.h"
 
-@interface ActivityDetailViewController ()<WKUIDelegate>{
+@interface ActivityDetailViewController ()<WKUIDelegate,WKNavigationDelegate>{
     WKWebView *ActivityWebView;
     MBProgressHUD *hud;
     UILabel *SaleLbel;
@@ -48,7 +48,7 @@
     ShareDic = [[NSDictionary alloc]init];
     [self showProgress];
   
-
+    NSLog(@"活动++++++++++++++++++");
   
     //可以滑动的按钮
 //    RCDraggableButton *avatar = [[RCDraggableButton alloc] initInKeyWindowWithFrame:CGRectMake(0, 100, 100, 100)];
@@ -65,6 +65,8 @@
         ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
         [self.view addSubview:ActivityWebView];
+        ActivityWebView.UIDelegate = self;
+        ActivityWebView.navigationDelegate = self;
         // ActivityWebView.scalesPageToFit  = YES;
         [ActivityWebView loadRequest:request];
         UIView *saleView = [[UIView alloc]init];
@@ -93,6 +95,8 @@
         [self HideProgress];
     }else if ([[MyDIC objectForKey:@"state"]integerValue] ==2){
         ActivityWebView  = [[WKWebView alloc]init];
+        ActivityWebView.UIDelegate = self;
+        ActivityWebView.navigationDelegate = self;
         ActivityWebView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-64-60);
         NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",_WebStr]]];
         [self.view addSubview:ActivityWebView];
@@ -350,6 +354,25 @@
     
     return YES;
 }
+
+// 页面开始加载时调用
+- (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation{
+    NSLog(@"22222");
+}
+// 当内容开始返回时调用
+- (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation{
+     NSLog(@"22222");
+}
+// 页面加载完成之后调用
+- (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation{
+     NSLog(@"22222");
+}
+// 页面加载失败时调用
+- (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(WKNavigation *)navigation{
+     NSLog(@"22222");
+}
+
+
 // 在收到响应后，决定是否跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(void (^)(WKNavigationResponsePolicy))decisionHandler{
     
@@ -361,7 +384,7 @@
 }
 // 在发送请求之前，决定是否跳转
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler{
-    
+    NSLog(@"允许跳转允许跳转允许跳转允许跳转允许跳转允许跳转允许跳转允许跳转");
     NSLog(@"允许跳转2%@",navigationAction.request.URL.absoluteString);
     //允许跳转
     decisionHandler(WKNavigationActionPolicyAllow);

@@ -37,6 +37,7 @@
     NSMutableArray *stageArray;
     
     NSString *BankID;
+    UIButton * PushBtn;
 }
 
 
@@ -237,7 +238,7 @@
     }];
     
     
-    UIButton * PushBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    PushBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     [PushBtn setTitle:@"提交" forState:UIControlStateNormal];
     PushBtn.layer.masksToBounds = YES;
     PushBtn.layer.cornerRadius = 22;
@@ -256,8 +257,10 @@
 - (void)SaleclickedChange:(UIButton *)btn{
     if (btn.selected) {
         btn.selected = NO;
+        PushBtn.backgroundColor = colorWithRGB(0.83, 0.83, 0.83);
     }else{
         btn.selected = YES;
+        PushBtn.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
     }
 }
 - (void)saleConnectClick{
@@ -366,24 +369,27 @@
 
 #pragma mark - 提交 -
 - (void)PostBtnClick{
-    if ([NewPassWordView.NameTextField.text integerValue]) {
-        if (SurePassWordView.NameTextField.text.length) {
-            if ([CodeNumView.NameTextField.text integerValue]) {
-                if (ClickBtn.selected) {
-                    [self postForgetCode];
-
+    if (ClickBtn.selected) {
+        if ([NewPassWordView.NameTextField.text integerValue]) {
+            if (SurePassWordView.NameTextField.text.length) {
+                if ([CodeNumView.NameTextField.text integerValue]) {
+                    if (ClickBtn.selected) {
+                        [self postForgetCode];
+                        
+                    }else{
+                        normal_alert(@"提示", @"请同意协议", @"确定");
+                    }
                 }else{
-                   normal_alert(@"提示", @"请同意协议", @"确定");
+                    
                 }
             }else{
-               
+                normal_alert(@"提示", @"开户银行不可为空", @"确定");
             }
         }else{
-            normal_alert(@"提示", @"开户银行不可为空", @"确定");
+            normal_alert(@"提示", @"银行卡号不可为空", @"确定");
         }
-    }else{
-        normal_alert(@"提示", @"银行卡号不可为空", @"确定");
     }
+    
    
 //    if (phoneNumView.NameTextField.text.length) {
 //        if (CodeNumView.NameTextField.text.length) {

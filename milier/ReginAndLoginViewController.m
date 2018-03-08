@@ -158,7 +158,7 @@
     [reginBtn setBackgroundColor:colorWithRGB(0.95, 0.6, 0.11)];
     reginBtn.layer.masksToBounds = YES;
     reginBtn.layer.cornerRadius = 5.0f;
-    [reginBtn setTitle:@"注册" forState:UIControlStateNormal];
+    [reginBtn setTitle:@"注册并登陆" forState:UIControlStateNormal];
     [reginBtn addTarget:self action:@selector(ReginAndLoginClicked) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:reginBtn];
     [reginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -268,7 +268,7 @@
             NSDictionary *dic = [result objectForKey:@"data"];
             NSuserSave([dic objectForKey:@"accessToken"], @"Authorization");
             NSuserSave([dic objectForKey:@"userId"], @"userId");
-            [self.navigationController popToRootViewControllerAnimated:NO];
+            [self dismissViewControllerAnimated:NO completion:nil];
         }else{
             NSString *message = [result objectForKey:@"message"];
             normal_alert(@"提示",message, @"确定");

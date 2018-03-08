@@ -14,7 +14,8 @@
 @interface OutMoneyViewController (){
     CustomView *payView;
     CustomView *passWordView;
-     MBProgressHUD *hud;
+    MBProgressHUD *hud;
+    UILabel *outLabel;
     
 }
 
@@ -77,6 +78,7 @@
     payView.NameLabel.text = @"转出金额:";
     payView.NameTextField.keyboardType = UIKeyboardTypeNumberPad;
     payView.NameTextField.placeholder = [NSString stringWithFormat:@"最多%@元",_moneyStr];;
+    
     [self.view addSubview:payView];
     [payView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left).offset(20);
@@ -84,6 +86,22 @@
         make.width.mas_equalTo(SCREEN_WIDTH - 40);
         make.height.mas_equalTo(44);
     }];
+    outLabel = [[UILabel alloc]init];
+    outLabel.text= @"全部转出";
+    outLabel.userInteractionEnabled = YES;
+    UITapGestureRecognizer *OutTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(OutTapClick
+                                                                                                          )];
+    [outLabel addGestureRecognizer:OutTap];
+    outLabel.font = [UIFont systemFontOfSize:13];
+    outLabel.textColor = colorWithRGB(0.95, 0.6, 0.11);
+    [payView addSubview:outLabel];
+    [outLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(payView.mas_right);
+        make.centerY.mas_equalTo(payView.mas_centerY);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(40);
+    }];
+    
     
     passWordView = [[CustomView alloc]init];
     passWordView.NameLabel.text = @"交易密码:";
@@ -116,6 +134,11 @@
                                                                                                           )];
     [TestLabel addGestureRecognizer:SaleTap];
     
+}
+
+- (void)OutTapClick{
+    payView.NameTextField.text = [NSString stringWithFormat:@"%@",_moneyStr];;
+   //  payView.NameTextField.text = @"33333";
 }
 - (void)PayMoneyClick{
     if (payView.NameTextField.text.length) {

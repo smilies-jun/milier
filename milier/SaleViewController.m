@@ -107,15 +107,15 @@
     AddStr = @"";
     NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
 
-    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-        state = [result objectForKey:@"state"];
-        increase_type = [result objectForKey:@"increase_type"];
-        percent = [result objectForKey:@"percent"];
-        [self reloadMyMoney];
-        [self reloadMyStage];
-        [self ConfigUI];
-        
-    }];
+//    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+//        state = [result objectForKey:@"state"];
+//        increase_type = [result objectForKey:@"increase_type"];
+//        percent = [result objectForKey:@"percent"];
+//        [self reloadMyMoney];
+//        [self reloadMyStage];
+//        [self ConfigUI];
+//
+//    }];
    
     //[self ConfigInverest];
    
@@ -2040,7 +2040,9 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self reloadMyMoney];
+    [self reloadMyStage];
+    [self ConfigUI];
     [[self rdv_tabBarController] setTabBarHidden:YES animated:YES];
 }
 
