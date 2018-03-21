@@ -21,6 +21,7 @@
 #import "YWDLoginViewController.h"
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "MSNumberScrollAnimatedView.h"
+#import "AutoScrollLabel.h"
 
 @interface ThirdViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     CustomMoreView *AboutUsView;
@@ -302,7 +303,7 @@
     configration.showGradientColor = NO;//取消渐变
     configration.showNavigation = YES;
     configration.showTabbar = YES;//设置显示tabbar
-    configration.showPersonTab = NO;
+    configration.showPersonTab = YES;
     
     AllMoneyViewController *vc = [AllMoneyViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"分成列表",@"转出记录"] Configration:configration];
     // 头部是否能伸缩效果   要伸缩效果就不要有下拉刷新控件 默认NO*/
@@ -310,18 +311,23 @@
     
     
     
-    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 245)];
+    UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 270)];
     imageView.backgroundColor = colorWithRGB(1, 0.87, 0.25);
     imageView.userInteractionEnabled = YES;
     UIImageView *TopImageView = [[UIImageView alloc]init];
     TopImageView.image = [UIImage imageNamed:@"licaishipic"];
     TopImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 160);
     [imageView addSubview:TopImageView];
-   
+    
+    AutoScrollLabel *autoScrollLabel = [[AutoScrollLabel alloc]initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 40)];
+    autoScrollLabel.backgroundColor = [UIColor whiteColor];
+    autoScrollLabel.text = @"Hi Mom!  How are you?  I really ought to write more often.";
+    autoScrollLabel.textColor = [UIColor blackColor];
+    [imageView addSubview:autoScrollLabel];
+    
     UILabel *MyScorLabel = [[UILabel alloc]init];
     if ( [[MyDic objectForKey:@"totalIncome"]doubleValue]) {
         MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]];
-
     }else{
         MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
 
@@ -330,10 +336,11 @@
     [imageView addSubview:MyScorLabel];
     [MyScorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(imageView.mas_left).offset(10);
-        make.top.mas_equalTo(TopImageView.mas_bottom).offset(10);
-        make.width.mas_equalTo(180);
+        make.top.mas_equalTo(autoScrollLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
+    
     UILabel *DetailLabel = [[UILabel alloc]init];
     DetailLabel.text = @"全民理财师，躺着把钱赚";
     DetailLabel.font = [UIFont systemFontOfSize:14];
@@ -341,44 +348,45 @@
     [imageView addSubview:DetailLabel];
     [DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(imageView.mas_right).offset(-10);
-        make.top.mas_equalTo(TopImageView.mas_bottom).offset(10);
-        make.width.mas_equalTo(180);
+        make.top.mas_equalTo(autoScrollLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(200);
         make.height.mas_equalTo(20);
     }];
     UILabel *myMoneyLabel = [[UILabel alloc]init];
+    myMoneyLabel.backgroundColor = [UIColor whiteColor];
     if ([[MyDic objectForKey:@"assets"]doubleValue]) {
-        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
+        myMoneyLabel.text =[NSString stringWithFormat:@" 我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
 
     }else{
-        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:0元"];
+        myMoneyLabel.text =[NSString stringWithFormat:@"  我的分成余额:0元"];
 
     }
     myMoneyLabel.font = [UIFont systemFontOfSize:14];
     [imageView addSubview:myMoneyLabel];
     [myMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(imageView.mas_left).offset(10);
+        make.left.mas_equalTo(imageView.mas_left);
         make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(180);
-        make.height.mas_equalTo(20);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
     }];
     
-    UILabel *ComeLabel = [[UILabel alloc]init];
-    ComeLabel.text = @"转入米粒余额";
-    ComeLabel.textAlignment = NSTextAlignmentCenter;
-    ComeLabel.layer.cornerRadius = 17;
-    ComeLabel.layer.masksToBounds = YES;
-    ComeLabel.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ComeClick)];
-    [ComeLabel addGestureRecognizer:tap];
-    ComeLabel.textColor = [UIColor whiteColor];
-    ComeLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
-    ComeLabel.font = [UIFont systemFontOfSize:13];
-    [imageView addSubview:ComeLabel];
-    [ComeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(imageView.mas_right).offset(-30);
-        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(10);
-        make.width.mas_equalTo(100);
-        make.height.mas_equalTo(35);
+    UIImageView *helpImageView = [[UIImageView alloc]init];
+    helpImageView.image = [UIImage imageNamed:@"help_lcs"];
+    [imageView addSubview:helpImageView];
+    [helpImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(imageView.mas_right).offset(-80);
+        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(20);
+        make.width.mas_equalTo(17);
+        make.height.mas_equalTo(17);
+    }];
+    UILabel *helpLabel = [[UILabel alloc]init];
+    helpLabel.text = @"帮助";
+    [imageView addSubview:helpLabel];
+    [helpLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(helpImageView.mas_right);
+        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(20);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(17);
     }];
     
     //里面有默认高度 等ScrollView的高度 //里面设置了背景颜色与tableview相同
@@ -386,13 +394,9 @@
     
     
     vc.pageIndex = 0;
-    
     vc.placeHoderView = footerView;
     vc.headerView = imageView;
-    
     vc.dataSource = self;
-    
-    
     
     return vc;
 

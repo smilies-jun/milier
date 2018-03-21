@@ -455,6 +455,12 @@
 		274A861D1EC07639002B7069 /* shareforbonus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274A86191EC07639002B7069 /* shareforbonus@3x.png */; };
 		274A86201EC1A3D8002B7069 /* ActivityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 274A861F1EC1A3D8002B7069 /* ActivityTableViewCell.m */; };
 		274A86231EC1B5D2002B7069 /* ActivityModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 274A86221EC1B5D2002B7069 /* ActivityModel.m */; };
+		274E7E12205F51450067C39D /* BBFlashCtntLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 274E7E11205F51450067C39D /* BBFlashCtntLabel.m */; };
+		274E7E15205F90D20067C39D /* AutoScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 274E7E13205F90D10067C39D /* AutoScrollLabel.m */; };
+		274E7E1A2060E8DC0067C39D /* code_lcs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274E7E162060E8DB0067C39D /* code_lcs@2x.png */; };
+		274E7E1B2060E8DC0067C39D /* help_lcs@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274E7E172060E8DB0067C39D /* help_lcs@3x.png */; };
+		274E7E1C2060E8DC0067C39D /* help_lcs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274E7E182060E8DB0067C39D /* help_lcs@2x.png */; };
+		274E7E1D2060E8DC0067C39D /* code_lcs@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 274E7E192060E8DB0067C39D /* code_lcs@3x.png */; };
 		275212FE1EA0A9D200A36B0F /* SnailPopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 275212FD1EA0A9D200A36B0F /* SnailPopupController.m */; };
 		2752132F1EA0AAFB00A36B0F /* CALayer+Layout.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752131A1EA0AAFB00A36B0F /* CALayer+Layout.m */; };
 		275213301EA0AAFB00A36B0F /* NSDate+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 2752131C1EA0AAFB00A36B0F /* NSDate+Extend.m */; };
@@ -1409,6 +1415,14 @@
 		274A861F1EC1A3D8002B7069 /* ActivityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityTableViewCell.m; sourceTree = "<group>"; };
 		274A86211EC1B5D2002B7069 /* ActivityModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityModel.h; sourceTree = "<group>"; };
 		274A86221EC1B5D2002B7069 /* ActivityModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityModel.m; sourceTree = "<group>"; };
+		274E7E10205F51450067C39D /* BBFlashCtntLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BBFlashCtntLabel.h; sourceTree = "<group>"; };
+		274E7E11205F51450067C39D /* BBFlashCtntLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BBFlashCtntLabel.m; sourceTree = "<group>"; };
+		274E7E13205F90D10067C39D /* AutoScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoScrollLabel.m; sourceTree = "<group>"; };
+		274E7E14205F90D10067C39D /* AutoScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoScrollLabel.h; sourceTree = "<group>"; };
+		274E7E162060E8DB0067C39D /* code_lcs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "code_lcs@2x.png"; sourceTree = "<group>"; };
+		274E7E172060E8DB0067C39D /* help_lcs@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help_lcs@3x.png"; sourceTree = "<group>"; };
+		274E7E182060E8DB0067C39D /* help_lcs@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "help_lcs@2x.png"; sourceTree = "<group>"; };
+		274E7E192060E8DB0067C39D /* code_lcs@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "code_lcs@3x.png"; sourceTree = "<group>"; };
 		275212FC1EA0A9D200A36B0F /* SnailPopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SnailPopupController.h; sourceTree = "<group>"; };
 		275212FD1EA0A9D200A36B0F /* SnailPopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SnailPopupController.m; sourceTree = "<group>"; };
 		275213191EA0AAFB00A36B0F /* CALayer+Layout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+Layout.h"; sourceTree = "<group>"; };
@@ -3083,6 +3097,17 @@
 			path = "分享";
 			sourceTree = "<group>";
 		};
+		274E7E0F205F51450067C39D /* BBFlashCtntLabel */ = {
+			isa = PBXGroup;
+			children = (
+				274E7E14205F90D10067C39D /* AutoScrollLabel.h */,
+				274E7E13205F90D10067C39D /* AutoScrollLabel.m */,
+				274E7E10205F51450067C39D /* BBFlashCtntLabel.h */,
+				274E7E11205F51450067C39D /* BBFlashCtntLabel.m */,
+			);
+			path = BBFlashCtntLabel;
+			sourceTree = "<group>";
+		};
 		275212FB1EA0A98F00A36B0F /* snailVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -3250,6 +3275,10 @@
 		2755DA641E5BD45500C75656 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				274E7E162060E8DB0067C39D /* code_lcs@2x.png */,
+				274E7E192060E8DB0067C39D /* code_lcs@3x.png */,
+				274E7E182060E8DB0067C39D /* help_lcs@2x.png */,
+				274E7E172060E8DB0067C39D /* help_lcs@3x.png */,
 				274645F31FF495F1005330DC /* choosequan@2x.png */,
 				274645F41FF495F2005330DC /* choosequan@3x.png */,
 				274645F01FF38C53005330DC /* tcolse@2x.png */,
@@ -3994,6 +4023,7 @@
 		27FB50B21E5D857D0090AB69 /* until */ = {
 			isa = PBXGroup;
 			children = (
+				274E7E0F205F51450067C39D /* BBFlashCtntLabel */,
 				274645DF1FDF7A11005330DC /* DrogBtn */,
 				27152C1A1FD7E18E00885A5A /* Btn */,
 				27152C131FD7BE6B00885A5A /* alert */,
@@ -4246,6 +4276,7 @@
 				2755DA891E5BD45500C75656 /* third_normal.png in Resources */,
 				274A84DE1EBC26D4002B7069 /* share@3x.png in Resources */,
 				278400D91FC54BFE00F56675 /* 1@3x.png in Resources */,
+				274E7E1B2060E8DC0067C39D /* help_lcs@3x.png in Resources */,
 				274A85941EBC2704002B7069 /* news_dot@3x.png in Resources */,
 				27E2299F1EC4713700B1034D /* changehead@2x.png in Resources */,
 				274A85451EBC26E0002B7069 /* zhaiquan_xmq_03@3x.png in Resources */,
@@ -4377,6 +4408,7 @@
 				27032FA91EB97CC900A4233B /* attorn@3x.png in Resources */,
 				2784015B1FC6C7FE00F56675 /* quanbu1@2x.png in Resources */,
 				27E9F75C1E5ED5C4008A5E0E /* four_selected.png in Resources */,
+				274E7E1A2060E8DC0067C39D /* code_lcs@2x.png in Resources */,
 				274A85C11EBC2719002B7069 /* 8.0zhe@3x.png in Resources */,
 				27E9F7581E5ED5B9008A5E0E /* four_selected@2x.png in Resources */,
 				278401001FC5525200F56675 /* empty_5@2x.png in Resources */,
@@ -4573,6 +4605,7 @@
 				27032FB01EB97CC900A4233B /* shareUse@2x.png in Resources */,
 				274A85271EBC26E0002B7069 /* wangdai_xmq_01@2x.png in Resources */,
 				274A85B81EBC2719002B7069 /* 6.0zhe@2x.png in Resources */,
+				274E7E1C2060E8DC0067C39D /* help_lcs@2x.png in Resources */,
 				271D37171EE7982900F99664 /* Icon-60.png in Resources */,
 				27404DB11EA75A5B00DAFFC2 /* success_icon@3x.png in Resources */,
 				274A85951EBC2704002B7069 /* smallarrow@2x.png in Resources */,
@@ -4584,6 +4617,7 @@
 				274A84B11EBC26C8002B7069 /* ing@3x.png in Resources */,
 				274A85281EBC26E0002B7069 /* wangdai_xmq_03@2x.png in Resources */,
 				278400A91FC4162B00F56675 /* b.png in Resources */,
+				274E7E1D2060E8DC0067C39D /* code_lcs@3x.png in Resources */,
 				271D370E1EE78F6C00F99664 /* Default@2x.png in Resources */,
 				278401071FC5525200F56675 /* hover_3@2x.png in Resources */,
 				2705AF9D1E9F96EB008C20CA /* explain@2x.png in Resources */,
@@ -4796,6 +4830,7 @@
 				27032F341EAF484700A4233B /* StageTableViewCell.m in Sources */,
 				27032E5F1EA8A8A700A4233B /* ZHPickView.m in Sources */,
 				27152C201FD8C8BF00885A5A /* MessageViewController.m in Sources */,
+				274E7E15205F90D20067C39D /* AutoScrollLabel.m in Sources */,
 				27DFC8251E9CDA50008E6098 /* SecondMainTableViewCell.m in Sources */,
 				27032F231EAEFF1900A4233B /* ChangeSailDetailViewController.m in Sources */,
 				27E22A001ED5319E00B1034D /* MoneyViewController.m in Sources */,
@@ -4962,6 +4997,7 @@
 				271F27521EDEAE18001245C3 /* MyChangeModel.m in Sources */,
 				27152C181FD7C16700885A5A /* NSString+DD.m in Sources */,
 				27032ED61EA8B41C00A4233B /* ZFRadarChart.m in Sources */,
+				274E7E12205F51450067C39D /* BBFlashCtntLabel.m in Sources */,
 				27DCC7EF1ED808B0005DD560 /* ChooseStageModel.m in Sources */,
 				27404D7D1EA7567C00DAFFC2 /* customWithStatic.m in Sources */,
 				2784008E1FC4040200F56675 /* UITableViewCell+WHC_AutoHeightForCell.m in Sources */,
