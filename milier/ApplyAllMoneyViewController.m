@@ -16,11 +16,14 @@
 #import "ThirdViewController.h"
 #import "ActivityDetailViewController.h"
 #import "AutoScrollLabel.h"
-
+#import "HelpMoneyViewController.h"
 @interface ApplyAllMoneyViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
     UIButton *ClickBtn;
     NSDictionary *MyDic;
     int ApplyOrNo;
+    NSMutableArray *PhoneArray;
+    NSMutableArray *MoneyArray;
+    AutoScrollLabel *autoScrollLabel;
 
 }
 
@@ -42,6 +45,8 @@
     UIBarButtonItem * leftItem = [[UIBarButtonItem alloc] initWithCustomView:leftBtn];
     self.navigationItem.leftBarButtonItem = leftItem;
     ApplyOrNo = 0;
+    PhoneArray = [[NSMutableArray alloc]init];
+    MoneyArray = [[NSMutableArray alloc]init];
     [self configUI];
     
 }
@@ -197,83 +202,128 @@
     TopImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 160);
     [imageView addSubview:TopImageView];
     
-//      UILabel *MyScorLabel = [[UILabel alloc]init];
-//    MyScorLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-//    if ([[MyDic objectForKey:@"totalIncome"]doubleValue]) {
-//        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元",[ [MyDic objectForKey:@"totalIncome"]floatValue]];
-//
-//    }else{
-//        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
-//
-//    }
-//    MyScorLabel.font = [UIFont systemFontOfSize:14];
-//    [imageView addSubview:MyScorLabel];
-//    [MyScorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(imageView.mas_left).offset(10);
-//        make.top.mas_equalTo(TopImageView.mas_bottom).offset(10);
-//        make.width.mas_equalTo(120);
-//        make.height.mas_equalTo(20);
-//    }];
-//    UILabel *DetailLabel = [[UILabel alloc]init];
-//    DetailLabel.text = @"全民理财师，躺着把钱赚";
-//    DetailLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-//    DetailLabel.font = [UIFont systemFontOfSize:14];
-//    DetailLabel.textAlignment = NSTextAlignmentRight;
-//    [imageView addSubview:DetailLabel];
-//    [DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(imageView.mas_right).offset(-10);
-//        make.top.mas_equalTo(TopImageView.mas_bottom).offset(10);
-//        make.width.mas_equalTo(200);
-//        make.height.mas_equalTo(20);
-//    }];
-//    UILabel *myMoneyLabel = [[UILabel alloc]init];
-//    myMoneyLabel.textColor = colorWithRGB(0.27, 0.27, 0.27);
-//    if ([[MyDic objectForKey:@"assets"]doubleValue]) {
-//        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
-//
-//    }else{
-//        myMoneyLabel.text =[NSString stringWithFormat:@"我的分成余额:0元"];
-//
-//    }
-//    myMoneyLabel.font = [UIFont systemFontOfSize:14];
-//    [imageView addSubview:myMoneyLabel];
-//    [myMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(imageView.mas_left).offset(10);
-//        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(10);
-//        make.width.mas_equalTo(170);
-//        make.height.mas_equalTo(10);
-//    }];
-    AutoScrollLabel *autoScrollLabel = [[AutoScrollLabel alloc]initWithFrame:CGRectMake(0, 170, 100, 21)];
-    autoScrollLabel.text = @"Hi Mom!  How are you?  I really ought to write more often.";
-    autoScrollLabel.center = self.view.center;
+    NSMutableString *MySTR = [[NSMutableString   alloc]init];
+    for (int i = 0; i<[PhoneArray count] ; i++) {
+        NSString *str = [NSString stringWithFormat:@"%@获得单笔分成%@元    ",[PhoneArray objectAtIndex:i],[MoneyArray objectAtIndex:i]];
+        
+        [MySTR appendString:str];
+    }
+    autoScrollLabel = [[AutoScrollLabel alloc]initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 40)];
+    autoScrollLabel.backgroundColor = [UIColor whiteColor];
+    autoScrollLabel.text = [NSString stringWithFormat:@"%@",MySTR];
     autoScrollLabel.textColor = [UIColor blackColor];
     [imageView addSubview:autoScrollLabel];
-//    [autoScrollLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.mas_equalTo(imageView.mas_left).offset(10);
-//        make.top.mas_equalTo(myMoneyLabel.mas_bottom).offset(10);
-//        make.width.mas_equalTo(170);
-//        make.height.mas_equalTo(20);
-//    }];
     
+    UILabel *MyScorLabel = [[UILabel alloc]init];
+    if ( [[MyDic objectForKey:@"totalIncome"]doubleValue]) {
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"成"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [MyScorLabel setAttributedText:noteStr];
+        //MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]];
+    }else{
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"我的总分成:0元"]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"成"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [MyScorLabel setAttributedText:noteStr];
+        //MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
+        
+    }
+    MyScorLabel.font = [UIFont systemFontOfSize:14];
+    [imageView addSubview:MyScorLabel];
+    [MyScorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(imageView.mas_left).offset(10);
+        make.top.mas_equalTo(autoScrollLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(20);
+    }];
     
-//    UILabel *ComeLabel = [[UILabel alloc]init];
-//    ComeLabel.text = @"转入米粒余额";
-//    ComeLabel.textAlignment = NSTextAlignmentCenter;
-//    ComeLabel.layer.cornerRadius = 17;
-//    ComeLabel.userInteractionEnabled = YES;
-//    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ComeClick)];
-//    [ComeLabel addGestureRecognizer:tap];
-//    ComeLabel.layer.masksToBounds = YES;
-//    ComeLabel.textColor = [UIColor whiteColor];
-//    ComeLabel.backgroundColor = colorWithRGB(0.95, 0.6, 0.11);
-//    ComeLabel.font = [UIFont systemFontOfSize:13];
-//    [imageView addSubview:ComeLabel];
-//    [ComeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.mas_equalTo(imageView.mas_right).offset(-30);
-//        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(10);
-//        make.width.mas_equalTo(100);
-//        make.height.mas_equalTo(35);
-//    }];
+    UILabel *DetailLabel = [[UILabel alloc]init];
+    DetailLabel.text = @"全民理财师，躺着把钱赚";
+    DetailLabel.font = [UIFont systemFontOfSize:14];
+    DetailLabel.textAlignment = NSTextAlignmentRight;
+    [imageView addSubview:DetailLabel];
+    [DetailLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(imageView.mas_right).offset(-10);
+        make.top.mas_equalTo(autoScrollLabel.mas_bottom).offset(5);
+        make.width.mas_equalTo(200);
+        make.height.mas_equalTo(20);
+    }];
+    UILabel *myMoneyLabel = [[UILabel alloc]init];
+    myMoneyLabel.backgroundColor = [UIColor whiteColor];
+    if ([[MyDic objectForKey:@"assets"]doubleValue]) {
+        // myMoneyLabel.text =[NSString stringWithFormat:@" 我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"额"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [myMoneyLabel setAttributedText:noteStr];
+    }else{
+        //myMoneyLabel.text =[NSString stringWithFormat:@"  我的分成余额:0元"];
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"  我的分成余额:0元"]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"额"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [myMoneyLabel setAttributedText:noteStr];
+    }
+    myMoneyLabel.font = [UIFont systemFontOfSize:14];
+    [imageView addSubview:myMoneyLabel];
+    [myMoneyLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(imageView.mas_left);
+        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(10);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(40);
+    }];
+    
+    UIImageView *helpImageView = [[UIImageView alloc]init];
+    helpImageView.image = [UIImage imageNamed:@"help_lcs"];
+    helpImageView.userInteractionEnabled = YES;
+    [imageView addSubview:helpImageView];
+    [helpImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(imageView.mas_right).offset(-80);
+        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(20);
+        make.width.mas_equalTo(17);
+        make.height.mas_equalTo(17);
+    }];
+    
+    UITapGestureRecognizer *helpTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HelpClick)];
+    [helpImageView addGestureRecognizer:helpTap];
+    
+    UILabel *helpLabel = [[UILabel alloc]init];
+    helpLabel.text = @"帮助";
+    [imageView addSubview:helpLabel];
+    [helpLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.mas_equalTo(helpImageView.mas_right);
+        make.top.mas_equalTo(MyScorLabel.mas_bottom).offset(20);
+        make.width.mas_equalTo(60);
+        make.height.mas_equalTo(17);
+    }];
     
     //里面有默认高度 等ScrollView的高度 //里面设置了背景颜色与tableview相同
     UIView *footerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0)];
@@ -292,7 +342,12 @@
     
 }
 
-
+- (void)HelpClick{
+    HelpMoneyViewController  *MoreVC = [[HelpMoneyViewController alloc]init];
+    [self presentViewController:MoreVC animated:YES completion:nil];
+    
+    
+}
 - (void)ComeClick{
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");

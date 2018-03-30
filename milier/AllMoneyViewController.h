@@ -11,4 +11,5 @@
 
 @interface AllMoneyViewController : YNPageScrollViewController
 
+@property(nonatomic,copy)NSString *type;
 @end

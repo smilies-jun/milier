@@ -32,6 +32,9 @@
 #import "ConfirmBankViewController.h"
 #import "DDAlertView.h"
 #import "MessageViewController.h"
+#import "MoreMoreHelpViewController.h"
+
+
 
 @interface SecondViewController ()<YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate,YNPageScrollViewMenuDelegate,EAIntroDelegate>{
     SDCycleScrollView *autoScrollView;
@@ -64,7 +67,7 @@
     NSMutableArray *AcActivityArray;
     NSMutableArray *AcTitleArray;
     NSMutableArray *AcOidArray;
-    
+    NSDictionary *NoticeDic;
     MBProgressHUD *hud;
 }
 @property(nonatomic, strong) MBProgressHUD *aProgressHUD;
@@ -100,6 +103,7 @@
     AcActivityArray = [[NSMutableArray alloc]init];
     AcTitleArray = [[NSMutableArray alloc]init];
     AcOidArray = [[NSMutableArray alloc]init];
+    NoticeDic = [[NSDictionary   alloc]init];
     
     EAIntroPage *page1 = [EAIntroPage page];
     page1.bgImage = [UIImage imageNamed:@"welcome1_select@2x"];
@@ -365,6 +369,8 @@
         [ActivityArray removeAllObjects];
         [TitleArray removeAllObjects];
         NSArray *array = [result objectForKey:@"items"];
+        NoticeDic = [result objectForKey:@"data"];
+
         for (NSDictionary *dic in array) {
             [ImageArray addObject:[dic objectForKey:@"image"]];
             [ActivityArray addObject:[dic objectForKey:@"href"]];
@@ -738,17 +744,48 @@
     vc.placeHoderView = footerView;
     
     //头部headerView
-    UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 375/2)];
+    UIView *headerView2 = [[UIView alloc]initWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 375/2+40)];
     //轮播器
+    
+    
+    
     autoScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0,self.view.frame.size.width, 375/2) imageURLStringsGroup:ImageArray];
     autoScrollView.delegate = self;
     autoScrollView.tag = 200;
     autoScrollView.backgroundColor = colorWithRGB(0.93, 0.93, 0.93);
     [autoScrollView setPlaceholderImage:[UIImage imageNamed:@"bannerpic"]];
     [headerView2 addSubview:autoScrollView];
+    
+    UILabel *NoticeLabel = [[UILabel alloc]init];
+    NoticeLabel.backgroundColor = [UIColor whiteColor];
+    NoticeLabel.userInteractionEnabled = YES;
+    NoticeLabel.frame = CGRectMake(0, 375/2, SCREEN_WIDTH, 40);
+    [headerView2 addSubview:NoticeLabel];
+    
+    UIImageView *NoticeImageView = [[UIImageView alloc]init];
+    NoticeImageView.image = [UIImage  imageNamed:@"icon_notice"];
+    NoticeImageView.frame = CGRectMake(10, 10, 30, 30);
+    [NoticeLabel addSubview:NoticeImageView];
+    
+    UILabel *NewNoticeLabel = [[UILabel alloc]init];
+    NewNoticeLabel.text=[NSString stringWithFormat:@"%@",[NoticeDic objectForKey:@"title"]];
+    NewNoticeLabel.frame = CGRectMake(45, 10, SCREEN_WIDTH - 65, 30);
+    NewNoticeLabel.userInteractionEnabled = YES;
+    [NoticeLabel addSubview:NewNoticeLabel];
+    
+    UITapGestureRecognizer *MyNoticeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(noticeClick)];
+    [NewNoticeLabel addGestureRecognizer:MyNoticeTap];
+    
+    
     vc.headerView = headerView2;
 
     return vc;
+}
+- (void)noticeClick{
+    MoreMoreHelpViewController *vc= [[MoreMoreHelpViewController alloc]init];
+    vc.TitleStr =[NSString stringWithFormat:@"%@",[NoticeDic objectForKey:@"title"]];
+    vc.WebStr = [NSString stringWithFormat:@"%@/%@",HOST_URL,[NoticeDic objectForKey:@"url"]];
+    [self.navigationController pushViewController:vc animated:NO];
 }
 - (void)NetClick{
     [vc setPageScrollViewMenuSelectPageIndex:0 animated:NO];

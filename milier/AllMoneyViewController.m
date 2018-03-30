@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"全民理财师";
+   
     [self.navigationController.navigationBar lt_setBackgroundColor:[UIColor whiteColor]];
       [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     UIButton * leftBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
@@ -41,44 +41,49 @@
         UserDic = [result objectForKey:@"data"];
     }];
     
+    if ([_type isEqualToString:@"1"]) {
+         self.navigationItem.title = @"米粒儿公告";
+    }else{
+         self.navigationItem.title = @"全民理财师";
+        UIView *saleView = [[UIView alloc]init];
+        saleView.backgroundColor = [UIColor whiteColor];
+        saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
+        [self.view addSubview:saleView];
+        UILabel *SaleLbel =  [[UILabel alloc]init];
+        SaleLbel.text = @"分享赚钱";
+        SaleLbel.userInteractionEnabled = YES;
+        SaleLbel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
+        SaleLbel.textAlignment = NSTextAlignmentCenter;
+        SaleLbel.textColor = [UIColor whiteColor];
+        SaleLbel.layer.cornerRadius = 20;
+        SaleLbel.layer.masksToBounds = YES;
+        [saleView addSubview:SaleLbel];
+        [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(saleView.mas_left).offset(40);
+            make.centerY.mas_equalTo(saleView.mas_centerY);
+            make.width.mas_equalTo(SCREEN_WIDTH - 100);
+            make.height.mas_equalTo(40);
+        }];
+        UIImageView *PersonImage = [[UIImageView alloc]init];
+        PersonImage.image = [UIImage imageNamed:@"code_lcs"];
+        PersonImage.userInteractionEnabled = YES;
+        [saleView addSubview:PersonImage];
+        [PersonImage mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.mas_equalTo(SaleLbel.mas_right).offset(10);
+            make.centerY.mas_equalTo(saleView.mas_centerY);
+            make.width.mas_equalTo(30);
+            make.height.mas_equalTo(30);
+        }];
+        UITapGestureRecognizer *personTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PersonClick
+                                                                                                                )];
+        [PersonImage addGestureRecognizer:personTap];
+        
+        UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShareClick
+                                                                                                              )];
+        [SaleLbel addGestureRecognizer:SaleTap];
+    }
     
-    
-    UIView *saleView = [[UIView alloc]init];
-    saleView.backgroundColor = [UIColor whiteColor];
-    saleView.frame = CGRectMake(0, SCREEN_HEIGHT - 64-60, SCREEN_WIDTH, 60);
-    [self.view addSubview:saleView];
-    UILabel *SaleLbel =  [[UILabel alloc]init];
-    SaleLbel.text = @"分享赚钱";
-    SaleLbel.userInteractionEnabled = YES;
-    SaleLbel.backgroundColor = colorWithRGB(0.95, 0.60, 0.11);
-    SaleLbel.textAlignment = NSTextAlignmentCenter;
-    SaleLbel.textColor = [UIColor whiteColor];
-    SaleLbel.layer.cornerRadius = 20;
-    SaleLbel.layer.masksToBounds = YES;
-    [saleView addSubview:SaleLbel];
-    [SaleLbel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(saleView.mas_left).offset(40);
-        make.centerY.mas_equalTo(saleView.mas_centerY);
-        make.width.mas_equalTo(SCREEN_WIDTH - 100);
-        make.height.mas_equalTo(40);
-    }];
-    UIImageView *PersonImage = [[UIImageView alloc]init];
-    PersonImage.image = [UIImage imageNamed:@"code_lcs"];
-    PersonImage.userInteractionEnabled = YES;
-    [saleView addSubview:PersonImage];
-    [PersonImage mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.mas_equalTo(SaleLbel.mas_right).offset(10);
-        make.centerY.mas_equalTo(saleView.mas_centerY);
-        make.width.mas_equalTo(30);
-        make.height.mas_equalTo(30);
-    }];
-    UITapGestureRecognizer *personTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(PersonClick
-                                                                                                          )];
-    [PersonImage addGestureRecognizer:personTap];
-    
-    UITapGestureRecognizer *SaleTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(ShareClick
-                                                                                                          )];
-    [SaleLbel addGestureRecognizer:SaleTap];
+   
 }
 - (void)PersonClick{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"\n\n\n\n\n\n\n\n\n\n\n\n" message:nil preferredStyle:UIAlertControllerStyleActionSheet];

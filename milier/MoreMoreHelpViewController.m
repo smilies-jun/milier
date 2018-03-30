@@ -9,7 +9,10 @@
 #import "MoreMoreHelpViewController.h"
 #import "MoreHelpViewController.h"
 #import "NewPersonViewController.h"
-
+#import "NoticeViewController.h"
+#import "UpdateViewController.h"
+#import "AllMoneyViewController.h"
+#import "SecondViewController.h"
 @interface MoreMoreHelpViewController ()<UIWebViewDelegate>{
     UIWebView *ActivityWebView;
     MBProgressHUD *hud;
@@ -81,11 +84,16 @@
     }else{
         //  返回指定页面
         for (UIViewController *controller in self.navigationController.viewControllers) {
-            if ([controller isKindOfClass:[MoreHelpViewController class]]) {
+            if ([controller isKindOfClass:[AllMoneyViewController class]]) {
                 [self.navigationController popToViewController:controller animated:YES];
             }
         }
-  
+
+        for (UIViewController *controller in self.navigationController.viewControllers) {
+            if ([controller isKindOfClass:[SecondViewController class]]) {
+                [self.navigationController popToViewController:controller animated:YES];
+            }
+        }
     }
     
     

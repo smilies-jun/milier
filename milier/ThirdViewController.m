@@ -22,8 +22,15 @@
 #import <AwAlertViewlib/AwAlertViewlib.h>
 #import "MSNumberScrollAnimatedView.h"
 #import "AutoScrollLabel.h"
+#import "ApplyMoneyViewController.h"
+#import "HelpMoneyViewController.h"
+#import "MyNoticeViewController.h"
+#import "NoticeViewController.h"
+#import "UpdateViewController.h"
 
 @interface ThirdViewController ()<UITableViewDelegate, UITableViewDataSource,YNPageScrollViewControllerDataSource,SDCycleScrollViewDelegate,YNPageScrollViewControllerDelegate>{
+    
+    CustomMoreView *NoticeView;
     CustomMoreView *AboutUsView;
     CustomMoreView *SafeView;
     CustomMoreView *NewPersonView;
@@ -35,9 +42,11 @@
     CustomMoreView *JiFenView;
     NSDictionary    *MyDic;
     NSDictionary *ShareDic;
-    
+    AutoScrollLabel *autoScrollLabel;
      AwAlertView *SureAlertView;
      MSNumberScrollAnimatedView *numberAnimatedV;
+    NSMutableArray *PhoneArray;
+    NSMutableArray *MoneyArray;
 }
 
 @end
@@ -60,10 +69,31 @@
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     [self.navigationController.navigationBar setTitleTextAttributes:@{NSFontAttributeName:[UIFont systemFontOfSize:18],NSForegroundColorAttributeName:[UIColor blackColor]}];
     self.view.backgroundColor = colorWithRGB(0.97, 0.97, 0.97);
+    
+    PhoneArray = [[NSMutableArray alloc]init];
+    MoneyArray = [[NSMutableArray alloc]init];
+    
+    
     [self ConfigUI];
 
 }
 - (void)ConfigUI{
+    
+    NoticeView = [[CustomMoreView alloc]init];
+    NoticeView.NameLabel.text = @"更多公告";
+    NoticeView.userInteractionEnabled = YES;
+    NoticeView.tag = 1;
+    UITapGestureRecognizer *NoticeTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(NoticeClick)];
+    [NoticeView addGestureRecognizer:NoticeTap];
+    NoticeView.StaticImageView.image = [UIImage imageNamed:@"sound"];
+    [self.view addSubview:NoticeView];
+    [NoticeView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.mas_equalTo(self.view.mas_left);
+        make.top.mas_equalTo(self.view.mas_top).offset(74);
+        make.width.mas_equalTo(SCREEN_WIDTH);
+        make.height.mas_equalTo(44);
+    }];
+    
     AboutUsView = [[CustomMoreView alloc]init];
     AboutUsView.NameLabel.text = @"关于我们";
     AboutUsView.userInteractionEnabled = YES;
@@ -74,7 +104,7 @@
     [self.view addSubview:AboutUsView];
     [AboutUsView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(self.view.mas_left);
-        make.top.mas_equalTo(self.view.mas_top).offset(74);
+        make.top.mas_equalTo(NoticeView.mas_bottom).offset(0.5);
         make.width.mas_equalTo(SCREEN_WIDTH);
         make.height.mas_equalTo(44);
     }];
@@ -181,7 +211,41 @@
     
     
 }
+- (void)NoticeClick{
 
+    UIViewController *allvc = nil;
+    allvc = [self getMyAllMoneyViewController];
+    [self.navigationController   pushViewController:allvc animated:NO];
+//    MyNoticeViewController *MoreVC = [[MyNoticeViewController alloc]init];
+//    [self.navigationController pushViewController:MoreVC animated:NO];
+}
+- (UIViewController *)getMyAllMoneyViewController{
+    //配置信息
+    YNPageScrollViewMenuConfigration *configration = [[YNPageScrollViewMenuConfigration alloc]init];
+    configration.scrollViewBackgroundColor = [UIColor redColor];
+    configration.itemLeftAndRightMargin = 10;
+    configration.itemMargin = 30;
+    configration.itemFont = [UIFont systemFontOfSize:13];
+    configration.lineColor = colorWithRGB(0.96, 0.6, 0.11);
+    configration.lineHeight = 2;
+    configration.itemMaxScale = 1.2;
+    configration.pageScrollViewMenuStyle = YNPageScrollViewMenuStyleSuspension;
+    configration.scrollViewBackgroundColor = [UIColor whiteColor];
+    configration.selectedItemColor = colorWithRGB(0.96, 0.6, 0.11);
+    //设置平分不滚动   默认会居中
+    // configration.aligmentModeCenter = YES;
+    configration.aligmentModeCenter = YES;
+    configration.scrollMenu = YES;
+    configration.showGradientColor = NO;//取消渐变
+    configration.showNavigation = YES;
+    configration.showTabbar = NO;//设置显示tabbar
+    configration.showPersonTab = NO;
+    AllMoneyViewController *vc = [AllMoneyViewController pageScrollViewControllerWithControllers:[self getMyViewController] titles:@[@"平台公告",@"版本更新"] Configration:configration];
+//    YNJianShuDemoViewController   *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"平台公告",@"版本更新"] Configration:configration];
+    vc.type= @"1";
+    vc.dataSource = self;
+    return vc;
+}
 - (void)DuiHuanClick{
      NSString *userID = NSuserUse(@"userId");
     
@@ -236,9 +300,10 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
 }
 - (void)AllClick{
-
+//    ApplyMoneyViewController *MoreVC = [[ApplyMoneyViewController alloc]init];
+//    [self.navigationController pushViewController:MoreVC animated:YES];
     NSString *userID = NSuserUse(@"userId");
-    
+
     NSString *url = [NSString stringWithFormat:@"%@/users/%@/type",HOST_URL,userID];
         NSString *tokenID = NSuserUse(@"Authorization");
     [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:url withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
@@ -246,32 +311,49 @@
             if ([[result objectForKey:@"type"]integerValue] == 0) {
                 ApplyAllMoneyViewController *vc = [[ApplyAllMoneyViewController alloc]init];
                 [self.navigationController   pushViewController:vc animated:NO];
-                
+
             }else if ([[result objectForKey:@"type"]integerValue] == 1){
                 NSString *urlType = [NSString stringWithFormat:@"%@/brokers/%@",HOST_URL,userID];
-                [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:urlType withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
-                    if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
-                        MyDic = [result objectForKey:@"data"];
-                        UIViewController *allvc = nil;
-                        allvc = [self getAllMoneyViewController];
-                        [self.navigationController   pushViewController:allvc animated:NO];
-                    }else{
-                        
+                
+                  NSString *urlType2 = [NSString stringWithFormat:@"http://csapp1.milibanking.com/app/brokers/ranking"];
+                [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:urlType2 withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                    [PhoneArray removeAllObjects];
+                    [MoneyArray removeAllObjects];
+                    for (NSDictionary *MyDic in [result objectForKey:@"items"]) {
+                        [PhoneArray addObject:[MyDic objectForKey:@"phone"]];
+                        [MoneyArray addObject:[MyDic objectForKey:@"amount"]];
                     }
+                    
+                    [[DateSource sharedInstance]requestHtml5WithParameters:nil withUrl:urlType withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
+                        if ([[result objectForKey:@"statusCode"]integerValue] == 200) {
+                            MyDic = [result objectForKey:@"data"];
+                            UIViewController *allvc = nil;
+                            allvc = [self getAllMoneyViewController];
+                            [self.navigationController   pushViewController:allvc animated:NO];
+                        }else{
+                            
+                        }
+                    }];
+                    
                 }];
                 
+                
+               
+
             }else{
                 normal_alert(@"提示", @"合约渠道用户不能成为全民理财师", @"确定");
             }
 
         }else{
-            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
-            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
-            loginNagition.navigationBarHidden = YES;
-            [self presentViewController:loginNagition animated:NO completion:nil];
+            ApplyMoneyViewController *MoreVC = [[ApplyMoneyViewController alloc]init];
+            [self.navigationController pushViewController:MoreVC animated:YES];
+//            YWDLoginViewController *loginVC = [[YWDLoginViewController alloc] init];
+//            UINavigationController *loginNagition = [[UINavigationController alloc]initWithRootViewController:loginVC];
+//            loginNagition.navigationBarHidden = YES;
+//            [self presentViewController:loginNagition animated:NO completion:nil];
 
         }
-        
+
             }];
 
     
@@ -318,18 +400,45 @@
     TopImageView.image = [UIImage imageNamed:@"licaishipic"];
     TopImageView.frame = CGRectMake(0, 0, SCREEN_WIDTH, 160);
     [imageView addSubview:TopImageView];
-    
-    AutoScrollLabel *autoScrollLabel = [[AutoScrollLabel alloc]initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 40)];
+    NSMutableString *MySTR = [[NSMutableString   alloc]init];
+    for (int i = 0; i<[PhoneArray count] ; i++) {
+        NSString *str = [NSString stringWithFormat:@"%@获得单笔分成%@元    ",[PhoneArray objectAtIndex:i],[MoneyArray objectAtIndex:i]];
+      
+        [MySTR appendString:str];
+    }
+    autoScrollLabel = [[AutoScrollLabel alloc]initWithFrame:CGRectMake(0, 160, SCREEN_WIDTH, 40)];
     autoScrollLabel.backgroundColor = [UIColor whiteColor];
-    autoScrollLabel.text = @"Hi Mom!  How are you?  I really ought to write more often.";
+    autoScrollLabel.text = [NSString stringWithFormat:@"%@",MySTR];
     autoScrollLabel.textColor = [UIColor blackColor];
     [imageView addSubview:autoScrollLabel];
     
     UILabel *MyScorLabel = [[UILabel alloc]init];
     if ( [[MyDic objectForKey:@"totalIncome"]doubleValue]) {
-        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]];
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"成"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [MyScorLabel setAttributedText:noteStr];
+        //MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:%.2f元", [[MyDic objectForKey:@"totalIncome"]floatValue]];
     }else{
-        MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"我的总分成:0元"]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"成"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [MyScorLabel setAttributedText:noteStr];
+        //MyScorLabel.text =[NSString stringWithFormat:@"我的总分成:0元"];
 
     }
     MyScorLabel.font = [UIFont systemFontOfSize:14];
@@ -355,11 +464,31 @@
     UILabel *myMoneyLabel = [[UILabel alloc]init];
     myMoneyLabel.backgroundColor = [UIColor whiteColor];
     if ([[MyDic objectForKey:@"assets"]doubleValue]) {
-        myMoneyLabel.text =[NSString stringWithFormat:@" 我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
-
+       // myMoneyLabel.text =[NSString stringWithFormat:@" 我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]];
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@" 我的分成余额:%.2f元", [[MyDic objectForKey:@"assets"]floatValue]]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"额"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [myMoneyLabel setAttributedText:noteStr];
     }else{
-        myMoneyLabel.text =[NSString stringWithFormat:@"  我的分成余额:0元"];
-
+        //myMoneyLabel.text =[NSString stringWithFormat:@"  我的分成余额:0元"];
+        NSMutableAttributedString *noteStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"  我的分成余额:0元"]];
+        // 需要改变的第一个文字的位置
+        NSUInteger firstLoc = [[noteStr string] rangeOfString:@"额"].location+2;
+        // 需要改变的最后一个文字的位置
+        NSUInteger secondLoc = [[noteStr string] rangeOfString:@"元"].location+1;
+        // 需要改变的区间
+        NSRange range = NSMakeRange(firstLoc, secondLoc - firstLoc);
+        // 改变颜色
+        [noteStr addAttribute:NSForegroundColorAttributeName value:colorWithRGB(0.96, 0.6, 0.12) range:range];
+        
+        [myMoneyLabel setAttributedText:noteStr];
     }
     myMoneyLabel.font = [UIFont systemFontOfSize:14];
     [imageView addSubview:myMoneyLabel];
@@ -372,6 +501,7 @@
     
     UIImageView *helpImageView = [[UIImageView alloc]init];
     helpImageView.image = [UIImage imageNamed:@"help_lcs"];
+    helpImageView.userInteractionEnabled = YES;
     [imageView addSubview:helpImageView];
     [helpImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(imageView.mas_right).offset(-80);
@@ -379,6 +509,10 @@
         make.width.mas_equalTo(17);
         make.height.mas_equalTo(17);
     }];
+    
+    UITapGestureRecognizer *helpTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(HelpClick)];
+    [helpImageView addGestureRecognizer:helpTap];
+    
     UILabel *helpLabel = [[UILabel alloc]init];
     helpLabel.text = @"帮助";
     [imageView addSubview:helpLabel];
@@ -401,7 +535,12 @@
     return vc;
 
 }
-
+- (void)HelpClick{
+    HelpMoneyViewController  *MoreVC = [[HelpMoneyViewController alloc]init];
+    [self presentViewController:MoreVC animated:YES completion:nil];
+    
+    
+}
 - (void)ComeClick{
     NSString *userID = NSuserUse(@"userId");
     NSString *tokenID = NSuserUse(@"Authorization");
@@ -440,7 +579,16 @@
     [[[VC tableView] mj_header] endRefreshing];
     [[[VC tableView] mj_footer] endRefreshing];
 }
-
+- (NSArray *)getMyViewController{
+    
+    NoticeViewController *one = [[NoticeViewController alloc]init];
+    
+    
+    UpdateViewController *two = [[UpdateViewController alloc]init];
+    
+    
+    return @[one,two];
+}
 - (NSArray *)getViewController{
     
     SepartViewController *one = [[SepartViewController alloc]init];
