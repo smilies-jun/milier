@@ -656,6 +656,11 @@
 		279D8D671F3175E5002F4563 /* YetDetailModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D661F3175E5002F4563 /* YetDetailModel.m */; };
 		279D8D6A1F31A6F5002F4563 /* UnYetDetailTopTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 279D8D691F31A6F5002F4563 /* UnYetDetailTopTableViewCell.m */; };
 		27AE81671F98A1B9002B2B0D /* ChangeBankCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27AE81661F98A1B9002B2B0D /* ChangeBankCardViewController.m */; };
+		27BD5AE1207216C000E7165C /* libPassGuardCtrl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BD5ADD207216BF00E7165C /* libPassGuardCtrl.a */; };
+		27BD5AE2207216C000E7165C /* PassGuardCtrlBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 27BD5ADF207216BF00E7165C /* PassGuardCtrlBundle.bundle */; };
+		27BD5AE4207218FD00E7165C /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BD5AE3207218FD00E7165C /* AudioToolbox.framework */; };
+		27BD5AE62072190900E7165C /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BD5AE52072190800E7165C /* libstdc++.6.0.9.tbd */; };
+		27BD5AE82072191000E7165C /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 27BD5AE72072191000E7165C /* Security.framework */; };
 		27C70BB21EEE77F500120AEE /* MoreMoreHelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */; };
 		27C70BB51EEE7C6A00120AEE /* NewPersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27C70BB41EEE7C6A00120AEE /* NewPersonViewController.m */; };
 		27C70BC21EEE898B00120AEE /* FYLCity.plist in Resources */ = {isa = PBXBuildFile; fileRef = 27C70BB71EEE898B00120AEE /* FYLCity.plist */; };
@@ -1715,6 +1720,13 @@
 		279D8D691F31A6F5002F4563 /* UnYetDetailTopTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UnYetDetailTopTableViewCell.m; sourceTree = "<group>"; };
 		27AE81651F98A1B9002B2B0D /* ChangeBankCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChangeBankCardViewController.h; sourceTree = "<group>"; };
 		27AE81661F98A1B9002B2B0D /* ChangeBankCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChangeBankCardViewController.m; sourceTree = "<group>"; };
+		27BD5ADD207216BF00E7165C /* libPassGuardCtrl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libPassGuardCtrl.a; sourceTree = "<group>"; };
+		27BD5ADE207216BF00E7165C /* PassGuardCtrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassGuardCtrl.h; sourceTree = "<group>"; };
+		27BD5ADF207216BF00E7165C /* PassGuardCtrlBundle.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PassGuardCtrlBundle.bundle; sourceTree = "<group>"; };
+		27BD5AE0207216BF00E7165C /* PassGuardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PassGuardViewController.h; sourceTree = "<group>"; };
+		27BD5AE3207218FD00E7165C /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		27BD5AE52072190800E7165C /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
+		27BD5AE72072191000E7165C /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		27C70BB01EEE77F500120AEE /* MoreMoreHelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreMoreHelpViewController.h; sourceTree = "<group>"; };
 		27C70BB11EEE77F500120AEE /* MoreMoreHelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreMoreHelpViewController.m; sourceTree = "<group>"; };
 		27C70BB31EEE7C6A00120AEE /* NewPersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPersonViewController.h; sourceTree = "<group>"; };
@@ -1906,9 +1918,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27BD5AE82072191000E7165C /* Security.framework in Frameworks */,
+				27BD5AE62072190900E7165C /* libstdc++.6.0.9.tbd in Frameworks */,
+				27BD5AE4207218FD00E7165C /* AudioToolbox.framework in Frameworks */,
 				27E228261EC2AB8D00B1034D /* MessageUI.framework in Frameworks */,
 				27E228241EC2AB8000B1034D /* libsqlite3.tbd in Frameworks */,
 				27E228221EC2AB7800B1034D /* ImageIO.framework in Frameworks */,
+				27BD5AE1207216C000E7165C /* libPassGuardCtrl.a in Frameworks */,
 				27E228201EC2AB7100B1034D /* JavaScriptCore.framework in Frameworks */,
 				27E2281E1EC2AB6A00B1034D /* libstdc++.tbd in Frameworks */,
 				27E2281C1EC2AB5D00B1034D /* libz.tbd in Frameworks */,
@@ -3685,6 +3701,17 @@
 			path = "产品状态图标";
 			sourceTree = "<group>";
 		};
+		27BD5ADC207216BF00E7165C /* iOSPGLib */ = {
+			isa = PBXGroup;
+			children = (
+				27BD5ADD207216BF00E7165C /* libPassGuardCtrl.a */,
+				27BD5ADE207216BF00E7165C /* PassGuardCtrl.h */,
+				27BD5ADF207216BF00E7165C /* PassGuardCtrlBundle.bundle */,
+				27BD5AE0207216BF00E7165C /* PassGuardViewController.h */,
+			);
+			path = iOSPGLib;
+			sourceTree = "<group>";
+		};
 		27C70BB61EEE898B00120AEE /* FYLCityPickView */ = {
 			isa = PBXGroup;
 			children = (
@@ -4075,6 +4102,7 @@
 		27FB50B21E5D857D0090AB69 /* until */ = {
 			isa = PBXGroup;
 			children = (
+				27BD5ADC207216BF00E7165C /* iOSPGLib */,
 				274E7E0F205F51450067C39D /* BBFlashCtntLabel */,
 				274645DF1FDF7A11005330DC /* DrogBtn */,
 				27152C1A1FD7E18E00885A5A /* Btn */,
@@ -4137,6 +4165,9 @@
 		DB70E0B8035B481E7D1FD22D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				27BD5AE72072191000E7165C /* Security.framework */,
+				27BD5AE52072190800E7165C /* libstdc++.6.0.9.tbd */,
+				27BD5AE3207218FD00E7165C /* AudioToolbox.framework */,
 				27E228251EC2AB8D00B1034D /* MessageUI.framework */,
 				27E228231EC2AB8000B1034D /* libsqlite3.tbd */,
 				27E228211EC2AB7800B1034D /* ImageIO.framework */,
@@ -4435,6 +4466,7 @@
 				274A858F1EBC2704002B7069 /* menu@2x.png in Resources */,
 				278400E31FC54BFE00F56675 /* 2_sel@3x.png in Resources */,
 				274A85421EBC26E0002B7069 /* xmq_01@3x.png in Resources */,
+				27BD5AE2207216C000E7165C /* PassGuardCtrlBundle.bundle in Resources */,
 				274A85A41EBC2704002B7069 /* yifuxi@3x.png in Resources */,
 				274A854E1EBC26EB002B7069 /* key@3x.png in Resources */,
 				27DCC8011ED92CE7005DD560 /* password@2x.png in Resources */,
@@ -5271,6 +5303,7 @@
 					"$(PROJECT_DIR)/milier/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)/milier/LLPaySDK",
 					"$(PROJECT_DIR)/milier/LLPayUtils",
+					"$(PROJECT_DIR)/milier/iOSPGLib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.milierCompany.milier;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -5318,6 +5351,7 @@
 					"$(PROJECT_DIR)/milier/ShareSDK/Extend/YiXinSDK",
 					"$(PROJECT_DIR)/milier/LLPaySDK",
 					"$(PROJECT_DIR)/milier/LLPayUtils",
+					"$(PROJECT_DIR)/milier/iOSPGLib",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.milierCompany.milier;
 				PRODUCT_NAME = "$(TARGET_NAME)";

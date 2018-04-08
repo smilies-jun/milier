@@ -20,9 +20,9 @@
 #import "BundProfileViewController.h"
 #import "MSNumberScrollAnimatedView.h"
 #import "NewRiskViewController.h"
+#import "PassGuardCtrl.h"
 
-
-@interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate>{
+@interface SaleViewController ()<UITableViewDelegate,UITableViewDelegate,UITextFieldDelegate,MBProgressHUDDelegate,DoneDelegate>{
     
     UIView *TopView;
     UIView *BootmView;
@@ -43,7 +43,7 @@
     UIView *PassWordView;
 
     
-    
+      PassGuardTextField *m_mytextfield1;
     UILabel *TotalMoneyLabel;
     UILabel *AgreementLabel;
     int *ChoseOid;
@@ -64,7 +64,7 @@
     NSString *MyMoneyStr;//余额
     NSString *BankStatus;//绑卡
     NSString *PassWordStr;//交易密码
-    UITextField *PassWordTextField;
+   // UITextField *PassWordTextField;
     NSString *state;
     NSString *increase_type;
     NSString *percent;
@@ -189,6 +189,19 @@
         
     }];
 
+}
+- (void) bf:(NSString *)paramString{
+    NSLog(@"%@", paramString);
+    [m_mytextfield1 becomeFirstResponder];
+    
+    [self performSelector:@selector(closeKeyboard:) withObject:@"closeKeyboard" afterDelay:1.0];
+}
+
+- (void) closeKeyboard:(NSString *)paramString{
+    NSLog(@"%@", paramString);
+    [m_mytextfield1 resignFirstResponder];
+    
+    [self performSelector:@selector(bf:) withObject:@"Grand Central Dispatch" afterDelay:1.0];
 }
 - (void)ConfigUI{
     
@@ -735,15 +748,26 @@
         make.height.mas_equalTo(20);
     }];
     
-    PassWordTextField = [[UITextField alloc]init];
-    PassWordTextField.backgroundColor = [UIColor whiteColor];
-    PassWordTextField.font = [UIFont systemFontOfSize:15];
-    PassWordTextField.textAlignment = NSTextAlignmentLeft;
-    PassWordTextField.secureTextEntry = YES;
-    PassWordTextField.delegate = self;
-    PassWordTextField.placeholder = @"请输入交易密码";
-    [PassWordView addSubview:PassWordTextField];
-    [PassWordTextField mas_makeConstraints:^(MASConstraintMaker *make) {
+    m_mytextfield1 = [[PassGuardTextField alloc] init];
+    // m_mytextfield1.keyboardType = UIKeyboardTypeNumberPad;
+   // m_mytextfield1.borderStyle = UITextBorderStyleRoundedRect;
+    [m_mytextfield1 set_DoneDelegate:self];
+    //[m_mytextfield1 setWebdelegate:self];
+    [m_mytextfield1 setDelegate:self];
+    
+    m_mytextfield1.clearButtonMode = UITextFieldViewModeWhileEditing;
+    [m_mytextfield1 setM_iMaxLen:32];
+    // [m_mytextfield1 setDelegate:self];
+    [m_mytextfield1 setM_license:PassLicenseStr];
+    //测试平台公钥
+    [m_mytextfield1 setM_strInput2:[[NSString alloc] initWithFormat:@"%s", "30818902818100BDB649E0112B4CC941D92DA374AD7CE5D9FFC0824E6ED1E3DC02E1B7FE80BADDCF10B295F86EF6B129F46D721409459061AEF5E9595498ECE557744AA31026FA74C4BFD9D89B51AF4B24E7CE939EF53C38E4CACAC0C892B4F163AF52B375A44757104318244D34C893636EAC072926ED4FA709B366DBC57C313E3F2E668B88DF0203010001"]];
+    m_mytextfield1.placeholder = @"请输入交易密码";
+    [m_mytextfield1 setM_strInputR1:@"\\w*"]; //输入过程中字符限制 提示（正则表达式） @"[\\d\\.]"
+    [m_mytextfield1 setM_strInputR2:@"\\d*"];//设置正则表达式isMatch()函数使用
+    
+    [m_mytextfield1 setM_strInput3:[[NSString alloc] initWithFormat:@"%s", "!@^&*JI"]]; //设置随机字符串
+    [PassWordView addSubview:m_mytextfield1];
+    [m_mytextfield1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(PassWordView.mas_centerY);
         make.left.mas_equalTo(passWordLabel.mas_right);
         make.width.mas_equalTo(130);
@@ -1096,7 +1120,7 @@
 - (void)WriteSailPassWord{
         if ([StageOid isEqualToString:@"-1"]) {
             StageOid = @"-1";
-            if (PassWordTextField.text.length) {
+            if (m_mytextfield1.text.length) {
                 [self BUY];
             }else{
                   [self HideProgress];
@@ -1106,7 +1130,7 @@
                 
         }else{
             if ([BuyTextField.text integerValue] >= [StageChoseStr integerValue]) {
-                if (PassWordTextField.text.length) {
+                if (m_mytextfield1.text.length) {
                     [self BUY];
                 }else{
                       [self HideProgress];
@@ -1130,9 +1154,9 @@
     Bottomurl = [NSString stringWithFormat:@"%@/productOrders",HOST_URL];
     NSMutableDictionary   *dic;
     if ([StageOid integerValue]) {
-          dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",PassWordTextField.text,@"dealPassword",nil];
+          dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",StageOid,@"propId",m_mytextfield1.text,@"dealPassword",nil];
     }else{
-         dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",@"-1",@"propId",PassWordTextField.text,@"dealPassword",nil];
+         dic = [[NSMutableDictionary alloc]initWithObjectsAndKeys:_productStr,@"productId", BuyTextField.text,@"amount",@"-1",@"propId",m_mytextfield1.text,@"dealPassword",nil];
     }
     [[DateSource sharedInstance]requestHomeWithParameters:dic withUrl:Bottomurl withTokenStr:tokenID usingBlock:^(NSDictionary *result, NSError *error) {
         if ([[result objectForKey:@"statusCode"]integerValue] == 201) {
