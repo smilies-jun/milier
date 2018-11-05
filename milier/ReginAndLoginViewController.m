@@ -292,11 +292,11 @@
     NSString *phoneRegex = @"^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$";
     NSPredicate *phoneTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",phoneRegex];
     BOOL isMatch  = [phoneTest evaluateWithObject:UsertPhoneView.NameTextField.text];
-    if (!isMatch) {
-        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
-        
-    }else{
-        
+//    if (!isMatch) {
+//        normal_alert(@"提示", @"请输入正确的手机号", @"确定");
+//
+//    }else{
+    
 //        _second = 90;
 //        _securityCodeTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timing) userInfo:nil repeats:YES];
         NSMutableDictionary * YWDDic = [NSMutableDictionary dictionaryWithObjectsAndKeys:UsertPhoneView.NameTextField.text ,@"phoneNumber",@"1",@"type",nil];
@@ -316,7 +316,7 @@
         
         
     
-    }
+//    }
 }
 
 #pragma mark  - - 验证码倒计时 - -

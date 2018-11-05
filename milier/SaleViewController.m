@@ -43,7 +43,7 @@
     UIView *PassWordView;
 
     
-      PassGuardTextField *m_mytextfield1;
+    PassGuardTextField *m_mytextfield1;
     UILabel *TotalMoneyLabel;
     UILabel *AgreementLabel;
     int *ChoseOid;
@@ -77,7 +77,7 @@
     int agreeOrNo;
     int riskOrNo;
     int Type;
-    
+    NSString *myPassStr;
     NSString *StageChoseStr;
     MBProgressHUD *hud;
 }
@@ -105,17 +105,11 @@
     riskOrNo = 0;
     ChoseOid = 0;
     AddStr = @"";
-    NSString *PercentUrl = [NSString stringWithFormat:@"%@/activities/isProductAddIncrease",HOST_URL];
+    NSString *PercentUrl = [NSString stringWithFormat:@"http://cspay.milibanking.com/pay/jsKeyBoard/sendRandkey/3"];
 
-//    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
-//        state = [result objectForKey:@"state"];
-//        increase_type = [result objectForKey:@"increase_type"];
-//        percent = [result objectForKey:@"percent"];
-//        [self reloadMyMoney];
-//        [self reloadMyStage];
-//        [self ConfigUI];
-//
-//    }];
+    [[DateSource sharedInstance]requestHtml5WithParameters:nil  withUrl:PercentUrl withTokenStr:nil usingBlock:^(NSDictionary *result, NSError *error) {
+        myPassStr = [result objectForKey:@"data"];
+    }];
    
     //[self ConfigInverest];
    
@@ -757,15 +751,16 @@
     
     m_mytextfield1.clearButtonMode = UITextFieldViewModeWhileEditing;
     [m_mytextfield1 setM_iMaxLen:32];
-    // [m_mytextfield1 setDelegate:self];
+    [m_mytextfield1 setDelegate:self];
     [m_mytextfield1 setM_license:PassLicenseStr];
     //测试平台公钥
     [m_mytextfield1 setM_strInput2:[[NSString alloc] initWithFormat:@"%s", "30818902818100BDB649E0112B4CC941D92DA374AD7CE5D9FFC0824E6ED1E3DC02E1B7FE80BADDCF10B295F86EF6B129F46D721409459061AEF5E9595498ECE557744AA31026FA74C4BFD9D89B51AF4B24E7CE939EF53C38E4CACAC0C892B4F163AF52B375A44757104318244D34C893636EAC072926ED4FA709B366DBC57C313E3F2E668B88DF0203010001"]];
     m_mytextfield1.placeholder = @"请输入交易密码";
     [m_mytextfield1 setM_strInputR1:@"\\w*"]; //输入过程中字符限制 提示（正则表达式） @"[\\d\\.]"
     [m_mytextfield1 setM_strInputR2:@"\\d*"];//设置正则表达式isMatch()函数使用
-    
-    [m_mytextfield1 setM_strInput3:[[NSString alloc] initWithFormat:@"%s", "!@^&*JI"]]; //设置随机字符串
+    [m_mytextfield1 setM_strInputX:@"17c1be4a619d3af6609fd8c0a29f21d556f70e19f188401da9bda0059a66306e "];
+    [m_mytextfield1 setM_strInputY:@"bd162cbf1ea443387c86f1fea50d07b2acf22763bdf393ca815bd4aef40e79a5"];
+    [m_mytextfield1 setM_strInput1:[[NSString alloc] initWithFormat:@"%@", myPassStr]]; //设置随机字符串
     [PassWordView addSubview:m_mytextfield1];
     [m_mytextfield1 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.mas_equalTo(PassWordView.mas_centerY);
@@ -1665,6 +1660,22 @@
     alertView=[[AwAlertView alloc]initWithContentView:view];
     alertView.isUseHidden=YES;
     [alertView showAnimated:YES];
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField{
+    if(textField.tag == 1){
+        [m_mytextfield1 setM_strInputR1:textField.text]; //输入过程中字符限制 提示（正则表达式）
+        
+    }else if(textField.tag == 2){
+        [m_mytextfield1 setM_strInputR2:textField.text];//设置正则表达式isMatch()函数使用
+    }else{
+        
+    }
+    
+    [textField resignFirstResponder];
+    
+    
+    return YES;
 }
 - (void)textFieldDidEndEditing:(UITextField *)textField{
 

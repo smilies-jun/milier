@@ -547,8 +547,8 @@ static LLPayType payType = LLPayTypeVerify;
     if ([MoneyView.NameTextField.text integerValue] >= 1) {
         if (CardNameView.NameTextField.text.length) {
             
-            if ([self checkTelNumber:CardIphoneView.NameTextField.text]) {
-                
+//            if ([self checkTelNumber:CardIphoneView.NameTextField.text]) {
+            
                 if ([self validateIdentityCard:CardNumberView.NameTextField.text]) {
                     
                     if ([self checkCardNo:CardBankCodeView.NameTextField.text]) {
@@ -584,10 +584,10 @@ static LLPayType payType = LLPayTypeVerify;
                 
                 
                 
-            }else{
-                normal_alert(@"提示", @"手机号码格式不正确", @"确定");
-                
-            }
+//            }else{
+//                normal_alert(@"提示", @"手机号码格式不正确", @"确定");
+//                
+//            }
             
         
         }else{

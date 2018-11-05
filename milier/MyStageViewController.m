@@ -90,7 +90,7 @@
     configration.showNavigation = YES;
     configration.showTabbar = NO;//设置显示tabbar
     configration.showPersonTab = NO;
-    YNJianShuDemoViewController   *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"企业贷款",@"网贷基金",@"个人贷款"] Configration:configration];
+    YNJianShuDemoViewController   *vc = [YNJianShuDemoViewController pageScrollViewControllerWithControllers:[self getViewController] titles:@[@"网贷基金",@"企业贷款", @"个人贷款"] Configration:configration];
     vc.dataSource = self;
     return vc;
 }
@@ -129,7 +129,7 @@
     
     PersonViewController *four = [[PersonViewController alloc]init];
     
-    return @[one,two,four];
+    return @[two,one,four];
 }
 
 
